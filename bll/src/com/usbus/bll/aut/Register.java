@@ -30,7 +30,7 @@ public class Register {
     @Path("/tenant")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response regTenant(Tenant tenant) {
+    public Response registerTenant(Tenant tenant) {
         ObjectId tenantOID = null;
         try {
             tenantOID = tdao.persist(tenant);
@@ -40,7 +40,6 @@ public class Register {
         } catch (Exception ex) {
             tdao.remove(tenantOID);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el tenant, intentelo nuevamente.").build();
-
         }
 
     }
@@ -49,7 +48,7 @@ public class Register {
     @Path("/user")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response regUser( User user) {
+    public Response registerUser(User user) {
         ObjectId userOID = null;
         try {
             userOID = udao.persist(user);
