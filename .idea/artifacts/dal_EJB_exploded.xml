@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ejb" name="dal:EJB exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/dal_EJB_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="dal/ejb/EJB" />
+      <element id="module-output" name="dal" />
+    </root>
+  </artifact>
+</component>

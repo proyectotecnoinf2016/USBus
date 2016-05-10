@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="ear" name="USBus:javaEEApplication">
+    <output-path>$PROJECT_DIR$/out/artifacts/USBus_javaEEApplication</output-path>
+    <root id="archive" name="USBus_javaEEApplication.ear">
+      <element id="artifact" artifact-name="USBus:javaEEApplication exploded" />
+      <element id="artifact" artifact-name="bll:EJB" />
+      <element id="artifact" artifact-name="dal:EJB" />
+      <element id="artifact" artifact-name="web:Web" />
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="javax.json.processing-1.0" />
+        <element id="library" level="project" name="org.mongodb.morphia:morphia:1.1.0" />
+        <element id="archive" name="commons.jar">
+          <element id="module-output" name="commons" />
+        </element>
+        <element id="library" level="project" name="Java EE 6-Java EE 6" />
+        <element id="library" level="project" name="Jersey-2.2" />
+        <element id="archive" name="dal.jar">
+          <element id="module-output" name="dal" />
+        </element>
+        <element id="library" level="project" name="ejb-3.2" />
+      </element>
+    </root>
+  </artifact>
+</component>

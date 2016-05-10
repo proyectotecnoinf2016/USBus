@@ -1,0 +1,12 @@
+
+.logo {
+    width: 150px;
+    float: left;
+    margin-right: 20px;
+}
+.USBusTitle {
+    font-size:12px;
+    text-shadow: 0 1px 2px #EEE;
+    margin-left: 20px;
+    padding-left: 20px;
+}

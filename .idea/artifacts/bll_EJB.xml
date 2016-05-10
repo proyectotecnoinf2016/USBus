@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="ejb-jar" name="bll:EJB">
+    <output-path>$PROJECT_DIR$/out/artifacts/bll_EJB</output-path>
+    <root id="archive" name="bll_EJB.jar">
+      <element id="artifact" artifact-name="bll:EJB exploded" />
+    </root>
+  </artifact>
+</component>

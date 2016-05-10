@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="ejb-jar" name="dal:EJB">
+    <output-path>$PROJECT_DIR$/out/artifacts/dal_EJB</output-path>
+    <root id="archive" name="dal_EJB.jar">
+      <element id="artifact" artifact-name="dal:EJB exploded" />
+    </root>
+  </artifact>
+</component>
