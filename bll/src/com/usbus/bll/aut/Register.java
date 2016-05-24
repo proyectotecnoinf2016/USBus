@@ -35,7 +35,6 @@ public class Register {
         try {
             tenantOID = tdao.persist(tenant);
             return Response.ok("Tenant Guardado").build();
-git
 
         } catch (Exception ex) {
             tdao.remove(tenantOID);
