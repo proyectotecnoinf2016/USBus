@@ -1,4 +1,4 @@
-package com.usbus.bll.aut;
+package com.usbus.bll.register;
 
 import com.mongodb.MongoException;
 import com.usbus.dal.dao.TenantDAO;
@@ -29,7 +29,7 @@ public class Register {
     @POST
     @Path("/tenant")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response registerTenant(Tenant tenant) {
         ObjectId tenantOID = null;
         try {
@@ -46,7 +46,7 @@ public class Register {
     @POST
     @Path("/user")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response registerUser(User user) {
         ObjectId userOID = null;
         try {

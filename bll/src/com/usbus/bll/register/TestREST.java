@@ -1,4 +1,4 @@
-package com.usbus.bll.aut;
+package com.usbus.bll.register;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;
