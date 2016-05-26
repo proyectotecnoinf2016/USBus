@@ -34,8 +34,12 @@
         <script src="js/usbus.style.js"></script>
         <script src="js/controllers/login.controller.js"></script>
         <script src="js/controllers/register.controller.js"></script>
+        <script src="js/controllers/index.controller.js"></script>
+
         <script src="js/factories/register.user.resource.js"></script>
         <script src="js/factories/register.tenant.resource.js"></script>
+
+
         <!-- SCRIPTS -->
     </head>
     <body layout="column">
@@ -43,12 +47,21 @@
         <md-toolbar class="md-tall md-hue-2">
             <h2 class="USBusTitle" >
                 <span>USBus</span>
-                <img hide show-gt-md src="img/Anonymous_Bus1.png" class="customBus bigCustomBus"/>
-                <img hide-gt-md src="img/Anonymous_Bus1.png" class="customBus smallCustomBus"/>
+                    <ng-md-icon icon="login" ng-controller="IndexController" size="32"  ng-click="login($event);" >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                        <path d="M10 17.25V14H3v-4h7V6.75L15.25 12 10 17.25"></path>
+                        <path d="M8 2h9a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4h2v4h9V4H8v4H6V4a2 2 0 0 1 2-2z"></path>
+                    </svg>
+                    <md-tooltip md-direction="right">Ingresar</md-tooltip>
+                </ng-md-icon>
+                <img hide show-gt-xs src="img/Anonymous_Bus1.png" class="customBus bigCustomBus"/>
+                <img hide-gt-xs src="img/Anonymous_Bus1.png" class="customBus smallCustomBus"/>
+
             </h2>
 
         </md-toolbar>
         <div style="padding-bottom: 10%;"></div>
+
         <md-content flex="grow" layout-margin layout-padding layout-wrap ng-view> </md-content>
 
     </body>
