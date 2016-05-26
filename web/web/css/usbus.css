@@ -1,13 +1,13 @@
 
 .logo {
-    width: 150px;
+    width: 100px;
     float: left;
     margin-right: 20px;
 }
 .USBusTitle {
     font-size:32px;
     padding: 20px;
-    float:left
+    float:left;
 }
 
 .customToolbar {
