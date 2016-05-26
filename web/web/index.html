@@ -39,14 +39,16 @@
         <!-- SCRIPTS -->
     </head>
     <body layout="column">
-        <md-toolbar class="md-tall md-hue-2" >
-            <img hide show-gt-sm src="img/USBus.png" class="logo">
-            <span flex></span>
-            <h2 class="USBusTitle">
+
+        <md-toolbar class="md-tall md-hue-2">
+            <h2 class="USBusTitle" >
                 <span>USBus</span>
+                <img hide show-gt-md src="img/Anonymous_Bus1.png" class="customBus bigCustomBus"/>
+                <img hide-gt-md src="img/Anonymous_Bus1.png" class="customBus smallCustomBus"/>
             </h2>
-            <span flex></span>
+
         </md-toolbar>
+        <div style="padding-bottom: 10%;"></div>
         <md-content flex="grow" layout-margin layout-padding layout-wrap ng-view> </md-content>
 
     </body>
