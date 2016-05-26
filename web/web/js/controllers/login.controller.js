@@ -4,21 +4,23 @@
 (function() {
     'use strict';
     angular.module('usbus').controller('LoginController', LoginController);
-    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource'];
+    LoginController.$inject = [ '$scope', '$mdDialog','$window','LoginUserResource','localStorage'];
     /* @ngInject */
-    function LoginController($scope, $mdDialog, LoginUserResource) {
+    function LoginController($scope, $mdDialog,$window, LoginUserResource, localStorage) {
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;
-		
+
 		function login(data) {
 			data.tenantId = "999";
 			
 			// {"tenantId":"999","username":"usu2","password":""}
 			
 			if (data != null && typeof data.username !== 'undefined') {
-	    		LoginUserResource.query(data,function(){
-	    		showAlert('Exito!','Ha ingresado al sistema de forma exitosa');
+	    		LoginUserResource.save(data,function(r){
+	    			showAlert('Exito!','Ha ingresado al sistema de forma exitosa');
+                    localStorage.setData('token',r.token);
+                    showAlert(localStorage.getData('token'));
 				}, function(r){
 					console.log(r);
 					showAlert('Error!','Ocurrió un error al procesar su petición');
