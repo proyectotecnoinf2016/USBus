@@ -1,0 +1,29 @@
+
+.logo {
+    width: 100px;
+    float: left;
+    margin-right: 20px;
+}
+.USBusTitle {
+    font-size:32px;
+    padding: 20px;
+    float:left;
+}
+
+.customToolbar {
+    background: url('http://wordassociations.ru/image/600x/svg_to_png/Anonymous_Bus1.png') repeat-x right;
+    background-size: auto 150px;
+}
+
+.customBus {
+    float: right;
+    padding-right:10px;
+}
+
+.smallCustomBus {
+    max-height: 80px;
+}
+
+.bigCustomBus {
+    max-height: 200px;
+}
