@@ -6,8 +6,7 @@
     angular.module('usbus',  [
         'ngMaterial',
         'ngRoute',
-        'ngResource',
-        'ngStorage'
+        'ngResource'
         ]).run(function($rootScope) {
     });
 
