@@ -38,14 +38,16 @@
 
         <script src="js/factories/register.user.resource.js"></script>
         <script src="js/factories/register.tenant.resource.js"></script>
+		<script src="js/factories/login.user.resource.js"></script>
 
 
         <!-- SCRIPTS -->
     </head>
     <body layout="column">
 
-        <md-toolbar class="md-tall md-hue-2">
+        <md-toolbar class="">
             <h2 class="USBusTitle" >
+				<img hide show-gt-xs src="img/USBus.png" class="logo"/>
                 <span>USBus</span>
                     <ng-md-icon icon="login" ng-controller="IndexController" size="32"  ng-click="login($event);" >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
