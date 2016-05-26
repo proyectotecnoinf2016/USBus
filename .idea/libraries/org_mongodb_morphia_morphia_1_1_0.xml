@@ -1,6 +1,5 @@
 <component name="libraryTable">
-  <library name="org.mongodb.morphia:morphia:1.1.0" type="repository">
-    <properties maven-id="org.mongodb.morphia:morphia:1.1.0" />
+  <library name="org.mongodb.morphia:morphia:1.1.0">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/morphia-1.1.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/mongo-java-driver-3.0.2.jar!/" />
