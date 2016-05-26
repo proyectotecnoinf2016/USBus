@@ -1,0 +1,37 @@
+<md-dialog aria-label="Crear Categor&iacute;a" ng-cloak
+           style="width: 50%;">
+    <form name="inputForm" novalidate>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Ingreso al sistema</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <span flex></span>
+
+            <md-input-container style="width: 90%">
+                <label>Usuario</label>
+                <md-tooltip md-direction="top">Usuario</md-tooltip>
+
+                <input ng-model="user.userName" name="userPassword" required>
+            </md-input-container>
+            <md-input-container style="width: 90%">
+                <label>Contraseña</label>
+                <md-tooltip md-direction="top">Contraseña</md-tooltip>
+
+                <input ng-model="user.password" name="userPassword" required>
+            </md-input-container>
+
+            <span flex></span>
+        </md-dialog-content>
+
+
+        <md-dialog-actions class="md-actions" layout="row">
+            <span flex></span>
+            <md-button class="md-raised md-primary"	ng-click='insert(category)'>Crear</md-button>
+            <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
