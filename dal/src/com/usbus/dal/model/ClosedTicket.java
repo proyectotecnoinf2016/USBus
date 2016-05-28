@@ -1,10 +1,15 @@
 package com.usbus.dal.model;
 
+import org.mongodb.morphia.annotations.Entity;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
  * Created by Lufasoch on 28/05/2016.
  */
+@XmlRootElement
+@Entity(value = "closedTickets",noClassnameStored = false)
 public class ClosedTicket extends Ticket {
     private Journey journey;
     private Integer seat;

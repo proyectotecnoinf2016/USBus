@@ -12,10 +12,10 @@ import java.util.Date;
  */
 
 @XmlRootElement
-@Entity(value = "users",noClassnameStored = true)
+@Entity(value = "users",noClassnameStored = false)
 @Indexes({
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "username") }, options = @IndexOptions(name="iUserKey", unique=true)),
-        @Index(fields = { @Field(value = "tenantId"), @Field(value = "email") }, options = @IndexOptions(name="iUserKey", unique=true))})
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "email") }, options = @IndexOptions(name="iUserEmail", unique=true))})
 public class User extends BaseEntity {
     private String username;
     private String email;

@@ -1,12 +1,18 @@
 package com.usbus.dal.model;
 
 import com.usbus.dal.BaseEntity;
+import org.mongodb.morphia.annotations.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
  * Created by Lufasoch on 28/05/2016.
  */
+@XmlRootElement
+@Entity(value = "tickets",noClassnameStored = false)
+@Indexes({
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iTicketKey", unique=true))})
 public class Ticket extends BaseEntity{
     private Long id;
     private Date emissionDate;

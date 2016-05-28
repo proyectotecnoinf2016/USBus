@@ -2,10 +2,18 @@ package com.usbus.dal.model;
 
 import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.dal.BaseEntity;
+import org.mongodb.morphia.annotations.*;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by Lufasoch on 26/05/2016.
  */
+@XmlRootElement
+@Entity(value = "routes",noClassnameStored = true)
+@Indexes({
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iRouteKey", unique=true)),
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "name") }, options = @IndexOptions(name="iRouteName", unique=true))})
 public class Route extends BaseEntity {
     private Long id;
     private String name;

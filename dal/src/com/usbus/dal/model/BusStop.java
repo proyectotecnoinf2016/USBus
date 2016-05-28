@@ -1,10 +1,18 @@
 package com.usbus.dal.model;
 
 import com.usbus.dal.BaseEntity;
+import org.mongodb.morphia.annotations.*;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by Lufasoch on 26/05/2016.
  */
+@XmlRootElement
+@Entity(value = "busStops",noClassnameStored = true)
+@Indexes({
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iBusStopKey", unique=true)),
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "name") }, options = @IndexOptions(name="iBusStopName", unique=true))})
 public class BusStop extends BaseEntity {
     private long id;
     private String name;

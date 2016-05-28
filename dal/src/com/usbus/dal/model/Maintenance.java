@@ -1,13 +1,19 @@
 package com.usbus.dal.model;
 
 import com.usbus.dal.BaseEntity;
+import org.mongodb.morphia.annotations.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
  * Created by Lufasoch on 28/05/2016.
  */
-public class Mantenance extends BaseEntity {
+@XmlRootElement
+@Entity(value = "maintenances",noClassnameStored = true)
+@Indexes({
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iMaintenanceKey", unique=true))})
+public class Maintenance extends BaseEntity {
     private Long id;
     private Bus bus;
     private String jobDescription;
@@ -16,10 +22,10 @@ public class Mantenance extends BaseEntity {
     private Date endDate;
     private String[] notes;
 
-    public Mantenance(){
+    public Maintenance(){
     }
 
-    public Mantenance(long tenantId, Long id, Bus bus, String jobDescription, Double cost, Date startDate, Date endDate, String[] notes) {
+    public Maintenance(long tenantId, Long id, Bus bus, String jobDescription, Double cost, Date startDate, Date endDate, String[] notes) {
         super(tenantId);
         this.id = id;
         this.bus = bus;

@@ -2,10 +2,17 @@ package com.usbus.dal.model;
 
 import com.usbus.commons.enums.BusStatus;
 import com.usbus.dal.BaseEntity;
+import org.mongodb.morphia.annotations.*;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by Lufasoch on 28/05/2016.
  */
+@XmlRootElement
+@Entity(value = "buses",noClassnameStored = true)
+@Indexes({
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iBusKey", unique=true))})
 public class Bus extends BaseEntity{
     private String id;
     private String brand;
