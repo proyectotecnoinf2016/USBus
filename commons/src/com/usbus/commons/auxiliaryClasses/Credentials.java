@@ -7,6 +7,7 @@ public class Credentials {
     private Long tenantId;
     private String username;
     private String password;
+    private String type;
 
     public Long getTenantId() {
         return tenantId;
@@ -15,10 +16,11 @@ public class Credentials {
     public Credentials() {
     }
 
-    public Credentials(Long tenantId, String username, String password) {
+    public Credentials(Long tenantId, String username, String password, String type) {
         this.tenantId = tenantId;
         this.username = username;
         this.password = password;
+        this.type = type;
     }
 
     public void setTenantId(Long tenantId) {
@@ -40,4 +42,8 @@ public class Credentials {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getType(){return type;}
+
+    public void setType(String type){ this.type = type;}
 }
