@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iBusStopKey", unique=true)),
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "name") }, options = @IndexOptions(name="iBusStopName", unique=true))})
 public class BusStop extends BaseEntity {
-    private long id;
+    private Long id;
     private String name;
     private Boolean active;
     private Double stopTime;
@@ -22,7 +22,7 @@ public class BusStop extends BaseEntity {
     public BusStop(){
     }
 
-    public BusStop(long tenantId, long id, String name, Boolean active, Double stopTime) {
+    public BusStop(long tenantId, Long id, String name, Boolean active, Double stopTime) {
         super(tenantId);
         this.id = id;
         this.name = name;
@@ -30,11 +30,11 @@ public class BusStop extends BaseEntity {
         this.stopTime = stopTime;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
