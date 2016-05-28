@@ -1,7 +1,5 @@
 package com.usbus.dal;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
@@ -16,7 +14,7 @@ import org.mongodb.morphia.annotations.Version;
 
 public abstract class BaseEntity {
     @Id
-    private ObjectId id;
+    private ObjectId _id;
     private long tenantId;
     private Date creationDate;
     private Date lastChange;
@@ -33,8 +31,8 @@ public abstract class BaseEntity {
     }
 
 
-    public ObjectId getId() {
-        return id;
+    public ObjectId get_id() {
+        return _id;
     }
     public long getTenantId() {
         return tenantId;
@@ -52,8 +50,8 @@ public abstract class BaseEntity {
         return lastChange;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
+    public void set_id(ObjectId _id) {
+        this._id = _id;
     }
 
     public long getVersion() {

@@ -1,7 +1,6 @@
 package com.usbus.dal;
 
 
-import com.usbus.dal.BaseEntity;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 
@@ -18,7 +17,7 @@ public class GenericPersistence {
 
     public <E extends BaseEntity> ObjectId persist(E entity) {
         mongoDatastore.save(entity);
-        return entity.getId();
+        return entity.get_id();
     }
 
     public <E extends BaseEntity> long count(Class<E> clazz) {
