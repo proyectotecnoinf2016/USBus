@@ -12,7 +12,7 @@
 		$scope.login = login;
 
 		function login(data) {
-			data.tenantId = "999";
+			
 			
 			// {"tenantId":"999","username":"usu2","password":""}
 			

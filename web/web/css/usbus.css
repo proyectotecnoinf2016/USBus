@@ -1,18 +1,12 @@
 
 .logo {
-    width: 100px;
-    float: left;
+    width: 80px;
     margin-right: 20px;
 }
 .USBusTitle {
     font-size:32px;
     padding: 20px;
     float:left;
-}
-
-.customToolbar {
-    background: url('http://wordassociations.ru/image/600x/svg_to_png/Anonymous_Bus1.png') repeat-x right;
-    background-size: auto 150px;
 }
 
 .customBus {
@@ -26,4 +20,31 @@
 
 .bigCustomBus {
     max-height: 200px;
+}
+
+.customHeader {
+    background: url('../img/Abstract_Blue.jpg') no-repeat;
+    background-size: 100% 100%;
+}
+
+.customInput {
+    width: 90%;
+}
+
+.customInputRegister {
+    width: 90%;
+}
+
+.grayHeader {
+    color: gray;
+}
+
+label {
+    color: #A3A3A3!important;
+}
+
+.registerContainer {
+    margin:10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.3);
+    border-radius: 5px;
 }
