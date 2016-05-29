@@ -4,10 +4,11 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('RegisterController', RegisterController);
-    RegisterController.$inject = ['$scope','RegisterTenantResource','RegisterUserResource'];
+    RegisterController.$inject = ['RegisterTenantResource','RegisterUserResource', '$scope', '$mdDialog', '$location', '$window'];
     /* @ngInject */
-    function RegisterController($scope,RegisterTenantResource,RegisterUserResource) {
+    function RegisterController(RegisterTenantResource,RegisterUserResource, $scope, $mdDialog, $location, $window) {
         $scope.register = register;
+        $scope.showAlert = showAlert;
 
         function register(tenant,user) {
             var ok = true;
@@ -30,19 +31,34 @@
             }, function (error) {
                 ok = false;
                 console.log(error);
-                alert("Ocurrió un error al registrar el TENANT");
+                showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
 
             } );
             if (ok){
                 RegisterUserResource.save(user,function (respU) {
                     console.log(respU);
+                    showAlert('Exito!', 'Se ha creado su empresa virtual de forma exitosa');
+                    $window.location.href = $location.$$absUrl + 'tenant/' + tenant.name;
                 },function (error) {
                     console.log(error);
-                    alert("Ocurrió un error al registrar el USUARIO");
+                    showAlert('Error!', 'Ocurrió un error al registrar el USUARIO');
                 });
             }
             //TODO si da error, borrar el tenant creado.
-
         }
+
+        function showAlert(title,content) {
+            $mdDialog
+                .show($mdDialog
+                    .alert()
+                    .parent(
+                        angular.element(document
+                            .querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .content(content)
+                    .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
+
+        };
     }
 })();
