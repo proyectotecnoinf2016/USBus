@@ -45,12 +45,15 @@
                         <input type="date" ng-model="user.birthDate" required>
                     </md-input-container>
 
-                    <md-input-container class="customInputRegister">
-                        <label>Género</label>
-                        <md-tooltip md-direction="top">Ingrese género</md-tooltip>
-                        <input ng-model="user.gender" required>
-                    </md-input-container>
+                    <md-input-container class="" layout="row">
+                        <md-tooltip md-direction="top">Ingrese sexo</md-tooltip>
+                        <md-radio-group layout="row" ng-model="gender">
+                            <md-radio-button ng-value=0 class="md-primary"><span class="label">Masculino</span></md-radio-button>
+                            <md-radio-button ng-value=1> <span class="label">Femenino</span> </md-radio-button>
+                            <md-radio-button ng-value=2> <span class="label">Otro</span> </md-radio-button>
+                        </md-radio-group>
 
+                    </md-input-container>
                 </div>
             </md-content>
         </div>

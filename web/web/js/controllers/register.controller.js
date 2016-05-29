@@ -9,24 +9,20 @@
     function RegisterController($scope,RegisterTenantResource,RegisterUserResource) {
         $scope.register = register;
 
-        /*
-        private String username;
-        private String email;
-        private String firstName;
-        private String lastName;
-        private Date birthDate;
-        private String password;
-        private Gender gender;
-        private Date startDate;
-        private Date lastActive;
-        private Boolean active;
-        private long tenantId;
-        */
-
         function register(tenant,user) {
             var ok = true;
             tenant.tenantId = 0;
             user.active = true;
+
+            if ($scope.gender == 0) {
+                user.gender = 'MALE'
+            }
+            else if ($scope.gender == 1) {
+                user.gender = 'FEMALE';
+            }
+            else {
+                user.gender = 'OTHER';
+            }
 
             RegisterTenantResource.save(tenant,function (resp) {
                 ok = true;
