@@ -1,34 +1,61 @@
 <form name="inputForm" novalidate >
-    <div layout="column" ng-cloak class="md-inline-form">
-        <md-content md-theme="" layout-padding>
-            <div>
-                <md-input-container>
-                    <label>Usuario</label>
-                    <md-tooltip md-direction="top">Ingrese el nombre de usuario</md-tooltip>
-                    <input ng-model="user.username" required>
-                </md-input-container>
-                <md-input-container>
-                    <label>Email</label>
-                    <md-tooltip md-direction="top">Ingrese el nombre de usuario</md-tooltip>
-                    <input ng-model="user.email" required>
-                </md-input-container>
-            </div>
-        </md-content>
-        <md-content layout-padding>
-            <div>
-                <md-input-container>
-                    <label>Número de tenant</label>
-                    <md-tooltip md-direction="top">Ingrese el número del tenant</md-tooltip>
-                    <input ng-model="tenant.tenantId" required>
-                </md-input-container>
-                <md-input-container>
-                    <label>Nombre de tenant</label>
-                    <md-tooltip md-direction="top">Ingrese el nombre de la empresa</md-tooltip>
-                    <input ng-model="tenant.name" required>
-                </md-input-container>
-            </div>
-        </md-content>
+    <h1 class="grayHeader">Registro de empresa</h1>
+
+    <div layout="column" ng-cloak class="md-inline-form" layout-align="top center">
+        <div layout="row">
+            <md-content md-theme="" layout-padding class="customInput registerContainer">
+                <div>
+                    <h2 class="grayHeader">Datos de administración</h2>
+                    <md-input-container class="customInputRegister">
+                        <label>Nombre de empresa</label>
+                        <md-tooltip md-direction="top">Ingrese nombre de la empresa</md-tooltip>
+                        <input ng-model="tenant.name" required>
+                    </md-input-container>
+                    <md-input-container class="customInputRegister">
+                        <label>Nombre de usuario</label>
+                        <md-tooltip md-direction="top">Ingrese nombre de usuario</md-tooltip>
+                        <input ng-model="user.username" required>
+                    </md-input-container>
+                    <md-input-container class="customInputRegister">
+                        <label>Email</label>
+                        <md-tooltip md-direction="top">Ingrese correo electrónico</md-tooltip>
+                        <input ng-model="user.email" required>
+                    </md-input-container>
+                </div>
+            </md-content>
+            <md-content md-theme="" layout-padding class="customInput registerContainer" >
+                <div>
+                    <h2 class="grayHeader">Datos personales</h2>
+                    <md-input-container class="customInputRegister">
+                        <label>Nombre</label>
+                        <md-tooltip md-direction="top">Ingrese primer nombre</md-tooltip>
+                        <input ng-model="user.firstName" required>
+                    </md-input-container>
+
+                    <md-input-container class="customInputRegister">
+                        <label>Apellido</label>
+                        <md-tooltip md-direction="top">Ingrese apellido</md-tooltip>
+                        <input ng-model="user.lastName" required>
+                    </md-input-container>
+
+
+                    <md-input-container class="customInputRegister">
+                        <label>Fecha de nacimiento</label>
+                        <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
+                        <input type="date" ng-model="user.birthDate" required>
+                    </md-input-container>
+
+                    <md-input-container class="customInputRegister">
+                        <label>Género</label>
+                        <md-tooltip md-direction="top">Ingrese género</md-tooltip>
+                        <input ng-model="user.gender" required>
+                    </md-input-container>
+
+                </div>
+            </md-content>
+        </div>
+
         <span flex></span>
-        <md-button class="md-raised md-primary" ng-click='register(tenant,user)'>Registrar</md-button>
+        <md-button style="width:99%" class="md-raised md-primary" ng-click='register(tenant,user)'>Registrar</md-button>
     </div>
 </form>

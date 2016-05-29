@@ -3,21 +3,21 @@
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Ingreso al sistema</h2>
+                <h1>Ingreso al sistema</h1>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content>
+        <md-dialog-content >
             <span flex></span>
 
-            <md-input-container style="width: 90%">
+            <md-input-container class="customInput">
                 <label>Usuario</label>
                 <md-tooltip md-direction="top">Usuario</md-tooltip>
 
                 <input ng-model="user.username" name="userPassword" required>
             </md-input-container>
-            <md-input-container style="width: 90%">
+            <md-input-container class="customInput">
                 <label>Contraseña</label>
                 <md-tooltip md-direction="top">Contraseña</md-tooltip>
 

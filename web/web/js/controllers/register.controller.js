@@ -9,11 +9,26 @@
     function RegisterController($scope,RegisterTenantResource,RegisterUserResource) {
         $scope.register = register;
 
+        /*
+        private String username;
+        private String email;
+        private String firstName;
+        private String lastName;
+        private Date birthDate;
+        private String password;
+        private Gender gender;
+        private Date startDate;
+        private Date lastActive;
+        private Boolean active;
+        private long tenantId;
+        */
+
         function register(tenant,user) {
             var ok = true;
-            alert('REGISTRANDO');
+            tenant.tenantId = 0;
+            user.active = true;
+
             RegisterTenantResource.save(tenant,function (resp) {
-                alert("Guarde el TENANT")
                 ok = true;
                 console.log(resp);
             }, function (error) {
@@ -24,7 +39,6 @@
             } );
             if (ok){
                 RegisterUserResource.save(user,function (respU) {
-                    alert("Guarde el USUARIO")
                     console.log(respU);
                 },function (error) {
                     console.log(error);

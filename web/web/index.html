@@ -44,28 +44,29 @@
 
         <!-- SCRIPTS -->
     </head>
-    <body layout="column">
+    <body layout="column" layout-align="center center" layout-fill style="height: 960px" ng-cloak>
 
-        <md-toolbar class="">
-            <h2 class="USBusTitle" >
-				<img hide show-gt-xs src="img/USBus.png" class="logo"/>
-                <span>USBus</span>
-                    <ng-md-icon icon="login" ng-controller="IndexController" size="32"  ng-click="login($event);" >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
-                        <path d="M10 17.25V14H3v-4h7V6.75L15.25 12 10 17.25"></path>
-                        <path d="M8 2h9a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4h2v4h9V4H8v4H6V4a2 2 0 0 1 2-2z"></path>
-                    </svg>
-                    <md-tooltip md-direction="right">Ingresar</md-tooltip>
-                </ng-md-icon>
-                <img hide show-gt-xs src="img/Anonymous_Bus1.png" class="customBus bigCustomBus"/>
-                <img hide-gt-xs src="img/Anonymous_Bus1.png" class="customBus smallCustomBus"/>
+        <md-toolbar class="customHeader">
+            <h1 class="USBusTitle" layout-align="top center" style="max-height: 150px;">
+                <div layout-align="start center" >
+                    <img hide show-gt-xs src="img/USBus2.png" class="logo"/>
+                    <span>USBus</span>
+                    <ng-md-icon hide icon="login" ng-controller="IndexController" size="32"  ng-click="login($event);" >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path d="M10 17.25V14H3v-4h7V6.75L15.25 12 10 17.25"></path>
+                            <path d="M8 2h9a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4h2v4h9V4H8v4H6V4a2 2 0 0 1 2-2z"></path>
+                        </svg>
+                        <md-tooltip md-direction="right">Ingresar</md-tooltip>
+                    </ng-md-icon>
+                    <img hide show-gt-xs src="img/Anonymous_Bus1.png" class="customBus bigCustomBus"/>
+                    <img hide-gt-xs src="img/Anonymous_Bus1.png" class="customBus smallCustomBus"/>
+                </div>
 
-            </h2>
+            </h1>
 
         </md-toolbar>
-        <div style="padding-bottom: 10%;"></div>
         
-        <md-content flex="grow" layout-margin layout-padding layout-wrap ng-view> </md-content>
+        <md-content flex="grow" layout-margin layout-padding layout-wrap ng-view style="width: 90%"> </md-content>
 
     </body>
 </html>
