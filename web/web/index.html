@@ -35,6 +35,7 @@
         <script src="js/controllers/login.controller.js"></script>
         <script src="js/controllers/register.controller.js"></script>
         <script src="js/controllers/index.controller.js"></script>
+        <script src="js/controllers/home.controller.js"></script>
 
         <script src="js/factories/register.user.resource.js"></script>
         <script src="js/factories/register.tenant.resource.js"></script>
@@ -58,15 +59,48 @@
                         </svg>
                         <md-tooltip md-direction="right">Ingresar</md-tooltip>
                     </ng-md-icon>
-                    <img hide show-gt-xs src="img/Anonymous_Bus1.png" class="customBus bigCustomBus"/>
-                    <img hide-gt-xs src="img/Anonymous_Bus1.png" class="customBus smallCustomBus"/>
+                    <img hide show-gt-xs src="img/Blue_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
+                    <img hide-gt-xs src="img/Blue_Bus.png" class="customBus smallCustomBus"/>
                 </div>
 
             </h1>
 
         </md-toolbar>
+		
+		<div layout="column" style="height:100%;width: 100%" ng-cloak="" class="sidenavdemoBasicUsage" >
+
+			<section layout="row" flex="" style="height: 100%">
+                <div ng-controller="IndexController" style="height: 100%">
+                    <md-sidenav style="height: 100%" ng-hide="!logged" class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
+                        <md-toolbar >
+                            <h1 class="md-toolbar-tools">
+                                <i class="material-icons" style="padding-right: 20px">&#xE853;</i>
+                                User Name
+                                <md-button class="md-icon-button" aria-label="Settings" >
+                                    <i class="material-icons" >&#xE5D4;</i>
+                                </md-button>
+                            </h1>
+                        </md-toolbar>
+                        <md-content layout-padding="" >
+                            <md-button ng-click="close()" class="md-primary" hide-gt-md="">
+                              Close Sidenav Left
+                            </md-button>
+                            <p hide-md="" show-gt-md="">
+                              This sidenav is locked open on your device. To go back to the default behavior,
+                              narrow your display.
+                            </p>
+                        </md-content>
+
+                    </md-sidenav>
+                </div>
+			<md-content flex="grow" layout-margin layout-padding layout-wrap ng-view style="width: 90%"> </md-content>
+
+	</section>
+
+</div>
+
+
         
-        <md-content flex="grow" layout-margin layout-padding layout-wrap ng-view style="width: 90%"> </md-content>
 
     </body>
 </html>

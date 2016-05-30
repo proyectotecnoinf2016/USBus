@@ -4,9 +4,11 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope','$mdSidenav', '$mdDialog'];
+    IndexController.$inject = ['$scope','$mdSidenav', '$mdDialog', '$rootScope'];
     /* @ngInject */
-    function IndexController($scope,$mdSidenav, $mdDialog) {
+    function IndexController($scope,$mdSidenav, $mdDialog, $rootScope) {
+        $rootScope.logged = false;
+        
         $scope.openSideNav = function() {
             $mdSidenav('left').toggle();
         };
