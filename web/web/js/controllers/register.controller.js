@@ -28,7 +28,7 @@
             RegisterTenantResource.save(tenant,function (resp) {
                 ok = true;
                 console.log(resp);
-				localStorage.setData('tenantId', tenant.name);
+				localStorage.setData('tenantId', tenant.tenantId);
             }, function (error) {
                 ok = false;
                 console.log(error);
@@ -37,9 +37,12 @@
             } );
             if (ok){
                 RegisterUserResource.save(user,function (respU) {
-                    console.log(respU);
+                    var token = respU;
+                    console.log(token);
+                    localStorage.setData('token', token);
                     showAlert('Exito!', 'Se ha creado su empresa virtual de forma exitosa');
-					localStorage.setData('userName', user.name);
+					localStorage.setData('userName', user.username);
+                    localStorage.setData('tenantName', tenant.name);
                     $window.location.href = $location.$$absUrl + 'tenant/' + tenant.name;
                 },function (error) {
                     console.log(error);

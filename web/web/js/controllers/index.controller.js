@@ -7,8 +7,8 @@
     IndexController.$inject = ['$scope','$mdSidenav', '$mdDialog', '$rootScope'];
     /* @ngInject */
     function IndexController($scope,$mdSidenav, $mdDialog, $rootScope) {
-        $rootScope.logged = false;
-        
+        $rootScope.show = false;
+
         $scope.openSideNav = function() {
             $mdSidenav('left').toggle();
         };

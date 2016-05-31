@@ -20,7 +20,11 @@
                     <md-input-container class="customInputRegister">
                         <label>Email</label>
                         <md-tooltip md-direction="top">Ingrese correo electrónico</md-tooltip>
-                        <input ng-model="user.email" required>
+                        <input type="email" ng-model="user.email" required>
+                        <div role="alert">
+                            <span class="error" ng-show="myForm.input.$error.required">Required!</span>
+                            <span class="error" ng-show="myForm.input.$error.email">Not valid email!</span>
+                        </div>
                     </md-input-container>
                 </div>
             </md-content>
@@ -63,8 +67,8 @@
 		
         <span flex></span>
 		
-        <md-button hide show-gt-xs layout="row" style="width:9.5%; margin-left: 90%" layout-align="center center" class="md-raised md-primary" ng-click='register(tenant,user)'>Registrar</md-button>
-		<md-button hide-gt-xs layout="row" layout-align="center center" class="md-raised md-primary" ng-click='register(tenant,user)'>Registrar</md-button>
+        <md-button type="submit" hide show-gt-xs layout="row" style="width:9.5%; margin-left: 90%" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='register(tenant,user)'>Registrar</md-button>
+		<md-button type="submit" hide-gt-xs layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='register(tenant,user)'>Registrar</md-button>
 		
     </div>
 </form>
