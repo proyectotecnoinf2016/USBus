@@ -49,4 +49,8 @@ public class JourneyDAO {
 
         return query.get();
     }
+
+    public void remove(ObjectId id) {
+        dao.remove(Journey.class, id);
+    }
 }

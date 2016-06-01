@@ -6,6 +6,7 @@ import com.usbus.dal.model.Branch;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 /**
  * Created by Lufasoch on 28/05/2016.
@@ -61,5 +62,21 @@ public class BranchDAO {
                 query.criteria("tenantId").equal(tenantId));
 
         return query.get();
+    }
+
+    public void remove(ObjectId id) {
+        dao.remove(Branch.class, id);
+    }
+
+    public void setInactive(long tenantId, String branchName) {
+        if (!(tenantId > 0) || (branchName.isEmpty())) {
+        } else {
+            Query<Branch> query = ds.createQuery(Branch.class);
+
+            query.and(query.criteria("name").equal(branchName),
+                    query.criteria("tenantId").equal(tenantId));
+            UpdateOperations<Branch> updateOp = ds.createUpdateOperations(Branch.class).set("active", false);
+            ds.update(query, updateOp);
+        }
     }
 }
