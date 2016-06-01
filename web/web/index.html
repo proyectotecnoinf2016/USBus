@@ -45,14 +45,15 @@
 
         <!-- SCRIPTS -->
     </head>
-    <body layout="column" layout-align="center center" layout-fill style="height: 960px" ng-cloak>
+    <body layout="column" layout-align="top center" layout-fill ng-cloak>
 
         <md-toolbar class="customHeader">
             <h1 class="USBusTitle" layout-align="top center" style="max-height: 150px;">
-                <div layout-align="start center" >
+                <div ng-controller="IndexController"  layout-align="start center" >
                     <img hide show-gt-xs src="img/USBus2.png" class="logo"/>
-                    <span>USBus</span>
-                    <ng-md-icon hide icon="login" ng-controller="IndexController" size="32"  ng-click="login($event);" >
+                    <span>{{tenantName}}</span>
+					
+                    <ng-md-icon hide icon="login" size="32"  ng-click="login($event);" >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
                             <path d="M10 17.25V14H3v-4h7V6.75L15.25 12 10 17.25"></path>
                             <path d="M8 2h9a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4h2v4h9V4H8v4H6V4a2 2 0 0 1 2-2z"></path>
@@ -67,33 +68,61 @@
 
         </md-toolbar>
 		
-		<div layout="column" style="height:100%;width: 100%" ng-cloak="" class="sidenavdemoBasicUsage" >
+		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
 
-			<section layout="row" flex="" style="height: 100%">
-                <div ng-controller="IndexController" style="height: 100%">
-                    <md-sidenav style="height: 100%" ng-hide="!show" class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
+			<section layout="row" flex>
+                <div ng-controller="IndexController"  style="width: 25%">
+                    <md-sidenav layout-fill ng-hide="!show" class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
                         <md-toolbar >
                             <h1 class="md-toolbar-tools">
                                 <i class="material-icons" style="padding-right: 20px">&#xE853;</i>
-                                User Name
-                                <md-button class="md-icon-button" aria-label="Settings" >
+                                {{userName}}
+                                <md-button class="md-icon-button" aria-label="Settings" ng-click="openMenu($mdOpenMenu, $event)">
                                     <i class="material-icons" >&#xE5D4;</i>
                                 </md-button>
                             </h1>
                         </md-toolbar>
-                        <md-content layout-padding="" >
-                            <md-button ng-click="close()" class="md-primary" hide-gt-md="">
-                              Close Sidenav Left
-                            </md-button>
-                            <p hide-md="" show-gt-md="">
-                              This sidenav is locked open on your device. To go back to the default behavior,
-                              narrow your display.
+                        <md-content >
+                            <p hide-md="" show-gt-md="" style="padding-left: 10%" >
+								Personalizar Estilos
+                            </p>
+							<md-divider ></md-divider>
+							<p hide-md="" show-gt-md="" style="padding-left: 10%">
+								Administrar Usuarios
+                            </p>
+							<md-divider ></md-divider>
+							<p hide-md="" show-gt-md="" style="padding-left: 10%">
+								Administrar Sucursales
+                            </p>
+							<md-divider ></md-divider>
+							<p hide-md="" show-gt-md="" style="padding-left: 10%">
+								Administrar Cajas
+                            </p>
+							<md-divider ></md-divider>
+							<p hide-md="" show-gt-md="" style="padding-left: 10%">
+								Administrar Unidades
+                            </p>
+							<md-divider ></md-divider>
+							<p hide-md="" show-gt-md="" style="padding-left: 10%">
+								Administrar Paradas
+                            </p>
+							<md-divider ></md-divider>
+							<p hide-md="" show-gt-md="" style="padding-left: 10%">
+								Administrar Trayectos
+                            </p>
+							<md-divider ></md-divider>
+							<p hide-md="" show-gt-md="" style="padding-left: 10%">
+								Administrar Servicios
+                            </p>
+							<md-divider ></md-divider>
+							<p hide-md="" show-gt-md="" style="padding-left: 10%">
+								Planificar Viajes
                             </p>
                         </md-content>
 
                     </md-sidenav>
                 </div>
-			<md-content flex="grow" layout-margin layout-padding layout-wrap ng-view style="width: 90%"> </md-content>
+			<md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> </md-content>
 
 	</section>
 
