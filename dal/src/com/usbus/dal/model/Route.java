@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Route extends BaseEntity {
     private Long id;
     private String name;
-    private String origin;
+    private BusStop origin;
     private BusStop destination;
     private RouteStop[] busStops;
     private Boolean active;
@@ -27,7 +27,7 @@ public class Route extends BaseEntity {
     public Route(){
     }
 
-    public Route(long tenantId, Long id, String name, String origin, BusStop destination, RouteStop[] busStops, Boolean active, Boolean hasCombination, Double pricePerKm) {
+    public Route(long tenantId, Long id, String name, BusStop origin, BusStop destination, RouteStop[] busStops, Boolean active, Boolean hasCombination, Double pricePerKm) {
         super(tenantId);
         this.id = id;
         this.name = name;
@@ -55,11 +55,11 @@ public class Route extends BaseEntity {
         this.name = name;
     }
 
-    public String getOrigin() {
+    public BusStop getOrigin() {
         return origin;
     }
 
-    public void setOrigin(String origin) {
+    public void setOrigin(BusStop origin) {
         this.origin = origin;
     }
 
