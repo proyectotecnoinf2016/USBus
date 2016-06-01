@@ -18,8 +18,9 @@
 			
 			if (data != null && typeof data.username !== 'undefined') {
 	    		LoginUserResource.save(data,function(r){
+                    console.log(r);
 	    			showAlert('Exito!','Ha ingresado al sistema de forma exitosa');
-                    localStorage.setData('token',r.token);
+                    localStorage.setData('token',r);
                     showAlert(localStorage.getData('token'));
 				}, function(r){
 					console.log(r);
