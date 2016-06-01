@@ -49,4 +49,8 @@ public class TicketDAO {
 
         return query.get();
     }
+
+    public void remove(ObjectId id) {
+        dao.remove(Ticket.class, id);
+    }
 }

@@ -6,6 +6,7 @@ import com.usbus.dal.model.Reservation;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 /**
  * Created by Lufasoch on 30/05/2016.
@@ -48,5 +49,21 @@ public class ReservationDAO {
                 query.criteria("tenantId").equal(tenantId));
 
         return query.get();
+    }
+
+    public void remove(ObjectId id) {
+        dao.remove(Reservation.class, id);
+    }
+
+    public void setInactive(long tenantId, Long reservationId) {
+        if (!(tenantId > 0) || (reservationId == null)) {
+        } else {
+            Query<Reservation> query = ds.createQuery(Reservation.class);
+
+            query.and(query.criteria("id").equal(reservationId),
+                    query.criteria("tenantId").equal(tenantId));
+            UpdateOperations<Reservation> updateOp = ds.createUpdateOperations(Reservation.class).set("active", false);
+            ds.update(query, updateOp);
+        }
     }
 }

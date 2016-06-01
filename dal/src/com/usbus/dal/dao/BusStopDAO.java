@@ -6,6 +6,7 @@ import com.usbus.dal.model.BusStop;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 /**
  * Created by Lufasoch on 28/05/2016.
@@ -61,5 +62,21 @@ public class BusStopDAO {
                 query.criteria("tenantId").equal(tenantId));
 
         return query.get();
+    }
+
+    public void remove(ObjectId id) {
+        dao.remove(BusStop.class, id);
+    }
+
+    public void setInactive(long tenantId, String busStopName) {
+        if (!(tenantId > 0) || (busStopName.isEmpty())) {
+        } else {
+            Query<BusStop> query = ds.createQuery(BusStop.class);
+
+            query.and(query.criteria("name").equal(busStopName),
+                    query.criteria("tenantId").equal(tenantId));
+            UpdateOperations<BusStop> updateOp = ds.createUpdateOperations(BusStop.class).set("active", false);
+            ds.update(query, updateOp);
+        }
     }
 }
