@@ -4,14 +4,35 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope','$mdSidenav', '$mdDialog'];
+    IndexController.$inject = ['$scope','$mdSidenav', '$mdDialog', '$rootScope', 'localStorage'];
     /* @ngInject */
-    function IndexController($scope,$mdSidenav, $mdDialog) {
+    function IndexController($scope,$mdSidenav, $mdDialog, $rootScope, localStorage) {
+		var originatorEv;
+		
+        $rootScope.show = false;
+		$scope.tenantName = 'USBus';
+		$scope.userName = 'Lucia Salvarrey';
+		
+		$scope.openMenu = openMenu;
+		$scope.login = login;
+		
+		if (localStorage.getData('tenantName') != null) {
+			$scope.tenantName = localStorage.getData('tenantName');
+		}
+		
+		if (localStorage.getData('userName') != null) {
+			$scope.userName = localStorage.getData('userName');
+		}
+		
         $scope.openSideNav = function() {
             $mdSidenav('left').toggle();
         };
-
-        $scope.login = login;
+		
+		function openMenu($mdOpenMenu, ev) {
+			alert(ev);
+			originatorEv = ev;
+			$mdOpenMenu(ev);
+		}
 
         function login(ev) {
             $mdDialog.show({
