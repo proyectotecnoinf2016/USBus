@@ -49,4 +49,8 @@ public class MaintenanceDAO {
 
         return query.get();
     }
+
+    public void remove(ObjectId id) {
+        dao.remove(Maintenance.class, id);
+    }
 }
