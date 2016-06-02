@@ -11,16 +11,37 @@
 		
         $rootScope.show = false;
 		$scope.tenantName = 'USBus';
-		$scope.userName = 'Lucia Salvarrey';
+		$scope.userName = 'Invitado';
+
+        $scope.messages = [{
+            name : "Planificar Viajes"
+        } , {
+            name: "Administrar Usuarios"
+        } , {
+            name: "Administrar Sucursales"
+        } , {
+            name: "Administrar Cajas"
+        } , {
+            name: "Administrar Unidades"
+        } , {
+            name: "Administrar Paradas"
+        } , {
+            name: "Administrar Trayectos"
+        } , {
+            name: "Administrar Servicios"
+        } , {
+            name: "Personalizar Estilos"
+        }];
 		
 		$scope.openMenu = openMenu;
 		$scope.login = login;
-		
-		if (localStorage.getData('tenantName') != null) {
+        $scope.sampleAction = sampleAction;
+
+        if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
 			$scope.tenantName = localStorage.getData('tenantName');
 		}
 		
-		if (localStorage.getData('userName') != null) {
+		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
 			$scope.userName = localStorage.getData('userName');
 		}
 		
@@ -29,7 +50,6 @@
         };
 		
 		function openMenu($mdOpenMenu, ev) {
-			alert(ev);
 			originatorEv = ev;
 			$mdOpenMenu(ev);
 		}
@@ -51,5 +71,16 @@
                 });
         }
         ;
+
+
+        function sampleAction(name, ev) {
+            $mdDialog.show($mdDialog.alert()
+                .title(name)
+                .textContent('Start learning "' + name + '!')
+                .ok('OK')
+                .targetEvent(ev)
+            );
+        };
+
     }
 })();
