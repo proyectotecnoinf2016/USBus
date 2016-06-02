@@ -21,7 +21,7 @@
             })
 			.when('/tenant/:tenantName/tickets', {
                 templateUrl: 'templates/tickets.html',
-                controller: 'HomeController'
+                controller: 'TicketsController'
             })
 			.when('/tenant/:tenantName/boxes', {
                 templateUrl: 'templates/boxes.html',
