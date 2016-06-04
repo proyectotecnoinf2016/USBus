@@ -105,3 +105,24 @@ label {
 .md-padding-bottom {
     padding-bottom: 30px;
 }
+
+.busSeat {
+    position: absolute;
+    top: 8px;
+    left: 10px
+}
+
+.seatImage {
+    height: 30px;
+}
+
+.busImage {
+    height: 300px;
+    width: 720px;
+}
+
+.seatcontainer {
+    position:absolute;
+    left: 150px;
+    top: 77px;
+}

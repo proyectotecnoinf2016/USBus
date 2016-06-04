@@ -66,7 +66,7 @@
             var exists = false;
             var existsIndex = 0;
 
-            while ($scope.selected.length > 0 && i < $scope.selected.length - 1) {
+            while (i < $scope.selected.length) {
                 if ($scope.selected[i] == item) {
                     exists = true;
                     existsIndex = i;

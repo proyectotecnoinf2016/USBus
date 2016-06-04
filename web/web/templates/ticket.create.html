@@ -13,44 +13,44 @@
             <md-content>
                 <md-tabs md-dynamic-height md-border-bottom>
                     <md-tab label="Elegir asientos">
-                        <div >
-                            <img src="../img/Bus_Top.png" style="height: 310px"/>
-                            <md-content flex layout="column" style="position:absolute; left: 250px; top: 85px;">
+                        <div hide show-gt-md>
+                            <img src="../img/Bus_Top.png" class="busImage" />
+                            <md-content flex layout="column" style="position:absolute; left: 150px; top: 77px;">
                                 <md-content layout="row">
                                     <md-content ng-repeat="item in firstRow" ng-click="selectedSeat(item);">
-                                        <img ng-show="!exists(item, selected);" src="../img/Bus_Seat.png" style="height: 30px;" />
-                                        <img ng-show="exists(item, selected);" src="../img/Red_Bus_Seat.png" style="height: 30px;" />
-                                        <span style="position: absolute; top: 8px; left: 10px">
+                                        <img ng-show="!exists(item, selected);" src="../img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <span class="busSeat">
                                             {{item}}
                                         </span>
                                     </md-content>
                                 </md-content>
                                 <md-content class="" layout="row">
                                     <md-content ng-repeat="item in secondRow" ng-class="{'md-padding-bottom':$last}" ng-click="selectedSeat(item);">
-                                        <img ng-show="!exists(item, selected);" src="../img/Bus_Seat.png" style="height: 30px;" />
-                                        <img ng-show="exists(item, selected);" src="../img/Red_Bus_Seat.png" style="height: 30px;" />
+                                        <img ng-show="!exists(item, selected);" src="../img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected);" src="../img/Red_Bus_Seat.png" class="seatImage" />
 
-                                        <span style="position: absolute; top: 8px; left: 10px">
+                                        <span class="busSeat">
                                             {{item}}
                                         </span>
                                     </md-content>
                                 </md-content>
                                 <md-content class="" layout="row">
                                     <md-content ng-repeat="item in thirdRow" ng-click="selectedSeat(item);">
-                                        <img ng-show="!exists(item, selected);" src="../img/Bus_Seat.png" style="height: 30px;" />
-                                        <img ng-show="exists(item, selected);" src="../img/Red_Bus_Seat.png" style="height: 30px;" />
+                                        <img ng-show="!exists(item, selected);" src="../img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected);" src="../img/Red_Bus_Seat.png" class="seatImage" />
 
-                                        <span style="position: absolute; top: 8px; left: 10px">
+                                        <span class="busSeat">
                                             {{item}}
                                         </span>
                                     </md-content>
                                 </md-content>
                                 <md-content class="" layout="row">
                                     <md-content ng-repeat="item in fourthRow" ng-click="selectedSeat(item);">
-                                        <img ng-show="!exists(item, selected);" src="../img/Bus_Seat.png" style="height: 30px;" />
-                                        <img ng-show="exists(item, selected);" src="../img/Red_Bus_Seat.png" style="height: 30px;" />
+                                        <img ng-show="!exists(item, selected);" src="../img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected);" src="../img/Red_Bus_Seat.png" class="seatImage" />
 
-                                        <span style="position: absolute; top: 8px; left: 10px">
+                                        <span class="busSeat">
                                             {{item}}
                                         </span>
                                     </md-content>
