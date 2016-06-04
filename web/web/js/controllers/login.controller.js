@@ -6,7 +6,7 @@
     angular.module('usbus').controller('LoginController', LoginController);
     LoginController.$inject = [ '$scope', '$mdDialog','$window','LoginUserResource','localStorage'];
     /* @ngInject */
-    function LoginController($scope, $mdDialog,$window, LoginUserResource, localStorage) {
+    function LoginController($scope, $mdDialog, LoginUserResource, localStorage) {
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;

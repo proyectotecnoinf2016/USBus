@@ -4,11 +4,11 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('TicketsController', TicketsController);
-    TicketsController.$inject = ['$scope', '$rootScope'];
+    TicketsController.$inject = ['$scope', '$mdDialog'];
     /* @ngInject */
-    function TicketsController($scope, $rootScope) {
-        $rootScope.show = true;
-        $scope.toggle = toggle;
+    function TicketsController($scope, $mdDialog) {
+
+        $scope.showTicket = showTicket;
 
         $scope.journies = [{
             name : "Planificar Viajes"
@@ -30,16 +30,21 @@
             name: "Personalizar Estilos"
         }];
 
-        $scope.selected = [1];
-
-        function toggle(item, list) {
-            var idx = list.indexOf(item);
-            if (idx > -1) {
-                list.splice(idx, 1);
-            }
-            else {
-                list.push(item);
-            }
+        function showTicket(text, ev) {
+            $mdDialog.show({
+                controller : 'CreateTicketController',
+                templateUrl : 'templates/ticket.create.html',
+                locals:{journeyId: text}, //text va a ser usado para pasar el id del journey
+                parent : angular.element(document.body),
+                targetEvent : ev,
+                clickOutsideToClose : true
+            }).then(
+                function(answer) {
+                    $scope.status = 'You said the information was "'
+                        + answer + '".';
+                }, function() {
+                    $scope.status = 'You cancelled the dialog.';
+                });
         };
 
     }

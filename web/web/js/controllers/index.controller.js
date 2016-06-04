@@ -4,12 +4,10 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope','$mdSidenav', '$mdDialog', '$rootScope', 'localStorage'];
+    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage'];
     /* @ngInject */
-    function IndexController($scope,$mdSidenav, $mdDialog, $rootScope, localStorage) {
-		var originatorEv;
-		
-        $rootScope.show = false;
+    function IndexController($scope, $mdDialog, localStorage) {
+		$scope.show = false == localStorage.getData('showMenu');
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
 
@@ -32,10 +30,8 @@
         } , {
             name: "Personalizar Estilos"
         }];
-		
-		$scope.openMenu = openMenu;
+
 		$scope.login = login;
-        $scope.sampleAction = sampleAction;
 
         if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
 			$scope.tenantName = localStorage.getData('tenantName');
@@ -43,15 +39,6 @@
 		
 		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
 			$scope.userName = localStorage.getData('userName');
-		}
-		
-        $scope.openSideNav = function() {
-            $mdSidenav('left').toggle();
-        };
-		
-		function openMenu($mdOpenMenu, ev) {
-			originatorEv = ev;
-			$mdOpenMenu(ev);
 		}
 
         function login(ev) {
@@ -69,17 +56,6 @@
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
-        }
-        ;
-
-
-        function sampleAction(name, ev) {
-            $mdDialog.show($mdDialog.alert()
-                .title(name)
-                .textContent('Start learning "' + name + '!')
-                .ok('OK')
-                .targetEvent(ev)
-            );
         };
 
     }

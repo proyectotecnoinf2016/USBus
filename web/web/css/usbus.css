@@ -88,15 +88,41 @@ label {
     .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
         font-size: 1.0em; } }
 
-
+/* SHADOW FOR HOME MENU */
 .wrapper {
 }
-
-
 
 .ripplelink:hover{
     z-index:1000;
     box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
     -webkit-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
     -moz-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+}
+
+/* SHADOW FOR HOME MENU */
+
+
+.md-padding-bottom {
+    padding-bottom: 30px;
+}
+
+.busSeat {
+    position: absolute;
+    top: 8px;
+    left: 10px
+}
+
+.seatImage {
+    height: 30px;
+}
+
+.busImage {
+    height: 300px;
+    width: 720px;
+}
+
+.seatcontainer {
+    position:absolute;
+    left: 150px;
+    top: 77px;
 }
