@@ -2,47 +2,47 @@ package com.usbus.dal.dao;
 
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
-import com.usbus.dal.model.Maintenance;
+import com.usbus.dal.model.Ticket;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
 /**
- * Created by Lufasoch on 28/05/2016.
+ * Created by Lufasoch on 30/05/2016.
  */
-public class MaintenanceDAO {
+public class TicketDAO {
     private final Datastore ds;
     private final GenericPersistence dao;
 
-    public MaintenanceDAO() {
+    public TicketDAO() {
         ds = MongoDB.instance().getDatabase();
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Maintenance maintenance) {
-        return dao.persist(maintenance);
+    public ObjectId persist(Ticket ticket) {
+        return dao.persist(ticket);
     }
 
     public long countAll() {
-        return dao.count(Maintenance.class);
+        return dao.count(Ticket.class);
     }
 
     public long countTenant(long tenantId) {
-        Query<Maintenance> query = ds.createQuery(Maintenance.class);
+        Query<Ticket> query = ds.createQuery(Ticket.class);
         query.criteria("tenantId").equal(tenantId);
         return query.countAll();
     }
 
-    public Maintenance getById(ObjectId id) {
-        return dao.get(Maintenance.class, id);
+    public Ticket getById(ObjectId id) {
+        return dao.get(Ticket.class, id);
     }
 
-    public Maintenance getByJourneyId(long tenantId, Long id){
+    public Ticket getByBranchId(long tenantId, Long id){
         if (!(tenantId > 0) || (id == null)) {
             return null;
         }
 
-        Query<Maintenance> query = ds.createQuery(Maintenance.class);
+        Query<Ticket> query = ds.createQuery(Ticket.class);
 
         query.and(query.criteria("id").equal(id),
                 query.criteria("tenantId").equal(tenantId));
@@ -51,6 +51,6 @@ public class MaintenanceDAO {
     }
 
     public void remove(ObjectId id) {
-        dao.remove(Maintenance.class, id);
+        dao.remove(Ticket.class, id);
     }
 }

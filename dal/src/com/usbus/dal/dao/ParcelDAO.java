@@ -49,4 +49,8 @@ public class ParcelDAO {
 
         return query.get();
     }
+
+    public void remove(ObjectId id) {
+        dao.remove(Parcel.class, id);
+    }
 }

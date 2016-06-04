@@ -1,5 +1,6 @@
 package com.usbus.dal.model;
 
+import com.usbus.commons.auxiliaryClasses.Seat;
 import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.dal.BaseEntity;
 import org.mongodb.morphia.annotations.*;
@@ -23,6 +24,7 @@ public class Journey extends BaseEntity{
     private HumanResource driver;
     private Integer busNumber;
     private Integer seats;
+    private Seat seatsState[];
     private Integer standingPassengers;
     private String trunkWeight;
     private JourneyStatus status;
@@ -30,7 +32,7 @@ public class Journey extends BaseEntity{
     public Journey(){
     }
 
-    public Journey(long tenantId, Long id, Service service, Date date, Bus bus, String thirdPartyBus, HumanResource driver, Integer busNumber, Integer seats, Integer standingPassengers, String trunkWeight, JourneyStatus status) {
+    public Journey(long tenantId, Long id, Service service, Date date, Bus bus, String thirdPartyBus, HumanResource driver, Integer busNumber, Integer seats, Seat[] seatsState, Integer standingPassengers, String trunkWeight, JourneyStatus status) {
         super(tenantId);
         this.id = id;
         this.service = service;
@@ -40,6 +42,7 @@ public class Journey extends BaseEntity{
         this.driver = driver;
         this.busNumber = busNumber;
         this.seats = seats;
+        this.seatsState = seatsState;
         this.standingPassengers = standingPassengers;
         this.trunkWeight = trunkWeight;
         this.status = status;
@@ -108,6 +111,10 @@ public class Journey extends BaseEntity{
     public void setSeats(Integer seats) {
         this.seats = seats;
     }
+
+    public Seat[] getSeatsState() { return seatsState; }
+
+    public void setSeatsState(Seat[] seatsState) { this.seatsState = seatsState; }
 
     public Integer getStandingPassengers() {
         return standingPassengers;

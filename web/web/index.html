@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="usbus">
+<html lang="en" ng-app="usbus" >
     <head>
         <meta charset="UTF-8">
         <title>USBus</title>
@@ -35,6 +35,9 @@
         <script src="js/controllers/login.controller.js"></script>
         <script src="js/controllers/register.controller.js"></script>
         <script src="js/controllers/index.controller.js"></script>
+        <script src="js/controllers/home.controller.js"></script>
+        <script src="js/controllers/tickets.controller.js"></script>
+        <script src="js/controllers/tickets.create.controller.js"></script>
 
         <script src="js/factories/register.user.resource.js"></script>
         <script src="js/factories/register.tenant.resource.js"></script>
@@ -44,29 +47,63 @@
 
         <!-- SCRIPTS -->
     </head>
-    <body layout="column" layout-align="center center" layout-fill style="height: 960px" ng-cloak>
+    <body layout="column" layout-align="top center" layout-fill ng-cloak>
 
         <md-toolbar class="customHeader">
             <h1 class="USBusTitle" layout-align="top center" style="max-height: 150px;">
-                <div layout-align="start center" >
+                <div ng-controller="IndexController"  layout-align="start center" >
                     <img hide show-gt-xs src="img/USBus2.png" class="logo"/>
-                    <span>USBus</span>
-                    <ng-md-icon hide icon="login" ng-controller="IndexController" size="32"  ng-click="login($event);" >
+                    <span>{{tenantName}}</span>
+					
+                    <ng-md-icon hide icon="login" size="32"  ng-click="login($event);" >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
                             <path d="M10 17.25V14H3v-4h7V6.75L15.25 12 10 17.25"></path>
                             <path d="M8 2h9a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-4h2v4h9V4H8v4H6V4a2 2 0 0 1 2-2z"></path>
                         </svg>
                         <md-tooltip md-direction="right">Ingresar</md-tooltip>
                     </ng-md-icon>
-                    <img hide show-gt-xs src="img/Anonymous_Bus1.png" class="customBus bigCustomBus"/>
-                    <img hide-gt-xs src="img/Anonymous_Bus1.png" class="customBus smallCustomBus"/>
+                    <img hide show-gt-xs src="img/Blue_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
+                    <img hide-gt-xs src="img/Blue_Bus.png" class="customBus smallCustomBus"/>
                 </div>
 
             </h1>
 
         </md-toolbar>
+		
+		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
+
+			<section layout="row" flex>
+                <div ng-controller="IndexController"  style="width: 25%" ng-hide="!show" >
+                    <md-sidenav layout-fill class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
+                        <md-toolbar >
+                            <h1 class="md-toolbar-tools">
+                                <i class="material-icons" style="padding-right: 20px">&#xE853;</i>
+                                {{userName}}
+                                <md-button class="md-icon-button" aria-label="Settings" >
+                                    <i class="material-icons" >&#xE5D4;</i>
+                                </md-button>
+                            </h1>
+                        </md-toolbar>
+                        <md-content >
+                            <span ng-repeat="item in messages">
+                                <p hide-md="" show-gt-md="" style="padding-left: 10%" >
+                                    {{item.name}}
+                                </p>
+                                <md-divider ></md-divider>
+                            </span>
+
+                        </md-content>
+
+                    </md-sidenav>
+                </div>
+			<md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> </md-content>
+
+	</section>
+
+</div>
+
+
         
-        <md-content flex="grow" layout-margin layout-padding layout-wrap ng-view style="width: 90%"> </md-content>
 
     </body>
 </html>

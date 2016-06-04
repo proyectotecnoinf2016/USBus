@@ -1,3 +1,6 @@
+.customContent {
+	width: 90%;
+}
 
 .logo {
     width: 80px;
@@ -40,7 +43,7 @@
 }
 
 label {
-    color: #A3A3A3!important;
+    color: rgba(43, 43, 43, 0.9)!important;
 }
 
 .registerContainer {
@@ -51,4 +54,75 @@ label {
 
 .label {
     color: #A3A3A3!important;
+}
+
+
+
+.whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
+    background: #fff;
+    margin: 30px;
+    height: 100px; }
+@media (max-width: 599px) {
+    .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
+        margin: 7px;
+        height: 50px;
+		width: 35%}
+    .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
+        font-size: 0.4em; } }
+@media (min-width: 600px) and (max-width: 959px) {
+    .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
+        margin: 20px;
+        height: 75px; }
+    .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
+        font-size: 0.6em; } }
+@media (min-width: 960px) and (max-width: 1279px) {
+    .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
+        margin: 20px;
+        height: 90px; }
+    .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
+        font-size: 0.9em; } }
+@media (min-width: 1280px) {
+    .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
+        margin: 25px;
+        height: 100px; }
+    .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
+        font-size: 1.0em; } }
+
+/* SHADOW FOR HOME MENU */
+.wrapper {
+}
+
+.ripplelink:hover{
+    z-index:1000;
+    box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+    -webkit-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+    -moz-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+}
+
+/* SHADOW FOR HOME MENU */
+
+
+.md-padding-bottom {
+    padding-bottom: 30px;
+}
+
+.busSeat {
+    position: absolute;
+    top: 8px;
+    left: 10px
+}
+
+.seatImage {
+    height: 30px;
+}
+
+.busImage {
+    height: 300px;
+    width: 720px;
+}
+
+.seatcontainer {
+    position:absolute;
+    left: 150px;
+    top: 77px;
 }

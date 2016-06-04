@@ -21,6 +21,9 @@
             },
             getData: function(key) {
                 return $window.localStorage && $window.localStorage.getItem(key);
+            },
+            clear: function() {
+                return $window.localStorage.clear();
             }
         };
     }
