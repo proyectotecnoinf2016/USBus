@@ -10,6 +10,10 @@
         $scope.register = register;
         $scope.showAlert = showAlert;
 
+        localStorage.clear();
+
+        localStorage.setData('showMenu', false);
+
         function register(tenant,user) {
             var ok = true;
             tenant.tenantId = 0;

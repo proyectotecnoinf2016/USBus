@@ -42,17 +42,13 @@
             <h3 hide-md="" show-gt-md="" class="grayHeader" style="padding-left: 1%; width: 20%" >
                 Hora
             </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader" style="padding-left: 1%;" >
-                Seleccionar
-            </h3>
-
         </span>
         <md-divider ></md-divider>
         <span>
-            <span layout="row" ng-repeat="item in journies">
+            <span layout="row" ng-repeat="item in journies" ng-click="showTicket(item.name, $event)">
 
                 <p hide-md="" show-gt-md="" style="padding-left: 1%; width: 20%" >
-                    test
+                    {{item.name}}
                 </p>
                 <p hide-md="" show-gt-md="" style="padding-left: 1%; width: 20%" >
                     test
@@ -62,14 +58,8 @@
                 </p>
                 <p hide-md="" show-gt-md="" style="padding-left: 1%; width: 20%" >
                     test
-                </p>
-                <p hide-md="" show-gt-md="" style="padding-left: 1%" >
-                    <md-checkbox ng-click="toggle(item, selected)">
-
-                    </md-checkbox>
                 </p>
             </span>
-            <md-divider ></md-divider>
         </span>
     </md-content>
 
