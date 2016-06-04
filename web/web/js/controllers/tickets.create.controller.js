@@ -14,19 +14,14 @@
         $scope.secondRow = [];
         $scope.thirdRow = [];
         $scope.fourthRow = [];
+        $scope.soldSeats = [5, 2, 19];
 
         var s = 44;
         var i = 1;
 
         var seatsCount = s;
 
-        if (s % 4 == 1) {
-            //seatsCount = s - 5;
-        }
-
         while (i <= seatsCount) {
-            //7fd4f2
-
             if (i <= seatsCount) {
                 $scope.firstRow.push(i);
                 i++;
@@ -60,6 +55,7 @@
 
         $scope.selectedSeat = selectedSeat;
         $scope.exists = exists;
+        $scope.soldSeat = soldSeat;
 
         function selectedSeat(item) {
             var i = 0;
@@ -82,6 +78,9 @@
             }
         }
 
+        function soldSeat(item, list) {
+            return list.indexOf(item) > -1;
+        }
 
         function exists(item, list) {
             return list.indexOf(item) > -1;
