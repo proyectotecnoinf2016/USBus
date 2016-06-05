@@ -4,10 +4,12 @@ import com.usbus.dal.model.BusStop;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Remote;
+import java.util.List;
 
 /**
  * Created by jpmartinez on 04/06/16.
  */
+@SuppressWarnings("EjbRemoteRequirementsInspection")
 @Remote
 public interface BusStopRemote {
     long countTenant(long tenantId);
@@ -17,5 +19,6 @@ public interface BusStopRemote {
     BusStop getByName(long tenantId, String name);
     void setInactive(long tenantId, Long id);
     void setActive(long tenantId, Long id);
+    List<BusStop> getByTenant(long tenantId, int offset, int limit, String name);
 
 }

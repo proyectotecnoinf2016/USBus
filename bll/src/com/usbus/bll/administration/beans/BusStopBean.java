@@ -5,9 +5,10 @@ import com.usbus.bll.administration.interfaces.BusStopRemote;
 import com.usbus.dal.dao.BusStopDAO;
 import com.usbus.dal.model.BusStop;
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.dao.BasicDAO;
+
 
 import javax.ejb.Stateless;
+import java.util.List;
 
 /**
  * Created by jpmartinez on 04/06/16.
@@ -51,5 +52,10 @@ public class BusStopBean implements BusStopLocal, BusStopRemote {
     @Override
     public void setActive(long tenantId, Long id) {
         dao.setActive(tenantId,id);
+    }
+
+    @Override
+    public List<BusStop> getByTenant(long tenantId, int offset, int limit,String name) {
+        return dao.getByTenant(tenantId,offset,limit,name);
     }
 }

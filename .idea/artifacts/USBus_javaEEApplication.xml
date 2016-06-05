@@ -19,6 +19,7 @@
         </element>
         <element id="library" level="project" name="ejb-3.2" />
       </element>
+      <element id="artifact" artifact-name="services:war" />
     </root>
   </artifact>
 </component>

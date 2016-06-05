@@ -4,6 +4,7 @@ import com.usbus.dal.model.BusStop;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Local;
+import java.util.List;
 
 /**
  * Created by jpmartinez on 04/06/16.
@@ -17,6 +18,7 @@ public interface BusStopLocal {
     BusStop getByName(long tenantId, String name);
     void setInactive(long tenantId, Long id);
     void setActive(long tenantId, Long id);
+    List<BusStop> getByTenant(long tenantId, int offset, int limit, String name);
 
 
 }
