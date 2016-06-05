@@ -1,4 +1,5 @@
 package com.usbus.dal;
+import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
         import com.mongodb.MongoCredential;
         import com.mongodb.ServerAddress;
@@ -23,13 +24,13 @@ public class MongoDB {
 
         Morphia morphia = new Morphia();
         ServerAddress addr = new ServerAddress(DB_HOST, DB_PORT);
-        List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
-        MongoCredential credential = MongoCredential.createCredential("admin",
-                DB_NAME, "admin".toCharArray());
-        credentialsList.add(credential);
+//        List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
+//        MongoCredential credential = MongoCredential.createCredential("admin",
+//                DB_NAME, "admin".toCharArray());
+//        credentialsList.add(credential);
         MongoClient client = new MongoClient(addr);
 
-        datastore = morphia.createDatastore(client, "usbus");
+        datastore = morphia.createDatastore(client, DB_NAME);
         datastore.ensureIndexes();
     }
 
