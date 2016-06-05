@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>REST API</title>
+    <style>
+        h1{
+            color: cornflowerblue;
+        }
+        p{
+            color: cadetblue;
+        }
+        .titulo{
+            font-weight: bolder;
+            color: darkslategray;
+        }
+        li{
+            color: lightsteelblue;
+        }
+        li span{
+            color: crimson;
+            padding-left: 2rem;
+        }
+    </style>
+</head>
+<body>
+<h1>Bienvenido a la Api de USBUS</h1>
+<div>
+    <p>A continuacion se detallan las URIS de los servicios brindados por USBUS</p>
+</div>
+<ul>
+    <li class="titulo">Registro</li>
+    <li>HOST:IP/rest/api/register/tenant <span>POST</span></li>
+    <li>HOST:IP/rest/api/register/user <span>POST</span></li>
+    <li class="titulo">Autenticación</li>
+    <li>HOST:IP/rest/api/authentication <span>POST</span></li>
+    <li class="titulo">Administración</li>
+    <li>HOST:IP/rest/api/{tenantId}/busstop/{busStopId} <span>GET,POST,PUT,DELETE</span></li>
+</ul>
+</body>
+</html>

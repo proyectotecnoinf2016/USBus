@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="usbus">
+<html lang="en" ng-app="usbus" >
     <head>
         <meta charset="UTF-8">
         <title>USBus</title>
@@ -36,6 +36,8 @@
         <script src="js/controllers/register.controller.js"></script>
         <script src="js/controllers/index.controller.js"></script>
         <script src="js/controllers/home.controller.js"></script>
+        <script src="js/controllers/tickets.controller.js"></script>
+        <script src="js/controllers/tickets.create.controller.js"></script>
 
         <script src="js/factories/register.user.resource.js"></script>
         <script src="js/factories/register.tenant.resource.js"></script>
@@ -77,47 +79,19 @@
                             <h1 class="md-toolbar-tools">
                                 <i class="material-icons" style="padding-right: 20px">&#xE853;</i>
                                 {{userName}}
-                                <md-button class="md-icon-button" aria-label="Settings" ng-click="openMenu($mdOpenMenu, $event)">
+                                <md-button class="md-icon-button" aria-label="Settings" >
                                     <i class="material-icons" >&#xE5D4;</i>
                                 </md-button>
                             </h1>
                         </md-toolbar>
                         <md-content >
-                            <p hide-md="" show-gt-md="" style="padding-left: 10%" >
-								Personalizar Estilos
-                            </p>
-							<md-divider ></md-divider>
-							<p hide-md="" show-gt-md="" style="padding-left: 10%">
-								Administrar Usuarios
-                            </p>
-							<md-divider ></md-divider>
-							<p hide-md="" show-gt-md="" style="padding-left: 10%">
-								Administrar Sucursales
-                            </p>
-							<md-divider ></md-divider>
-							<p hide-md="" show-gt-md="" style="padding-left: 10%">
-								Administrar Cajas
-                            </p>
-							<md-divider ></md-divider>
-							<p hide-md="" show-gt-md="" style="padding-left: 10%">
-								Administrar Unidades
-                            </p>
-							<md-divider ></md-divider>
-							<p hide-md="" show-gt-md="" style="padding-left: 10%">
-								Administrar Paradas
-                            </p>
-							<md-divider ></md-divider>
-							<p hide-md="" show-gt-md="" style="padding-left: 10%">
-								Administrar Trayectos
-                            </p>
-							<md-divider ></md-divider>
-							<p hide-md="" show-gt-md="" style="padding-left: 10%">
-								Administrar Servicios
-                            </p>
-							<md-divider ></md-divider>
-							<p hide-md="" show-gt-md="" style="padding-left: 10%">
-								Planificar Viajes
-                            </p>
+                            <span ng-repeat="item in messages">
+                                <p hide-md="" show-gt-md="" style="padding-left: 10%" >
+                                    {{item.name}}
+                                </p>
+                                <md-divider ></md-divider>
+                            </span>
+
                         </md-content>
 
                     </md-sidenav>

@@ -1,4 +1,4 @@
-package com.usbus.bll.auth;
+package auth;
 
 import com.usbus.commons.enums.Rol;
 

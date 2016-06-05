@@ -1,17 +1,16 @@
 /**
- * Created by jpmartinez on 12/05/16.
+ * Created by Lucia on 6/1/2016.
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage'];
+    angular.module('usbus').controller('TicketsController', TicketsController);
+    TicketsController.$inject = ['$scope', '$mdDialog'];
     /* @ngInject */
-    function IndexController($scope, $mdDialog, localStorage) {
-		$scope.show = false == localStorage.getData('showMenu');
-		$scope.tenantName = 'USBus';
-		$scope.userName = 'Invitado';
+    function TicketsController($scope, $mdDialog) {
 
-        $scope.messages = [{
+        $scope.showTicket = showTicket;
+
+        $scope.journies = [{
             name : "Planificar Viajes"
         } , {
             name: "Administrar Usuarios"
@@ -31,21 +30,11 @@
             name: "Personalizar Estilos"
         }];
 
-		$scope.login = login;
-
-        if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
-			$scope.tenantName = localStorage.getData('tenantName');
-		}
-		
-		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
-			$scope.userName = localStorage.getData('userName');
-		}
-
-        function login(ev) {
+        function showTicket(text, ev) {
             $mdDialog.show({
-                controller : 'LoginController',
-                templateUrl : 'templates/login.html',
-
+                controller : 'CreateTicketController',
+                templateUrl : 'templates/ticket.create.html',
+                locals:{journeyId: text}, //text va a ser usado para pasar el id del journey
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true

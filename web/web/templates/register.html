@@ -20,11 +20,12 @@
                     <md-input-container class="customInputRegister">
                         <label>Email</label>
                         <md-tooltip md-direction="top">Ingrese correo electrónico</md-tooltip>
-                        <input type="email" ng-model="user.email" required>
-                        <div role="alert">
-                            <span class="error" ng-show="myForm.input.$error.required">Required!</span>
-                            <span class="error" ng-show="myForm.input.$error.email">Not valid email!</span>
-                        </div>
+                        <input type="email" name="userEmail" ng-model="user.email" required ng-pattern="/^.+@.+\..+$/">
+                       <!-- <div ng-show="inputForm.userEmail.$invalid" ng-messages="inputForm.userEmail.$error" role="alert">
+                            <div ng-message-exp="['required', 'pattern']">
+                                Your email must be between 10 and 100 characters long and look like an e-mail address.
+                            </div>
+                        </div> -->
                     </md-input-container>
                 </div>
             </md-content>

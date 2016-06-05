@@ -5,4 +5,12 @@
 		  http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
          version="3.1">
 
+    <enterprise-beans>
+        <session>
+            <ejb-name>BusStopEJB</ejb-name>
+            <ejb-class>com.usbus.bll.administration.beans.BusStopBean</ejb-class>
+            <session-type>Stateless</session-type>
+            <transaction-type>Container</transaction-type>
+        </session>
+    </enterprise-beans>
 </ejb-jar>

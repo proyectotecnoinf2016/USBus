@@ -1,3 +1,66 @@
 <md-content md-theme="" layout-align="center center" layout-padding>
     <h1 class="grayHeader">Caja y Boletería</h1>
 </md-content>
+
+<form name="inputForm" novalidate >
+    <div layout="column" ng-cloak class="md-inline-form" >
+        <div layout-gt-xs="row" >
+            <md-input-container class="customInputRegister" flex-gt-xs="50" layout-padding>
+                <label>Fecha</label>
+                <md-tooltip md-direction="top">Ingrese Fecha de viaje</md-tooltip>
+                <input type="date" ng-model="journey.date">
+            </md-input-container>
+
+        </div>
+        <div layout-gt-xs="row">
+            <md-input-container class="customInputRegister" layout-padding>
+                <label>Origen</label>
+                <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
+                <input ng-model="journey.from">
+            </md-input-container>
+            <md-input-container class="customInputRegister" layout-padding>
+                <label>Destino</label>
+                <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
+                <input ng-model="journey.to">
+            </md-input-container>
+        </div>
+    </div>
+
+
+
+    <md-content >
+        <span layout="row" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader" style="padding-left: 1%; width: 20%" >
+                Nro. de ómnibus
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader" style="padding-left: 1%; width: 20%" >
+                Servicio
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader" style="padding-left: 1%; width: 20%" >
+                Día
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader" style="padding-left: 1%; width: 20%" >
+                Hora
+            </h3>
+        </span>
+        <md-divider ></md-divider>
+        <span>
+            <span layout="row" ng-repeat="item in journies" ng-click="showTicket(item.name, $event)">
+
+                <p hide-md="" show-gt-md="" style="padding-left: 1%; width: 20%" >
+                    {{item.name}}
+                </p>
+                <p hide-md="" show-gt-md="" style="padding-left: 1%; width: 20%" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" style="padding-left: 1%; width: 20%" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" style="padding-left: 1%; width: 20%" >
+                    test
+                </p>
+            </span>
+        </span>
+    </md-content>
+
+</form>

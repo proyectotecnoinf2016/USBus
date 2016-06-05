@@ -1,0 +1,109 @@
+<md-dialog aria-label="Crear Tenant" ng-cloak >
+    <form name="inputForm" novalidate>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h1>{{tobedone}}</h1>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <span flex></span>
+
+            <md-content>
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="Elegir asientos">
+                        <div hide show-gt-md>
+                            <img src="../img/Bus_Top.png" class="busImage" />
+                            <md-content flex layout="column" style="position:absolute; left: 150px; top: 85px;">
+                                <md-content layout="row">
+                                    <md-content ng-repeat="item in firstRow" ng-click="selectedSeat(item);">
+                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Green_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="soldSeat(item, soldSeats);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <span class="busSeat">
+                                            {{item}}
+                                        </span>
+                                    </md-content>
+                                </md-content>
+                                <md-content class="" layout="row">
+                                    <md-content ng-repeat="item in secondRow" ng-class="{'md-padding-bottom':$last}" ng-click="selectedSeat(item);">
+                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Green_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="soldSeat(item, soldSeats);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <span class="busSeat">
+                                            {{item}}
+                                        </span>
+                                    </md-content>
+                                </md-content>
+                                <md-content class="" layout="row">
+                                    <md-content ng-repeat="item in thirdRow" ng-click="selectedSeat(item);">
+                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Green_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="soldSeat(item, soldSeats);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <span class="busSeat">
+                                            {{item}}
+                                        </span>
+                                    </md-content>
+                                </md-content>
+                                <md-content class="" layout="row">
+                                    <md-content ng-repeat="item in fourthRow" ng-click="selectedSeat(item);">
+                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Green_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="soldSeat(item, soldSeats);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <span class="busSeat">
+                                            {{item}}
+                                        </span>
+                                    </md-content>
+                                </md-content>
+                            </md-content>
+                        </div>
+                        <div>
+                            <img src="../img/Bus_Seat.png" />
+                            <span>Disponible</span>
+                        </div>
+                        <div>
+                            <img src="../img/Green_Bus_Seat.png"  />
+                            <span>En Venta</span>
+                        </div>
+                        <div>
+                            <img src="../img/Red_Bus_Seat.png" />
+                            <span>Ocupado</span>
+                        </div>
+                    </md-tab>
+                    <md-tab label="Datos de facturación">
+                        <md-content class="md-padding">
+                            <h1 class="md-display-2">Tab One</h1>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
+
+
+        </md-dialog-content>
+
+
+        <md-dialog-actions class="md-actions" layout="row">
+            <span flex></span>
+            <md-button class="md-raised md-primary"	ng-click='sell(user)'>Ingresar</md-button>
+            <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+
+
+<!--
+
+$mdDialog.show({
+            locals:{dataToPass: $scope.parentScopeData},
+            clickOutsideToClose: true,
+            controllerAs: 'ctrl',
+            templateUrl: 'quotation/edit/',//+edit_id,
+            controller: mdDialogCtrl,
+        });
+
+var mdDialogCtrl = function ($scope, dataToPass) {
+    $scope.mdDialogData = dataToPass
+}
+
+-->

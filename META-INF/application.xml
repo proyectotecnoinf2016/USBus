@@ -16,5 +16,10 @@
     <module id="dal-EJB">
         <ejb>dal_EJB.jar</ejb>
     </module>
-
+    <module id="services-Web">
+        <web>
+            <web-uri>services_war.war</web-uri>
+            <context-root>rest</context-root>
+        </web>
+    </module>
 </application>
