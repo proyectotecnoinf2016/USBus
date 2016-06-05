@@ -38,7 +38,7 @@ public class RouteDAO {
         return dao.get(Route.class, id);
     }
 
-    public Route getByBranchId(long tenantId, Long id){
+    public Route getByLocalId(long tenantId, Long id){
         if (!(tenantId > 0) || (id == null)) {
             return null;
         }

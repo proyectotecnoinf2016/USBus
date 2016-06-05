@@ -38,7 +38,7 @@ public class BusStopDAO {
         return dao.get(BusStop.class, id);
     }
 
-    public BusStop getByBranchId(long tenantId, Long id){
+    public BusStop getByLocalId(long tenantId, Long id){
         if (!(tenantId > 0) || (id == null)) {
             return null;
         }
@@ -51,7 +51,7 @@ public class BusStopDAO {
         return query.get();
     }
 
-    public BusStop getByBranchName(long tenantId, String name){
+    public BusStop getByName(long tenantId, String name){
         if (!(tenantId > 0) || (name.isEmpty())) {
             return null;
         }
@@ -68,14 +68,25 @@ public class BusStopDAO {
         dao.remove(BusStop.class, id);
     }
 
-    public void setInactive(long tenantId, String busStopName) {
-        if (!(tenantId > 0) || (busStopName.isEmpty())) {
+    public void setInactive(long tenantId, Long id) {
+        if (!(tenantId > 0) || !(id > 0)) {
         } else {
             Query<BusStop> query = ds.createQuery(BusStop.class);
 
-            query.and(query.criteria("name").equal(busStopName),
+            query.and(query.criteria("id").equal(id),
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<BusStop> updateOp = ds.createUpdateOperations(BusStop.class).set("active", false);
+            ds.update(query, updateOp);
+        }
+    }
+    public void setActive(long tenantId, Long id) {
+        if (!(tenantId > 0) || !(id>0)) {
+        } else {
+            Query<BusStop> query = ds.createQuery(BusStop.class);
+
+            query.and(query.criteria("id").equal(id),
+                    query.criteria("tenantId").equal(tenantId));
+            UpdateOperations<BusStop> updateOp = ds.createUpdateOperations(BusStop.class).set("active", true);
             ds.update(query, updateOp);
         }
     }
