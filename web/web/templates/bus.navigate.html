@@ -1,0 +1,45 @@
+<form name="inputForm" novalidate >
+    <h1 class="grayHeader">{{message}}</h1>
+    <md-content ng-show="buses != null && buses.length > 0">
+        <span layout="row" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                Nro. de ómnibus
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Marca
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Modelo
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Próximo Mantenimiento
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Acciones
+            </h3>
+        </span>
+        <md-divider ></md-divider>
+        <span>
+            <span layout="row" ng-repeat="item in buses" >
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.name}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    <img src="img/Edit_Icon.png" ng-click="showBus(item.name, $event)" class="editIcon pointer"/> 
+                    <img src="img/Delete_Icon.png" ng-click="deleteBus(item.name)" class="deleteIcon pointer"/>
+                </p>
+            </span>
+        </span>
+    </md-content>
+
+    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBus($event)">Crear Nueva unidad</md-button>
+</form>
