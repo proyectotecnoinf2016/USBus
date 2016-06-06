@@ -29,7 +29,7 @@
         $scope.cancel = cancel;
         $scope.nextTab = nextTab;
 
-        var s = 44;
+        var s = 40;
         var i = 1;
 
         var seatsCount = s;

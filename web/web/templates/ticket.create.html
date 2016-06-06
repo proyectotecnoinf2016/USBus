@@ -14,13 +14,13 @@
                 <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
                     <md-tab label="Elegir asientos">
                         <div hide show-gt-md>
-                            <img src="../img/Bus_Top.png" class="busImage" />
+                            <img src="img/Bus_Top.png" class="busImage" />
                             <md-content flex layout="column" style="position:absolute; left: 150px; top: 85px;">
                                 <md-content layout="row">
                                     <md-content ng-repeat="item in firstRow" ng-click="selectedSeat(item);" class="pointer">
-                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Bus_Seat.png" class="seatImage" />
-                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Green_Bus_Seat.png" class="seatImage" />
-                                        <img ng-show="soldSeat(item, soldSeats);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
                                         <span class="busSeat">
                                             {{item}}
                                         </span>
@@ -28,9 +28,9 @@
                                 </md-content>
                                 <md-content class="" layout="row">
                                     <md-content ng-repeat="item in secondRow" ng-class="{'md-padding-bottom':$last}" ng-click="selectedSeat(item);" class="pointer">
-                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Bus_Seat.png" class="seatImage" />
-                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Green_Bus_Seat.png" class="seatImage" />
-                                        <img ng-show="soldSeat(item, soldSeats);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
                                         <span class="busSeat">
                                             {{item}}
                                         </span>
@@ -38,9 +38,9 @@
                                 </md-content>
                                 <md-content class="" layout="row">
                                     <md-content ng-repeat="item in thirdRow" ng-click="selectedSeat(item);" class="pointer">
-                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Bus_Seat.png" class="seatImage" />
-                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Green_Bus_Seat.png" class="seatImage" />
-                                        <img ng-show="soldSeat(item, soldSeats);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
                                         <span class="busSeat">
                                             {{item}}
                                         </span>
@@ -48,9 +48,9 @@
                                 </md-content>
                                 <md-content class="" layout="row">
                                     <md-content ng-repeat="item in fourthRow" ng-click="selectedSeat(item);" class="pointer">
-                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Bus_Seat.png" class="seatImage" />
-                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="../img/Green_Bus_Seat.png" class="seatImage" />
-                                        <img ng-show="soldSeat(item, soldSeats);" src="../img/Red_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                        <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
                                         <span class="busSeat">
                                             {{item}}
                                         </span>
@@ -59,15 +59,15 @@
                             </md-content>
                         </div>
                         <div>
-                            <img src="../img/Bus_Seat.png" />
+                            <img src="img/Bus_Seat.png" />
                             <span>Disponible</span>
                         </div>
                         <div>
-                            <img src="../img/Green_Bus_Seat.png"  />
-                            <span>En Venta</span>
+                            <img src="img/Green_Bus_Seat.png"  />
+                            <span>Seleccionado</span>
                         </div>
                         <div>
-                            <img src="../img/Red_Bus_Seat.png" />
+                            <img src="img/Red_Bus_Seat.png" />
                             <span>Ocupado</span>
                         </div>
                     </md-tab>

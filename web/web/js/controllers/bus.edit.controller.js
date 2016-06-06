@@ -4,13 +4,17 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditBusController', EditBusController);
-    EditBusController.$inject = ['$scope', 'BusResource'];
+    EditBusController.$inject = ['$scope', 'BusResource', '$mdDialog'];
     /* @ngInject */
-    function EditBusController($scope, BusResource) {
+    function EditBusController($scope, BusResource, $mdDialog) {
         $scope.busId = 0;
         $scope.tenantId = 0;
+        
 
-        $scope.vs = BusResource.get({
+        $scope.cancel = cancel;
+        $scope.showAlert = showAlert;
+
+        $scope.bus = BusResource.get({
             id: $scope.busId,
             tenantId: $scope.tenantId
         });
@@ -40,6 +44,11 @@
                     .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
 
         };
+
+        function cancel() {
+            $mdDialog.cancel();
+        };
+
 
     }
 })();
