@@ -7,7 +7,7 @@ import com.usbus.dal.model.BusStop;
 import org.bson.types.ObjectId;
 import sun.security.provider.certpath.OCSPResponse;
 
-import javax.ejb.EJB;
+import javax.ejb.*;  //Tecambie el .EJB porque me daba error y me molestaba
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
