@@ -8,13 +8,26 @@
     CreateTicketController.$inject = ['$scope', '$mdDialog', 'journeyId'];
     /* @ngInject */
     function CreateTicketController($scope, $mdDialog, journeyId) {
+        //GENERAL VARIABLES
         $scope.tobedone = journeyId;
+        $scope.max = 1;
+        $scope.selectedIndex = 0;
+
+        //SEATS VARIABLES
+        $scope.selected = [];
         $scope.seats = [];
         $scope.firstRow = [];
         $scope.secondRow = [];
         $scope.thirdRow = [];
         $scope.fourthRow = [];
         $scope.soldSeats = [5, 2, 19];
+
+        //FUNCTIONS
+        $scope.selectedSeat = selectedSeat;
+        $scope.exists = exists;
+        $scope.soldSeat = soldSeat;
+        $scope.cancel = cancel;
+        $scope.nextTab = nextTab;
 
         var s = 44;
         var i = 1;
@@ -39,23 +52,6 @@
                 i++;
             }
         }
-
-        /*if (s % 4 == 1) {
-            $scope.firstRow.push(i);
-            i++;
-            $scope.secondRow.push(i);
-            i++;
-            $scope.thirdRow.push(i);
-            i++;
-            $scope.fourthRow.push(i);
-            i++;
-        }*/
-
-        $scope.selected = [];
-
-        $scope.selectedSeat = selectedSeat;
-        $scope.exists = exists;
-        $scope.soldSeat = soldSeat;
 
         function selectedSeat(item) {
             var i = 0;
@@ -86,6 +82,14 @@
             return list.indexOf(item) > -1;
         };
 
+        function cancel() {
+            $mdDialog.cancel();
+        };
+
+        function nextTab() {
+            var index = ($scope.selectedIndex == $scope.max) ? 0 : $scope.selectedIndex + 1;
+            $scope.selectedIndex = index;
+        }
 
     }
 })();

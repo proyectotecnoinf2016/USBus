@@ -1,0 +1,48 @@
+<form name="inputForm" novalidate >
+
+    <!--
+    private String id;
+    private String brand;
+    private String model;
+    private Double kms;
+    private Double nextMaintenance;
+    private BusStatus status;
+    private Boolean active;
+    private Integer seats;
+    private Integer trunkMaxWeight;
+    private Integer standingPassengers;
+    -->
+    <md-content ng-show="buses != null && buses.length > 0">
+        <span layout="row" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                Nro. de ómnibus
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Marca
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Modelo
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Próximo Mantenimiento
+            </h3>
+        </span>
+        <md-divider ></md-divider>
+        <span>
+            <span layout="row" ng-repeat="item in buses" ng-click="showBus(item.name, $event)" class="pointer">
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.name}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+            </span>
+        </span>
+    </md-content>
+</form>

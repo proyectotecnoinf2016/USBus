@@ -4,13 +4,13 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('TicketsController', TicketsController);
-    TicketsController.$inject = ['$scope', '$mdDialog'];
+    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource'];
     /* @ngInject */
-    function TicketsController($scope, $mdDialog) {
-
+    function TicketsController($scope, $mdDialog, JourneyResource) {
+        $scope.tenantId = 0;
         $scope.showTicket = showTicket;
 
-        $scope.journies = [{
+        $scope.journeys = [{
             name : "Planificar Viajes"
         } , {
             name: "Administrar Usuarios"
@@ -29,6 +29,17 @@
         } , {
             name: "Personalizar Estilos"
         }];
+
+
+        /*JourneyResource.query({
+            tenantId: $scope.tenantId
+        }).$promise.then(function(result) {
+            console.log(result);
+            var journeys = $scope.journeys.concat(result);
+            $scope.journeys = journeys;
+        });
+        */
+
 
         function showTicket(text, ev) {
             $mdDialog.show({
