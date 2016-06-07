@@ -1,5 +1,6 @@
 package auth;
 
+import com.usbus.bll.administration.beans.RegistrationBean;
 import com.usbus.dal.dao.TenantDAO;
 import com.usbus.dal.dao.UserDAO;
 import com.usbus.dal.model.Tenant;
@@ -21,25 +22,20 @@ import java.util.Random;
  */
 @Path("/register")
 public class Register {
-
-    protected UserDAO udao = new UserDAO();
-    protected TenantDAO tdao = new TenantDAO();
+    //@EJB
+    RegistrationBean ejb = new RegistrationBean();
 
     @POST
     @Path("/tenant")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response registerTenant(Tenant tenant) {
-        ObjectId tenantOID = null;
-        try {
-            tenantOID = tdao.persist(tenant);
-            return Response.ok("Tenant Guardado").build();
-
-        } catch (Exception ex) {
-            tdao.remove(tenantOID);
+        long tenantId = ejb.registerTenant(tenant);
+        if (tenantId > 0) {
+            return Response.ok(tenantId).build();
+        } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el tenant, intentelo nuevamente.").build();
         }
-
     }
 
     @POST
@@ -47,19 +43,22 @@ public class Register {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response registerUser(User user) {
-        ObjectId userOID = null;
-        try {
-            userOID = udao.persist(user);
-
-            Random random = new SecureRandom();
-            String token = new BigInteger(130, random).toString(32);
-            return Response.ok(token).build();
-
-        } catch (Exception ex) {
-            udao.remove(userOID);
+        if(ejb.registerUser(user)){
+            return Response.ok("Usuario Guardado").build();
+        }else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
-
         }
+    }
 
+    @POST
+    @Path("/client")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response registerClient(User user) {
+        if(ejb.registerClient(user)){
+            return Response.ok("Usuario Guardado").build();
+        }else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
+        }
     }
 }
