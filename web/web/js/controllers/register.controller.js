@@ -9,6 +9,11 @@
     function RegisterController(RegisterTenantResource,RegisterUserResource, $scope, $mdDialog, $location, $window, localStorage) {
         $scope.register = register;
         $scope.showAlert = showAlert;
+        $scope.validate = validate;
+        $scope.isValid = true;
+        $scope.user = {};
+        $scope.user.password = '';
+        $scope.passwordVerification = '';
 
         localStorage.clear();
 
@@ -28,6 +33,8 @@
             else {
                 user.gender = 'OTHER';
             }
+
+            $scope.user.password = user.password;
 
             RegisterTenantResource.save(tenant,function (resp) {
                 ok = true;
@@ -70,5 +77,9 @@
                     .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
 
         };
+
+        function validate() {
+            $scope.isValid = $scope.user.password == $scope.passwordVerification;
+        }
     }
 })();
