@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="org.bitbucket.b_c:jose4j:0.5.1" type="repository">
+    <properties maven-id="org.bitbucket.b_c:jose4j:0.5.1" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jose4j-0.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.6.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/jose4j-0.5.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

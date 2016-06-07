@@ -1,5 +1,10 @@
 package auth;
 
+import org.jose4j.jwt.JwtClaims;
+import org.jose4j.jwt.consumer.JwtConsumer;
+import org.jose4j.jwt.consumer.JwtConsumerBuilder;
+import org.jose4j.jwt.consumer.JwtContext;
+
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.Priorities;
@@ -9,6 +14,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.security.PublicKey;
 //import javax.annotation.Priority
 
 /**
@@ -45,7 +51,29 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private void validateToken(String token) throws Exception {
-        // Check if it was issued by the server and if it's not expired
-        // Throw an Exception if the token is invalid
+
+        JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
+                .setSkipAllValidators()
+                .setDisableRequireSignature()
+                .setSkipSignatureVerification()
+                .build();
+
+        JwtContext jwtContext = firstPassJwtConsumer.process(token);
+
+        String issuer = jwtContext.getJwtClaims().getIssuer();
+        PublicKey verificationKey = (PublicKey) jwtContext.getJwtClaims().getClaimValue("publicKey");
+
+        JwtConsumer secondPassJwtConsumer = new JwtConsumerBuilder()
+                .setExpectedIssuer(issuer)
+                .setVerificationKey(verificationKey)
+                .setRequireExpirationTime()
+                .setAllowedClockSkewInSeconds(30)
+                .setRequireSubject()
+                .setExpectedAudience("Audience")
+                .build();
+
+        secondPassJwtConsumer.processContext(jwtContext);
+
+
     }
 }
