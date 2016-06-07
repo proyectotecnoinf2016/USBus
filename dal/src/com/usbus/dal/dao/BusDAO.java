@@ -1,13 +1,15 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.enums.BusStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
-import com.usbus.dal.model.Branch;
 import com.usbus.dal.model.Bus;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
+
+import java.util.List;
 
 /**
  * Created by Lufasoch on 28/05/2016.
@@ -25,6 +27,10 @@ public class BusDAO {
         return dao.persist(bus);
     }
 
+    public Bus getById(ObjectId id) {
+        return dao.get(Bus.class, id);
+    }
+
     public long countAll() {
         return dao.count(Bus.class);
     }
@@ -35,12 +41,26 @@ public class BusDAO {
         return query.countAll();
     }
 
-    public Bus getById(ObjectId id) {
-        return dao.get(Bus.class, id);
-    }
-
     public Bus getByBusId(long tenantId, String id){
         if (!(tenantId > 0) || (id.isEmpty())) {
+            return null;
+        }
+        Query<Bus> query = ds.createQuery(Bus.class);
+        query.and(query.criteria("id").equal(id), query.criteria("tenantId").equal(tenantId));
+        return query.get();
+    }
+
+    public List<Bus> BusesByTenantIdAndStatus(long tenantId, BusStatus status, int offset, int limit){
+        if(!(tenantId > 0) || (status == null)){
+            return null;
+        }
+        Query<Bus> query = ds.createQuery(Bus.class);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("status").equal(status));
+        return query.offset(offset).limit(limit).asList();
+    }
+
+    public Bus getByLocalId(long tenantId, String id) {
+        if (!(tenantId > 0) || (id == null)) {
             return null;
         }
 
@@ -56,7 +76,7 @@ public class BusDAO {
         dao.remove(Bus.class, id);
     }
 
-    public void setInactive(long tenantId, Long busId) {
+    public void setInactive(long tenantId, String busId) {
         if (!(tenantId > 0) || (busId == null)) {
         } else {
             Query<Bus> query = ds.createQuery(Bus.class);
@@ -64,6 +84,18 @@ public class BusDAO {
             query.and(query.criteria("id").equal(busId),
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<Bus> updateOp = ds.createUpdateOperations(Bus.class).set("active", false);
+            ds.update(query, updateOp);
+        }
+    }
+
+    public void setActive(long tenantId, String busId) {
+        if (!(tenantId > 0) || (busId == null)) {
+        } else {
+            Query<Bus> query = ds.createQuery(Bus.class);
+
+            query.and(query.criteria("id").equal(busId),
+                    query.criteria("tenantId").equal(tenantId));
+            UpdateOperations<Bus> updateOp = ds.createUpdateOperations(Bus.class).set("active", true);
             ds.update(query, updateOp);
         }
     }
