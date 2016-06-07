@@ -19,6 +19,8 @@ public class Ticket extends BaseEntity{
     private Boolean hasCombination;
     private Service combination;
     private Double amount;
+    private User passager;
+    private HumanResource seller;
 
     public Ticket(){
     }
