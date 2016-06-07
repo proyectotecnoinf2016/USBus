@@ -1,11 +1,11 @@
 package administration;
 
+import auth.Secured;
 import com.usbus.bll.administration.beans.BusStopBean;
-import com.usbus.bll.auth.Secured;
+
 import com.usbus.commons.enums.Rol;
 import com.usbus.dal.model.BusStop;
 import org.bson.types.ObjectId;
-import sun.security.provider.certpath.OCSPResponse;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -57,7 +57,7 @@ public class BusStopService {
     @Path("{busStopId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    //@Secured(Rol.ADMINISTRATOR)
     public Response updateBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId, BusStop busStop){
 
         BusStop busStopAux = ejb.getByLocalId(tenantId,busStopId);

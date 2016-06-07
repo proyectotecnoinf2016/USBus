@@ -46,6 +46,19 @@ public class TenantDAO {
         return query.get();
 
     }
+    public Tenant getByLocalId(Long id){
+
+        if (!(id>0)) {
+            return null;
+        }
+
+        Query<Tenant> query = ds.createQuery(Tenant.class);
+
+        query.limit(1).criteria("tenantId").equal(id);
+
+        return query.get();
+
+    }
     public void clean(){
         ds.delete(ds.createQuery(Tenant.class));
     }

@@ -22,7 +22,10 @@ public class User extends BaseEntity {
     private String firstName;
     private String lastName;
     private Date birthDate;
+    @Transient
     private String password;
+    private byte[] passwordHash;
+    private byte[] salt;
     private Gender gender;
     private Date startDate;
     private Date lastActive;
@@ -123,5 +126,20 @@ public class User extends BaseEntity {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public byte[] getPasswordHash(){
+        return passwordHash;
+    }
+    public void setPasswordHash(byte[] passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
 }

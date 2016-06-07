@@ -1,7 +1,10 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.auxiliaryClasses.Password;
+import com.usbus.commons.enums.Rol;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
+import com.usbus.dal.model.HumanResource;
 import com.usbus.dal.model.User;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
@@ -107,12 +110,29 @@ public class UserDAO {
             Query<User> query = ds.createQuery(User.class);
             query.and(query.criteria("username").equal(username),
                     query.criteria("tenantId").equal(tenantId));
-            query.retrievedFields(true,"password");
+            query.retrievedFields(true,"salt","passwordHash");
 
-            System.out.println(query.get().getPassword());
-
-            return query.get().getPassword().equals(password);
+            User user = query.get();
+            return Password.isExpectedPassword(password.toCharArray(),user.getSalt(),user.getPasswordHash());
 
         }
+    }
+
+
+    public List<Rol> getRoles(User user){
+        Query<HumanResource> query = ds.createQuery(HumanResource.class);
+        query.disableValidation();
+        query.criteria("className").equal(HumanResource.class.getCanonicalName());
+        query.and(query.criteria("username").equal(user.getUsername()),
+                query.criteria("tenantId").equal(user.getTenantId()));
+        query.retrievedFields(true, "roles");
+        HumanResource hr = query.get();
+        if (hr.getRoles().size() > 0)
+            return hr.getRoles();
+        else
+            return null;
+
+
+
     }
 }
