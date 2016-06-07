@@ -27,6 +27,16 @@
                             </div>
                         </div> -->
                     </md-input-container>
+                    <md-input-container class="customInputRegister">
+                        <label>Contraseña</label>
+                        <md-tooltip md-direction="top">Ingrese contraseña</md-tooltip>
+                        <input type="password" ng-model="user.password" required ng-change="validate()">
+                    </md-input-container>
+                    <md-input-container class="customInputRegister">
+                        <label>Confirmación de contraseña</label>
+                        <md-tooltip md-direction="top">Ingrese contraseña</md-tooltip>
+                        <input type="password" ng-model="passwordVerification" required ng-change="validate()">
+                    </md-input-container>
                 </div>
             </md-content>
             <md-content md-theme="" layout-padding class="customInput registerContainer" >
@@ -68,7 +78,7 @@
 		
         <span flex></span>
 		
-        <md-button type="submit" hide show-gt-xs layout="row" style="width:9.5%; margin-left: 90%" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='register(tenant,user)'>Registrar</md-button>
+        <md-button type="submit" hide show-gt-xs layout="row" style="width:9.5%; margin-left: 90%" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid || !isValid" ng-click='register(tenant,user)'>Registrar</md-button>
 		<md-button type="submit" hide-gt-xs layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='register(tenant,user)'>Registrar</md-button>
 		
     </div>

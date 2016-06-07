@@ -23,6 +23,10 @@
                 templateUrl: 'templates/bus.navigate.html',
                 controller: 'BusController'
             })
+            .when('/tenant/:tenantName/admin/busStop', {
+                templateUrl: 'templates/busStop.navigate.html',
+                controller: 'BusStopController'
+            })
 			.when('/tenant/:tenantName/tickets', {
                 templateUrl: 'templates/journey.navigate.html',
                 controller: 'TicketsController'
