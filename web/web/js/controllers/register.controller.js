@@ -55,7 +55,6 @@
                     showAlert('Error!', 'Ocurrió un error al registrar el USUARIO');
                 });
             }
-            //TODO si da error, borrar el tenant creado.
         }
 
         function showAlert(title,content) {

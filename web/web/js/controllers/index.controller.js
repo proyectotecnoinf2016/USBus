@@ -7,7 +7,8 @@
     IndexController.$inject = ['$scope', '$mdDialog', 'localStorage'];
     /* @ngInject */
     function IndexController($scope, $mdDialog, localStorage) {
-		$scope.show = false == localStorage.getData('showMenu');
+		$scope.show = localStorage.getData('showMenu');
+        console.log($scope.show);
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
 

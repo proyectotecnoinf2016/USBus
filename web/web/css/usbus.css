@@ -31,11 +31,16 @@
 }
 
 .customInput {
-    width: 90%;
+    width: 100%;
 }
 
 .customInputRegister {
-    width: 90%;
+    width: 99%;
+}
+
+.noMarginTopBottom {
+    margin-bottom: 0px;
+    margin-top: 15px;
 }
 
 .grayHeader {
@@ -125,4 +130,21 @@ label {
     position:absolute;
     left: 150px;
     top: 77px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.tableRow {
+    padding-left: 1%;
+    width: 20%;
+}
+
+.deleteIcon {
+    width: 15px;
+}
+
+.editIcon {
+    width: 20px;
 }

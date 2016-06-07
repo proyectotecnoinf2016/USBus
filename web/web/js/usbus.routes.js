@@ -19,8 +19,12 @@
                 templateUrl: 'templates/admin.html',
                 controller: 'HomeController'
             })
+            .when('/tenant/:tenantName/admin/bus', {
+                templateUrl: 'templates/bus.navigate.html',
+                controller: 'BusController'
+            })
 			.when('/tenant/:tenantName/tickets', {
-                templateUrl: 'templates/tickets.html',
+                templateUrl: 'templates/journey.navigate.html',
                 controller: 'TicketsController'
             })
 			.when('/tenant/:tenantName/boxes', {
