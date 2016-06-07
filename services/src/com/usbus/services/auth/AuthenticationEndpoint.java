@@ -1,5 +1,6 @@
 package com.usbus.services.auth;
 
+import com.usbus.bll.administration.beans.AuthenticationBean;
 import com.usbus.commons.auxiliaryClasses.Credentials;
 import com.usbus.commons.auxiliaryClasses.Token;
 import com.usbus.dal.dao.UserDAO;
@@ -20,6 +21,7 @@ import java.util.Random;
  */
 @Path("/authentication")
 public class AuthenticationEndpoint {
+    AuthenticationBean ejb = new AuthenticationBean();
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -27,45 +29,11 @@ public class AuthenticationEndpoint {
     public Response authenticateUser(Credentials credentials){
 
         try {
-            System.out.println("AUTENTICANDO");
-            // Authenticate the user using the credentials provided
-            authenticate(credentials);
-
-            // Issue a token for the user
-            Token token = issueToken(credentials.getUsername());
-
-            // Return the token on the response
+            Token token = ejb.authenticateUser(credentials);
             return Response.ok(token).build();
-
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
 
-    private void authenticate(Credentials credentials) throws Exception {
-        System.out.println("authenticate");
-        User user = null;
-        try {
-            UserDAO udao = new UserDAO();
-            user = udao.getByUsername(credentials.getTenantId(),credentials.getUsername());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        if(user==null){
-            throw new Exception();
-        }else{
-            System.out.println("Existe el usuario");
-        }
-    }
-
-    private Token issueToken(String username) {
-        // Issue a token (can be a random String persisted to a database or a JWT token)
-        // The issued token must be associated to a user
-        Random random = new SecureRandom();
-        String token = new BigInteger(130, random).toString(32);
-
-        return new Token(token);
-
-    }
 }
