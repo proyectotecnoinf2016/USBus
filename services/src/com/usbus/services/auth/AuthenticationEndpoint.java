@@ -1,4 +1,4 @@
-package auth;
+package com.usbus.services.auth;
 
 import com.usbus.commons.auxiliaryClasses.Credentials;
 import com.usbus.commons.auxiliaryClasses.Token;

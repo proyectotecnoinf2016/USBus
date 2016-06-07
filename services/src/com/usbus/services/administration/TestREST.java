@@ -1,4 +1,4 @@
-package administration;
+package com.usbus.services.administration;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;

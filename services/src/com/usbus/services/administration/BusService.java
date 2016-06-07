@@ -1,7 +1,8 @@
-package administration;
+package com.usbus.services.administration;
 
+import com.usbus.services.auth.Secured;
 import com.usbus.bll.administration.beans.BusBean;
-import com.usbus.bll.auth.Secured;
+
 import com.usbus.commons.enums.BusStatus;
 import com.usbus.commons.enums.Rol;
 import com.usbus.dal.model.Bus;
@@ -51,7 +52,7 @@ public class BusService {
     @Path("{busId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Secured(Rol.ADMINISTRATOR)
+    @Secured(Rol.ADMINISTRATOR)
     public Response getBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busId") String busId){
 
         Bus BusAux = ejb.getByLocalId(tenantId,busId);
@@ -64,7 +65,7 @@ public class BusService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Secured(Rol.ADMINISTRATOR)
+    @Secured(Rol.ADMINISTRATOR)
     public Response getBusStopList(@PathParam("tenantId")Long tenantId, @QueryParam("busStatus") BusStatus busStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
 
         List<Bus> busList = ejb.BusesByTenantIdAndStatus(tenantId, busStatus, offset, limit);
@@ -78,7 +79,7 @@ public class BusService {
     @Path("{busId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Secured(Rol.ADMINISTRATOR)
+    @Secured(Rol.ADMINISTRATOR)
     public Response removeBus(@PathParam("tenantId")Long tenantId, @PathParam("busId") String busId){
         try {
             ejb.setInactive(tenantId,busId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
