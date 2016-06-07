@@ -1,13 +1,10 @@
-package administration;
+package com.usbus.services.administration;
 
-import auth.Secured;
 import com.usbus.bll.administration.beans.BusStopBean;
 
-import com.usbus.commons.enums.Rol;
 import com.usbus.dal.model.BusStop;
 import org.bson.types.ObjectId;
 
-import javax.ejb.*;  //Tecambie el .EJB porque me daba error y me molestaba
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
