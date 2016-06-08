@@ -1,4 +1,4 @@
-package administration;
+package com.usbus.services.administration;
 
 import com.usbus.bll.administration.beans.TicketBean;
 import com.usbus.dal.model.Ticket;

@@ -80,7 +80,8 @@ public class AuthenticationBean implements AuthenticationLocal, AuthenticationRe
         if (roles.size() > 0) {
             claims.setStringListClaim("roles", roles.toString());
         }else {
-            claims.setClaim("roles", "CLIENTE");
+            roles.add(Rol.CLIENT);
+            claims.setClaim("roles", roles.toString());
         }
 
         //Firmar

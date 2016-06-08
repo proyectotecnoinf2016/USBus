@@ -1,4 +1,4 @@
-package auth;
+package com.usbus.services.auth;
 
 import com.usbus.commons.enums.Rol;
 import org.jose4j.jwt.consumer.JwtConsumer;
@@ -18,7 +18,6 @@ import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
