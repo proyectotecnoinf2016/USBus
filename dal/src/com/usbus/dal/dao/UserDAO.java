@@ -113,7 +113,10 @@ public class UserDAO {
             query.retrievedFields(true,"salt","passwordHash");
 
             User user = query.get();
-            return Password.isExpectedPassword(password.toCharArray(),user.getSalt(),user.getPasswordHash());
+            if (!(user==null)){
+                return  Password.isExpectedPassword(password.toCharArray(),user.getSalt(),user.getPasswordHash());
+            }
+            return false;
 
         }
     }
