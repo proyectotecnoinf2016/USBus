@@ -4,7 +4,7 @@
 (function() {
     'use strict';
     angular.module('usbus').controller('LoginController', LoginController);
-    LoginController.$inject = [ '$scope', '$mdDialog','$window','LoginUserResource','localStorage'];
+    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource','localStorage'];
     /* @ngInject */
     function LoginController($scope, $mdDialog, LoginUserResource, localStorage) {
         $scope.cancel = cancel;
@@ -14,7 +14,7 @@
 		function login(data) {
 			if (data != null && typeof data.username !== 'undefined') {
                 data.tenantName = localStorage.getData('tenantName');
-	    		LoginUserResource.Login(data,function(r){
+                LoginUserResource.Login(data,function(r){
                     console.log(r);
                     showAlert('Exito!','Ha ingresado al sistema de forma exitosa');
                     localStorage.setData('token',r);

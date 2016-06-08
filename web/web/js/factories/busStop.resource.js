@@ -14,6 +14,7 @@
             'update': {
                 method: 'PUT'
             }
+            /*http://localhost:8080/rest/api/{tenantId}/busstop?offset=xxx&limit=yyy*/
         });
         //TODO: EDITAR RESOURCE URL
     }
