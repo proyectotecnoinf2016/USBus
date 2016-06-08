@@ -5,7 +5,10 @@ import com.usbus.bll.administration.interfaces.AuthenticationRemote;
 import com.usbus.commons.auxiliaryClasses.Credentials;
 import com.usbus.commons.auxiliaryClasses.Token;
 import com.usbus.commons.enums.Rol;
+import com.usbus.commons.exceptions.AuthException;
+import com.usbus.dal.dao.TenantDAO;
 import com.usbus.dal.dao.UserDAO;
+import com.usbus.dal.model.Tenant;
 import com.usbus.dal.model.User;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jwk.RsaJwkGenerator;
@@ -32,31 +35,25 @@ import java.util.Random;
 public class AuthenticationBean implements AuthenticationLocal, AuthenticationRemote{
 
     private final UserDAO userDAO = new UserDAO();
-
+    private final TenantDAO tenantDAO = new TenantDAO();
     public AuthenticationBean(){
 
     }
 
     @Override
-    public Token authenticateUser(Credentials credentials) {
-        try {
+    public Token authenticateUser(Credentials credentials) throws JoseException, AuthException{
+            if (credentials.getTenantId()==0){
+                Tenant tenant = tenantDAO.getByName(credentials.getTenantName());
+                credentials.setTenantId(tenant.getTenantId());
+            }
             authenticate(credentials);
             Token token = issueToken(credentials);
             return token;
-        }catch (JoseException e){
-            e.printStackTrace();
-            return null;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
     }
 
-    private void authenticate(Credentials credentials) throws Exception {
+    private void authenticate(Credentials credentials) throws AuthException {
         if (!(userDAO.validatePassword(credentials.getTenantId(),credentials.getUsername(),credentials.getPassword()))){
-            throw new Exception("Error al autenticar el usuario.");
+            throw new AuthException("Error al autenticar el usuario.");
         }
     }
 
@@ -91,6 +88,6 @@ public class AuthenticationBean implements AuthenticationLocal, AuthenticationRe
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA512);
         String jwt = jws.getCompactSerialization();
 
-        return new Token(jwt);
+        return new Token(jwt,credentials.getTenantId());
     }
 }
