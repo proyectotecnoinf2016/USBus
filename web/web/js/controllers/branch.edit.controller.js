@@ -9,10 +9,14 @@
     function EditBranchController($scope, BranchResource, $mdDialog, branchToEdit) {
         $scope.branch = branchToEdit;
         $scope.tenantId = 0;
+
+        $scope.windows = $scope.branch.windows;
         
 
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
+        $scope.addWindow = addWindow;
+        $scope.deleteWindow = deleteWindow;
 
         function updateBranch(item) {
             BranchResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
@@ -23,6 +27,18 @@
         }
 
 
+        function addWindow() {
+            $scope.windows.push({index: $scope.windows.length + 1,tickets : false, parcels : false});
+            console.log($scope.windows);
+        }
+
+        function deleteWindow(index) {
+            $scope.windows.splice(index, 1);
+            var i = 0;
+            for (i = 0; i < $scope.windows.length; i++) {
+                $scope.windows[i].index = i + 1;
+            }
+        }
 
         function showAlert(title,content) {
             $mdDialog

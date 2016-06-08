@@ -3,33 +3,27 @@
     <h1 class="grayHeader">{{message}}</h1>
     <md-content ng-show="branches != null && branches.length > 0">
         <span layout="row" >
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" style="" >
                 Nombre
             </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Dia
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" >
+                Cajas
             </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Hora
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader " >
                 Acciones
             </h3>
         </span>
         <md-divider ></md-divider>
         <span>
             <span layout="row" ng-repeat="item in branches" >
-                <p hide-md="" show-gt-md="" class="tableRow" >
+                <p hide-md="" show-gt-md="" class="tableRowBusStop" >
                     {{item.name}}
                 </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.day}}
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.time}}
+                <p hide-md="" show-gt-md="" class="tableRowBusStop" >
+                    {{item.windows.length}}
                 </p>
                 
-                <p hide-md="" show-gt-md="" class="tableRow" >
+                <p hide-md="" show-gt-md="" class="" >
                     <img src="img/Edit_Icon.png" ng-click="showBranches(item, $event)" class="editIcon pointer"/>
                     <img src="img/Delete_Icon.png" ng-click="deleteBranch(item.name)" class="deleteIcon pointer"/>
                 </p>
