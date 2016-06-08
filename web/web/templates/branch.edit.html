@@ -15,8 +15,29 @@
                 <md-tooltip md-direction="top">Ingrese Nombre de la Sucursal</md-tooltip>
                 <input ng-model="branch.name" required>
             </md-input-container>
-            
+
+            <md-input-container class="customInput" layout="column" ng-repeat="item in windows">
+                <h3>Caja {{item.index}}</h3>
+                <div layout="row">
+                    <div  flex >
+                        <md-checkbox ng-model="item.tickets" aria-label="Venta de boletos" class="customInput">
+                            <span class="customInput">Venta de boletos</span>
+                        </md-checkbox>
+                    </div>
+                    <div flex>
+                        <md-checkbox ng-model="item.parcels" aria-label="Envio de encomiendas">
+                            <span class="customInput">Envio de encomiendas</span>
+                        </md-checkbox>
+                    </div>
+                    <div flex>
+                        <img src="img/Delete_Icon.png" ng-click="deleteWindow(item.index - 1)" class="deleteIcon pointer"/>
+                    </div>
+                </div>
+            </md-input-container>
+
             <span flex></span>
+            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click='addWindow()'>Agregar Caja</md-button>
+
         </md-dialog-content>
 
 

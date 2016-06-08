@@ -4,11 +4,11 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage'];
+    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location'];
     /* @ngInject */
-    function IndexController($scope, $mdDialog, localStorage) {
+    function IndexController($scope, $mdDialog, localStorage, $location) {
 		$scope.show = localStorage.getData('showMenu');
-        console.log($scope.show);
+
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
 
@@ -17,22 +17,26 @@
         } , {
             name: "Administrar Usuarios"
         } , {
-            name: "Administrar Sucursales"
+            name: "Administrar Sucursales",
+            url : "branch"
         } , {
-            name: "Administrar Cajas"
+            name: "Administrar Unidades",
+            url : "bus"
         } , {
-            name: "Administrar Unidades"
+            name: "Administrar Paradas",
+            url : "busStop"
         } , {
-            name: "Administrar Paradas"
+            name: "Administrar Trayectos",
+            url : "route"
         } , {
-            name: "Administrar Trayectos"
-        } , {
-            name: "Administrar Servicios"
+            name: "Administrar Servicios",
+            url : "service"
         } , {
             name: "Personalizar Estilos"
         }];
 
 		$scope.login = login;
+        $scope.redirectTo = redirectTo;
 
         if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
 			$scope.tenantName = localStorage.getData('tenantName');
@@ -58,6 +62,26 @@
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
+
+        function redirectTo(redirectUrl) {
+            var urlArray = $location.path().split('/');
+            console.log(urlArray);
+            var url = '';
+            var i = 0;
+
+            while (i < urlArray.length && urlArray[i] != $scope.tenantName) {
+                url = url + urlArray[i] + '/';
+                i++;
+            }
+
+            if (i < urlArray.length) {
+                url = url + urlArray[i] + '/';
+                url = url + urlArray[i + 1] + '/'
+            }
+            url = url + redirectUrl;
+            console.log(url);
+            $location.path(url);
+        }
 
     }
 })();

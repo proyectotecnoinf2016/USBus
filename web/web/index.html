@@ -105,7 +105,7 @@
                             </h1>
                         </md-toolbar>
                         <md-content >
-                            <span ng-repeat="item in messages">
+                            <span ng-repeat="item in messages" ng-click="redirectTo(item.url);" class="pointer">
                                 <p hide-md="" show-gt-md="" style="padding-left: 10%" >
                                     {{item.name}}
                                 </p>

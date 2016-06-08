@@ -14,10 +14,22 @@
         $scope.message = '';
         $scope.tenantId = 0;
         $scope.branches = [{
-            'name': '1'
+            'name': '1',
+            'windows': [{
+                tickets : true,
+                parcels : true
+            }, {
+                tickets : false,
+                parcels : true
+            }]
         }, {
-            'name': '2'
+            'name': '2',
+            'windows': [{
+                tickets : true,
+                parcels : false
+            }]
         }];
+
 
         if ($scope.branches.length === 0) {
             $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
