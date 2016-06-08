@@ -1,0 +1,51 @@
+<form name="inputForm" novalidate >
+    <h1 class="grayHeader">{{message}}</h1>
+    <md-content ng-show="routes != null && routes.length > 0">
+        <span layout="row" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                Nombre
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Origen
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Destino
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Combinación
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Precio por kilómetro
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Acciones
+            </h3>
+        </span>
+        <md-divider ></md-divider>
+        <span>
+            <span layout="row" ng-repeat="item in routes" >
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.name}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.origin}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.destination}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.hasCombination}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.pricePerKm}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    <img src="img/Edit_Icon.png" ng-click="showRoutes(item, $event)" class="editIcon pointer"/>
+                    <img src="img/Delete_Icon.png" ng-click="deleteRoute(item.name)" class="deleteIcon pointer"/>
+                </p>
+            </span>
+        </span>
+    </md-content>
+
+    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createRoute($event)">Crear Nueva Ruta</md-button>
+</form>

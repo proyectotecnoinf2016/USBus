@@ -1,0 +1,49 @@
+
+<md-dialog aria-label="Crear Servicio" ng-cloak>
+    <form name="inputForm" novalidate>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 class="">Datos del Servicio</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content >
+            <span flex></span>
+
+            <md-input-container class="customInput">
+                <label>Nombre</label>
+                <md-tooltip md-direction="top">Ingrese Nombre del Servicio</md-tooltip>
+                <input ng-model="service.name" required>
+            </md-input-container>
+            <md-input-container class="customInput">
+                <label>Dia</label>
+                <md-tooltip md-direction="top">Ingrese Dia de la Semana del Servicio</md-tooltip>
+                <input ng-model="service.day" required>
+            </md-input-container>
+            <md-input-container class="customInput">
+                <label>Hora</label>
+                <md-tooltip md-direction="top">Ingrese Hora del Servicio</md-tooltip>
+                <input ng-model="service.time" required>
+            </md-input-container>
+            <md-input-container class="customInput">
+                <label>Ruta</label>
+                <md-tooltip md-direction="top">Ingrese Ruta del Serivicio</md-tooltip>
+                <input type="number" ng-model="service.route" required >
+            </md-input-container>
+            <md-input-container class="customInput">
+                <label>Cantidad de unidades</label>
+                <md-tooltip md-direction="top">Ingrese Cantidad de Unidades</md-tooltip>
+                <input ng-model="service.numberOfBuses" >
+            </md-input-container>
+            <span flex></span>
+        </md-dialog-content>
+
+
+        <md-dialog-actions class="md-actions" layout="row">
+            <span flex></span>
+            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='updateService(service)'>Guardar</md-button>
+            <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
