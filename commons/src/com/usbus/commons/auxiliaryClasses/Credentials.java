@@ -5,6 +5,7 @@ package com.usbus.commons.auxiliaryClasses;
  */
 public class Credentials {
     private Long tenantId;
+    private String tenantName;
     private String username;
     private String password;
     private String type;
@@ -16,8 +17,9 @@ public class Credentials {
     public Credentials() {
     }
 
-    public Credentials(Long tenantId, String username, String password, String type) {
+    public Credentials(Long tenantId, String tenantName, String username, String password, String type) {
         this.tenantId = tenantId;
+        this.tenantName = tenantName;
         this.username = username;
         this.password = password;
         this.type = type;
@@ -46,4 +48,17 @@ public class Credentials {
     public String getType(){return type;}
 
     public void setType(String type){ this.type = type;}
+
+    public String getTenantName() {
+        return tenantName;
+    }
+
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
+    }
+
+    @Override
+    public String toString() {
+        return "Credenciales: Tenant[" + tenantId.toString().trim()+"] Usuario[" +  username.trim() +"] Tipo[" + type.trim() +']';
+    }
 }

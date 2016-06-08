@@ -7,6 +7,16 @@ public class Token {
 
 
     private String token;
+    private Long tenantId;
+
+    public Token() {
+    }
+
+    public Token(String token, Long tenantId) {
+        this.token = token;
+        this.tenantId = tenantId;
+    }
+
     public String getToken() {
         return token;
     }
@@ -14,10 +24,12 @@ public class Token {
     public void setToken(String token) {
         this.token = token;
     }
-    public Token() {    }
-    public Token(String token) {
-        this.token = token;
+
+    public Long getTenantId() {
+        return tenantId;
     }
 
-
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
 }
