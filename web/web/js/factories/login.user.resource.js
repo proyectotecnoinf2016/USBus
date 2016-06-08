@@ -7,6 +7,12 @@
     LoginUserResource.$inject = ['$resource'];
     /* @ngInject */
     function LoginUserResource($resource) {
-        return $resource('/usbus/api/authentication');
+
+        /*http://localhost:8080/rest/api/{tenantId}/busstop?offset=xxx&limit=yyy*/
+        return $resource('/rest/api/authentication', {
+            'Login': {
+                method: 'POST'
+            }
+        });
     }
 })();

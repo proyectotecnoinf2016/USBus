@@ -9,6 +9,6 @@
     RegisterUserResource.$inject = ['$resource'];
     /* @ngInject */
     function RegisterUserResource($resource) {
-        return $resource('/usbus/api/register/user');
+        return $resource('/rest/api/register/user');
     }
 })();
