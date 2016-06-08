@@ -1,18 +1,28 @@
+<h1 class="grayHeader">Unidades</h1>
 <form name="inputForm" novalidate >
     <h1 class="grayHeader">{{message}}</h1>
     <md-content ng-show="buses != null && buses.length > 0">
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
-                Nro. de ómnibus
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
                 Marca
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
                 Modelo
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Kilometraje
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
                 Próximo Mantenimiento
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Número de Asientos
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Número de Pasajeros de Pie
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Capacidad para encomiendas (kg)
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
                 Acciones
@@ -22,19 +32,29 @@
         <span>
             <span layout="row" ng-repeat="item in buses" >
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
+                    {{item.brand}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.model}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.kms}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.nextMaintenance}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    <img src="img/Edit_Icon.png" ng-click="showBus(item.name, $event)" class="editIcon pointer"/> 
+                    {{item.seats}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.standingPassengers}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.trunkMaxWeight}}
+                </p>
+
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    <img src="img/Edit_Icon.png" ng-click="showBus(item, $event)" class="editIcon pointer"/> 
                     <img src="img/Delete_Icon.png" ng-click="deleteBus(item.name)" class="deleteIcon pointer"/>
                 </p>
             </span>

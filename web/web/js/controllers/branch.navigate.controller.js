@@ -3,42 +3,31 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('BusController', BusController);
-    BusController.$inject = ['$scope', '$mdDialog', 'BusResource'];
+    angular.module('usbus').controller('BranchController', BranchController);
+    BranchController.$inject = ['$scope', '$mdDialog', 'BranchResource'];
     /* @ngInject */
-    function BusController($scope, $mdDialog, BusResource) {
-        $scope.showBus = showBus;
-        $scope.createBus = createBus;
-        $scope.deleteBus = deleteBus;
+    function BranchController($scope, $mdDialog, BranchResource) {
+        $scope.showBranches = showBranches;
+        $scope.createBranch = createBranch;
+        $scope.deleteBranch = deleteBranch;
 
         $scope.message = '';
         $scope.tenantId = 0;
-        $scope.buses = [{
-            'brand': '1'
+        $scope.branches = [{
+            'name': '1'
         }, {
-            'brand': '2'
+            'name': '2'
         }];
 
-        if ($scope.buses.length === 0) {
+        if ($scope.branches.length === 0) {
             $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
         }
 
-
-        /*BusResource.query({
-            tenantId: $scope.tenantId
-        }).$promise.then(function(result) {
-            console.log(result);
-            var journeys = $scope.journeys.concat(result);
-            $scope.journeys = journeys;
-        });
-        */
-
-
-        function showBus(item, ev) {
+        function showBranches(item, ev) {
             $mdDialog.show({
-                controller : 'EditBusController',
-                templateUrl : 'templates/bus.edit.html',
-                locals:{busToEdit: item}, //text va a ser usado para pasar el id del journey
+                controller : 'EditBranchController',
+                templateUrl : 'templates/branch.edit.html',
+                locals:{branchToEdit: item},
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -51,10 +40,10 @@
                 });
         };
 
-        function createBus(ev) {
+        function createBranch(ev) {
             $mdDialog.show({
-                controller : 'CreateBusController',
-                templateUrl : 'templates/bus.create.html',
+                controller : 'CreateBranchController',
+                templateUrl : 'templates/branch.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -66,11 +55,11 @@
                 });
         };
 
-        function deleteBus(text) {
+        function deleteBranch(text) {
             //TODO: ver si aca va el id, el name o quien (supongo que va el id nomas);
             /*
             bus.active = false;
-            BusResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
+            BranchResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
                 showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
                 console.log(style);
             }, function(error){
@@ -79,15 +68,15 @@
             */
             var index = 0;
 
-            while (index < $scope.buses.length && text != $scope.buses[index].name) {
+            while (index < $scope.branches.length && text != $scope.branches[index].name) {
                 index++;
             }
 
-            if (index < $scope.buses.length) {
-                $scope.buses.splice(index, 1);
+            if (index < $scope.branches.length) {
+                $scope.branches.splice(index, 1);
             }
 
-            if ($scope.buses.length === 0) {
+            if ($scope.branches.length === 0) {
                 $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado.';
             }
 

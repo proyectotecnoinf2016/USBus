@@ -41,11 +41,11 @@
         */
 
 
-        function showTicket(text, ev) {
+        function showTicket(item, ev) {
             $mdDialog.show({
                 controller : 'CreateTicketController',
                 templateUrl : 'templates/ticket.create.html',
-                locals:{journeyId: text}, //text va a ser usado para pasar el id del journey
+                locals:{journey: item}, //text va a ser usado para pasar el id del journey
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true

@@ -3,27 +3,26 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('EditBusController', EditBusController);
-    EditBusController.$inject = ['$scope', 'BusResource', '$mdDialog', 'busToEdit'];
+    angular.module('usbus').controller('EditRouteController', EditRouteController);
+    EditRouteController.$inject = ['$scope', 'RouteResource', '$mdDialog', 'routeToEdit'];
     /* @ngInject */
-    function EditBusController($scope, BusResource, $mdDialog, busToEdit) {
-        $scope.bus = busToEdit;
+    function EditRouteController($scope, RouteResource, $mdDialog, routeToEdit) {
+        $scope.route = routeToEdit;
         $scope.tenantId = 0;
         
 
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
-
-        /*$scope.bus = BusResource.get({
-            id: $scope.busId,
+/*
+        $scope.route = RouteResource.get({
+            id: $scope.routeId,
             tenantId: $scope.tenantId
         });
-        */
+*/
 
-        function updateBus(item) {
-            BusResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
+        function updateRoute(item) {
+            RouteResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
                 showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-                console.log(style);
             }, function(error){
                 showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
             });

@@ -27,6 +27,18 @@
                 templateUrl: 'templates/busStop.navigate.html',
                 controller: 'BusStopController'
             })
+            .when('/tenant/:tenantName/admin/route', {
+                templateUrl: 'templates/route.navigate.html',
+                controller: 'RouteController'
+            })
+            .when('/tenant/:tenantName/admin/service', {
+                templateUrl: 'templates/service.navigate.html',
+                controller: 'ServiceController'
+            })
+            .when('/tenant/:tenantName/admin/branch', {
+                templateUrl: 'templates/branch.navigate.html',
+                controller: 'BranchController'
+            })
 			.when('/tenant/:tenantName/tickets', {
                 templateUrl: 'templates/journey.navigate.html',
                 controller: 'TicketsController'

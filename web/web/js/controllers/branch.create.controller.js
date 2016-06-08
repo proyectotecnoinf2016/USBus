@@ -3,11 +3,11 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('CreateBusController', CreateBusController);
-    CreateBusController.$inject = ['$scope', 'localStorage', 'BusResource'];
+    angular.module('usbus').controller('CreateBranchController', CreateBranchController);
+    CreateBranchController.$inject = ['$scope', 'localStorage', 'BranchResource', '$mdDialog'];
     /* @ngInject */
-    function CreateBusController($scope, localStorage, BusResource) {
-        $scope.createBus = createBus;
+    function CreateBranchController($scope, localStorage, BranchResource, $mdDialog) {
+        $scope.createBranch = createBranch;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 
@@ -15,8 +15,8 @@
             $scope.tenantId = localStorage.getData('tenantId');
         }
 
-        function createBus(bus) {
-            BusResource.save(bus,function (resp) {
+        function createBranch(branch) {
+            BranchResource.save(branch,function (resp) {
                 showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
             }, function (error) {
                 console.log(error);
@@ -41,6 +41,7 @@
         function cancel() {
             $mdDialog.cancel();
         };
+
 
     }
 })();

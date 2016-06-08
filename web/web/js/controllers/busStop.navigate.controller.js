@@ -24,7 +24,7 @@
         }
 
 
-        /*BusResource.query({
+        /*BusStopResource.query({
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             console.log(result);
@@ -34,11 +34,11 @@
         */
 
 
-        function showBusStop(text, ev) {
+        function showBusStop(item, ev) {
             $mdDialog.show({
-                controller : 'EditBusController',
-                templateUrl : 'templates/bus.edit.html',
-                locals:{busId: text}, //text va a ser usado para pasar el id del journey
+                controller : 'EditBusStopController',
+                templateUrl : 'templates/busStop.edit.html',
+                locals:{busStopToEdit: item}, //text va a ser usado para pasar el id del journey
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -53,8 +53,8 @@
 
         function createBusStop(ev) {
             $mdDialog.show({
-                controller : 'EditBusController',
-                templateUrl : 'templates/bus.edit.html',
+                controller : 'CreateBusStopController',
+                templateUrl : 'templates/busStop.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -70,7 +70,7 @@
             //TODO: ver si aca va el id, el name o quien (supongo que va el id nomas);
             /*
             bus.active = false;
-            BusResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
+            BusStopResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
                 showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
                 console.log(style);
             }, function(error){

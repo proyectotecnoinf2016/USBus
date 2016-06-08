@@ -5,11 +5,11 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('CreateTicketController', CreateTicketController);
-    CreateTicketController.$inject = ['$scope', '$mdDialog', 'journeyId'];
+    CreateTicketController.$inject = ['$scope', '$mdDialog', 'journey'];
     /* @ngInject */
-    function CreateTicketController($scope, $mdDialog, journeyId) {
+    function CreateTicketController($scope, $mdDialog, journey) {
         //GENERAL VARIABLES
-        $scope.tobedone = journeyId;
+        $scope.tobedone = journey.name;
         $scope.max = 1;
         $scope.selectedIndex = 0;
 

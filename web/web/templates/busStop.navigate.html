@@ -1,51 +1,33 @@
-
-private Long id;
-private String name;
-private Boolean active;
-private Double stopTime;
-
 <form name="inputForm" novalidate >
     <h1 class="grayHeader">{{message}}</h1>
     <md-content ng-show="busStops != null && busStops.length > 0">
         <span layout="row" >
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
-                Nro. de ómnibus
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" style="" >
+                Nombre
             </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Marca
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" >
+                Tiempo de espera
             </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Modelo
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Próximo Mantenimiento
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader " >
                 Acciones
             </h3>
         </span>
         <md-divider ></md-divider>
         <span>
             <span layout="row" ng-repeat="item in busStops" >
-                <p hide-md="" show-gt-md="" class="tableRow" >
+                <p hide-md="" show-gt-md="" class="tableRowBusStop" >
                     {{item.name}}
                 </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                <p hide-md="" show-gt-md="" class="tableRowBusStop" >
+                    {{item.stopTime}}
                 </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    <img src="img/Edit_Icon.png" ng-click="showBusStop(item.name, $event)" class="editIcon pointer"/>
+               <p hide-md="" show-gt-md="" class="" >
+                    <img src="img/Edit_Icon.png" ng-click="showBusStop(item, $event)" class="editIcon pointer"/>
                     <img src="img/Delete_Icon.png" ng-click="deleteBusStop(item.name)" class="deleteIcon pointer"/>
                 </p>
             </span>
         </span>
     </md-content>
 
-    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBusStops($event)">Crear Nueva Parada</md-button>
+    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBusStop($event)">Crear Nueva Parada</md-button>
 </form>

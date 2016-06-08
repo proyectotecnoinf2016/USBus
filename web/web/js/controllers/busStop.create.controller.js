@@ -3,11 +3,11 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('CreateBusController', CreateBusController);
-    CreateBusController.$inject = ['$scope', 'localStorage', 'BusResource'];
+    angular.module('usbus').controller('CreateBusStopController', CreateBusStopController);
+    CreateBusStopController.$inject = ['$scope', 'localStorage', 'BusStopResource'];
     /* @ngInject */
-    function CreateBusController($scope, localStorage, BusResource) {
-        $scope.createBus = createBus;
+    function CreateBusStopController($scope, localStorage, BusStopResource) {
+        $scope.createBusStop = createBusStop;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 
@@ -15,8 +15,8 @@
             $scope.tenantId = localStorage.getData('tenantId');
         }
 
-        function createBus(bus) {
-            BusResource.save(bus,function (resp) {
+        function createBusStop(busStop) {
+            BusStopResource.save(busStop,function (resp) {
                 showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
             }, function (error) {
                 console.log(error);
