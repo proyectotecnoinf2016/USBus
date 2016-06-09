@@ -1,8 +1,11 @@
 package com.usbus.services.auth;
 
+import com.usbus.commons.auxiliaryClasses.RSAKeys;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.jwt.consumer.JwtContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
@@ -13,7 +16,10 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
 //import javax.annotation.Priority
 
 /**
@@ -23,6 +29,7 @@ import java.security.PublicKey;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
+    static Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -44,6 +51,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             validateToken(token);
 
         } catch (Exception e) {
+            logger.error("Error",e);
             requestContext.abortWith(
                     Response.status(Response.Status.UNAUTHORIZED).build());
         }
@@ -60,11 +68,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         JwtContext jwtContext = firstPassJwtConsumer.process(token);
 
         String issuer = jwtContext.getJwtClaims().getIssuer();
-        PublicKey verificationKey = (PublicKey) jwtContext.getJwtClaims().getClaimValue("publicKey");
+        String keyPath = System.getProperty("jboss.server.config.dir") + "/public_key.der";
+        PublicKey pk = RSAKeys.getPublicKey(keyPath);
 
         JwtConsumer secondPassJwtConsumer = new JwtConsumerBuilder()
                 .setExpectedIssuer(issuer)
-                .setVerificationKey(verificationKey)
+                .setVerificationKey(pk)
                 .setRequireExpirationTime()
                 .setAllowedClockSkewInSeconds(30)
                 .setRequireSubject()
@@ -75,4 +84,20 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
 
     }
+
+    private PublicKey getKey(String key){
+        try{
+            byte[] byteKey = key.getBytes();
+            X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(byteKey);
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+
+            return kf.generatePublic(X509publicKey);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

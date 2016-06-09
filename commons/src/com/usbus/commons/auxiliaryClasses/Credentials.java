@@ -59,6 +59,14 @@ public class Credentials {
 
     @Override
     public String toString() {
-        return "Credenciales: Tenant[" + tenantId.toString().trim()+"] Usuario[" +  username.trim() +"] Tipo[" + type.trim() +']';
+        String string;
+        if (tenantId==null || tenantId==0) {
+            string = "Credenciales: Tenant[" + tenantName.toString().trim() + "] Usuario[" + username.trim() + "]";
+        }else {
+            string = "Credenciales: Tenant[" + tenantId.toString().trim()+"-"+tenantName.trim() + "] Usuario[" + username.trim() + "]";
+        }
+
+
+        return string;
     }
 }

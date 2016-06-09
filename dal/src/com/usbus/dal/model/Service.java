@@ -2,13 +2,19 @@ package com.usbus.dal.model;
 
 
 import com.usbus.dal.BaseEntity;
+import org.mongodb.morphia.annotations.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.DayOfWeek;
 import java.util.Date;
 
 /**
  * Created by Lufasoch on 26/05/2016.
  */
+@XmlRootElement
+@Entity(value = "services",noClassnameStored = true)
+@Indexes({
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id"),  @Field(value = "name")}, options = @IndexOptions(name="iServiceKey", unique=true))})
 public class Service extends BaseEntity {
     private Long id;
     private String name;

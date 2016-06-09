@@ -12,5 +12,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface AuthenticationLocal {
-    Token authenticateUser(Credentials credentials) throws JoseException, AuthException;
+    Token authenticateUser(Credentials credentials) throws JoseException, AuthException, Exception;
 }

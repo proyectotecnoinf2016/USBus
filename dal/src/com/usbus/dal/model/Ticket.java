@@ -1,5 +1,6 @@
 package com.usbus.dal.model;
 
+import com.usbus.commons.enums.TicketStatus;
 import com.usbus.dal.BaseEntity;
 import org.mongodb.morphia.annotations.*;
 
@@ -19,19 +20,23 @@ public class Ticket extends BaseEntity{
     private Boolean hasCombination;
     private Service combination;
     private Double amount;
-    private User passager;
+    private User passenger;
     private HumanResource seller;
+    private TicketStatus status;
 
     public Ticket(){
     }
 
-    public Ticket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Double amount) {
+    public Ticket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Double amount, User passenger, HumanResource seller) {
         super(tenantId);
         this.id = id;
         this.emissionDate = emissionDate;
         this.hasCombination = hasCombination;
         this.combination = combination;
         this.amount = amount;
+        this.passenger = passenger;
+        this.seller = seller;
+        this.status = TicketStatus.UNUSED;
     }
 
     public Long getId() {
@@ -72,5 +77,29 @@ public class Ticket extends BaseEntity{
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public User getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(User passenger) {
+        this.passenger = passenger;
+    }
+
+    public HumanResource getSeller() {
+        return seller;
+    }
+
+    public void setSeller(HumanResource seller) {
+        this.seller = seller;
+    }
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
     }
 }

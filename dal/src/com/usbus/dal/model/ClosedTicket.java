@@ -19,8 +19,8 @@ public class ClosedTicket extends Ticket {
     public ClosedTicket(){
     }
 
-    public ClosedTicket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Double amount, Journey journey, Integer seat, BusStop getsOn, BusStop getsOff) {
-        super(tenantId, id, emissionDate, hasCombination, combination, amount);
+    public ClosedTicket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Double amount, User passenger, HumanResource seller, Journey journey, Integer seat, BusStop getsOn, BusStop getsOff) {
+        super(tenantId, id, emissionDate, hasCombination, combination, amount, passenger, seller);
         this.journey = journey;
         this.seat = seat;
         this.getsOn = getsOn;
