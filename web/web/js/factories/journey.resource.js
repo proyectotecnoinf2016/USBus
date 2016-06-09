@@ -9,8 +9,24 @@
     JourneyResource.$inject = ['$resource'];
     /* @ngInject */
     function JourneyResource($resource) {
-        return $resource('/usbus/api/register/bus');
-
-        //TODO: EDITAR RESOURCE URL
+        return {
+            journeys: function (token) {
+                return $resource('/rest/api/:tenantId/journey', {tenantId: '@tenantId'}, {
+                    query: {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    save: {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }
+                })
+            }
+        };
     }
+    
 })();

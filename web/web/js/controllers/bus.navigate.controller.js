@@ -4,34 +4,42 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('BusController', BusController);
-    BusController.$inject = ['$scope', '$mdDialog', 'BusResource'];
+    BusController.$inject = ['$scope', '$mdDialog', 'BusResource', 'localStorage'];
     /* @ngInject */
-    function BusController($scope, $mdDialog, BusResource) {
+    function BusController($scope, $mdDialog, BusResource, localStorage) {
         $scope.showBus = showBus;
         $scope.createBus = createBus;
         $scope.deleteBus = deleteBus;
 
         $scope.message = '';
         $scope.tenantId = 0;
-        $scope.buses = [{
-            'brand': '1'
-        }, {
-            'brand': '2'
-        }];
+        $scope.buses = [];
 
         if ($scope.buses.length === 0) {
             $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
         }
 
+        $scope.tenantId = 0;
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+        }
 
-        /*BusResource.query({
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
+        BusResource.buses(token).query({
+            offset: 0,
+            limit: 100,
+            status: 'ACTIVE',
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             console.log(result);
-            var journeys = $scope.journeys.concat(result);
-            $scope.journeys = journeys;
+            $scope.buses = $scope.buses.concat(result);
+
         });
-        */
+
 
 
         function showBus(item, ev) {
