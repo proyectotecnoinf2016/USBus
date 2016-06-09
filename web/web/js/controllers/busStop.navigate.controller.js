@@ -13,11 +13,7 @@
 
         $scope.message = '';
         $scope.tenantId = 0;
-        $scope.busStops = [{
-            'name': '1'
-        }, {
-            'name': '2'
-        }];
+        $scope.busStops = [];
 
 
         $scope.tenantId = 0;
@@ -35,7 +31,7 @@
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             console.log(result);
-            $scope.busStops = $scope.buses.concat(result);
+            $scope.busStops = result;
 
         });
 
