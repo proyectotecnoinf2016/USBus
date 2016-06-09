@@ -4,24 +4,34 @@
 (function() {
     'use strict';
     angular.module('usbus').controller('LoginController', LoginController);
-    LoginController.$inject = [ '$scope', '$mdDialog','$window','LoginUserResource','localStorage'];
+    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource','localStorage', '$location'];
     /* @ngInject */
-    function LoginController($scope, $mdDialog, LoginUserResource, localStorage) {
+    function LoginController($scope, $mdDialog, LoginUserResource, localStorage, $location) {
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;
+        $scope.tenantName = '';
+
+        $scope.urlArray = $location.path().split('/');
+        var i = 0;
+        while (i < $scope.urlArray.length && $scope.urlArray[i] != 'tenant') {
+            i++;
+        }
+
+        if (i < $scope.urlArray.length && $scope.urlArray[i + 1] != null) {
+            $scope.tenantName = $scope.urlArray[i + 1];
+        }
 
 		function login(data) {
-			
-			
-			// {"tenantId":"999","username":"usu2","password":""}
-			
 			if (data != null && typeof data.username !== 'undefined') {
-	    		LoginUserResource.save(data,function(r){
+                data.tenantName = $scope.tenantName;
+
+                LoginUserResource.Login(data,function(r){
                     console.log(r);
-	    			showAlert('Exito!','Ha ingresado al sistema de forma exitosa');
-                    localStorage.setData('token',r);
-                    showAlert(localStorage.getData('token'));
+                    showAlert('Exito!','Ha ingresado al sistema de forma exitosa');
+                    localStorage.setData('token',r.token);
+                    localStorage.setData('tenantId',r.tenantId);
+                    localStorage.setData('userName', data.username);
 				}, function(r){
 					console.log(r);
 					showAlert('Error!','Ocurrió un error al procesar su petición');

@@ -61,13 +61,13 @@ public class ServiceDAO {
     }
 
     public Service getByLocalId(long tenantId, Long serviceId) {
-        if (!(tenantId > 0) || (id == null)) {
+        if (!(tenantId > 0) || (serviceId == null)) {
             return null;
         }
 
         Query<Service> query = ds.createQuery(Service.class);
 
-        query.and(query.criteria("id").equal(id),
+        query.and(query.criteria("id").equal(serviceId),
                 query.criteria("tenantId").equal(tenantId));
 
         return query.get();
@@ -111,5 +111,9 @@ public class ServiceDAO {
             UpdateOperations<Service> updateOp = ds.createUpdateOperations(Service.class).set("active", true);
             ds.update(query, updateOp);
         }
+    }
+
+    public void clean(){
+        ds.delete(ds.createQuery(Service.class));
     }
 }

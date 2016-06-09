@@ -12,6 +12,7 @@ import org.mongodb.morphia.aggregation.Projection;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -113,7 +114,10 @@ public class UserDAO {
             query.retrievedFields(true,"salt","passwordHash");
 
             User user = query.get();
-            return Password.isExpectedPassword(password.toCharArray(),user.getSalt(),user.getPasswordHash());
+            if (!(user==null)){
+                return  Password.isExpectedPassword(password.toCharArray(),user.getSalt(),user.getPasswordHash());
+            }
+            return false;
 
         }
     }
@@ -127,10 +131,10 @@ public class UserDAO {
                 query.criteria("tenantId").equal(user.getTenantId()));
         query.retrievedFields(true, "roles");
         HumanResource hr = query.get();
-        if (hr.getRoles().size() > 0)
+        if (!(hr==null) && hr.getRoles().size() > 0)
             return hr.getRoles();
         else
-            return null;
+            return new ArrayList<>();
 
 
 

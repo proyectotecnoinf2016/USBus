@@ -1,5 +1,7 @@
-
-<div layout="row" layout-padding="" layout-align="center center" layout-wrap="" style="padding-bottom: 32px;" ng-cloak="" class="wrapper whiteframedemoDirectiveAttributeUsage">
+<div layout="row" layout-padding="" layout-align="center center" layout-wrap="" style="padding-bottom: 32px;" ng-cloak="" class="wrapper whiteframedemoDirectiveAttributeUsage" ng-show="token == null">
+    <h2 class="grayHeader">Para poder disfrutar de nuestras funcionalidades, es necesario que ingrese al sistema.</h2>
+</div>
+<div layout="row" layout-padding="" layout-align="center center" layout-wrap="" style="padding-bottom: 32px;" ng-cloak="" class="wrapper whiteframedemoDirectiveAttributeUsage" ng-show="token != null">
 
 
     <div class="ripplelink padded" md-whiteframe="1" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('admin')">

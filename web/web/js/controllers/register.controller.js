@@ -14,9 +14,9 @@
         $scope.user = {};
         $scope.user.password = '';
         $scope.passwordVerification = '';
+        $scope.tenantIdResponse = '';
 
         localStorage.clear();
-
         localStorage.setData('showMenu', false);
 
         function register(tenant,user) {
@@ -38,8 +38,26 @@
 
             RegisterTenantResource.save(tenant,function (resp) {
                 ok = true;
-                console.log(resp);
-				localStorage.setData('tenantId', tenant.tenantId);
+                var i = 0;
+                while (resp[i] != null) {
+                    $scope.tenantIdResponse = $scope.tenantIdResponse + resp[i];
+                    i++;
+                }
+                localStorage.setData('tenantId', $scope.tenantIdResponse);
+
+                user.tenantId = $scope.tenantIdResponse;
+                console.log(user.tenantId);
+                RegisterUserResource.save(user,function (respU) {
+                    showAlert('Exito!', 'Se ha creado su empresa virtual de forma exitosa');
+                    localStorage.setData('userName', user.username);
+                    localStorage.setData('tenantName', tenant.name);
+                    $window.location.href = $location.$$absUrl + 'tenant/' + tenant.name;
+                },function (error) {
+                    console.log(error);
+                    localStorage.setData('tenantId', '');
+                    localStorage.setData('userName', '');
+                    showAlert('Error!', 'Ocurrió un error al registrar el USUARIO');
+                });
             }, function (error) {
                 ok = false;
                 console.log(error);
@@ -47,20 +65,7 @@
 
             } );
             if (ok){
-                RegisterUserResource.save(user,function (respU) {
-                    var token = respU;
-                    console.log(token);
-                    localStorage.setData('token', token);
-                    showAlert('Exito!', 'Se ha creado su empresa virtual de forma exitosa');
-					localStorage.setData('userName', user.username);
-                    localStorage.setData('tenantName', tenant.name);
-                    $window.location.href = $location.$$absUrl + 'tenant/' + tenant.name;
-                },function (error) {
-                    console.log(error);
-					localStorage.setData('tenantId', '');
-					localStorage.setData('userName', '');
-                    showAlert('Error!', 'Ocurrió un error al registrar el USUARIO');
-                });
+
             }
         }
 

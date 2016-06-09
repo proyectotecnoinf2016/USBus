@@ -9,6 +9,6 @@
     RegisterTenantResource.$inject = ['$resource'];
     /* @ngInject */
     function RegisterTenantResource($resource) {
-        return $resource('/usbus/api/register/tenant');
+        return $resource('/rest/api/register/tenant');
     }
 })();
