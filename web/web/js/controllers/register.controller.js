@@ -14,9 +14,9 @@
         $scope.user = {};
         $scope.user.password = '';
         $scope.passwordVerification = '';
+        $scope.tenantIdResponse = '';
 
         localStorage.clear();
-
         localStorage.setData('showMenu', false);
 
         function register(tenant,user) {
@@ -38,20 +38,15 @@
 
             RegisterTenantResource.save(tenant,function (resp) {
                 ok = true;
-                var tenantIdResponse = '';
                 var i = 0;
                 while (resp[i] != null) {
-                    tenantIdResponse = tenantIdResponse + resp[i];
+                    $scope.tenantIdResponse = $scope.tenantIdResponse + resp[i];
                     i++;
                 }
-				localStorage.setData('tenantId', tenantIdResponse);
-            }, function (error) {
-                ok = false;
-                console.log(error);
-                showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
+                localStorage.setData('tenantId', $scope.tenantIdResponse);
 
-            } );
-            if (ok){
+                user.tenantId = $scope.tenantIdResponse;
+                console.log(user.tenantId);
                 RegisterUserResource.save(user,function (respU) {
                     showAlert('Exito!', 'Se ha creado su empresa virtual de forma exitosa');
                     localStorage.setData('userName', user.username);
@@ -59,10 +54,18 @@
                     $window.location.href = $location.$$absUrl + 'tenant/' + tenant.name;
                 },function (error) {
                     console.log(error);
-					localStorage.setData('tenantId', '');
-					localStorage.setData('userName', '');
+                    localStorage.setData('tenantId', '');
+                    localStorage.setData('userName', '');
                     showAlert('Error!', 'Ocurrió un error al registrar el USUARIO');
                 });
+            }, function (error) {
+                ok = false;
+                console.log(error);
+                showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
+
+            } );
+            if (ok){
+
             }
         }
 
