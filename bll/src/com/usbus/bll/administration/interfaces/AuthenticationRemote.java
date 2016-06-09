@@ -13,5 +13,5 @@ import javax.ejb.Remote;
 @SuppressWarnings("EjbRemoteRequirementsInspection")
 @Remote
 public interface AuthenticationRemote {
-    Token authenticateUser(Credentials credentials) throws JoseException, AuthException;
+    Token authenticateUser(Credentials credentials) throws JoseException, AuthException, Exception;
 }

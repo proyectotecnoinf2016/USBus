@@ -16,34 +16,35 @@ import javax.ws.rs.core.Response;
 public class TestREST {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response test(){
-        return Response.ok("PING PONG").build();
+    public Response test() {
+        String res = System.getProperty("jboss.server.config.dir");
+        return Response.ok(res).build();
     }
 
     @GET
     @Path("/cliente")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Secured({Rol.CLIENT})
-    public Response soloCliente(){
+    public Response soloCliente() {
         return Response.ok("Cliente").build();
     }
 
     @GET
     @Path("/administrador")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Secured({Rol.ADMINISTRATOR})
-    public Response soloAdministrador(){
+    public Response soloAdministrador() {
         return Response.ok("Administrador").build();
     }
 
     @GET
     @Path("/cajayadministrador")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Secured({Rol.ADMINISTRATOR, Rol.CASHIER})
-    public Response cajeroYAdmin(){
+    public Response cajeroYAdmin() {
         return Response.ok("Cajero y Administrador").build();
     }
 }

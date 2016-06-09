@@ -1,9 +1,13 @@
 package com.usbus.services.auth;
 
+import com.usbus.commons.auxiliaryClasses.Utils;
 import com.usbus.commons.enums.Rol;
+import com.usbus.commons.exceptions.AuthException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.jwt.consumer.JwtContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
@@ -29,6 +33,7 @@ import java.util.List;
 @Provider
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter {
+    static Logger logger = LoggerFactory.getLogger(AuthorizationFilter.class);
 
     @Context
     private ResourceInfo resourceInfo;
@@ -66,9 +71,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
                 checkPermissions(methodRoles, token);
             }
 
+        } catch (AuthException e) {
+            logger.info("El usuario no tiene el rol necesario para acceder a este servicio.");
+            requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
         } catch (Exception e) {
-            requestContext.abortWith(
-                    Response.status(Response.Status.FORBIDDEN).build());
+            logger.error("Error", e);
+            requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
         }
     }
 
@@ -88,7 +96,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         }
     }
 
-    private void checkPermissions(List<Rol> allowedRoles, String token) throws Exception {
+    private void checkPermissions(List<Rol> allowedRoles, String token) throws Exception, AuthException {
 
         JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
                 .setSkipAllValidators()
@@ -96,18 +104,28 @@ public class AuthorizationFilter implements ContainerRequestFilter {
                 .setSkipSignatureVerification()
                 .build();
 
+        logger.debug("Roles permitidos " + allowedRoles.toString());
+
+
         JwtContext jwtContext = firstPassJwtConsumer.process(token);
+
         List<String> rolesString = jwtContext.getJwtClaims().getStringListClaimValue("roles");
 
+        List<Rol> roles = Utils.enumListFromStringList(Rol.class, rolesString);
+
+
+        logger.debug("Roles recibidos" + roles.toString());
+        logger.debug("Roles recibidos string" + rolesString.toString());
+
         boolean ok = false;
-        for(Rol rol : allowedRoles)
-        {
-            if (rolesString.contains(rol.name())){
-                ok=true;
+        for (Rol rol : allowedRoles) {
+            if (roles.contains(rol)) {
+                ok = true;
             }
         }
-        if (!ok){
-            throw new Exception("El usuario no tiene el rol especificado");
+        if (!ok) {
+            String error = "El usuario no tiene el rol especificado \n[RECIBIDOS] " + rolesString.toString() + "\n[PERMITIDOS] " + allowedRoles.toString();
+            throw new AuthException(error);
         }
 
     }
