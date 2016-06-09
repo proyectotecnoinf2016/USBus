@@ -10,7 +10,7 @@
     RouteResource.$inject = ['$resource'];
     /* @ngInject */
     function RouteResource($resource) {
-        return $resource('/usbus/api/tenant/:tenantId', {id:'@id', tenantId:'@tenantId'}, {
+        return $resource('/rest/api/tenant/:tenantId', {id:'@id', tenantId:'@tenantId'}, {
             'update': {
                 method: 'PUT'
             }

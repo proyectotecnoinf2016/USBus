@@ -7,6 +7,12 @@
     LoginUserResource.$inject = ['$resource'];
     /* @ngInject */
     function LoginUserResource($resource) {
-        return $resource('/usbus/api/authentication');
+
+        return $resource('/rest/api/authentication', {}, {
+            'Login': {
+                method: 'POST'
+            }
+        });
+        
     }
 })();
