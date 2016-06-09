@@ -41,7 +41,7 @@
         if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
 			$scope.tenantName = localStorage.getData('tenantName');
 		}
-		
+
 		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
 			$scope.userName = localStorage.getData('userName');
 		}
