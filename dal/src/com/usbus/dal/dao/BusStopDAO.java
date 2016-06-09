@@ -107,4 +107,8 @@ public class BusStopDAO {
             ds.update(query, updateOp);
         }
     }
+
+    public void clean(){
+        ds.delete(ds.createQuery(BusStop.class));
+    }
 }

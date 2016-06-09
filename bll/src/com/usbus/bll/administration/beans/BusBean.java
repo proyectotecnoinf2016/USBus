@@ -48,6 +48,6 @@ public class BusBean implements BusLocal, BusRemote {
 
     @Override
     public List<Bus> BusesByTenantIdAndStatus(long tenantId, BusStatus status, int offset, int limit) {
-        return BusesByTenantIdAndStatus(tenantId, status, offset, limit);
+        return dao.BusesByTenantIdAndStatus(tenantId, status, offset, limit);
     }
 }
