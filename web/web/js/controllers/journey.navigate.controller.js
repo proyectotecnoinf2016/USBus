@@ -46,9 +46,7 @@
             limit: 100,
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
-            console.log(result);
-            var journeys = $scope.journeys.concat(result);
-            $scope.journeys = journeys;
+            $scope.journeys = result;
         });
 
 
