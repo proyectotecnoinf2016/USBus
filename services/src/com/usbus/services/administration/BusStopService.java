@@ -2,7 +2,9 @@ package com.usbus.services.administration;
 
 import com.usbus.bll.administration.beans.BusStopBean;
 
+import com.usbus.commons.enums.Rol;
 import com.usbus.dal.model.BusStop;
+import com.usbus.services.auth.Secured;
 import org.bson.types.ObjectId;
 
 import javax.ws.rs.*;
@@ -24,7 +26,7 @@ public class BusStopService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Secured(Rol.ADMINISTRATOR)
+    @Secured(Rol.ADMINISTRATOR)
     public Response getBusStopList(@PathParam("tenantId")Long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("name") String name){
 
         List<BusStop> busStopList = ejb.getByTenant(tenantId,offset,limit,name);
@@ -39,7 +41,7 @@ public class BusStopService {
     @Path("{busStopId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Secured(Rol.ADMINISTRATOR)
+    @Secured(Rol.ADMINISTRATOR)
     public Response getBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId){
 
         BusStop busStop = ejb.getByLocalId(tenantId,busStopId);
@@ -54,7 +56,7 @@ public class BusStopService {
     @Path("{busStopId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    //@Secured(Rol.ADMINISTRATOR)
+    @Secured(Rol.ADMINISTRATOR)
     public Response updateBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId, BusStop busStop){
 
         BusStop busStopAux = ejb.getByLocalId(tenantId,busStopId);
@@ -72,7 +74,7 @@ public class BusStopService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Secured(Rol.ADMINISTRATOR)
+    @Secured(Rol.ADMINISTRATOR)
     public Response createBusStop(BusStop busStop){
         ObjectId oid = ejb.persist(busStop);
         if (oid==null){
@@ -87,7 +89,7 @@ public class BusStopService {
     @Path("{busStopId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Secured(Rol.ADMINISTRATOR)
+    @Secured(Rol.ADMINISTRATOR)
     public Response removeBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId){
         try {
             ejb.setInactive(tenantId,busStopId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
