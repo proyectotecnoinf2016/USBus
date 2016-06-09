@@ -18,8 +18,8 @@ public class OpenTicket extends Ticket {
     public OpenTicket(){
     }
 
-    public OpenTicket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Double amount, Route route, Date dueDate, Boolean closed) {
-        super(tenantId, id, emissionDate, hasCombination, combination, amount);
+    public OpenTicket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Double amount, User passenger, HumanResource seller, Route route, Date dueDate, Boolean closed) {
+        super(tenantId, id, emissionDate, hasCombination, combination, amount, passenger, seller);
         this.route = route;
         this.dueDate = dueDate;
         this.closed = closed;

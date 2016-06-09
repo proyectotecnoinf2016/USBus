@@ -57,16 +57,22 @@ public class Credentials {
         this.tenantName = tenantName;
     }
 
+//    @Override
+//    public String toString() {
+//        String string;
+//        if (tenantId==null || tenantId==0) {
+//            string = "Credenciales: Tenant[" + tenantName.toString().trim() + "] Usuario[" + username.trim() + "]";
+//        }else {
+//            string = "Credenciales: Tenant[" + tenantId.toString().trim()+"-"+tenantName.trim() + "] Usuario[" + username.trim() + "]";
+//        }
+//
+//
+//        return string;
+//    }
+
     @Override
     public String toString() {
-        String string;
-        if (tenantId==null || tenantId==0) {
-            string = "Credenciales: Tenant[" + tenantName.toString().trim() + "] Usuario[" + username.trim() + "]";
-        }else {
-            string = "Credenciales: Tenant[" + tenantId.toString().trim()+"-"+tenantName.trim() + "] Usuario[" + username.trim() + "]";
-        }
-
-
+        String string = "Credenciales: Tenant[" + tenantId+"-"+tenantName + "] Usuario[" + username + "]";
         return string;
     }
 }
