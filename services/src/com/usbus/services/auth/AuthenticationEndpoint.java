@@ -40,17 +40,17 @@ public class AuthenticationEndpoint {
         } catch (AuthException e) {
             logger.info(e.toString());
             logger.info(credentials.toString());
-            return Response.status(Response.Status.UNAUTHORIZED).type(MediaType.APPLICATION_JSON).entity("Usuario o contraseña incorrecto.").build();
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         } catch (JoseException e) {
             logger.error(e.toString());
             logger.info(credentials.toString());
             logger.debug("message",e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.APPLICATION_JSON).entity("Ocurrió un error en el servidor.").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         } catch (Exception e) {
             logger.error(e.toString());
             logger.info(credentials.toString());
             logger.debug("message",e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.APPLICATION_JSON).entity("Ocurrió un error en el servidor.").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
 
