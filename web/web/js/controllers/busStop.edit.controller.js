@@ -3,25 +3,26 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('EditBusController', EditBusController);
-    EditBusController.$inject = ['$scope', 'BusResource', '$mdDialog', 'busToEdit'];
+    angular.module('usbus').controller('EditBusStopController', EditBusStopController);
+    EditBusStopController.$inject = ['$scope', 'BusStopResource', '$mdDialog', 'busStopToEdit'];
     /* @ngInject */
-    function EditBusController($scope, BusResource, $mdDialog, busToEdit) {
-        $scope.bus = busToEdit;
+    function EditBusStopController($scope, BusStopResource, $mdDialog, busStopToEdit) {
+        $scope.busStop = busStopToEdit;
         $scope.tenantId = 0;
         
 
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
-
-        /*$scope.bus = BusResource.get({
+        $scope.updateBusStop = updateBusStop;
+/*
+        $scope.busStop = BusStopResource.get({
             id: $scope.busId,
             tenantId: $scope.tenantId
         });
-        */
+*/
 
-        function updateBus(item) {
-            BusResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
+        function updateBusStop(item) {
+            BusStopResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
                 showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
                 console.log(style);
             }, function(error){

@@ -1,12 +1,13 @@
+<h1 class="grayHeader">Sucursales</h1>
 <form name="inputForm" novalidate >
     <h1 class="grayHeader">{{message}}</h1>
-    <md-content ng-show="busStops != null && busStops.length > 0">
+    <md-content ng-show="branches != null && branches.length > 0">
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" style="" >
                 Nombre
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" >
-                Tiempo de espera
+                Cajas
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader " >
                 Acciones
@@ -14,20 +15,21 @@
         </span>
         <md-divider ></md-divider>
         <span>
-            <span layout="row" ng-repeat="item in busStops" >
+            <span layout="row" ng-repeat="item in branches" >
                 <p hide-md="" show-gt-md="" class="tableRowBusStop" >
                     {{item.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRowBusStop" >
-                    {{item.stopTime}}
+                    {{item.windows.length}}
                 </p>
-               <p hide-md="" show-gt-md="" class="" >
-                    <img src="img/Edit_Icon.png" ng-click="showBusStop(item, $event)" class="editIcon pointer"/>
-                    <img src="img/Delete_Icon.png" ng-click="deleteBusStop(item.name)" class="deleteIcon pointer"/>
+                
+                <p hide-md="" show-gt-md="" class="" >
+                    <img src="img/Edit_Icon.png" ng-click="showBranches(item, $event)" class="editIcon pointer"/>
+                    <img src="img/Delete_Icon.png" ng-click="deleteBranch(item.name)" class="deleteIcon pointer"/>
                 </p>
             </span>
         </span>
     </md-content>
 
-    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBusStop($event)">Crear Nueva Parada</md-button>
+    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBranch($event)">Crear Nueva Sucursal</md-button>
 </form>

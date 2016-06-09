@@ -42,7 +42,18 @@
         <script src="js/controllers/bus.create.controller.js"></script>
         <script src="js/controllers/bus.edit.controller.js"></script>
         <script src="js/controllers/busStop.navigate.controller.js"></script>
-
+        <script src="js/controllers/busStop.create.controller.js"></script>
+        <script src="js/controllers/busStop.edit.controller.js"></script>
+        <script src="js/controllers/route.navigate.controller.js"></script>
+        <script src="js/controllers/route.create.controller.js"></script>
+        <script src="js/controllers/route.edit.controller.js"></script>
+        <script src="js/controllers/service.navigate.controller.js"></script>
+        <script src="js/controllers/service.create.controller.js"></script>
+        <script src="js/controllers/service.edit.controller.js"></script>
+        <script src="js/controllers/branch.navigate.controller.js"></script>
+        <script src="js/controllers/branch.create.controller.js"></script>
+        <script src="js/controllers/branch.edit.controller.js"></script>
+        
         <script src="js/factories/register.user.resource.js"></script>
         <script src="js/factories/register.tenant.resource.js"></script>
 		<script src="js/factories/login.user.resource.js"></script>
@@ -50,6 +61,9 @@
         <script src="js/factories/bus.resource.js"></script>
         <script src="js/factories/journey.resource.js"></script>
         <script src="js/factories/busStop.resource.js"></script>
+        <script src="js/factories/route.resource.js"></script>
+        <script src="js/factories/service.resource.js"></script>
+        <script src="js/factories/branch.resource.js"></script>
 
         <!-- SCRIPTS -->
     </head>
@@ -91,7 +105,7 @@
                             </h1>
                         </md-toolbar>
                         <md-content >
-                            <span ng-repeat="item in messages">
+                            <span ng-repeat="item in messages" ng-click="redirectTo(item.url);" class="pointer">
                                 <p hide-md="" show-gt-md="" style="padding-left: 10%" >
                                     {{item.name}}
                                 </p>
