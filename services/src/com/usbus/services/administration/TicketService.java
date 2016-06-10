@@ -23,11 +23,12 @@ public class TicketService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createTicket(Ticket ticketAux){
-        ObjectId oid = ejb.persist(ticketAux);
-        if (oid==null){
+        Long ticketId = ejb.persist(ticketAux);
+        if (ticketId > 0){
+            return Response.ok(ticketId).build();
+        } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-        return Response.ok(ejb.getById(oid)).build();
     }
 
     @GET

@@ -23,12 +23,12 @@ public class TicketBean implements TicketLocal, TicketRemote{
     public TicketBean(){}
 
     @Override
-    public ObjectId persist(Ticket ticket) {
+    public Long persist(Ticket ticket) {
         ObjectId ticketOID = null;
         try {
             ticket.setId(dao.countAll() + 1);
             ticketOID = dao.persist(ticket);
-            return ticket.get_id();
+            return ticket.getId();
         } catch (Exception ex) {
             dao.remove(ticketOID);
             return null;
