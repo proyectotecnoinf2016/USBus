@@ -13,9 +13,10 @@
     function BusStopResource($resource) {
         return {
             busStops: function (token) {
-                return $resource('/rest/api/:tenantId/busStop', {tenantId: '@tenantId'}, {
+                return $resource('/rest/api/:tenantId/busstop', {tenantId: '@tenantId'}, {
                     query: {
                         method: 'GET',
+                        isArray:true,
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }
