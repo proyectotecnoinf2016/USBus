@@ -4,24 +4,42 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('BusStopController', BusStopController);
-    BusStopController.$inject = ['$scope', '$mdDialog', 'BusStopResource'];
+    BusStopController.$inject = ['$scope', '$mdDialog', 'BusStopResource', 'localStorage'];
     /* @ngInject */
-    function BusStopController($scope, $mdDialog, BusStopResource) {
+    function BusStopController($scope, $mdDialog, BusStopResource, localStorage) {
         $scope.showBusStop = showBusStop;
         $scope.createBusStop = createBusStop;
         $scope.deleteBusStop = deleteBusStop;
 
         $scope.message = '';
         $scope.tenantId = 0;
-        $scope.busStops = [{
-            'name': '1'
-        }, {
-            'name': '2'
-        }];
+        $scope.busStops = [];
+
+
+        $scope.tenantId = 0;
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+        }
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
+        BusStopResource.busStops(token).query({
+            offset: 0,
+            limit: 100,
+            tenantId: $scope.tenantId
+        }).$promise.then(function(result) {
+            console.log(result);
+            $scope.busStops = result;
+
+        });
 
         if ($scope.busStops.length === 0) {
             $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
         }
+
+
 
 
         /*BusStopResource.query({

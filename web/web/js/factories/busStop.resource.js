@@ -9,13 +9,28 @@
         .factory('BusStopResource', BusStopResource);
     BusStopResource.$inject = ['$resource'];
     /* @ngInject */
+
     function BusStopResource($resource) {
-        return $resource('/usbus/api/tenant/:tenantId', {id:'@id', tenantId:'@tenantId'}, {
-            'update': {
-                method: 'PUT'
+        return {
+            busStops: function (token) {
+                return $resource('/rest/api/:tenantId/busstop', {tenantId: '@tenantId'}, {
+                    query: {
+                        method: 'GET',
+                        isArray:true,
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    save: {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }
+                })
             }
-            /*http://localhost:8080/rest/api/{tenantId}/busstop?offset=xxx&limit=yyy*/
-        });
-        //TODO: EDITAR RESOURCE URL
+        };
     }
+
+
 })();

@@ -13,7 +13,8 @@
 		$scope.userName = 'Invitado';
 
         $scope.messages = [{
-            name : "Planificar Viajes"
+            name : "Planificar Viajes",
+            url  : "journeys"
         } , {
             name: "Administrar Usuarios"
         } , {

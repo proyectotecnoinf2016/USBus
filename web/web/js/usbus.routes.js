@@ -39,8 +39,12 @@
                 templateUrl: 'templates/branch.navigate.html',
                 controller: 'BranchController'
             })
-			.when('/tenant/:tenantName/tickets', {
+            .when('/tenant/:tenantName/admin/journeys', {
                 templateUrl: 'templates/journey.navigate.html',
+                controller: 'TicketsController'
+            })
+			.when('/tenant/:tenantName/tickets', {
+                templateUrl: 'templates/journey.selection.html',
                 controller: 'TicketsController'
             })
 			.when('/tenant/:tenantName/boxes', {
