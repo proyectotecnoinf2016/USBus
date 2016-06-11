@@ -1,5 +1,6 @@
+<h1 class="grayHeader">Paradas</h1>
 <form name="inputForm" novalidate >
-    <h1 class="grayHeader">{{message}}</h1>
+    <h1 class="grayHeader" ng-show="busStops == null || buses.length == 0">{{message}}</h1>
     <md-content ng-show="busStops != null && busStops.length > 0">
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" style="" >

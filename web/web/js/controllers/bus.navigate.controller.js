@@ -15,10 +15,6 @@
         $scope.tenantId = 0;
         $scope.buses = [];
 
-        if ($scope.buses.length === 0) {
-            $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
-        }
-
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
@@ -39,6 +35,10 @@
             $scope.buses = result;
 
         });
+
+        if ($scope.buses.length === 0) {
+            $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
+        }
 
 
         function showBus(item, ev) {
