@@ -19,7 +19,7 @@
         if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
             token = localStorage.getData('token');
         }
-        alert($scope.tenantId);
+        console.log($scope.tenantId);
 
         function createBusStop(busStop) {
             busStop.tenantId = $scope.tenantId;

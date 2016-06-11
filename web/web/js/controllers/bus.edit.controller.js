@@ -4,15 +4,16 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditBusController', EditBusController);
-    EditBusController.$inject = ['$scope', 'BusResource', '$mdDialog', 'busToEdit'];
+    EditBusController.$inject = ['$scope', 'BusResource', '$mdDialog', 'busToEdit', 'localStorage'];
     /* @ngInject */
-    function EditBusController($scope, BusResource, $mdDialog, busToEdit) {
+    function EditBusController($scope, BusResource, $mdDialog, busToEdit, localStorage) {
         $scope.bus = busToEdit;
         $scope.tenantId = 0;
         
 
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
+        $scope.updateBus = updateBus;
 
         /*$scope.bus = BusResource.get({
             id: $scope.busId,
@@ -20,16 +21,33 @@
         });
         */
 
-        function updateBus(item) {
-            BusResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-                console.log(style);
-            }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
-            });
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+        }
+
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
         }
 
 
+        function updateBus(bus) {
+            bus.tenantId = $scope.tenantId;
+
+            console.log(bus);
+            delete bus["_id"];
+
+            BusResource.buses(token).update({
+                tenantId: $scope.tenantId,
+                busId: bus.id
+            }, bus,function (resp) {
+                console.log(resp);
+                showAlert('Exito!', 'Se ha editado su unidad de forma exitosa');
+            }, function (error) {
+                console.log(error);
+                showAlert('Error!', 'Ocurrió un error al editar la Unidad');
+            } );
+        }
 
         function showAlert(title,content) {
             $mdDialog

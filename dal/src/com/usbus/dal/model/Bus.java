@@ -28,7 +28,7 @@ public class Bus extends BaseEntity{
     public Bus(){
     }
 
-    public Bus(long tenantId, String id, String brand, String model, Double kms, Double nextMaintenance, BusStatus status, Boolean active, Integer seats, Integer trunkMaxWeight, Integer standingPassengers, Boolean active1) {
+    public Bus(long tenantId, String id, String brand, String model, Double kms, Double nextMaintenance, BusStatus status, Boolean active, Integer seats, Integer trunkMaxWeight, Integer standingPassengers) {
         super(tenantId);
         this.id = id;
         this.brand = brand;
@@ -40,7 +40,6 @@ public class Bus extends BaseEntity{
         this.seats = seats;
         this.trunkMaxWeight = trunkMaxWeight;
         this.standingPassengers = standingPassengers;
-        this.active = active1;
     }
 
     public String getId() {

@@ -3,41 +3,44 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('CreateBusController', CreateBusController);
-    CreateBusController.$inject = ['$scope', 'localStorage', 'BusResource', '$mdDialog'];
+    angular.module('usbus').controller('CreateBranchController', CreateBranchController);
+    CreateBranchController.$inject = ['$scope', 'localStorage', 'BranchResource', '$mdDialog'];
     /* @ngInject */
-    function CreateBusController($scope, localStorage, BusResource, $mdDialog) {
-        $scope.createBus = createBus;
+    function CreateBranchController($scope, localStorage, BranchResource, $mdDialog) {
+        $scope.createBranch = createBranch;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
+        $scope.addWindow = addWindow;
+        $scope.deleteWindow = deleteWindow;
+
+        $scope.branch = [];
+        $scope.windows = [];
 
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
         }
 
-        var token = null;//localStorage.getData('token');
-        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
-            token = localStorage.getData('token');
-        }
-
-
-        function createBus(bus) {
-            bus.status = 'ACTIVE';
-            bus.active = true;
-            bus.tenantId = $scope.tenantId;
-
-            console.log(bus);
-
-            BusResource.buses(token).save({
-                tenantId: $scope.tenantId
-
-            }, bus,function (resp) {
-                console.log(resp);
+        function createBranch(branch) {
+            branch.windows = $scope.windows;
+            BranchResource.save(branch,function (resp) {
                 showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
             }, function (error) {
                 console.log(error);
                 showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
             } );
+        }
+
+        function addWindow() {
+            $scope.windows.push({index: $scope.windows.length + 1,tickets : false, parcels : false});
+            console.log($scope.windows);
+        }
+
+        function deleteWindow(index) {
+            $scope.windows.splice(index, 1);
+            var i = 0;
+            for (i = 0; i < $scope.windows.length; i++) {
+                $scope.windows[i].index = i + 1;
+            }
         }
 
         function showAlert(title,content) {
@@ -57,6 +60,7 @@
         function cancel() {
             $mdDialog.cancel();
         };
+
 
     }
 })();

@@ -1,5 +1,6 @@
+<h1 class="grayHeader">Paradas</h1>
 <form name="inputForm" novalidate >
-    <h1 class="grayHeader">{{message}}</h1>
+    <h1 class="grayHeader" ng-show="busStops == null || buses.length == 0">{{message}}</h1>
     <md-content ng-show="busStops != null && busStops.length > 0">
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" style="" >
@@ -23,7 +24,7 @@
                 </p>
                <p hide-md="" show-gt-md="" class="" >
                     <img src="img/Edit_Icon.png" ng-click="showBusStop(item, $event)" class="editIcon pointer"/>
-                    <img src="img/Delete_Icon.png" ng-click="deleteBusStop(item.name)" class="deleteIcon pointer"/>
+                    <img src="img/Delete_Icon.png" ng-click="deleteBusStop(item)" class="deleteIcon pointer"/>
                 </p>
             </span>
         </span>

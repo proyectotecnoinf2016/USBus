@@ -13,7 +13,7 @@
     function BusStopResource($resource) {
         return {
             busStops: function (token) {
-                return $resource('/rest/api/:tenantId/busstop', {tenantId: '@tenantId'}, {
+                return $resource('/rest/api/:tenantId/busstop/:busStopId', {tenantId: '@tenantId', busStopId: '@busStopId'}, {
                     query: {
                         method: 'GET',
                         isArray:true,
@@ -23,6 +23,18 @@
                     },
                     save: {
                         method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    update: {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    delete: {
+                        method: 'DELETE',
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }
