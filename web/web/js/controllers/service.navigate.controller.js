@@ -4,34 +4,39 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('ServiceController', ServiceController);
-    ServiceController.$inject = ['$scope', '$mdDialog', 'ServiceResource'];
+    ServiceController.$inject = ['$scope', '$mdDialog', 'ServiceResource', 'localStorage'];
     /* @ngInject */
-    function ServiceController($scope, $mdDialog, ServiceResource) {
+    function ServiceController($scope, $mdDialog, ServiceResource, localStorage) {
         $scope.showServices = showServices;
         $scope.createService = createService;
         $scope.deleteService = deleteService;
 
         $scope.message = '';
+        $scope.services = [];
         $scope.tenantId = 0;
-        $scope.services = [{
-            'name': '1'
-        }, {
-            'name': '2'
-        }];
+
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+        }
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
+
+        ServiceResource.services(token).query({
+            offset: 0,
+            limit: 100,
+            tenantId: $scope.tenantId
+        }).$promise.then(function(result) {
+            console.log(result);
+            $scope.services = result;
+
+        });
 
         if ($scope.services.length === 0) {
             $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
         }
-
-
-        /*ServiceResource.query({
-            tenantId: $scope.tenantId
-        }).$promise.then(function(result) {
-            console.log(result);
-            var journeys = $scope.journeys.concat(result);
-            $scope.journeys = journeys;
-        });
-        */
 
 
         function showServices(item, ev) {
@@ -61,25 +66,31 @@
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';
+                    ServiceResource.services(token).query({
+                        offset: 0,
+                        limit: 100,
+                        tenantId: $scope.tenantId
+                    }).$promise.then(function(result) {
+                        console.log(result);
+                        $scope.services = result;
+
+                    });
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
 
-        function deleteService(text) {
-            //TODO: ver si aca va el id, el name o quien (supongo que va el id nomas);
-            /*
-            bus.active = false;
-            ServiceResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-                console.log(style);
+        function deleteService(item) {
+            delete item["_id"];
+            ServiceResource.delete({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
+                showAlert('Exito!','Se ha eliminado el elemento de forma exitosa');
+                console.log(service);
             }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
+                showAlert('Error!','Ocurrió un error al procesar su petición');
             });
-            */
             var index = 0;
 
-            while (index < $scope.services.length && text != $scope.services[index].name) {
+            while (index < $scope.services.length && item.id != $scope.services[index].id) {
                 index++;
             }
 
