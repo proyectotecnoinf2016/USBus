@@ -17,7 +17,7 @@ public class TestREST {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response test() {
-        String res = System.getProperty("jboss.server.config.dir");//${jboss.server.home.dir}/log/USBUS.log
+        String res = System.getProperty("jboss.server.log.dir");//${jboss.server.home.dir}/log/USBUS.log
         return Response.ok(res).build();
     }
 

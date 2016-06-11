@@ -1,5 +1,7 @@
 package com.usbus.dal.dao;
 
+import com.sun.deploy.util.ArrayUtil;
+import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
@@ -9,6 +11,8 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,6 +21,7 @@ import java.util.List;
 public class JourneyDAO {
     private final Datastore ds;
     private final GenericPersistence dao;
+    private final BusStopDAO bsdao = new BusStopDAO();
 
     public JourneyDAO() {
         ds = MongoDB.instance().getDatabase();
@@ -98,6 +103,32 @@ public class JourneyDAO {
         Query<Journey> query = ds.createQuery(Journey.class);
         query.and(query.criteria("tenantId").equal(tenantId), query.criteria("status").equal(status));
         return query.offset(offset).limit(limit).asList();
+    }
+
+    public Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination){
+        if(!(tenantId > 0) || !(journeyId > 0) || origin == null || origin.isEmpty() || destination == null || destination.isEmpty()) {
+            return null;
+        } else {
+            Journey jaux = getByJourneyId(tenantId, journeyId);
+            Double pricexkm = jaux.getService().getRoute().getPricePerKm();
+            Double kmOrigin = null;
+            Double kmDestination = null;
+
+            RouteStop[] routeStops = jaux.getService().getRoute().getBusStops();
+            for(int i = 0; i < routeStops.length; i++) {
+                if(routeStops[i].getBusStop().equals(origin)) {
+                    kmOrigin = routeStops[i].getKm();
+                } else if (routeStops[i].getBusStop().equals(destination)) {
+                    kmDestination = routeStops[i].getKm();
+                }
+            }
+
+            if(kmDestination == null || kmOrigin == null) {
+                return null;
+            } else {
+                return pricexkm * (kmDestination - kmOrigin);
+            }
+        }
     }
 
     public void remove(ObjectId id) {

@@ -28,21 +28,21 @@ public class JourneyTest {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         dateFormat.setTimeZone(TimeZone.getTimeZone("America/Montevideo"));
 
-        Seat v3 = new Seat(3, Position.CORRIDOR, true);
-        Seat v8 = new Seat(8, Position.CORRIDOR, true);
-        Seat v13 = new Seat(13, Position.CORRIDOR, true);
-        Seat v23 = new Seat(23, Position.WINDOWS, true);
-        Seat v40 = new Seat(40, Position.CORRIDOR, true);
+        Seat v3 = new Seat(3, Position.CORRIDOR, false);
+        Seat v8 = new Seat(8, Position.CORRIDOR, false);
+        Seat v13 = new Seat(13, Position.CORRIDOR, false);
+        Seat v23 = new Seat(23, Position.WINDOWS, false);
+        Seat v40 = new Seat(40, Position.CORRIDOR, false);
 
         Journey uno = new Journey();
-        Service suno = serviceDAO.getByLocalId(2, 1L);
+        Service suno = serviceDAO.getByLocalId(2, 5L);
         uno.setId((long) 1);
         uno.setTenantId(2);
         uno.setStatus(JourneyStatus.ACTIVE);
         uno.setService(suno);
         uno.setDate(dateFormat.parse("12/06/2016 " + suno.getTime().getHours() + ":" + suno.getTime().getMinutes()));
         uno.setBusNumber(115);
-        uno.setSeatsState(new Seat[]{v3, v13, v23, v8, v40});
+        uno.setSeatsState(new Seat[]{v3, v8, v13, v23, v40});
         dao.persist(uno);
 
         Journey dos = new Journey();
