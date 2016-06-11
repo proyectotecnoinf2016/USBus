@@ -60,7 +60,7 @@ public class BusDAO {
     }
 
     public Bus getByLocalId(long tenantId, String busId) {
-        if (!(tenantId > 0) || (busId == null && !busId.isEmpty())) {
+        if (!(tenantId > 0) || (busId != null && !busId.isEmpty())) {
             return null;
         }
 
@@ -77,7 +77,7 @@ public class BusDAO {
     }
 
     public void setInactive(long tenantId, String busId) {
-        if (!(tenantId > 0) || (busId == null && !busId.isEmpty())) {
+        if (!(tenantId > 0) || (busId != null && !busId.isEmpty())) {
         } else {
             Query<Bus> query = ds.createQuery(Bus.class);
 
