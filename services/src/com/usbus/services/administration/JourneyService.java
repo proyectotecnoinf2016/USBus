@@ -36,7 +36,9 @@ public class JourneyService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response updateJourney(@PathParam("tenantId")Long tenantId, @PathParam("journeyId")Long journeyId, Journey journey){
+    public Response updateJourney(@PathParam("tenantId")Long tenantId,
+                                  @PathParam("journeyId")Long journeyId,
+                                  Journey journey){
         Journey journeyAux = ejb.getByLocalId(tenantId, journeyId);
         journey.set_id(journeyAux.get_id());
         ObjectId oid = ejb.persist(journey);
@@ -51,7 +53,8 @@ public class JourneyService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response getJourney(@PathParam("tenantId")Long tenantId, @PathParam("journeyId") Long journeyId){
+    public Response getJourney(@PathParam("tenantId")Long tenantId,
+                               @PathParam("journeyId") Long journeyId){
 
         Journey journeyAux = ejb.getByLocalId(tenantId, journeyId);
         if (journeyAux == null){
@@ -64,7 +67,10 @@ public class JourneyService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getJourneyList(@PathParam("tenantId")Long tenantId, @QueryParam("journeyStatus") JourneyStatus journeyStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+    public Response getJourneyList(@PathParam("tenantId")Long tenantId,
+                                   @QueryParam("journeyStatus") JourneyStatus journeyStatus,
+                                   @QueryParam("offset") int offset,
+                                   @QueryParam("limit") int limit){
 
         List<Journey> journeyList = ejb.JourneysByTenantIdAndStatus(tenantId, journeyStatus, offset, limit);
         if (journeyList == null){
@@ -73,12 +79,30 @@ public class JourneyService {
         return Response.ok(journeyList).build();
     }
 
+    @GET
+    @Path("{journeyId}/price")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response getJourneyPrice(@PathParam("tenantId")Long tenantId,
+                                    @PathParam("journeyId")Long journeyId,
+                                    @QueryParam("origin") String origin,
+                                    @QueryParam("destination") String destination){
+        Double price = ejb.getJourneyPrice(tenantId, journeyId, origin, destination);
+        if (price == null) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } else {
+            return Response.ok(price).build();
+        }
+    }
+
     @DELETE
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response removeJourney(@PathParam("tenantId")Long tenantId, @PathParam("journeyId") Long journeyId){
+    public Response removeJourney(@PathParam("tenantId")Long tenantId,
+                                  @PathParam("journeyId")Long journeyId){
         try {
             ejb.setInactive(tenantId, journeyId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
             return Response.ok().build();
