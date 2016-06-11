@@ -10,6 +10,7 @@
         $scope.showBusStop = showBusStop;
         $scope.createBusStop = createBusStop;
         $scope.deleteBusStop = deleteBusStop;
+        $scope.showAlert = showAlert;
 
         $scope.message = '';
         $scope.tenantId = 0;
@@ -35,22 +36,9 @@
 
         });
 
-        if ($scope.busStops.length === 0) {
+        if ($scope.busStops.length == 0) {
             $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
         }
-
-
-
-
-        /*BusStopResource.query({
-            tenantId: $scope.tenantId
-        }).$promise.then(function(result) {
-            console.log(result);
-            var journeys = $scope.journeys.concat(result);
-            $scope.journeys = journeys;
-        });
-        */
-
 
         function showBusStop(item, ev) {
             $mdDialog.show({
@@ -62,6 +50,7 @@
                 clickOutsideToClose : true
             }).then(
                 function(answer) {
+                    alert(answer);
                     $scope.status = 'You said the information was "'
                         + answer + '".';
                 }, function() {
@@ -79,25 +68,33 @@
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';
+                    BusStopResource.busStops(token).query({
+                        offset: 0,
+                        limit: 100,
+                        tenantId: $scope.tenantId
+                    }).$promise.then(function(result) {
+                        console.log(result);
+                        $scope.busStops = result;
+
+                    });
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
 
-        function deleteBusStop(text) {
-            //TODO: ver si aca va el id, el name o quien (supongo que va el id nomas);
-            /*
-            bus.active = false;
-            BusStopResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-                console.log(style);
+        function deleteBusStop(item) {
+            console.log(item);
+            delete item["_id"];
+            item.active = false;
+            BusStopResource.busStops(token).update({busStopId: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
+                showAlert('Exito!','Se ha editado la Parada de forma exitosa');
+                console.log(item);
             }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
+                showAlert('Error!','Ocurrió un error al procesar su petición');
             });
-            */
             var index = 0;
 
-            while (index < $scope.busStops.length && text != $scope.busStops[index].name) {
+            while (index < $scope.busStops.length && item.id != $scope.busStops[index].id) {
                 index++;
             }
 
@@ -110,6 +107,20 @@
             }
 
         }
+
+        function showAlert(title,content) {
+            $mdDialog
+                .show($mdDialog
+                    .alert()
+                    .parent(
+                        angular.element(document
+                            .querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .content(content)
+                    .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
+
+        };
 
     }
 })();
