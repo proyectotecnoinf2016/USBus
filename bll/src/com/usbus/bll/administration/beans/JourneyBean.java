@@ -50,4 +50,9 @@ public class JourneyBean implements JourneyLocal, JourneyRemote {
     public List<Journey> JourneysByTenantIdAndStatus(long tenantId, JourneyStatus status, int offset, int limit) {
         return dao.JourneysByTenantIdAndStatus(tenantId, status, offset, limit);
     }
+
+    @Override
+    public Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination) {
+        return dao.getJourneyPrice(tenantId, journeyId, origin, destination);
+    }
 }
