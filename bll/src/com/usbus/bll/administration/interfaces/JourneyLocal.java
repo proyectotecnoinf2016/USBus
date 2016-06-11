@@ -19,4 +19,5 @@ public interface JourneyLocal {
     void setActive(long tenantId, Long journeyId);
     Journey getByJourneyId(long tenantId, Long id);
     List<Journey> JourneysByTenantIdAndStatus(long tenantId, JourneyStatus status, int offset, int limit);
+    Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination);
 }
