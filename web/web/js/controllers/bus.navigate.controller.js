@@ -32,21 +32,20 @@
         BusResource.buses(token).query({
             offset: 0,
             limit: 100,
-            status: 'ACTIVE',
+            busStatus: 'ACTIVE',
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             console.log(result);
-            $scope.buses = $scope.buses.concat(result);
+            $scope.buses = result;
 
         });
-
 
 
         function showBus(item, ev) {
             $mdDialog.show({
                 controller : 'EditBusController',
                 templateUrl : 'templates/bus.edit.html',
-                locals:{busToEdit: item}, //text va a ser usado para pasar el id del journey
+                locals:{busToEdit: item},
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -69,25 +68,31 @@
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';
+                    BusResource.buses(token).query({
+                        offset: 0,
+                        limit: 100,
+                        tenantId: $scope.tenantId
+                    }).$promise.then(function(result) {
+                        console.log(result);
+                        $scope.buses = result;
+
+                    });
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
 
-        function deleteBus(text) {
-            //TODO: ver si aca va el id, el name o quien (supongo que va el id nomas);
-            /*
-            bus.active = false;
-            BusResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-                console.log(style);
-            }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
+        function deleteBus(bus) {
+            delete bus["_id"];
+            BusResource.buses(token).delete({
+                tenantId: $scope.tenantId,
+                busId: bus.id}, bus).$promise.then(function(data){
+                    console.log(data);
+                }, function(error){
             });
-            */
             var index = 0;
 
-            while (index < $scope.buses.length && text != $scope.buses[index].name) {
+            while (index < $scope.buses.length && bus.id != $scope.buses[index].id) {
                 index++;
             }
 

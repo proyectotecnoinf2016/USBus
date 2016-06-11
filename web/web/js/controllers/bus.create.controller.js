@@ -15,19 +15,23 @@
             $scope.tenantId = localStorage.getData('tenantId');
         }
 
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
+
         function createBus(bus) {
             bus.status = 'ACTIVE';
+            bus.active = true;
             bus.tenantId = $scope.tenantId;
-            var token = null;//localStorage.getData('token');
-            if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
-                token = localStorage.getData('token');
-            }
 
             console.log(bus);
 
-            BusResource.buses(token).save(bus,{
+            BusResource.buses(token).save({
                 tenantId: $scope.tenantId
-            },function (resp) {
+
+            }, bus,function (resp) {
                 console.log(resp);
                 showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
             }, function (error) {
