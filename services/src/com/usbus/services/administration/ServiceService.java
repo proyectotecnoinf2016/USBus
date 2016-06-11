@@ -73,18 +73,7 @@ public class ServiceService {
         return Response.ok(serviceList).build();
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
-    public Response getServiceListByTenantAndDate(@PathParam("tenantId") long tenantId, @QueryParam("busStatus") Date time, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
 
-        List<Service> serviceList = ejb.getServicesByTenantAndDate(tenantId, time, offset, limit);
-        if (serviceList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(serviceList).build();
-    }
 
     @DELETE
     @Path("{serviceId}")
