@@ -110,30 +110,24 @@ public class JourneyDAO {
             return null;
         } else {
             Journey jaux = getByJourneyId(tenantId, journeyId);
+            Double pricexkm = jaux.getService().getRoute().getPricePerKm();
+            Double kmOrigin = null;
+            Double kmDestination = null;
+
             RouteStop[] routeStops = jaux.getService().getRoute().getBusStops();
-            ArrayList<RouteStop> fullRouteArray = new ArrayList<>(Arrays.asList(routeStops));
-            int originPosition = -1;
-            int destinationPosition = -1;
-            for (RouteStop rstop : fullRouteArray) {
-                if(rstop.getBusStop().equals(origin)) {
-                    originPosition = fullRouteArray.indexOf(rstop);
-                }
-                if(rstop.getBusStop().equals(destination)) {
-                    destinationPosition = fullRouteArray.indexOf(rstop);
+            for(int i = 0; i < routeStops.length; i++) {
+                if(routeStops[i].getBusStop().equals(origin)) {
+                    kmOrigin = routeStops[i].getKm();
+                } else if (routeStops[i].getBusStop().equals(destination)) {
+                    kmDestination = routeStops[i].getKm();
                 }
             }
-            List<RouteStop> subRoute = fullRouteArray.subList(originPosition, destinationPosition);
 
-            Double price = jaux.getService().getRoute().getPricePerKm();
-            Double km = 0.0;
-
-            for(int i = 1; i < subRoute.size(); i++) { //from 1 to avoid counting origin KMs
-                km += subRoute.get(i).getKm();
+            if(kmDestination == null || kmOrigin == null) {
+                return null;
+            } else {
+                return pricexkm * (kmDestination - kmOrigin);
             }
-
-            price *= km;
-
-            return price;
         }
     }
 

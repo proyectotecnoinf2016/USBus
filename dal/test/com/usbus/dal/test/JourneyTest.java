@@ -35,7 +35,7 @@ public class JourneyTest {
         Seat v40 = new Seat(40, Position.CORRIDOR, false);
 
         Journey uno = new Journey();
-        Service suno = serviceDAO.getByLocalId(2, 1L);
+        Service suno = serviceDAO.getByLocalId(2, 5L);
         uno.setId((long) 1);
         uno.setTenantId(2);
         uno.setStatus(JourneyStatus.ACTIVE);
