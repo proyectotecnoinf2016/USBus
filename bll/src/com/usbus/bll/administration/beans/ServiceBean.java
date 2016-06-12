@@ -7,6 +7,7 @@ import com.usbus.dal.model.Service;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Stateless;
+import java.time.DayOfWeek;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,11 @@ public class ServiceBean implements ServiceLocal, ServiceRemote{
     @Override
     public List<Service> getServicesByTenantAndDate(long tenantId, Date time, int offset, int limit) {
         return dao.getServicesByTenantAndDate(tenantId, time, offset, limit);
+    }
+
+    @Override
+    public List<Service> getServicesByTenantDOWAndStops(long tenantId, DayOfWeek day, String origin, String destination, int offset, int limit) {
+        return dao.getServicesByTenantDOWAndStops(tenantId, day, origin, destination, offset, limit);
     }
 
     @Override
