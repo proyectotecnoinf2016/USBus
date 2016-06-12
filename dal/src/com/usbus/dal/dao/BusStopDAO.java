@@ -2,7 +2,9 @@ package com.usbus.dal.dao;
 
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
+import com.usbus.dal.model.Bus;
 import com.usbus.dal.model.BusStop;
+import com.usbus.dal.model.Route;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.CriteriaContainerImpl;
@@ -46,8 +48,8 @@ public class BusStopDAO {
             return null;
         }
         Query<BusStop> query = ds.createQuery(BusStop.class);
-        query.criteria("tenantId").equal(tenantId);
-        if (!(name == null) && !(name.isEmpty())){
+        query.and(query.criteria("tenantId").equal(tenantId),query.criteria("active").equal(true));
+        if (!(name == null) && !(name.isEmpty())) {
             query.and(query.criteria("name").containsIgnoreCase(name));
         }
         return query.offset(offset).limit(limit).asList();
@@ -108,7 +110,21 @@ public class BusStopDAO {
         }
     }
 
-    public void clean(){
+    public void clean() {
         ds.delete(ds.createQuery(BusStop.class));
     }
+
+    public Long getNextId(long tenantId) {
+        if (!(tenantId > 0)) {
+            return null;
+        } else {
+            Query<BusStop> query = ds.createQuery(BusStop.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            BusStop busStop = query.get();
+            return busStop.getId() + 1;
+
+        }
+    }
+
 }

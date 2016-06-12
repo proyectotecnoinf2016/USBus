@@ -11,10 +11,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity(value = "busStops",noClassnameStored = true)
 @Indexes({
-        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iBusStopKey", unique=true)),
-        @Index(fields = { @Field(value = "tenantId"), @Field(value = "name") }, options = @IndexOptions(name="iBusStopName", unique=true))})
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "busStopId") }, options = @IndexOptions(name="iBusStopKey", unique=true)),
+        @Index(fields = { @Field(value = "tenantId"), @Field(value = "busStopName") }, options = @IndexOptions(name="iBusStopName", unique=true))})
 public class BusStop extends BaseEntity {
+    @Property(value = "busStopId")
     private Long id;
+    @Property(value = "busStopName")
     private String name;
     private Boolean active;
     private Double stopTime;
