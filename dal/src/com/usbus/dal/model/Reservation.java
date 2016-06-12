@@ -17,6 +17,7 @@ public class Reservation extends BaseEntity{
     private Long id;
     private User passenger;
     private Date dueDate;
+    @Reference
     private Journey journey;
     private Integer seat;
     private Boolean active;
