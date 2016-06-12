@@ -17,8 +17,11 @@ public class Parcel extends BaseEntity{
     private Long id;
     private Dimension dimensions;
     private Integer weight;
+    @Reference
     private Journey journey;
+    @Reference
     private BusStop origin;
+    @Reference
     private BusStop destination;
     private String from;
     private String to;

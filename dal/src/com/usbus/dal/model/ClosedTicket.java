@@ -1,6 +1,7 @@
 package com.usbus.dal.model;
 
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Reference;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
@@ -11,9 +12,12 @@ import java.util.Date;
 @XmlRootElement
 @Entity(value = "closedTickets",noClassnameStored = false)
 public class ClosedTicket extends Ticket {
+    @Reference
     private Journey journey;
     private Integer seat;
+    @Reference
     private BusStop getsOn;
+    @Reference
     private BusStop getsOff;
 
     public ClosedTicket(){

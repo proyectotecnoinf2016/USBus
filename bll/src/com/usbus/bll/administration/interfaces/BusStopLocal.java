@@ -1,5 +1,6 @@
 package com.usbus.bll.administration.interfaces;
 
+import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.dal.model.BusStop;
 import org.bson.types.ObjectId;
 
@@ -19,6 +20,7 @@ public interface BusStopLocal {
     void setInactive(long tenantId, Long id);
     void setActive(long tenantId, Long id);
     List<BusStop> getByTenant(long tenantId, int offset, int limit, String name);
-
+    List<RouteStop> getDestinations(long tenantId, int offset, int limit, String origin);
+    List<RouteStop> getOrigins(long tenantId, int offset, int limit, String destination);
 
 }

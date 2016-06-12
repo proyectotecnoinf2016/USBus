@@ -5,6 +5,7 @@ import com.usbus.dal.BaseEntity;
 import org.mongodb.morphia.annotations.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Created by Lufasoch on 26/05/2016.
@@ -15,11 +16,14 @@ import javax.xml.bind.annotation.XmlRootElement;
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iRouteKey", unique=true)),
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "name") }, options = @IndexOptions(name="iRouteName", unique=true))})
 public class Route extends BaseEntity {
+
     private Long id;
     private String name;
+    @Reference
     private BusStop origin;
+    @Reference
     private BusStop destination;
-    private RouteStop[] busStops;
+    private List<RouteStop>busStops;
     private Boolean active;
     private Boolean hasCombination;
     private Double pricePerKm;
@@ -27,7 +31,7 @@ public class Route extends BaseEntity {
     public Route(){
     }
 
-    public Route(long tenantId, Long id, String name, BusStop origin, BusStop destination, RouteStop[] busStops, Boolean active, Boolean hasCombination, Double pricePerKm) {
+    public Route(long tenantId, Long id, String name, BusStop origin, BusStop destination, List<RouteStop> busStops, Boolean active, Boolean hasCombination, Double pricePerKm) {
         super(tenantId);
         this.id = id;
         this.name = name;
@@ -71,11 +75,11 @@ public class Route extends BaseEntity {
         this.destination = destination;
     }
 
-    public RouteStop[] getBusStops() {
+    public List<RouteStop> getBusStops() {
         return busStops;
     }
 
-    public void setBusStops(RouteStop[] busStops) {
+    public void setBusStops(List<RouteStop> busStops) {
         this.busStops = busStops;
     }
 

@@ -10,6 +10,8 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -42,7 +44,10 @@ public class ServiceTest {
         RouteStop rsOrigin = new RouteStop("Montevideo", 0.0, false);
         RouteStop rsPzaCuba = new RouteStop("Plaza Cuba", 7.4, false);
         RouteStop rsColonia = new RouteStop("Colonia", 176.5, false);
-        RouteStop[] routeStops = {rsOrigin, rsPzaCuba, rsColonia};
+        List<RouteStop> routeStops = new ArrayList<>();
+        routeStops.add(rsOrigin);
+        routeStops.add(rsPzaCuba);
+        routeStops.add(rsColonia);
         Route route = new Route(2, 1L, "Montevideo - Colonia", origin, destination, routeStops, true, false, 2.30);
         srv = new Service(2, 5L, "Montevideo - Colonia (Común)", DayOfWeek.FRIDAY, format.parse("09:15"), route, 3, true);
         dao.persist(srv);
