@@ -18,9 +18,12 @@ public class Ticket extends BaseEntity{
     private Long id;
     private Date emissionDate;
     private Boolean hasCombination;
+    @Reference
     private Service combination;
     private Double amount;
+    @Reference
     private User passenger;
+    @Reference
     private HumanResource seller;
     private TicketStatus status;
 

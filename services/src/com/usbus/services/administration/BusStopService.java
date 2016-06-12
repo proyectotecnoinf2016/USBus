@@ -2,6 +2,7 @@ package com.usbus.services.administration;
 
 import com.usbus.bll.administration.beans.BusStopBean;
 
+import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.commons.enums.Rol;
 import com.usbus.dal.model.BusStop;
 import com.usbus.services.auth.Secured;
@@ -27,13 +28,32 @@ public class BusStopService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response getBusStopList(@PathParam("tenantId")Long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("name") String name){
+    public Response getBusStopList(@PathParam("tenantId") Long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("name") String name, @QueryParam("origin") String origin, @QueryParam("destination") String destination) {
 
-        List<BusStop> busStopList = ejb.getByTenant(tenantId,offset,limit,name);
-        if (busStopList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
+        if ((origin == null || origin.isEmpty()) && (destination == null || destination.isEmpty())) {
+            List<BusStop> busStopList = ejb.getByTenant(tenantId, offset, limit, name);
+            if (busStopList == null) {
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+            return Response.ok(busStopList).build();
         }
-        return Response.ok(busStopList).build();
+        if (!(origin == null || origin.isEmpty())) {
+            List<RouteStop> busStops = ejb.getDestinations(tenantId, offset, limit, origin);
+            if (busStops == null) {
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+            return Response.ok(busStops).build();
+        }
+        if (!(destination == null || destination.isEmpty())) {
+            List<RouteStop> busStops = ejb.getOrigins(tenantId, offset, limit, destination);
+            if (busStops == null) {
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+            return Response.ok(busStops).build();
+        }
+
+        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+
     }
 
     /*OBTENER UN ELEMENTO siempre se debe hacer en un get pasando como PATH el código del elemento*/
@@ -42,28 +62,53 @@ public class BusStopService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response getBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId){
+    public Response getBusStop(@PathParam("tenantId") Long tenantId, @PathParam("busStopId") Long busStopId) {
 
-        BusStop busStop = ejb.getByLocalId(tenantId,busStopId);
-        if (busStop == null){
+        BusStop busStop = ejb.getByLocalId(tenantId, busStopId);
+        if (busStop == null) {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
         return Response.ok(busStop).build();
     }
 
+    //    @GET
+//    @Path("{busStopId}/destinations")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured(Rol.ADMINISTRATOR)
+//    public Response getBusStopDestinations(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId,@QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("origin") String destination){
+//    List<RouteStop> busStops = ejb.getOrigins(tenantId, offset, limit, origin);
+//    if (busStops == null) {
+//        return Response.status(Response.Status.NO_CONTENT).build();
+//    }
+//    return Response.ok(busStops).build();
+//    }
+//    @GET
+//    @Path("{busStopId}/origins")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured(Rol.ADMINISTRATOR)
+//    public Response getBusStopOrigins(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId,@QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("origin") String origin){
+//    List<RouteStop> busStops = ejb.getOrigins(tenantId, offset, limit, destination);
+//    if (busStops == null) {
+//        return Response.status(Response.Status.NO_CONTENT).build();
+//    }
+//    return Response.ok(busStops).build();
+
+    //    }
     /*MODIFICAR UN ELEMENTO siempre se debe hacer en un PUT pasando como PATH el código del elemento*/
     @PUT
     @Path("{busStopId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response updateBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId, BusStop busStop){
+    public Response updateBusStop(@PathParam("tenantId") Long tenantId, @PathParam("busStopId") Long busStopId, BusStop busStop) {
 
-        BusStop busStopAux = ejb.getByLocalId(tenantId,busStopId);
+        BusStop busStopAux = ejb.getByLocalId(tenantId, busStopId);
         busStop.set_id(busStopAux.get_id());
 
         ObjectId oid = ejb.persist(busStop);
-        if (oid==null){
+        if (oid == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(ejb.getById(oid)).build();
@@ -75,9 +120,9 @@ public class BusStopService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response createBusStop(BusStop busStop){
+    public Response createBusStop(BusStop busStop) {
         ObjectId oid = ejb.persist(busStop);
-        if (oid==null){
+        if (oid == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
@@ -90,16 +135,15 @@ public class BusStopService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response removeBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busStopId") Long busStopId){
+    public Response removeBusStop(@PathParam("tenantId") Long tenantId, @PathParam("busStopId") Long busStopId) {
         try {
-            ejb.setInactive(tenantId,busStopId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
+            ejb.setInactive(tenantId, busStopId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
             return Response.ok().build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
     }
-
 
 
 }

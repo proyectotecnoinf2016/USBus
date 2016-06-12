@@ -6,6 +6,7 @@ import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.Journey;
+import com.usbus.dal.model.Route;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
@@ -114,14 +115,25 @@ public class JourneyDAO {
             Double kmOrigin = null;
             Double kmDestination = null;
 
-            RouteStop[] routeStops = jaux.getService().getRoute().getBusStops();
-            for(int i = 0; i < routeStops.length; i++) {
-                if(routeStops[i].getBusStop().equals(origin)) {
-                    kmOrigin = routeStops[i].getKm();
-                } else if (routeStops[i].getBusStop().equals(destination)) {
-                    kmDestination = routeStops[i].getKm();
+            List<RouteStop> routeStops = jaux.getService().getRoute().getBusStops();
+
+
+            for (RouteStop stop :
+                    routeStops) {
+                if (stop.getBusStop().equals(origin)) {
+                    kmOrigin = stop.getKm();
+                }else if(stop.getBusStop().equals(destination)){
+                    kmDestination = stop.getKm();
                 }
             }
+
+//            for(int i = 0; i < routeStops.length; i++) {
+//                if(routeStops[i].getBusStop().equals(origin)) {
+//                    kmOrigin = routeStops[i].getKm();
+//                } else if (routeStops[i].getBusStop().equals(destination)) {
+//                    kmDestination = routeStops[i].getKm();
+//                }
+//            }
 
             if(kmDestination == null || kmOrigin == null) {
                 return null;

@@ -31,10 +31,15 @@ public class Register {
     @Produces(MediaType.TEXT_PLAIN)
     public Response registerTenant(Tenant tenant) {
         long tenantId = ejb.registerTenant(tenant);
+
         if (tenantId > 0) {
             return Response.ok(tenantId).build();
         } else {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el tenant, intentelo nuevamente.").build();
+            if (tenantId == -1) {
+                return Response.status(Response.Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity("Ya existe el tenant que intenta crear!").build();
+            } else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el tenant, intentelo nuevamente.").build();
+            }
         }
     }
 
@@ -43,10 +48,17 @@ public class Register {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response registerUser(User user) {
-        if(ejb.registerUser(user)){
+        int result = ejb.registerUser(user);
+        if (result == 1) {
             return Response.ok("Usuario Guardado").build();
-        }else {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
+        } else {
+            if (result == -1) {
+                return Response.status(Response.Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity("Ya existe el usuario que intenta crear!").build();
+
+            } else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
+            }
+
         }
     }
 
@@ -55,10 +67,16 @@ public class Register {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response registerClient(User user) {
-        if(ejb.registerClient(user)){
+        int result = ejb.registerClient(user);
+        if (result == 1) {
             return Response.ok("Usuario Guardado").build();
-        }else {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
+        } else {
+            if (result == -1) {
+                return Response.status(Response.Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity("Ya existe el cliente que intenta crear!").build();
+
+            } else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
+            }
         }
     }
 }
