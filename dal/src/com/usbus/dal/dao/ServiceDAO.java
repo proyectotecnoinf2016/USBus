@@ -11,6 +11,7 @@ import org.mongodb.morphia.query.UpdateOperations;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,13 +41,12 @@ public class ServiceDAO {
         return query.countAll();
     }
 
-    public List<Service> getServicesByTenantAndDate(long tenantId, Date time, int offset, int limit){
-        if(!(tenantId > 0) || (time == null) || (offset < 0) || ( limit <= 0)){
+    public List<Service> getServicesByDayOfTheWeek(long tenantId, DayOfWeek dayOfWeek, int offset, int limit){
+        if(!(tenantId > 0) || (dayOfWeek == null) || (offset < 0) || ( limit <= 0)){
             return null;
         }
         Query<Service> query = ds.createQuery(Service.class);
-        query.and(query.criteria("time").equal(time),
-                query.criteria("tenantId").equal(tenantId));
+        query.and(query.criteria("day").equal(dayOfWeek), query.criteria("tenantId").equal(tenantId));
         return query.offset(offset).limit(limit).asList();
     }
 
