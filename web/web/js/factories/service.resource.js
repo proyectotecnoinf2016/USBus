@@ -12,7 +12,7 @@
     function ServiceResource($resource) {
         return {
             services: function (token) {
-                return $resource('/rest/api/:tenantId/service/:serviceId', {tenantId: '@tenantId', serviceId: '@busStopId'}, {
+                return $resource('/rest/api/:tenantId/service/:serviceId', {tenantId: '@tenantId', serviceId: '@serviceId'}, {
                     query: {
                         method: 'GET',
                         isArray:true,

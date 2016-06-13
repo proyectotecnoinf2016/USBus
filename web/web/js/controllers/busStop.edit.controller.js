@@ -14,12 +14,7 @@
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
         $scope.updateBusStop = updateBusStop;
-/*
-        $scope.busStop = BusStopResource.get({
-            id: $scope.busId,
-            tenantId: $scope.tenantId
-        });
-*/
+        
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
 

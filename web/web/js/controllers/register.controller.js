@@ -61,7 +61,7 @@
             }, function (error) {
                 ok = false;
                 console.log(error);
-                showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
+                showAlert('Ocurrió un error', error.data);
 
             } );
             if (ok){
