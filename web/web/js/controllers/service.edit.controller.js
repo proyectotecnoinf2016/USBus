@@ -4,31 +4,38 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditServiceController', EditServiceController);
-    EditServiceController.$inject = ['$scope', 'ServiceResource', '$mdDialog', 'serviceToEdit'];
+    EditServiceController.$inject = ['$scope', 'ServiceResource', '$mdDialog', 'serviceToEdit', 'localStorage'];
     /* @ngInject */
-    function EditServiceController($scope, ServiceResource, $mdDialog, serviceToEdit) {
+    function EditServiceController($scope, ServiceResource, $mdDialog, serviceToEdit, localStorage) {
         $scope.service = serviceToEdit;
         $scope.tenantId = 0;
-        
 
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
-/*
-        $scope.route = ServiceResource.get({
-            id: $scope.routeId,
-            tenantId: $scope.tenantId
-        });
-*/
+        $scope.updateService = updateService;
+
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+
+        }
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+        console.log($scope.tenantId);
+
 
         function updateService(item) {
-            ServiceResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
+            console.log(item);
+            delete item["_id"];
+            ServiceResource.services(token).update({serviceId: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
+                showAlert('Exito!','Se ha editado la Parada de forma exitosa');
+                console.log(item);
             }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
+                showAlert('Error!','Ocurrió un error al procesar su petición');
             });
+
         }
-
-
 
         function showAlert(title,content) {
             $mdDialog

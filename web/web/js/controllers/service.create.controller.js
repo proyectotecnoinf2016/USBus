@@ -11,12 +11,44 @@
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 
+
+        $scope.days = [{
+            "name"  : "Lunes",
+            "value" : "MONDAY"
+        } , {
+            "name"  : "Martes",
+            "value" : "TUESDAY"
+        } , {
+            "name"  : "Miércoles",
+            "value" : "WEDNESDAY"
+        } , {
+            "name"  : "Jueves",
+            "value" : "THURSDAY"
+        } , {
+            "name"  : "Viernes",
+            "value" : "FRIDAY"
+        } , {
+            "name"  : "Sábado",
+            "value" : "SATURDAY"
+        } , {
+            "name"  : "Domingo",
+            "value" : "SUNDAY"
+        } , {
+        }];
+
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
         }
 
-        function createService(route) {
-            ServiceResource.save(route,function (resp) {
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+        console.log($scope.tenantId);
+
+        function createService(item) {
+            item.tenantId = $scope.tenantId;
+            ServiceResource.services(token).save({tenantId: $scope.tenantId },item, function(){
                 showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
             }, function (error) {
                 console.log(error);

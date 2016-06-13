@@ -35,8 +35,8 @@ public class ServiceBean implements ServiceLocal, ServiceRemote{
     }
 
     @Override
-    public List<Service> getServicesByTenantAndDate(long tenantId, Date time, int offset, int limit) {
-        return dao.getServicesByTenantAndDate(tenantId, time, offset, limit);
+    public List<Service> getServicesByTenantAndDayOfTheWeek(long tenantId, DayOfWeek dayOfWeek, int offset, int limit) {
+        return dao.getServicesByDayOfTheWeek(tenantId, dayOfWeek, offset, limit);
     }
 
     @Override
