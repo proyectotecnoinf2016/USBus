@@ -69,9 +69,6 @@ public class AuthenticationBean implements AuthenticationLocal, AuthenticationRe
 
         User user = userDAO.getByUsername(credentials.getTenantId(),credentials.getUsername());
 
-
-//        RsaJsonWebKey jsonSignKey = RsaJwkGenerator.generateJwk(2048);
-
         String keyPath = System.getProperty("jboss.server.config.dir") + "/private_key.der";
         PrivateKey pk = RSAKeys.getPrivateKey(keyPath);
 

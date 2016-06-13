@@ -122,6 +122,9 @@ public class BusStopDAO {
             query.criteria("tenantId").equal(tenantId);
             query.order("-id").retrievedFields(true,"id");
             BusStop busStop = query.get();
+            if (busStop==null){
+                return new Long(1);
+            }
             return busStop.getId() + 1;
 
         }
