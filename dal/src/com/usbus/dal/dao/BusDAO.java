@@ -41,12 +41,12 @@ public class BusDAO {
         return query.countAll();
     }
 
-    public Bus getByBusId(long tenantId, String id){
-        if (!(tenantId > 0) || (id.isEmpty())) {
+    public Bus getByBusId(long tenantId, String busId){
+        if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
             return null;
         }
         Query<Bus> query = ds.createQuery(Bus.class);
-        query.and(query.criteria("id").equal(id), query.criteria("tenantId").equal(tenantId));
+        query.and(query.criteria("id").equal(busId), query.criteria("tenantId").equal(tenantId));
         return query.get();
     }
 
@@ -60,7 +60,7 @@ public class BusDAO {
     }
 
     public Bus getByLocalId(long tenantId, String busId) {
-        if (!(tenantId > 0) || (busId != null && !busId.isEmpty())) {
+        if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
             return null;
         }
 
@@ -77,7 +77,7 @@ public class BusDAO {
     }
 
     public void setInactive(long tenantId, String busId) {
-        if (!(tenantId > 0) || (busId != null && !busId.isEmpty())) {
+        if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
         } else {
             Query<Bus> query = ds.createQuery(Bus.class);
 
@@ -89,7 +89,7 @@ public class BusDAO {
     }
 
     public void setActive(long tenantId, String busId) {
-        if (!(tenantId > 0) || (busId == null && !busId.isEmpty())) {
+        if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
         } else {
             Query<Bus> query = ds.createQuery(Bus.class);
 
