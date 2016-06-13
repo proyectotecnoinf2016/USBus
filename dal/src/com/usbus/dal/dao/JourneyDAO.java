@@ -12,9 +12,7 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Lufasoch on 28/05/2016.
@@ -141,6 +139,36 @@ public class JourneyDAO {
                 return pricexkm * (kmDestination - kmOrigin);
             }
         }
+    }
+
+    public List<Journey> getJourneysByTenantDateAndStatus(long tenantId, Date time, JourneyStatus journeyStatus, int offset, int limit){
+        if(!(tenantId > 0) || (time == null) || (offset < 0) || ( limit <= 0)){
+            return null;
+        }
+        Date timeAux = time;
+        //CAL1
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(time);
+        cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
+        cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+        time = cal.getTime();
+        //CAL2
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(time);
+        cal2.set(Calendar.HOUR_OF_DAY, cal2.getMaximum(Calendar.HOUR_OF_DAY));
+        cal2.set(Calendar.MINUTE, cal2.getMaximum(Calendar.MINUTE));
+        cal2.set(Calendar.SECOND, cal2.getMaximum(Calendar.SECOND));
+        cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
+        timeAux = cal2.getTime();
+        //END
+        System.out.println("Fecha inicial: " + time.toString());
+        System.out.println("Fecha final: " + timeAux.toString());
+        Query<Journey> query = ds.createQuery(Journey.class);
+        query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
+                query.criteria("tenantId").equal(tenantId) , query.criteria("status").equal(journeyStatus));
+        return query.offset(offset).limit(limit).asList();
     }
 
     public void remove(ObjectId id) {

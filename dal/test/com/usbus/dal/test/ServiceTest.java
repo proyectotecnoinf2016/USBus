@@ -1,6 +1,8 @@
 package com.usbus.dal.test;
 
 import com.usbus.commons.auxiliaryClasses.RouteStop;
+import com.usbus.dal.dao.BusStopDAO;
+import com.usbus.dal.dao.RouteDAO;
 import com.usbus.dal.dao.ServiceDAO;
 import com.usbus.dal.model.BusStop;
 import com.usbus.dal.model.Route;
@@ -19,6 +21,8 @@ import java.util.TimeZone;
  */
 public class ServiceTest {
     protected ServiceDAO dao = new ServiceDAO();
+    protected RouteDAO rdao = new RouteDAO();
+    protected BusStopDAO bsdao = new BusStopDAO();
 
     @Test
     public void persist() throws ParseException {
@@ -40,15 +44,18 @@ public class ServiceTest {
         dao.persist(srv);
 
         BusStop origin = new BusStop(2, 1L, "Montevideo", true, 10.0);
+        bsdao.persist(origin);
         BusStop destination = new BusStop(2, 2L, "Colonia", true, 10.0);
-        RouteStop rsOrigin = new RouteStop("Montevideo", 0.0, false);
+        bsdao.persist(destination);
+        RouteStop rsMvd = new RouteStop("Montevideo", 0.0, false);
         RouteStop rsPzaCuba = new RouteStop("Plaza Cuba", 7.4, false);
         RouteStop rsColonia = new RouteStop("Colonia", 176.5, false);
         List<RouteStop> routeStops = new ArrayList<>();
-        routeStops.add(rsOrigin);
+        routeStops.add(rsMvd);
         routeStops.add(rsPzaCuba);
         routeStops.add(rsColonia);
         Route route = new Route(2, 1L, "Montevideo - Colonia", origin, destination, routeStops, true, false, 2.30);
+        rdao.persist(route);
         srv = new Service(2, 5L, "Montevideo - Colonia (Común)", DayOfWeek.FRIDAY, format.parse("09:15"), route, 3, true);
         dao.persist(srv);
 
