@@ -10,6 +10,7 @@ import org.bson.types.ObjectId;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -94,6 +95,24 @@ public class JourneyService {
         } else {
             return Response.ok(price).build();
         }
+    }
+
+    @GET
+    @Path("get/jdateAndStatus")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response journeysByTenantIdAndStatus(@PathParam("tenantId") long tenantId,
+                                                @QueryParam ("date") Date date,
+                                                @QueryParam ("status") JourneyStatus status,
+                                                @QueryParam ("offset") int offset,
+                                                @QueryParam ("limit") int limit){
+        List<Journey> JList = ejb.getJourneysByTenantDateAndStatus(tenantId, date, status, offset, limit);
+
+        if (JList == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(JList).build();
     }
 
     @DELETE

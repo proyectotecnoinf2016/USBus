@@ -141,10 +141,11 @@ public class JourneyDAO {
         }
     }
 
-    public List<Journey> getJourneysByTenantAndDate(long tenantId, Date time, int offset, int limit){
+    public List<Journey> getJourneysByTenantDateAndStatus(long tenantId, Date time, JourneyStatus journeyStatus, int offset, int limit){
         if(!(tenantId > 0) || (time == null) || (offset < 0) || ( limit <= 0)){
             return null;
         }
+        Date timeAux = time;
         //CAL1
         Calendar cal = Calendar.getInstance();
         cal.setTime(time);
@@ -160,13 +161,13 @@ public class JourneyDAO {
         cal2.set(Calendar.MINUTE, cal2.getMaximum(Calendar.MINUTE));
         cal2.set(Calendar.SECOND, cal2.getMaximum(Calendar.SECOND));
         cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
-        Date timeAux = cal2.getTime();
+        timeAux = cal2.getTime();
         //END
         System.out.println("Fecha inicial: " + time.toString());
         System.out.println("Fecha final: " + timeAux.toString());
         Query<Journey> query = ds.createQuery(Journey.class);
-        query.and(query.criteria("time").greaterThanOrEq(time), query.criteria("time").lessThanOrEq(timeAux),
-                query.criteria("tenantId").equal(tenantId));
+        query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
+                query.criteria("tenantId").equal(tenantId) , query.criteria("status").equal(journeyStatus));
         return query.offset(offset).limit(limit).asList();
     }
 
