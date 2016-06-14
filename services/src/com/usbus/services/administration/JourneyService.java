@@ -115,6 +115,23 @@ public class JourneyService {
         return Response.ok(JList).build();
     }
 
+    @GET
+    @Path("get/jdate")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response journeysByTenantIdAndStatus(@PathParam("tenantId") long tenantId,
+                                                @QueryParam ("date") Date date,
+                                                @QueryParam ("offset") int offset,
+                                                @QueryParam ("limit") int limit){
+        List<Journey> JList = ejb.getJourneysByTenantAndDate(tenantId, date, offset, limit);
+
+        if (JList == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(JList).build();
+    }
+
     @DELETE
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
