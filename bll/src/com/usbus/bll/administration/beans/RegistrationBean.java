@@ -26,7 +26,7 @@ import java.util.List;
 
 public class RegistrationBean implements RegistrationLocal, RegistrationRemote {
 
-    static Logger logger = LoggerFactory.getLogger(AuthenticationBean.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationBean.class);
     private final TenantDAO tenantDAO = new TenantDAO();
     private final UserDAO userDAO = new UserDAO();
     private final HumanResourceDAO hrDAO = new HumanResourceDAO();
@@ -74,12 +74,16 @@ public class RegistrationBean implements RegistrationLocal, RegistrationRemote {
 
         } catch (DuplicateKeyException ex) {
             logger.info("El usuario ya existe");
-            hrDAO.remove(userOID);
-            tenantDAO.remove(tenantDAO.getByLocalId(user.getTenantId()).get_id());
-            return -1;
+            Tenant tenant = tenantDAO.getByLocalId(user.getTenantId());
+            tenantDAO.remove(tenant.get_id());
+            if ((user.getEmail() != null) && userDAO.getByEmail(user.getTenantId(), user.getEmail()) != null) {
+                return -2;
+            } else {
+                return -1;
+            }
         } catch (Exception ex) {
-            hrDAO.remove(userOID);
-            tenantDAO.remove(tenantDAO.getByLocalId(user.getTenantId()).get_id());
+            Tenant tenant = tenantDAO.getByLocalId(user.getTenantId());
+            tenantDAO.remove(tenant.get_id());
             return 0;
 
         }
@@ -103,12 +107,15 @@ public class RegistrationBean implements RegistrationLocal, RegistrationRemote {
 
         } catch (DuplicateKeyException ex) {
             logger.info("El cliente ya existe");
-            userDAO.remove(userOID);
-            tenantDAO.remove(tenantDAO.getByLocalId(user.getTenantId()).get_id());
-            return -1;
+            if ((user.getEmail() != null) && userDAO.getByEmail(user.getTenantId(), user.getEmail()) != null) {
+                return -2;
+            } else {
+                return -1;
+            }
+
         } catch (Exception ex) {
-            userDAO.remove(userOID);
-            tenantDAO.remove(tenantDAO.getByLocalId(user.getTenantId()).get_id());
+            Tenant tenant = tenantDAO.getByLocalId(user.getTenantId());
+            tenantDAO.remove(tenant.get_id());
             return 0;
 
         }
