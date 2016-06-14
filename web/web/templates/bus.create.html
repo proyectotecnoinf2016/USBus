@@ -10,6 +10,11 @@
         <md-dialog-content >
             <span flex></span>
             <md-input-container class="customInput">
+                <label>Matricula</label>
+                <md-tooltip md-direction="top">Ingrese Matricula de la Unidad</md-tooltip>
+                <input ng-model="bus.id">
+            </md-input-container>
+            <md-input-container class="customInput">
                 <label>Marca</label>
                 <md-tooltip md-direction="top">Ingrese Marca de la Unidad</md-tooltip>
                 <input ng-model="bus.brand" required>
@@ -28,7 +33,7 @@
              <md-input-container class="customInput">
                 <label>Próximo Mantenimiento</label>
                 <md-tooltip md-direction="top">Ingrese Próximo Mantenimiento</md-tooltip>
-                <input ng-model="bus.nextMaintenance" >
+                <input type="number" ng-model="bus.nextMaintenance" >
             </md-input-container>
              <md-input-container class="customInput">
                 <label>Número de Asientos</label>

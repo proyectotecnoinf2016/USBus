@@ -31,10 +31,15 @@ public class Register {
     @Produces(MediaType.TEXT_PLAIN)
     public Response registerTenant(Tenant tenant) {
         long tenantId = ejb.registerTenant(tenant);
+
         if (tenantId > 0) {
             return Response.ok(tenantId).build();
         } else {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el tenant, intentelo nuevamente.").build();
+            if (tenantId == -1) {
+                return Response.status(Response.Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity("Ya existe una empresa virtual registrada con el mismo nombre. Por favor seleccione un nombre distinto.").build();
+            } else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el tenant, intentelo nuevamente.").build();
+            }
         }
     }
 
@@ -43,11 +48,20 @@ public class Register {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response registerUser(User user) {
-        if(ejb.registerUser(user)){
+        int result = ejb.registerUser(user);
+        if (result == 1) {
             return Response.ok("Usuario Guardado").build();
-        }else {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
+        } else {
+            if (result < 0) switch (result) {
+                case -1:
+                    return Response.status(Response.Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity("Ya existe el usuario que intenta crear!").build();
+
+                case -2:
+                    return Response.status(Response.Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity("Ya existe un usuario con ese email.").build();
+
+            }
         }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
     }
 
     @POST
@@ -55,10 +69,19 @@ public class Register {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response registerClient(User user) {
-        if(ejb.registerClient(user)){
+        int result = ejb.registerClient(user);
+        if (result == 1) {
             return Response.ok("Usuario Guardado").build();
         }else {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el usuario, intentelo nuevamente.").build();
+            if (result < 0) switch (result) {
+                case -1:
+                    return Response.status(Response.Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity("Ya existe el cliente que intenta crear!").build();
+
+                case -2:
+                    return Response.status(Response.Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity("Ya existe un cliente con ese email.").build();
+            }
         }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Ocurrió un error al registrar el cliente, intentelo nuevamente.").build();
+
     }
 }

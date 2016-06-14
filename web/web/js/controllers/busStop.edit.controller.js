@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditBusStopController', EditBusStopController);
-    EditBusStopController.$inject = ['$scope', 'BusStopResource', '$mdDialog', 'busStopToEdit'];
+    EditBusStopController.$inject = ['$scope', 'BusStopResource', '$mdDialog', 'busStopToEdit', 'localStorage'];
     /* @ngInject */
-    function EditBusStopController($scope, BusStopResource, $mdDialog, busStopToEdit) {
+    function EditBusStopController($scope, BusStopResource, $mdDialog, busStopToEdit, localStorage) {
         $scope.busStop = busStopToEdit;
         $scope.tenantId = 0;
         
@@ -14,19 +14,25 @@
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
         $scope.updateBusStop = updateBusStop;
-/*
-        $scope.busStop = BusStopResource.get({
-            id: $scope.busId,
-            tenantId: $scope.tenantId
-        });
-*/
+        
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+
+        }
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+        console.log($scope.tenantId);
 
         function updateBusStop(item) {
-            BusStopResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-                console.log(style);
+            console.log(item);
+            delete item["_id"];
+            BusStopResource.busStops(token).update({busStopId: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
+                showAlert('Exito!','Se ha editado la Parada de forma exitosa');
+                console.log(item);
             }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
+                showAlert('Error!','Ocurrió un error al procesar su petición');
             });
         }
 

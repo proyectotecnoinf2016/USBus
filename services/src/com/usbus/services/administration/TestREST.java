@@ -1,6 +1,7 @@
 package com.usbus.services.administration;
 
 import com.usbus.commons.enums.Rol;
+import com.usbus.dal.dao.UserDAO;
 import com.usbus.services.auth.Secured;
 
 import javax.ejb.Stateless;
@@ -14,11 +15,14 @@ import javax.ws.rs.core.Response;
 @Stateless
 @Path("/test")
 public class TestREST {
+    UserDAO userDAO = new UserDAO();
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response test() {
-        String res = System.getProperty("jboss.server.config.dir");//${jboss.server.home.dir}/log/USBUS.log
-        return Response.ok(res).build();
+
+
+
+        return Response.ok(userDAO.getAllUsers(1,0,100)).build();
     }
 
     @GET

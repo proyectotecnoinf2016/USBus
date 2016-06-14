@@ -1,8 +1,11 @@
 <h1 class="grayHeader">Unidades</h1>
 <form name="inputForm" novalidate >
-    <h1 class="grayHeader">{{message}}</h1>
+    <h1 class="grayHeader" ng-show="buses == null || buses.length == 0">{{message}}</h1>
     <md-content ng-show="buses != null && buses.length > 0">
         <span layout="row" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                Matricula
+            </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
                 Marca
             </h3>
@@ -32,6 +35,9 @@
         <span>
             <span layout="row" ng-repeat="item in buses" >
                 <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.id}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
                     {{item.brand}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
@@ -55,7 +61,7 @@
 
                 <p hide-md="" show-gt-md="" class="tableRow" >
                     <img src="img/Edit_Icon.png" ng-click="showBus(item, $event)" class="editIcon pointer"/> 
-                    <img src="img/Delete_Icon.png" ng-click="deleteBus(item.name)" class="deleteIcon pointer"/>
+                    <img src="img/Delete_Icon.png" ng-click="deleteBus(item)" class="deleteIcon pointer"/>
                 </p>
             </span>
         </span>

@@ -54,7 +54,7 @@ public class UserDAO {
 
         query.and(query.criteria("username").equal(username),
                 query.criteria("tenantId").equal(tenantId));
-
+        query.retrievedFields(false,"salt","passwordHash");
         return query.get();
 
     }
@@ -68,7 +68,7 @@ public class UserDAO {
 
         query.and(query.criteria("email").equal(email),
                 query.criteria("tenantId").equal(tenantId));
-
+        query.retrievedFields(false,"salt","passwordHash");
         return query.get();
 
     }
@@ -78,7 +78,7 @@ public class UserDAO {
             return null;
         }
 
-        return ds.find(User.class).field("tenantId")
+        return ds.find(User.class).retrievedFields(false,"salt","passwordHash").field("tenantId")
                 .equal(tenantId).offset(offset).limit(limit).asList();
     }
 

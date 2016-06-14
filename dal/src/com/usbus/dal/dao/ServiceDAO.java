@@ -1,5 +1,6 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.Service;
@@ -8,6 +9,9 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,14 +41,47 @@ public class ServiceDAO {
         return query.countAll();
     }
 
-    public List<Service> getServicesByTenantAndDate(long tenantId, Date time, int offset, int limit){
-        if(!(tenantId > 0) || (time == null) || (offset < 0) || ( limit <= 0)){
+    public List<Service> getServicesByDayOfTheWeek(long tenantId, DayOfWeek dayOfWeek, int offset, int limit){
+        if(!(tenantId > 0) || (dayOfWeek == null) || (offset < 0) || ( limit <= 0)){
             return null;
         }
         Query<Service> query = ds.createQuery(Service.class);
-        query.and(query.criteria("time").equal(time),
-                query.criteria("tenantId").equal(tenantId));
+        query.and(query.criteria("day").equal(dayOfWeek), query.criteria("tenantId").equal(tenantId));
         return query.offset(offset).limit(limit).asList();
+    }
+
+    public List<Service> getServicesByTenantDOWAndStops(long tenantId, DayOfWeek day, String origin, String destination, int offset, int limit){
+        if(!(tenantId > 0) ||
+                (day == null) ||
+                (offset < 0) || (limit <= 0) ||
+                origin == null || destination == null ||
+                origin.equals(destination)){
+            return null;
+        }
+        Query<Service> query = ds.createQuery(Service.class);
+        query.and(query.criteria("day").equal(day),
+                query.criteria("tenantId").equal(tenantId));
+        List<Service> resultList = query.offset(offset).limit(limit).asList();
+        List<Service> auxList = new ArrayList<>(resultList);
+        if(auxList.isEmpty()) {
+            return null;
+        } else {
+            int oriIdx = -1, dstIdx = -1;
+            for (Service srv : auxList) {
+                List<RouteStop> stops = srv.getRoute().getBusStops();
+                for (int i = 0; i < stops.size(); i++) {
+                    if (stops.get(i).getBusStop().equals(origin)) { //origin found in route
+                        oriIdx = i;
+                    } else if (stops.get(i).getBusStop().equals(destination)) { //destination found in route
+                        dstIdx = i;
+                    }
+                }
+                if(oriIdx < 0 || dstIdx < 0 || oriIdx >= dstIdx){ //check if both found in correct order
+                    resultList.remove(srv);
+                }
+            }
+        }
+        return resultList;
     }
 
     public List<Service> getServicesByTenant(long tenantId, int offset, int limit){

@@ -14,7 +14,9 @@ import javax.xml.bind.annotation.XmlRootElement;
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iBusStopKey", unique=true)),
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "name") }, options = @IndexOptions(name="iBusStopName", unique=true))})
 public class BusStop extends BaseEntity {
+//    @Property(value = "busStopId")
     private Long id;
+//    @Property(value = "busStopName")
     private String name;
     private Boolean active;
     private Double stopTime;

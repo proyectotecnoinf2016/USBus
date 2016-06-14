@@ -53,7 +53,7 @@ public class BusService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response getBusStop(@PathParam("tenantId")Long tenantId, @PathParam("busId") String busId){
+    public Response getBus(@PathParam("tenantId")Long tenantId, @PathParam("busId") String busId){
 
         Bus BusAux = ejb.getByLocalId(tenantId,busId);
         if (BusAux == null){
@@ -66,7 +66,7 @@ public class BusService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response getBusStopList(@PathParam("tenantId")Long tenantId, @QueryParam("busStatus") BusStatus busStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+    public Response getBusList(@PathParam("tenantId")Long tenantId, @QueryParam("busStatus") BusStatus busStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
 
         List<Bus> busList = ejb.BusesByTenantIdAndStatus(tenantId, busStatus, offset, limit);
         if (busList == null){

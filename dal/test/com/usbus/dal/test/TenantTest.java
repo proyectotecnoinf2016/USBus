@@ -16,14 +16,18 @@ public class TenantTest {
     @Test
     public void persist() {
         dao.clean();
+
         Tenant t = new Tenant(1,"Prueba1");
         dao.persist(t);
+
         t = new Tenant(2,"Prueba2");
         dao.persist(t);
+
         System.out.println(dao.countAll());
 
         t = new Tenant(1,"Prueba1");
         dao.persist(t);
 
+        System.out.println(dao.countAll());
     }
 }

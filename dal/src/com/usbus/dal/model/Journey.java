@@ -17,10 +17,13 @@ import java.util.Date;
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iJourneyKey", unique=true))})
 public class Journey extends BaseEntity{
     private Long id;
+    @Reference
     private Service service;
     private Date date;
+    @Reference
     private Bus bus;
     private String thirdPartyBus;
+    @Reference
     private HumanResource driver;
     private Integer busNumber;
     private Integer seats;

@@ -12,7 +12,7 @@ import javax.ejb.Remote;
 @Remote
 public interface RegistrationRemote {
     long registerTenant(Tenant tenant);
-    Boolean registerUser(User user);
-    Boolean registerClient(User user);
+    int registerUser(User user);
+    int registerClient(User user);
 
 }

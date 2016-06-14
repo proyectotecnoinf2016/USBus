@@ -20,6 +20,7 @@ public class Service extends BaseEntity {
     private String name;
     private DayOfWeek day;
     private Date time;
+    @Reference
     private Route route;
     private Integer numberOfBuses;
     private Boolean active;

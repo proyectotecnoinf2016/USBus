@@ -8,6 +8,7 @@ import com.usbus.dal.model.Journey;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Stateless;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,5 +50,15 @@ public class JourneyBean implements JourneyLocal, JourneyRemote {
     @Override
     public List<Journey> JourneysByTenantIdAndStatus(long tenantId, JourneyStatus status, int offset, int limit) {
         return dao.JourneysByTenantIdAndStatus(tenantId, status, offset, limit);
+    }
+
+    @Override
+    public List<Journey> getJourneysByTenantDateAndStatus(long tenantId, Date time, JourneyStatus journeyStatus, int offset, int limit) {
+        return dao.getJourneysByTenantDateAndStatus(tenantId, time, journeyStatus, offset, limit);
+    }
+
+    @Override
+    public Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination) {
+        return dao.getJourneyPrice(tenantId, journeyId, origin, destination);
     }
 }

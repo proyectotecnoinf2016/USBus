@@ -10,7 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @Entity(value = "tenants",noClassnameStored = true)
-@Indexes(@Index(fields = { @Field(value = "tenantId")}, options = @IndexOptions(name="iTenantKey", unique=true)))
+@Indexes({@Index(fields = { @Field(value = "tenantId")}, options = @IndexOptions(name="iTenantKey", unique=true)),
+        @Index(fields = { @Field(value = "name")}, options = @IndexOptions(name="iTenantName", unique=true))})
 
 public class Tenant extends BaseEntity {
     public String name;
