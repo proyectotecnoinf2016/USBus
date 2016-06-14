@@ -71,7 +71,7 @@ public class BusStopService {
         return Response.ok(busStop).build();
     }
 
-    //    @GET
+//    @GET
 //    @Path("{busStopId}/destinations")
 //    @Produces(MediaType.APPLICATION_JSON)
 //    @Consumes(MediaType.APPLICATION_JSON)
