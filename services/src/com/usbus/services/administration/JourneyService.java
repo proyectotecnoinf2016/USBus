@@ -36,7 +36,7 @@ public class JourneyService {
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT})
     public Response updateJourney(@PathParam("tenantId")Long tenantId,
                                   @PathParam("journeyId")Long journeyId,
                                   Journey journey){

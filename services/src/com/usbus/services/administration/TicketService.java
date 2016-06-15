@@ -23,8 +23,8 @@ public class TicketService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createTicket(Ticket ticketAux){
-        Long ticketId = ejb.persist(ticketAux);
-        if (ticketId > 0){
+        ObjectId ticketId = ejb.persist(ticketAux);
+        if (ticketId != null){
             return Response.ok(ticketId).build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -35,7 +35,7 @@ public class TicketService {
     @Path("{ticketId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
     public Response getTicket(@PathParam("tenantId")Long tenantId, @PathParam("ticketId") Long ticketId){
         Ticket ticketAux = ejb.getByLocalId(tenantId, ticketId);
         if (ticketAux == null){
