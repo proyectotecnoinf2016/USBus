@@ -36,7 +36,13 @@
                         <md-input-container class="customInput">
                             <label>Ruta</label>
                             <md-tooltip md-direction="top">Ingrese Ruta del Serivicio</md-tooltip>
-                            <input type="number" ng-model="service.route" required >
+
+                            <md-select ng-model="service.route">
+                                <md-option ng-repeat="route in routes" value="{{route.name}}" ng-disabled="$index === 1">
+                                    {{route.name}}
+                                </md-option>
+                            </md-select>
+
                         </md-input-container>
                         <md-input-container class="customInput">
                             <label>Cantidad de unidades</label>

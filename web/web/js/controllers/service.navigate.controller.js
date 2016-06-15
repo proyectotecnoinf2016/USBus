@@ -10,6 +10,7 @@
         $scope.showServices = showServices;
         $scope.createService = createService;
         $scope.deleteService = deleteService;
+        $scope.showAlert = showAlert;
 
         $scope.message = '';
         $scope.services = [];
@@ -80,9 +81,26 @@
                 });
         };
 
+        function showAlert(title,content) {
+            $mdDialog
+                .show($mdDialog
+                    .alert()
+                    .parent(
+                        angular.element(document
+                            .querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .content(content)
+                    .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
+
+        };
+
         function deleteService(item) {
             delete item["_id"];
-            ServiceResource.delete({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
+
+            ServiceResource.services(token).delete({
+                serviceId: item.id,
+                tenantId: $scope.tenantId}, item).$promise.then(function(data){
                 showAlert('Exito!','Se ha eliminado el elemento de forma exitosa');
                 console.log(service);
             }, function(error){
