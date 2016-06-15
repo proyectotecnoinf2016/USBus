@@ -208,4 +208,19 @@ public class JourneyDAO {
     public void clean(){
         ds.delete(ds.createQuery(Journey.class));
     }
+
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Journey journey = query.get();
+            if (journey==null){
+                return new Long(1);
+            }
+            return journey.getId() + 1;
+        }
+    }
 }

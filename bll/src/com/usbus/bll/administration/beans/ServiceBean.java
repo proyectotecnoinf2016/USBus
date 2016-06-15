@@ -31,6 +31,7 @@ public class ServiceBean implements ServiceLocal, ServiceRemote{
 
     @Override
     public ObjectId persist(Service service) {
+        service.setId(dao.getNextId(service.getTenantId()));
         return dao.persist(service);
     }
 

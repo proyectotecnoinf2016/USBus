@@ -153,4 +153,19 @@ public class ServiceDAO {
     public void clean(){
         ds.delete(ds.createQuery(Service.class));
     }
+
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Service> query = ds.createQuery(Service.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Service service = query.get();
+            if (service==null){
+                return new Long(1);
+            }
+            return service.getId() + 1;
+        }
+    }
 }
