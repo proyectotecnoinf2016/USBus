@@ -46,7 +46,7 @@ public class ServiceBean implements ServiceLocal, ServiceRemote{
 
     @Override
     public List<Service> getServicesByTenant(long tenantId, int offset, int limit) {
-        return getServicesByTenant(tenantId, offset, limit);
+        return dao.getServicesByTenant(tenantId, offset, limit);
     }
 
     @Override
