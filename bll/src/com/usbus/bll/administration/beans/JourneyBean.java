@@ -53,6 +53,11 @@ public class JourneyBean implements JourneyLocal, JourneyRemote {
     }
 
     @Override
+    public List<Journey> getJourneysByTenantAndDate(long tenantId, Date time, int offset, int limit) {
+        return dao.getJourneysByTenantAndDate(tenantId, time, offset, limit);
+    }
+
+    @Override
     public List<Journey> getJourneysByTenantDateAndStatus(long tenantId, Date time, JourneyStatus journeyStatus, int offset, int limit) {
         return dao.getJourneysByTenantDateAndStatus(tenantId, time, journeyStatus, offset, limit);
     }
