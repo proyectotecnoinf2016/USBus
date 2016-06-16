@@ -101,6 +101,7 @@ public class JourneyTest {
         seis.setSeatsState(new Seat[]{v3, v13, v8, v40});
         dao.persist(seis);
 
+        System.out.print("Cantidad de journeys: ");
         System.out.println(dao.countAll());
     }
 

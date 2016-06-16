@@ -132,6 +132,22 @@ public class JourneyService {
         return Response.ok(JList).build();
     }
 
+    @GET
+    @Path("get/jbyDateOriginAndDestination")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response getJourneysByDateOriginAndDestination(@PathParam("tenantId") long tenantId,
+                                                          @QueryParam ("date") Date date,
+                                                          @QueryParam ("origin") String origin,
+                                                          @QueryParam ("destination") String destination){
+        List<Journey> JList = ejb.getJourneysByDateOriginAndDestination(tenantId, date, origin, destination);
+        if (JList == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(JList).build();
+    }
+
     @DELETE
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)

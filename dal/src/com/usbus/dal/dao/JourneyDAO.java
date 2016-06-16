@@ -163,8 +163,8 @@ public class JourneyDAO {
         cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
         timeAux = cal2.getTime();
         //END
-        System.out.println("Fecha inicial: " + time.toString());
-        System.out.println("Fecha final: " + timeAux.toString());
+        //System.out.println("Fecha inicial: " + time.toString());
+        //System.out.println("Fecha final: " + timeAux.toString());
         Query<Journey> query = ds.createQuery(Journey.class);
         query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
                 query.criteria("tenantId").equal(tenantId) , query.criteria("status").equal(journeyStatus));

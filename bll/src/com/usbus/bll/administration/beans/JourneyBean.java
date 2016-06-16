@@ -70,6 +70,7 @@ public class JourneyBean implements JourneyLocal, JourneyRemote {
         return dao.getJourneyPrice(tenantId, journeyId, origin, destination);
     }
 
+    @Override
     public List<Journey> getJourneysByDateOriginAndDestination(long tenantId, Date time, String origin, String destination){
         List<Journey> resultList = dao.getJourneysByTenantAndDateNoLimits(tenantId, time);
         List<Journey> auxList = new ArrayList<>(resultList);

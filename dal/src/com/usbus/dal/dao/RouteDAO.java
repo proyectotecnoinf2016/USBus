@@ -156,4 +156,8 @@ public class RouteDAO {
             return route.getId() + 1;
         }
     }
+
+    public void clean(){
+        ds.delete(ds.createQuery(Route.class));
+    }
 }
