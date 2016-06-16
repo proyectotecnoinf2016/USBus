@@ -2,12 +2,14 @@ package com.usbus.bll.administration.beans;
 
 import com.usbus.bll.administration.interfaces.JourneyLocal;
 import com.usbus.bll.administration.interfaces.JourneyRemote;
+import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.dal.dao.JourneyDAO;
 import com.usbus.dal.model.Journey;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Stateless;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,5 +68,29 @@ public class JourneyBean implements JourneyLocal, JourneyRemote {
     @Override
     public Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination) {
         return dao.getJourneyPrice(tenantId, journeyId, origin, destination);
+    }
+
+    public List<Journey> getJourneysByDateOriginAndDestination(long tenantId, Date time, String origin, String destination){
+        List<Journey> resultList = dao.getJourneysByTenantAndDateNoLimits(tenantId, time);
+        List<Journey> auxList = new ArrayList<>(resultList);
+        if(auxList.isEmpty()) {
+            return null;
+        } else {
+            int oriIdx = -1, dstIdx = -1;
+            for (Journey journeyAux : auxList) {
+                List<RouteStop> stops = journeyAux.getService().getRoute().getBusStops();
+                for (int i = 0; i < stops.size(); i++) {
+                    if (stops.get(i).getBusStop().equals(origin)) { //origin found in route
+                        oriIdx = i;
+                    } else if (stops.get(i).getBusStop().equals(destination)) { //destination found in route
+                        dstIdx = i;
+                    }
+                }
+                if(oriIdx < 0 || dstIdx < 0 || oriIdx >= dstIdx){ //check if both found in correct order
+                    resultList.remove(journeyAux);
+                }
+            }
+        }
+        return resultList;
     }
 }
