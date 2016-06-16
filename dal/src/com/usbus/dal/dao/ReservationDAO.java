@@ -66,4 +66,19 @@ public class ReservationDAO {
             ds.update(query, updateOp);
         }
     }
+
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Reservation> query = ds.createQuery(Reservation.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Reservation reservation = query.get();
+            if (reservation==null){
+                return new Long(1);
+            }
+            return reservation.getId() + 1;
+        }
+    }
 }

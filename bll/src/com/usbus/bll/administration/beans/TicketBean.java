@@ -23,16 +23,9 @@ public class TicketBean implements TicketLocal, TicketRemote{
     public TicketBean(){}
 
     @Override
-    public Long persist(Ticket ticket) {
-        ObjectId ticketOID = null;
-        try {
-            ticket.setId(dao.countAll() + 1);
-            ticketOID = dao.persist(ticket);
-            return ticket.getId();
-        } catch (Exception ex) {
-            dao.remove(ticketOID);
-            return null;
-        }
+    public ObjectId persist(Ticket ticket) {
+        ticket.setId(dao.getNextId(ticket.getTenantId()));
+        return dao.persist(ticket);
     }
 
     @Override

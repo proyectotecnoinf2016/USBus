@@ -23,4 +23,5 @@ public interface JourneyLocal {
     List<Journey> getJourneysByTenantAndDate(long tenantId, Date time, int offset, int limit);
     List<Journey> getJourneysByTenantDateAndStatus(long tenantId, Date time, JourneyStatus journeyStatus, int offset, int limit);
     Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination);
+    List<Journey> getJourneysByDateOriginAndDestination(long tenantId, Date time, String origin, String destination);
 }

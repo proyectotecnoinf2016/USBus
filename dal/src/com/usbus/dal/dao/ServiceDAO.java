@@ -84,6 +84,38 @@ public class ServiceDAO {
         return resultList;
     }
 
+//    public List<Service> getServicesByTenantStops(long tenantId, String origin, String destination, int offset, int limit){
+//        if(!(tenantId > 0) ||
+//                (offset < 0) || (limit <= 0) ||
+//                origin == null || destination == null ||
+//                origin.equals(destination)){
+//            return null;
+//        }
+//        Query<Service> query = ds.createQuery(Service.class);
+//        query.criteria("tenantId").equal(tenantId);
+//        List<Service> resultList = query.offset(offset).limit(limit).asList();
+//        List<Service> auxList = new ArrayList<>(resultList);
+//        if(auxList.isEmpty()) {
+//            return null;
+//        } else {
+//            int oriIdx = -1, dstIdx = -1;
+//            for (Service srv : auxList) {
+//                List<RouteStop> stopsAux = srv.getRoute().getBusStops();
+//                for (int i = 0; i < stopsAux.size(); i++) {
+//                    if (stopsAux.get(i).getBusStop().equals(origin)) {
+//                        oriIdx = i;
+//                    } else if (stopsAux.get(i).getBusStop().equals(destination)) {
+//                        dstIdx = i;
+//                    }
+//                }
+//                if(oriIdx < 0 || dstIdx < 0 || oriIdx >= dstIdx){
+//                    resultList.remove(srv);
+//                }
+//            }
+//        }
+//        return resultList;
+//    }
+
     public List<Service> getServicesByTenant(long tenantId, int offset, int limit){
         if(!(tenantId > 0) || (offset < 0) || ( limit <= 0)){
             return null;
@@ -152,5 +184,20 @@ public class ServiceDAO {
 
     public void clean(){
         ds.delete(ds.createQuery(Service.class));
+    }
+
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Service> query = ds.createQuery(Service.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Service service = query.get();
+            if (service==null){
+                return new Long(1);
+            }
+            return service.getId() + 1;
+        }
     }
 }

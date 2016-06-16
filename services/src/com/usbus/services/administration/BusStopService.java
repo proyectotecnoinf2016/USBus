@@ -27,7 +27,7 @@ public class BusStopService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
     public Response getBusStopList(@PathParam("tenantId") Long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("name") String name, @QueryParam("origin") String origin, @QueryParam("destination") String destination) {
 
         if ((origin == null || origin.isEmpty()) && (destination == null || destination.isEmpty())) {
