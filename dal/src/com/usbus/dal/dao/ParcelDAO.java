@@ -53,4 +53,19 @@ public class ParcelDAO {
     public void remove(ObjectId id) {
         dao.remove(Parcel.class, id);
     }
+
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Parcel> query = ds.createQuery(Parcel.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Parcel parcel = query.get();
+            if (parcel==null){
+                return new Long(1);
+            }
+            return parcel.getId() + 1;
+        }
+    }
 }
