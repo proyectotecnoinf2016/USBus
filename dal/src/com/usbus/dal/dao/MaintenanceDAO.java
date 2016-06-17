@@ -53,4 +53,19 @@ public class MaintenanceDAO {
     public void remove(ObjectId id) {
         dao.remove(Maintenance.class, id);
     }
+
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Maintenance> query = ds.createQuery(Maintenance.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Maintenance maintenance = query.get();
+            if (maintenance==null){
+                return new Long(1);
+            }
+            return maintenance.getId() + 1;
+        }
+    }
 }

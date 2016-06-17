@@ -36,7 +36,7 @@ public class JourneyService {
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT})
     public Response updateJourney(@PathParam("tenantId")Long tenantId,
                                   @PathParam("journeyId")Long journeyId,
                                   Journey journey){
@@ -126,6 +126,22 @@ public class JourneyService {
                                                 @QueryParam ("limit") int limit){
         List<Journey> JList = ejb.getJourneysByTenantAndDate(tenantId, date, offset, limit);
 
+        if (JList == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(JList).build();
+    }
+
+    @GET
+    @Path("get/jbyDateOriginAndDestination")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response getJourneysByDateOriginAndDestination(@PathParam("tenantId") long tenantId,
+                                                          @QueryParam ("date") Date date,
+                                                          @QueryParam ("origin") String origin,
+                                                          @QueryParam ("destination") String destination){
+        List<Journey> JList = ejb.getJourneysByDateOriginAndDestination(tenantId, date, origin, destination);
         if (JList == null){
             return Response.status(Response.Status.NO_CONTENT).build();
         }
