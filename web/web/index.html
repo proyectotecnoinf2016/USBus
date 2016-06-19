@@ -67,26 +67,34 @@
         <script src="js/factories/service.resource.js"></script>
         <script src="js/factories/branch.resource.js"></script>
 
+        <!-- DIRECTIVES -->
+        <script src="js/directives/background.select.js"></script>
+
         <!-- SCRIPTS -->
     </head>
     <body layout="column" layout-align="top center" layout-fill ng-cloak>
 
-        <md-toolbar class="customHeader">
-            <h1 class="USBusTitle" layout-align="top center" style="max-height: 150px;">
-                <div ng-controller="IndexController"  layout-align="start center" >
+
+        <md-toolbar layout="row" ng-controller="IndexController" back-Img="../img/Abstract_Blue.jpg">
+            <h1 flex class="USBusTitle" layout-align="top center" style="max-height: 150px;">
+                <div flex="50" ng-controller="IndexController"  layout-align="start center" >
                     <img hide show-gt-xs src="img/USBus2.png" class="logo"/>
                     <span>{{tenantName}}</span>
-					
-
-                    <img hide show-gt-xs src="img/Blue_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
-                    <img hide-gt-xs src="img/Blue_Bus.png" class="customBus smallCustomBus"/>
                 </div>
-                <div layout="row" layout-padding=""  layout-align="top start" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage" ng-controller="IndexController">
-                    <div class="ripplelink padded" md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado'">
-                        <img src="img/Profile.png" style="width: 50px;padding-right: 10px"/>
+
+            </h1>
+            <div layout="row" layout-align="end center">
+                <img hide show-gt-xs src="img/Blue_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
+                <img hide-gt-xs src="img/Blue_Bus.png" class="customBus smallCustomBus"/>
+
+            </div>
+            <div layout="row" layout-align="end center" flex layout-margin layout-padding>
+                <div layout-padding=""  layout-align="center center" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage" >
+                    <div class="ripplelink transbox" md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado'">
+                        <img src="img/Profile.png" style="width: 40px;padding-right: 10px"/>
                         <span class="grayHeader" hide show-gt-xs>{{userName}}</span>
                     </div>
-                    <div class="ripplelink padded" md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'" ng-click="login($event);" >
+                    <div class="ripplelink pointer" md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'" ng-click="login($event);" >
                         <span class="grayHeader" hide show-gt-xs>Ingresar</span>
                         <md-button class="md-icon-button" aria-label="Settings" >
                             <ng-md-icon icon="login" size="32"  >
@@ -96,9 +104,9 @@
                         </md-button>
                     </div>
                 </div>
-            </h1>
-        </md-toolbar>
+            </div>
 
+        </md-toolbar>
 
 		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
             <!--<md-toolbar >

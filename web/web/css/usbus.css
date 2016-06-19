@@ -31,7 +31,6 @@
 }
 
 .customBus {
-    float: right;
     padding-right:10px;
 }
 
@@ -89,7 +88,8 @@ label {
     .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
         margin: 7px;
         height: 50px;
-		width: 35%}
+		width: 35%;
+        min-width: 65px;}
     .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
         font-size: 0.4em; } }
 @media (min-width: 600px) and (max-width: 959px) {
@@ -177,8 +177,7 @@ label {
 
 
 .transbox {
-    padding: 20px;
+    padding: 10px;
     background-color: #ffffff;
-    border: 1px solid black;
-    opacity: 0.9;
+    opacity:0.85;
 }
