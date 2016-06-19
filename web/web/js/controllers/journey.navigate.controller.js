@@ -3,16 +3,16 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('TicketsController', TicketsController);
-    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage'];
+    angular.module('usbus').controller('JourneyController', JourneyController);
+    JourneyController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage'];
     /* @ngInject */
-    function TicketsController($scope, $mdDialog, JourneyResource, localStorage) {
+    function JourneyController($scope, $mdDialog, JourneyResource, localStorage) {
         $scope.tenantId = 0;
         $scope.showTicket = showTicket;
 
         $scope.journeys = [{
             name : "Planificar Viajes",
-            url  : "journeys"
+            url  : ""
         } , {
             name: "Administrar Usuarios"
         } , {
@@ -31,7 +31,8 @@
             name: "Administrar Servicios",
             url : "service"
         } , {
-            name: "Personalizar Estilos"
+            name: "Personalizar Estilos",
+            url : "styles"
         }];
 
 
@@ -45,14 +46,14 @@
             token = localStorage.getData('token');
         }
 
-        JourneyResource.journeys(token).query({
+        /*JourneyResource.journeys(token).query({
             offset: 0,
             limit: 100,
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             $scope.journeys = result;
         });
-
+*/
 
 
         function showTicket(item, ev) {

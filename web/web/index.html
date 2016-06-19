@@ -28,7 +28,6 @@
         <script src="node_modules/angular-messages/angular-messages.js"></script>
 
 
-
         <script src="js/usbus.js"></script>
         <script src="js/usbus.routes.js"></script>
         <script src="js/usbus.style.js"></script>
@@ -82,28 +81,42 @@
                     <img hide show-gt-xs src="img/Blue_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
                     <img hide-gt-xs src="img/Blue_Bus.png" class="customBus smallCustomBus"/>
                 </div>
-
+                <div layout="row" layout-padding=""  layout-align="top start" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage" ng-controller="IndexController">
+                    <div class="ripplelink padded" md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado'">
+                        <img src="img/Profile.png" style="width: 50px;padding-right: 10px"/>
+                        <span class="grayHeader" hide show-gt-xs>{{userName}}</span>
+                    </div>
+                    <div class="ripplelink padded" md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'" ng-click="login($event);" >
+                        <span class="grayHeader" hide show-gt-xs>Ingresar</span>
+                        <md-button class="md-icon-button" aria-label="Settings" >
+                            <ng-md-icon icon="login" size="32"  >
+                                <i class="material-icons grayHeader">input</i>
+                                <md-tooltip md-direction="right">Ingresar</md-tooltip>
+                            </ng-md-icon>
+                        </md-button>
+                    </div>
+                </div>
             </h1>
-
         </md-toolbar>
-		
-		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
 
-			<section layout="row" flex>
+
+		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
+            <!--<md-toolbar >
+                <h1 class="md-toolbar-tools">
+                    <i class="material-icons" style="padding-right: 20px">&#xE853;</i>
+                    {{userName}}
+                    <md-button class="md-icon-button" aria-label="Settings" >
+                        <ng-md-icon icon="login" size="32"  ng-click="login($event);" >
+                            <i class="material-icons">input</i>
+                            <md-tooltip md-direction="right">Ingresar</md-tooltip>
+                        </ng-md-icon>
+                    </md-button>
+                </h1>
+            </md-toolbar>-->
+
+            <section layout="row" flex>
                 <div ng-controller="IndexController" hide show-gt-md ng-show="show" style="width: 25%">
                     <md-sidenav layout-fill class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
-                        <md-toolbar >
-                            <h1 class="md-toolbar-tools">
-                                <i class="material-icons" style="padding-right: 20px">&#xE853;</i>
-                                {{userName}}
-                                <md-button class="md-icon-button" aria-label="Settings" >
-                                    <ng-md-icon icon="login" size="32"  ng-click="login($event);" >
-                                        <i class="material-icons">input</i>
-                                        <md-tooltip md-direction="right">Ingresar</md-tooltip>
-                                    </ng-md-icon>
-                                </md-button>
-                            </h1>
-                        </md-toolbar>
                         <md-content >
                             <span ng-repeat="item in menuOptions" ng-click="redirectTo(item.url);" class="pointer">
                                 <p hide-md="" show-gt-md="" style="padding-left: 10%" >

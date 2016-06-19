@@ -15,10 +15,6 @@
                 templateUrl: 'templates/home.html',
                 controller: 'HomeController'
             })
-			.when('/tenant/:tenantName/admin', {
-                templateUrl: 'templates/admin.html',
-                controller: 'HomeController'
-            })
             .when('/tenant/:tenantName/admin/bus', {
                 templateUrl: 'templates/bus.navigate.html',
                 controller: 'BusController'
@@ -39,7 +35,7 @@
                 templateUrl: 'templates/branch.navigate.html',
                 controller: 'BranchController'
             })
-            .when('/tenant/:tenantName/admin/journeys', {
+            .when('/tenant/:tenantName/admin', {
                 templateUrl: 'templates/journey.navigate.html',
                 controller: 'JourneyController'
             })

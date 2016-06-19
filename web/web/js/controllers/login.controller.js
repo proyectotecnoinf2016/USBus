@@ -34,6 +34,7 @@
                     localStorage.setData('userName', data.username);
                     localStorage.setData('tenantName', $scope.tenantName);
                     $rootScope.$emit('menuOption', '');
+                    $rootScope.authorization = true;
 				}, function(r){
 					console.log(r);
 					showAlert('Error!','Ocurrió un error al procesar su petición');

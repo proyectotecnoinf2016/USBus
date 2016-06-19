@@ -3,39 +3,5 @@
 </md-content>
 
 <form name="inputForm" novalidate >
-    <md-content ng-show="journeys != null && journeys.length > 0">
-        <span layout="row" >
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
-                Nro. de ómnibus
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Servicio
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Día
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Hora
-            </h3>
-        </span>
-        <md-divider ></md-divider>
-        <span>
-            <span layout="row" ng-repeat="item in journeys" ng-click="showTicket(item, $event)" class="pointer">
-
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-            </span>
-        </span>
-    </md-content>
 
 </form>
