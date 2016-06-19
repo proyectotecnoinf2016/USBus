@@ -4,9 +4,9 @@
 (function() {
     'use strict';
     angular.module('usbus').controller('LoginController', LoginController);
-    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource','localStorage', '$location'];
+    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource','localStorage', '$location', '$rootScope'];
     /* @ngInject */
-    function LoginController($scope, $mdDialog, LoginUserResource, localStorage, $location) {
+    function LoginController($scope, $mdDialog, LoginUserResource, localStorage, $location, $rootScope) {
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;
@@ -32,6 +32,8 @@
                     localStorage.setData('token',r.token);
                     localStorage.setData('tenantId',r.tenantId);
                     localStorage.setData('userName', data.username);
+                    localStorage.setData('tenantName', $scope.tenantName);
+                    $rootScope.$emit('menuOption', '');
 				}, function(r){
 					console.log(r);
 					showAlert('Error!','Ocurrió un error al procesar su petición');

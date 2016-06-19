@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('BusController', BusController);
-    BusController.$inject = ['$scope', '$mdDialog', 'BusResource', 'localStorage'];
+    BusController.$inject = ['$scope', '$mdDialog', 'BusResource', 'localStorage', '$location'];
     /* @ngInject */
-    function BusController($scope, $mdDialog, BusResource, localStorage) {
+    function BusController($scope, $mdDialog, BusResource, localStorage, $location) {
         $scope.showBus = showBus;
         $scope.createBus = createBus;
         $scope.deleteBus = deleteBus;
@@ -14,6 +14,8 @@
         $scope.message = '';
         $scope.tenantId = 0;
         $scope.buses = [];
+
+        $scope.$emit('menuOption',$location.path().includes('admin'));
 
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {

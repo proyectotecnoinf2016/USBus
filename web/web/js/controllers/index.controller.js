@@ -4,37 +4,15 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location'];
+    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope'];
     /* @ngInject */
-    function IndexController($scope, $mdDialog, localStorage, $location) {
-		$scope.show = localStorage.getData('showMenu');
+    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope) {
+        $scope.show = false;
 
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
 
-        $scope.messages = [{
-            name : "Planificar Viajes",
-            url  : "journeys"
-        } , {
-            name: "Administrar Usuarios"
-        } , {
-            name: "Administrar Sucursales",
-            url : "branch"
-        } , {
-            name: "Administrar Unidades",
-            url : "bus"
-        } , {
-            name: "Administrar Paradas",
-            url : "busStop"
-        } , {
-            name: "Administrar Trayectos",
-            url : "route"
-        } , {
-            name: "Administrar Servicios",
-            url : "service"
-        } , {
-            name: "Personalizar Estilos"
-        }];
+        $scope.menuOptions = [];
 
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
@@ -46,6 +24,37 @@
 		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
 			$scope.userName = localStorage.getData('userName');
 		}
+
+        $rootScope.$on('options', function (event, data) {
+            $scope.menuOptions = [];
+            var i = 0;
+            while (i < data.length) {
+                console.log(data[i].name);
+                $scope.menuOptions.push(data[i]);
+                i++;
+            }
+            console.log('menuOptions');
+            console.log($scope.menuOptions);
+        });
+
+        $rootScope.$on('menuOption', function (event, data) {
+            if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
+                $scope.tenantName = localStorage.getData('tenantName');
+            }
+            if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
+                $scope.userName = localStorage.getData('userName');
+            }
+            console.log(data); // 'Data to send'
+            if ($scope.tenantName !== 'USBus') {
+                if (data) {
+                    $scope.show = true;
+                }
+                else {
+                    $scope.show = false;
+                }
+            }
+        });
+
 
         function login(ev) {
             $mdDialog.show({
@@ -59,12 +68,14 @@
                 function(answer) {
                     $scope.status = 'You said the information was "'
                         + answer + '".';
+                    $rootScope.$broadcast('login', 'success');
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
 
         function redirectTo(redirectUrl) {
+            alert(redirectUrl);
             var urlArray = $location.path().split('/');
             console.log(urlArray);
             var url = '';
@@ -80,9 +91,15 @@
                 url = url + urlArray[i + 1] + '/'
             }
             url = url + redirectUrl;
-            console.log(url);
             $location.path(url);
         }
+
+
+
+
+        $scope.$on('Module',function(event, showMenu){
+
+        })
 
     }
 })();

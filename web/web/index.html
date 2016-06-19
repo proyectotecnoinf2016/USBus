@@ -53,6 +53,9 @@
         <script src="js/controllers/branch.navigate.controller.js"></script>
         <script src="js/controllers/branch.create.controller.js"></script>
         <script src="js/controllers/branch.edit.controller.js"></script>
+
+
+        <script src="js/controllers/journey.selection.controller.js"></script>
         
         <script src="js/factories/register.user.resource.js"></script>
         <script src="js/factories/register.tenant.resource.js"></script>
@@ -102,7 +105,7 @@
                             </h1>
                         </md-toolbar>
                         <md-content >
-                            <span ng-repeat="item in messages" ng-click="redirectTo(item.url);" class="pointer">
+                            <span ng-repeat="item in menuOptions" ng-click="redirectTo(item.url);" class="pointer">
                                 <p hide-md="" show-gt-md="" style="padding-left: 10%" >
                                     {{item.name}}
                                 </p>

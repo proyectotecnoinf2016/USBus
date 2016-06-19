@@ -41,7 +41,7 @@
             })
             .when('/tenant/:tenantName/admin/journeys', {
                 templateUrl: 'templates/journey.navigate.html',
-                controller: 'TicketsController'
+                controller: 'JourneyController'
             })
 			.when('/tenant/:tenantName/tickets', {
                 templateUrl: 'templates/journey.selection.html',
@@ -55,8 +55,8 @@
                 templateUrl: 'templates/workshop.html',
                 controller: 'HomeController'
             })
-			.when('/tenant/:tenantName/accountant', {
-                templateUrl: 'templates/accountant.html',
+			.when('/tenant/:tenantName/accounting', {
+                templateUrl: 'templates/accounting.html',
                 controller: 'HomeController'
             })
 			.when('/tenant/:tenantName/humanResources', {

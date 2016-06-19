@@ -11,21 +11,25 @@
         $scope.showTicket = showTicket;
 
         $scope.journeys = [{
-            name : "Planificar Viajes"
+            name : "Planificar Viajes",
+            url  : "journeys"
         } , {
             name: "Administrar Usuarios"
         } , {
-            name: "Administrar Sucursales"
+            name: "Administrar Sucursales",
+            url : "branch"
         } , {
-            name: "Administrar Cajas"
+            name: "Administrar Unidades",
+            url : "bus"
         } , {
-            name: "Administrar Unidades"
+            name: "Administrar Paradas",
+            url : "busStop"
         } , {
-            name: "Administrar Paradas"
+            name: "Administrar Trayectos",
+            url : "route"
         } , {
-            name: "Administrar Trayectos"
-        } , {
-            name: "Administrar Servicios"
+            name: "Administrar Servicios",
+            url : "service"
         } , {
             name: "Personalizar Estilos"
         }];

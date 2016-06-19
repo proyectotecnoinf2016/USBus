@@ -12,47 +12,41 @@
             <span flex></span>
 
             <md-content>
-                <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
-                    <md-tab label="Datos del servicio">
-                        <md-input-container class="customInput">
-                            <label>Nombre</label>
-                            <md-tooltip md-direction="top">Ingrese Nombre del Servicio</md-tooltip>
-                            <input ng-model="service.name" required>
-                        </md-input-container>
-                        <md-input-container class="customInput">
-                            <label>Día</label>
-                            <md-select ng-model="service.day">
-                                <md-option ng-repeat="day in days" value="{{day.value}}">
-                                    {{day.name}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
+                <md-input-container class="customInput">
+                    <label>Nombre</label>
+                    <md-tooltip md-direction="top">Ingrese Nombre del Servicio</md-tooltip>
+                    <input ng-model="service.name" required>
+                </md-input-container>
+                <md-input-container class="customInput">
+                    <label>Día</label>
+                    <md-select ng-model="service.day">
+                        <md-option ng-repeat="day in days" value="{{day.value}}">
+                            {{day.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
 
-                        <md-input-container class="customInput">
-                            <label>Hora</label>
-                            <md-tooltip md-direction="top">Ingrese Hora del Servicio</md-tooltip>
-                            <input ng-model="service.time" required>
-                        </md-input-container>
-                        <md-input-container class="customInput">
-                            <label>Ruta</label>
-                            <md-tooltip md-direction="top">Ingrese Ruta del Serivicio</md-tooltip>
+                <md-input-container class="customInput">
+                    <label>Hora</label>
+                    <md-tooltip md-direction="top">Ingrese Hora del Servicio</md-tooltip>
+                    <input ng-model="service.time" required>
+                </md-input-container>
+                <md-input-container class="customInput">
+                    <label>Ruta</label>
+                    <md-tooltip md-direction="top">Ingrese Ruta del Serivicio</md-tooltip>
 
-                            <md-select ng-model="service.route">
-                                <md-option ng-repeat="route in routes" value="{{route.name}}" ng-disabled="$index === 1">
-                                    {{route.name}}
-                                </md-option>
-                            </md-select>
+                    <md-select ng-model="service.route">
+                        <md-option ng-repeat="route in routes" value="{{route.name}}" ng-disabled="$index === 1">
+                            {{route.name}}
+                        </md-option>
+                    </md-select>
 
-                        </md-input-container>
-                        <md-input-container class="customInput">
-                            <label>Cantidad de unidades</label>
-                            <md-tooltip md-direction="top">Ingrese Cantidad de Unidades</md-tooltip>
-                            <input type="number" ng-model="service.numberOfBuses" required>
-                        </md-input-container>
-                    </md-tab>
-                    <md-tab label="Seleccionar Paradas">
-                    </md-tab>
-                </md-tabs>
+                </md-input-container>
+                <md-input-container class="customInput">
+                    <label>Cantidad de unidades</label>
+                    <md-tooltip md-direction="top">Ingrese Cantidad de Unidades</md-tooltip>
+                    <input type="number" ng-model="service.numberOfBuses" required>
+                </md-input-container>
             </md-content>
 
             <span flex></span>
