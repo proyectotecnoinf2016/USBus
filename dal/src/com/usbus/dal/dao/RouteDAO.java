@@ -142,5 +142,22 @@ public class RouteDAO {
         return routes;
     }
 
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Route> query = ds.createQuery(Route.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Route route = query.get();
+            if (route==null){
+                return new Long(1);
+            }
+            return route.getId() + 1;
+        }
+    }
 
+    public void clean(){
+        ds.delete(ds.createQuery(Route.class));
+    }
 }

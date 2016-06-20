@@ -79,4 +79,19 @@ public class BranchDAO {
             ds.update(query, updateOp);
         }
     }
+
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Branch> query = ds.createQuery(Branch.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Branch branch = query.get();
+            if (branch==null){
+                return new Long(1);
+            }
+            return branch.getId() + 1;
+        }
+    }
 }

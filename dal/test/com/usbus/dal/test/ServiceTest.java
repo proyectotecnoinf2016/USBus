@@ -27,6 +27,8 @@ public class ServiceTest {
     @Test
     public void persist() throws ParseException {
         dao.clean();
+        rdao.clean();
+        bsdao.clean();
 
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("America/Montevideo"));
@@ -45,7 +47,7 @@ public class ServiceTest {
 
         BusStop origin = new BusStop(2, 1L, "Montevideo", true, 10.0);
         bsdao.persist(origin);
-        BusStop destination = new BusStop(2, 2L, "Colonia", true, 10.0);
+        BusStop destination = new BusStop(3, 2L, "Colonia", true, 10.0);
         bsdao.persist(destination);
         RouteStop rsMvd = new RouteStop("Montevideo", 0.0, false);
         RouteStop rsPzaCuba = new RouteStop("Plaza Cuba", 7.4, false);
@@ -59,6 +61,7 @@ public class ServiceTest {
         srv = new Service(2, 5L, "Montevideo - Colonia (Común)", DayOfWeek.FRIDAY, format.parse("09:15"), route, 3, true);
         dao.persist(srv);
 
+        System.out.print("Cantidad de servicios: ");
         System.out.println(dao.countAll());
     }
 }

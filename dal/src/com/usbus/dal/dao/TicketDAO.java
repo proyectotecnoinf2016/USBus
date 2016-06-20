@@ -88,4 +88,19 @@ public class TicketDAO {
     public void clean(){
         ds.delete(ds.createQuery(Ticket.class));
     }
+
+    public Long getNextId(long tenantId) {
+        if (tenantId < 0) {
+            return null;
+        } else {
+            Query<Ticket> query = ds.createQuery(Ticket.class);
+            query.criteria("tenantId").equal(tenantId);
+            query.order("-id").retrievedFields(true,"id");
+            Ticket ticket = query.get();
+            if (ticket==null){
+                return new Long(1);
+            }
+            return ticket.getId() + 1;
+        }
+    }
 }

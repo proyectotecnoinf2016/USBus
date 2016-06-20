@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Local
 public interface TicketLocal {
-    Long persist(Ticket ticket);
+    ObjectId persist(Ticket ticket);
     Ticket getById(ObjectId oid);
     Ticket getByLocalId(long tenantId, Long id);
     List<Ticket> TicketsByBuyerAndStatus(String username, TicketStatus status, int offset, int limit);
