@@ -89,16 +89,16 @@
 
             </div>
             <div layout="row" layout-align="end center" flex layout-margin layout-padding>
-                <div layout-padding=""  layout-align="center center" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage" >
-                    <div class="ripplelink transbox" md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado'">
-                        <img src="img/Profile.png" style="width: 40px;padding-right: 10px"/>
-                        <span class="grayHeader" hide show-gt-xs>{{userName}}</span>
+                <div layout-padding=""  layout-align="center center" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage " >
+                    <div class="ripplelink " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado'">
+                        <i layout-padding class="material-icons">account_box</i>
+                        <span class="whiteColor" hide show-gt-xs>{{userName}}</span>
                     </div>
-                    <div class="ripplelink pointer" md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'" ng-click="login($event);" >
-                        <span class="grayHeader" hide show-gt-xs>Ingresar</span>
+                    <div class="ripplelink pointer " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'" ng-click="login($event);" >
+                        <span class="whiteColor" hide show-gt-xs>Ingresar</span>
                         <md-button class="md-icon-button" aria-label="Settings" >
                             <ng-md-icon icon="login" size="32"  >
-                                <i class="material-icons grayHeader">input</i>
+                                <i class="material-icons whiteColor">input</i>
                                 <md-tooltip md-direction="right">Ingresar</md-tooltip>
                             </ng-md-icon>
                         </md-button>
@@ -109,21 +109,8 @@
         </md-toolbar>
 
 		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
-            <!--<md-toolbar >
-                <h1 class="md-toolbar-tools">
-                    <i class="material-icons" style="padding-right: 20px">&#xE853;</i>
-                    {{userName}}
-                    <md-button class="md-icon-button" aria-label="Settings" >
-                        <ng-md-icon icon="login" size="32"  ng-click="login($event);" >
-                            <i class="material-icons">input</i>
-                            <md-tooltip md-direction="right">Ingresar</md-tooltip>
-                        </ng-md-icon>
-                    </md-button>
-                </h1>
-            </md-toolbar>-->
-
-            <section layout="row" flex>
-                <div ng-controller="IndexController" hide show-gt-md ng-show="show" style="width: 25%">
+           <section layout="row" flex>
+                <div ng-controller="IndexController" hide show-gt-md ng-show="show" flex="25">
                     <md-sidenav layout-fill class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
                         <md-content >
                             <span ng-repeat="item in menuOptions" ng-click="redirectTo(item.url);" class="pointer">
@@ -137,7 +124,7 @@
 
                     </md-sidenav>
                 </div>
-			<md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> </md-content>
+			    <md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> </md-content>
 
             </section>
 
