@@ -35,6 +35,10 @@
                 templateUrl: 'templates/branch.navigate.html',
                 controller: 'BranchController'
             })
+            .when('/tenant/:tenantName/admin/styles', {
+                templateUrl: 'templates/tenant.styles.html',
+                controller: 'TenantController'
+            })
             .when('/tenant/:tenantName/admin', {
                 templateUrl: 'templates/journey.navigate.html',
                 controller: 'JourneyController'
