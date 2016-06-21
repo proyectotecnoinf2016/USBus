@@ -4,32 +4,13 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('TicketsController', TicketsController);
-    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage'];
+    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope', '$location'];
     /* @ngInject */
-    function TicketsController($scope, $mdDialog, JourneyResource, localStorage) {
+    function TicketsController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, $location) {
         $scope.tenantId = 0;
         $scope.showTicket = showTicket;
 
-        $scope.journeys = [{
-            name : "Planificar Viajes"
-        } , {
-            name: "Administrar Usuarios"
-        } , {
-            name: "Administrar Sucursales"
-        } , {
-            name: "Administrar Cajas"
-        } , {
-            name: "Administrar Unidades"
-        } , {
-            name: "Administrar Paradas"
-        } , {
-            name: "Administrar Trayectos"
-        } , {
-            name: "Administrar Servicios"
-        } , {
-            name: "Personalizar Estilos"
-        }];
-
+        $rootScope.$emit('options', 'tickets');
 
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
