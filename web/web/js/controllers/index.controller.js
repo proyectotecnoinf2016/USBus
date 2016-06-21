@@ -12,8 +12,6 @@
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
 
-        $scope.menuOptions = [];
-
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
 
@@ -25,34 +23,77 @@
 			$scope.userName = localStorage.getData('userName');
 		}
 
-        $rootScope.$on('options', function (event, data) {
-            $scope.menuOptions = [];
-            var i = 0;
-            while (i < data.length) {
-                console.log(data[i].name);
-                $scope.menuOptions.push(data[i]);
-                i++;
-            }
-            console.log('menuOptions');
-            console.log($scope.menuOptions);
-        });
+        $scope.menuOptions = [];
 
-        $rootScope.$on('menuOption', function (event, data) {
+        $rootScope.$on('options', function (event, data) {
+            var options = '';
+            if (data == 'admin') {
+
+                options = [{
+                    name : "Planificar Viajes",
+                    url  : "admin",
+                    icon : ""
+                } , {
+                    name: "Administrar Usuarios"
+                } , {
+                    name: "Administrar Sucursales",
+                    url : "admin/branch"
+                } , {
+                    name: "Administrar Unidades",
+                    url : "admin/bus"
+                } , {
+                    name: "Administrar Paradas",
+                    url : "admin/busStop"
+                } , {
+                    name: "Administrar Trayectos",
+                    url : "admin/route"
+                } , {
+                    name: "Administrar Servicios",
+                    url : "admin/service"
+                } , {
+                    name: "Personalizar Estilos",
+                    url : "admin/styles"
+                }];
+            }
+
+            if (data == 'tickets') {
+                options = [{
+                    name : "Pasajes",
+                    url: "tickets",
+                    icon: "settings"
+                } , {
+                    name: "Caja",
+                    url : "tickets/window"
+                } , {
+                    name: "Inicio",
+                    url : ""
+                }];
+
+            }
+
+            $scope.menuOptions = [];
+
             if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
                 $scope.tenantName = localStorage.getData('tenantName');
             }
             if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
                 $scope.userName = localStorage.getData('userName');
             }
-            console.log(data); // 'Data to send'
+
             if ($scope.tenantName !== 'USBus') {
-                if (data) {
-                    $scope.show = true;
+                var i = 0;
+                while (i < options.length) {
+                    console.log(options[i].name);
+                    $scope.menuOptions.push(options[i]);
+                    i++;
                 }
-                else {
-                    $scope.show = false;
-                }
+                console.log('menuOptions');
+                console.log($scope.menuOptions);
             }
+            else {
+                $scope.menuOptions = [];
+            }
+
         });
 
 
@@ -75,7 +116,6 @@
         };
 
         function redirectTo(redirectUrl) {
-            alert(redirectUrl);
             var urlArray = $location.path().split('/');
             console.log(urlArray);
             var url = '';
@@ -88,9 +128,10 @@
 
             if (i < urlArray.length) {
                 url = url + urlArray[i] + '/';
-                url = url + urlArray[i + 1] + '/'
             }
             url = url + redirectUrl;
+            console.log('url');
+            console.log(url);
             $location.path(url);
         }
 

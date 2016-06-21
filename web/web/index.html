@@ -52,8 +52,7 @@
         <script src="js/controllers/branch.navigate.controller.js"></script>
         <script src="js/controllers/branch.create.controller.js"></script>
         <script src="js/controllers/branch.edit.controller.js"></script>
-
-
+        <script src="js/controllers/window.navigate.controller.js"></script>
         <script src="js/controllers/journey.selection.controller.js"></script>
         
         <script src="js/factories/register.user.resource.js"></script>
@@ -66,6 +65,7 @@
         <script src="js/factories/route.resource.js"></script>
         <script src="js/factories/service.resource.js"></script>
         <script src="js/factories/branch.resource.js"></script>
+
 
         <!-- DIRECTIVES -->
         <script src="js/directives/background.select.js"></script>
@@ -84,8 +84,8 @@
 
             </h1>
             <div layout="row" layout-align="end center">
-                <img hide show-gt-xs src="img/Blue_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
-                <img hide-gt-xs src="img/Blue_Bus.png" class="customBus smallCustomBus"/>
+                <img hide show-gt-xs src="img/Red_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
+                <img hide-gt-xs src="img/Red_Bus.png" class="customBus smallCustomBus"/>
 
             </div>
             <div layout="row" layout-align="end center" flex layout-margin layout-padding>
@@ -110,7 +110,7 @@
 
 		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
            <section layout="row" flex>
-                <div ng-controller="IndexController" hide show-gt-md ng-show="show" flex="25">
+                <div ng-controller="IndexController" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25">
                     <md-sidenav layout-fill class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
                         <md-content >
                             <span ng-repeat="item in menuOptions" ng-click="redirectTo(item.url);" class="pointer">
@@ -123,7 +123,26 @@
                         </md-content>
 
                     </md-sidenav>
+
                 </div>
+               <div ng-controller="IndexController" hide-gt-md ng-show="menuOptions != null && menuOptions.length > 0" >
+                   <md-fab-speed-dial md-direction="down" class=" md-scale">
+                       <md-fab-trigger>
+                           <md-button aria-label="menu" class="md-fab md-warn">
+                               <md-icon>menu</md-icon>
+                           </md-button>
+                       </md-fab-trigger>
+                       <md-fab-actions>
+                           <!-- MENU VIRTUAL STORAGES NAVIGATE -->
+                           <span ng-repeat="item in menuOptions" >
+                               <md-button  aria-label="RemoveStock" class="md-fab md-raised md-mini md-accent" ng-click="redirectTo(item.url);">
+                                   <md-tooltip md-direction="top">{{item.name}}</md-tooltip>
+                                   <md-icon>{{item.icon}}</md-icon>
+                               </md-button>
+                           </span>
+                       </md-fab-actions>
+                   </md-fab-speed-dial>
+               </div>
 			    <md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> </md-content>
 
             </section>
@@ -135,3 +154,4 @@
 
     </body>
 </html>
+
