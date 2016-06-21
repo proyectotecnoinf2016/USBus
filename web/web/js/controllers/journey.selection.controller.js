@@ -10,24 +10,7 @@
         $scope.tenantId = 0;
         $scope.showTicket = showTicket;
 
-        $rootScope.$emit('menuOption', 'tickets');
-
-        $scope.journeys = [{
-            name : "Venta de Pasajes",
-            url: ""
-        } , {
-            name: "Reserva de Pasajes"
-        } , {
-            name: "Cancelar Reserva"
-        } , {
-            name: "Apertura de Caja"
-        } , {
-            name: "Arqueo de Caja"
-        } , {
-            name: "Cierre de Caja"
-        }];
-
-        $rootScope.$emit('options', $scope.journeys);
+        $rootScope.$emit('options', 'tickets');
 
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {

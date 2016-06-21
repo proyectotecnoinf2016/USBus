@@ -43,6 +43,10 @@
                 templateUrl: 'templates/journey.selection.html',
                 controller: 'TicketsController'
             })
+            .when('/tenant/:tenantName/tickets/window', {
+                templateUrl: 'templates/window.navigate.html',
+                controller: 'WindowController'
+            })
 			.when('/tenant/:tenantName/boxes', {
                 templateUrl: 'templates/boxes.html',
                 controller: 'HomeController'

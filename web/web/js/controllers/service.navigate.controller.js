@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('ServiceController', ServiceController);
-    ServiceController.$inject = ['$scope', '$mdDialog', 'ServiceResource', 'localStorage'];
+    ServiceController.$inject = ['$scope', '$mdDialog', 'ServiceResource', 'localStorage', '$rootScope'];
     /* @ngInject */
-    function ServiceController($scope, $mdDialog, ServiceResource, localStorage) {
+    function ServiceController($scope, $mdDialog, ServiceResource, localStorage, $rootScope) {
         $scope.showServices = showServices;
         $scope.createService = createService;
         $scope.deleteService = deleteService;
@@ -15,6 +15,8 @@
         $scope.message = '';
         $scope.services = [];
         $scope.tenantId = 0;
+
+        $rootScope.$emit('options', 'admin');
 
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
