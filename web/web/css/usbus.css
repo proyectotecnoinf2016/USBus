@@ -1,3 +1,21 @@
+.smallHomeImages {
+    height: 30px;
+    padding-right: 15px;
+}
+
+.bigHomeImages {
+    height: 40px;
+    padding-right: 15px;
+}
+
+.bigHomeSpan {
+    padding-right: 40px;
+}
+
+.smallHomeSpan {
+    padding-right: 30px;
+}
+
 .customContent {
 	width: 90%;
 }
@@ -13,7 +31,6 @@
 }
 
 .customBus {
-    float: right;
     padding-right:10px;
 }
 
@@ -44,7 +61,7 @@
 }
 
 .grayHeader {
-    color: gray;
+    color: #292929!important;
 }
 
 label {
@@ -71,7 +88,8 @@ label {
     .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
         margin: 7px;
         height: 50px;
-		width: 35%}
+		width: 35%;
+        min-width: 65px;}
     .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
         font-size: 0.4em; } }
 @media (min-width: 600px) and (max-width: 959px) {
@@ -151,4 +169,19 @@ label {
 
 .tableRowBusStop {
     width: 45%;
+}
+
+.customJumbotron {
+    border-radius: 7px;
+}
+
+
+.transbox {
+    padding: 10px;
+    background-color: #ffffff;
+    opacity:0.85;
+}
+
+.whiteColor {
+    color: white;
 }

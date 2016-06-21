@@ -3,33 +3,14 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('TicketsController', TicketsController);
-    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage'];
+    angular.module('usbus').controller('JourneyController', JourneyController);
+    JourneyController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope'];
     /* @ngInject */
-    function TicketsController($scope, $mdDialog, JourneyResource, localStorage) {
+    function JourneyController($scope, $mdDialog, JourneyResource, localStorage, $rootScope) {
         $scope.tenantId = 0;
         $scope.showTicket = showTicket;
 
-        $scope.journeys = [{
-            name : "Planificar Viajes"
-        } , {
-            name: "Administrar Usuarios"
-        } , {
-            name: "Administrar Sucursales"
-        } , {
-            name: "Administrar Cajas"
-        } , {
-            name: "Administrar Unidades"
-        } , {
-            name: "Administrar Paradas"
-        } , {
-            name: "Administrar Trayectos"
-        } , {
-            name: "Administrar Servicios"
-        } , {
-            name: "Personalizar Estilos"
-        }];
-
+        $rootScope.$emit('options', 'admin');
 
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
@@ -41,14 +22,14 @@
             token = localStorage.getData('token');
         }
 
-        JourneyResource.journeys(token).query({
+        /*JourneyResource.journeys(token).query({
             offset: 0,
             limit: 100,
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             $scope.journeys = result;
         });
-
+*/
 
 
         function showTicket(item, ev) {

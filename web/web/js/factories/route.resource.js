@@ -9,12 +9,39 @@
         .factory('RouteResource', RouteResource);
     RouteResource.$inject = ['$resource'];
     /* @ngInject */
+
     function RouteResource($resource) {
-        return $resource('/rest/api/tenant/:tenantId', {id:'@id', tenantId:'@tenantId'}, {
-            'update': {
-                method: 'PUT'
+        return {
+            routes: function (token) {
+                return $resource('/rest/api/tenant/:tenantId', {id:'@id', tenantId:'@tenantId'}, {
+                    query: {
+                        method: 'GET',
+                        isArray: true,
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    save: {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    update: {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    delete: {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }
+                })
             }
-        });
-        //TODO: EDITAR RESOURCE URL
+        };
     }
+
 })();
