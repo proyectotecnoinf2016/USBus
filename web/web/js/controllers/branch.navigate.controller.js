@@ -4,12 +4,14 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('BranchController', BranchController);
-    BranchController.$inject = ['$scope', '$mdDialog', 'BranchResource'];
+    BranchController.$inject = ['$scope', '$mdDialog', 'BranchResource', '$rootScope'];
     /* @ngInject */
-    function BranchController($scope, $mdDialog, BranchResource) {
+    function BranchController($scope, $mdDialog, BranchResource, $rootScope) {
         $scope.showBranches = showBranches;
         $scope.createBranch = createBranch;
         $scope.deleteBranch = deleteBranch;
+        
+        $rootScope.$emit('options', 'admin');
 
         $scope.message = '';
         $scope.tenantId = 0;

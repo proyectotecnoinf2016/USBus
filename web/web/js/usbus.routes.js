@@ -15,10 +15,6 @@
                 templateUrl: 'templates/home.html',
                 controller: 'HomeController'
             })
-			.when('/tenant/:tenantName/admin', {
-                templateUrl: 'templates/admin.html',
-                controller: 'HomeController'
-            })
             .when('/tenant/:tenantName/admin/bus', {
                 templateUrl: 'templates/bus.navigate.html',
                 controller: 'BusController'
@@ -39,13 +35,17 @@
                 templateUrl: 'templates/branch.navigate.html',
                 controller: 'BranchController'
             })
-            .when('/tenant/:tenantName/admin/journeys', {
+            .when('/tenant/:tenantName/admin', {
                 templateUrl: 'templates/journey.navigate.html',
-                controller: 'TicketsController'
+                controller: 'JourneyController'
             })
 			.when('/tenant/:tenantName/tickets', {
                 templateUrl: 'templates/journey.selection.html',
                 controller: 'TicketsController'
+            })
+            .when('/tenant/:tenantName/tickets/window', {
+                templateUrl: 'templates/window.navigate.html',
+                controller: 'WindowController'
             })
 			.when('/tenant/:tenantName/boxes', {
                 templateUrl: 'templates/boxes.html',
@@ -55,8 +55,8 @@
                 templateUrl: 'templates/workshop.html',
                 controller: 'HomeController'
             })
-			.when('/tenant/:tenantName/accountant', {
-                templateUrl: 'templates/accountant.html',
+			.when('/tenant/:tenantName/accounting', {
+                templateUrl: 'templates/accounting.html',
                 controller: 'HomeController'
             })
 			.when('/tenant/:tenantName/humanResources', {
