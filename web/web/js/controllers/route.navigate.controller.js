@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('RouteController', RouteController);
-    RouteController.$inject = ['$scope', '$mdDialog', 'RouteResource'];
+    RouteController.$inject = ['$scope', '$mdDialog', 'RouteResource', '$rootScope'];
     /* @ngInject */
-    function RouteController($scope, $mdDialog, RouteResource) {
+    function RouteController($scope, $mdDialog, RouteResource, $rootScope) {
         $scope.showRoutes = showRoutes;
         $scope.createRoute = createRoute;
         $scope.deleteRoute = deleteRoute;
@@ -18,6 +18,10 @@
         }, {
             'name': '2'
         }];
+
+
+        $rootScope.$emit('options', 'admin');
+
 
         if ($scope.routes.length === 0) {
             $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';

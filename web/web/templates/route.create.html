@@ -7,38 +7,68 @@
                 <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content >
-            <span flex></span>
 
-            <md-input-container class="customInput">
-                <label>Nombre</label>
-                <md-tooltip md-direction="top">Ingrese Marca de la Unidad</md-tooltip>
-                <input ng-model="route.name" required>
-            </md-input-container>
-            <md-input-container class="customInput">
-                <label>Origen</label>
-                <md-tooltip md-direction="top">Ingrese Modelo de la Unidad</md-tooltip>
-                <input ng-model="route.origin" required>
-            </md-input-container>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Datos de Ruta">
 
-             <md-input-container class="customInput">
-                <label>Destino</label>
-                <md-tooltip md-direction="top">Ingrese Kilometraje de la Unidad</md-tooltip>
-                <input ng-model="route.destination" required>
-            </md-input-container>
-             <md-input-container class="customInput">
-                <label>Combinación</label>
-                <md-tooltip md-direction="top">Ingrese Próximo Mantenimiento</md-tooltip>
-                <input ng-model="route.hasCombination" >
-            </md-input-container>
-             <md-input-container class="customInput">
-                <label>Precio por kilómetro</label>
-                <md-tooltip md-direction="top">Ingrese Número de Asientos</md-tooltip>
-                <input type="number" ng-model="route.pricePerKm" required >
-            </md-input-container>
-             <span flex></span>
-        </md-dialog-content>
+                <md-dialog-content >
+                    <span flex></span>
 
+                    <md-input-container class="customInput">
+                        <label>Nombre</label>
+                        <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
+                        <input ng-model="route.name" required>
+                    </md-input-container>
+                    <md-input-container class="customInput">
+                        <label>Origen</label>
+                        <md-tooltip md-direction="top">Ingrese Origen de la Ruta</md-tooltip>
+                        <input ng-model="route.origin" required>
+                    </md-input-container>
+
+                     <md-input-container class="customInput">
+                        <label>Destino</label>
+                        <md-tooltip md-direction="top">Ingrese Destino de la Ruta</md-tooltip>
+                        <input ng-model="route.destination" required>
+                    </md-input-container>
+                     <md-input-container class="customInput">
+                        <label>Combinación</label>
+                        <md-tooltip md-direction="top">Ingrese si es Combinación</md-tooltip>
+                        <input ng-model="route.hasCombination" >
+                    </md-input-container>
+                     <md-input-container class="customInput">
+                        <label>Precio por kilómetro</label>
+                        <md-tooltip md-direction="top">Ingrese Precio por Kilómetro</md-tooltip>
+                        <input type="number" ng-model="route.pricePerKm" required >
+                    </md-input-container>
+                     <span flex></span>
+                </md-dialog-content>
+            </md-tab>
+            <md-tab label="Información de las Paradas">
+                <md-container layout="row">
+                    <md-input-container class="customInput">
+                        <label>Nombre</label>
+                        <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
+                        <input ng-model="item.name" required>
+                    </md-input-container>
+                    <md-input-container class="customInput">
+                        <label>Kilómetro</label>
+                        <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
+                        <input ng-model="item.name" required>
+                    </md-input-container>
+                    <md-input-container class="customInput">
+                        <label>Combinación</label>
+                        <md-tooltip md-direction="top">Ingrese si es Combinación</md-tooltip>
+                        <input ng-model="item.name" required>
+                    </md-input-container>
+
+                </md-container>
+                private String busStop;
+                private Double km;
+                private boolean isCombinationPoint;
+                <md-button layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createRoute(route)'>Agregar Parada</md-button>
+
+            </md-tab>
+        </md-tabs>
 
         <md-dialog-actions class="md-actions" layout="row">
             <span flex></span>

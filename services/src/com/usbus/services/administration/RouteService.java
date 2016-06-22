@@ -1,0 +1,87 @@
+package com.usbus.services.administration;
+
+/**
+ * Created by Lufasoch on 21/06/2016.
+ */
+
+import com.usbus.bll.administration.beans.RouteBean;
+import com.usbus.commons.enums.Rol;
+import com.usbus.dal.model.Route;
+import com.usbus.services.auth.Secured;
+import org.bson.types.ObjectId;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
+
+@Path("{tenantId}/route")
+public class RouteService {
+    RouteBean ejb = new RouteBean();
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createService(Route route) {
+        ObjectId oid = ejb.persist(route);
+        if (oid==null){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(ejb.getById(oid)).build();
+    }
+
+    @PUT
+    @Path("{routeId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured(Rol.ADMINISTRATOR)
+    public Response updateService(@PathParam("tenantId")Long tenantId, @PathParam("routeId")Long routeId, Route route){
+        Route serviceAux = ejb.getByLocalId(tenantId, routeId);
+        route.set_id(serviceAux.get_id());
+        ObjectId oid = ejb.persist(route);
+        if (oid==null){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(ejb.getById(oid)).build();
+    }
+
+    @GET
+    @Path("id/{routeId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response getRoute(@PathParam("tenantId")long tenantId, @PathParam("routeId") Long routeId){
+
+        Route routeAux = ejb.getByLocalId(tenantId,routeId);
+        if (routeAux == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(routeAux).build();
+    }
+
+    @GET
+    @Path("get/byOrigin")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response getRoutesByOrigin(@PathParam("tenantId")long tenantId, @QueryParam("origin")String origin, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+        List<Route> routeList = ejb.getRoutesByOrigin(tenantId, offset, limit, origin);
+        if (routeList == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(routeList).build();
+    }
+
+    @GET
+    @Path("get/byDestination")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response getRoutesByDestination(@PathParam("tenantId")long tenantId, @QueryParam("destination")String destination, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+        List<Route> routeList = ejb.getRoutesByOrigin(tenantId, offset, limit, destination);
+        if (routeList == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(routeList).build();
+    }
+}

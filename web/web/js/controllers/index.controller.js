@@ -4,37 +4,13 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location'];
+    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope'];
     /* @ngInject */
-    function IndexController($scope, $mdDialog, localStorage, $location) {
-		$scope.show = localStorage.getData('showMenu');
+    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope) {
+        $scope.show = false;
 
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
-
-        $scope.messages = [{
-            name : "Planificar Viajes",
-            url  : "journeys"
-        } , {
-            name: "Administrar Usuarios"
-        } , {
-            name: "Administrar Sucursales",
-            url : "branch"
-        } , {
-            name: "Administrar Unidades",
-            url : "bus"
-        } , {
-            name: "Administrar Paradas",
-            url : "busStop"
-        } , {
-            name: "Administrar Trayectos",
-            url : "route"
-        } , {
-            name: "Administrar Servicios",
-            url : "service"
-        } , {
-            name: "Personalizar Estilos"
-        }];
 
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
@@ -46,6 +22,80 @@
 		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
 			$scope.userName = localStorage.getData('userName');
 		}
+
+        $scope.menuOptions = [];
+
+        $rootScope.$on('options', function (event, data) {
+            var options = '';
+            if (data == 'admin') {
+
+                options = [{
+                    name : "Planificar Viajes",
+                    url  : "admin",
+                    icon : ""
+                } , {
+                    name: "Administrar Usuarios"
+                } , {
+                    name: "Administrar Sucursales",
+                    url : "admin/branch"
+                } , {
+                    name: "Administrar Unidades",
+                    url : "admin/bus"
+                } , {
+                    name: "Administrar Paradas",
+                    url : "admin/busStop"
+                } , {
+                    name: "Administrar Trayectos",
+                    url : "admin/route"
+                } , {
+                    name: "Administrar Servicios",
+                    url : "admin/service"
+                } , {
+                    name: "Personalizar Estilos",
+                    url : "admin/styles"
+                }];
+            }
+
+            if (data == 'tickets') {
+                options = [{
+                    name : "Pasajes",
+                    url: "tickets",
+                    icon: "settings"
+                } , {
+                    name: "Caja",
+                    url : "tickets/window"
+                } , {
+                    name: "Inicio",
+                    url : ""
+                }];
+
+            }
+
+            $scope.menuOptions = [];
+
+            if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
+                $scope.tenantName = localStorage.getData('tenantName');
+            }
+            if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
+                $scope.userName = localStorage.getData('userName');
+            }
+
+            if ($scope.tenantName !== 'USBus') {
+                var i = 0;
+                while (i < options.length) {
+                    console.log(options[i].name);
+                    $scope.menuOptions.push(options[i]);
+                    i++;
+                }
+                console.log('menuOptions');
+                console.log($scope.menuOptions);
+            }
+            else {
+                $scope.menuOptions = [];
+            }
+
+        });
+
 
         function login(ev) {
             $mdDialog.show({
@@ -59,6 +109,7 @@
                 function(answer) {
                     $scope.status = 'You said the information was "'
                         + answer + '".';
+                    $rootScope.$broadcast('login', 'success');
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
@@ -77,12 +128,19 @@
 
             if (i < urlArray.length) {
                 url = url + urlArray[i] + '/';
-                url = url + urlArray[i + 1] + '/'
             }
             url = url + redirectUrl;
+            console.log('url');
             console.log(url);
             $location.path(url);
         }
+
+
+
+
+        $scope.$on('Module',function(event, showMenu){
+
+        })
 
     }
 })();
