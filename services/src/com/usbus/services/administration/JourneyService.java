@@ -24,6 +24,7 @@ public class JourneyService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Secured(Rol.ADMINISTRATOR)
     public Response createJourney(Journey journey01){
         ObjectId oid = ejb.persist(journey01);
         if (oid==null){
@@ -53,7 +54,7 @@ public class JourneyService {
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
     public Response getJourney(@PathParam("tenantId")Long tenantId,
                                @PathParam("journeyId") Long journeyId){
 
@@ -67,7 +68,7 @@ public class JourneyService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
     public Response getJourneyList(@PathParam("tenantId")Long tenantId,
                                    @QueryParam("journeyStatus") JourneyStatus journeyStatus,
                                    @QueryParam("offset") int offset,
@@ -84,7 +85,7 @@ public class JourneyService {
     @Path("{journeyId}/price")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
     public Response getJourneyPrice(@PathParam("tenantId")Long tenantId,
                                     @PathParam("journeyId")Long journeyId,
                                     @QueryParam("origin") String origin,
@@ -101,7 +102,7 @@ public class JourneyService {
     @Path("get/jdateAndStatus")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
     public Response journeysByTenantIdAndStatus(@PathParam("tenantId") long tenantId,
                                                 @QueryParam ("date") Date date,
                                                 @QueryParam ("status") JourneyStatus status,
@@ -119,7 +120,7 @@ public class JourneyService {
     @Path("get/jdate")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
     public Response journeysByTenantIdAndStatus(@PathParam("tenantId") long tenantId,
                                                 @QueryParam ("date") Date date,
                                                 @QueryParam ("offset") int offset,
@@ -136,7 +137,7 @@ public class JourneyService {
     @Path("get/jbyDateOriginAndDestination")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
     public Response getJourneysByDateOriginAndDestination(@PathParam("tenantId") long tenantId,
                                                           @QueryParam ("date") Date date,
                                                           @QueryParam ("origin") String origin,
