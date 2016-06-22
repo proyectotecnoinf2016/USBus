@@ -90,7 +90,7 @@ public class BusStopBean implements BusStopLocal, BusStopRemote {
     @Override
     public List<RouteStop> getOrigins(long tenantId, int offset, int limit, String destination) {
         RouteDAO routeDAO = new RouteDAO();
-        List<Route> routes = routeDAO.getRoutesByDestiantion(tenantId, offset, limit, destination);
+        List<Route> routes = routeDAO.getRoutesByDestination(tenantId, offset, limit, destination);
         List<RouteStop> routeStops = new ArrayList<>();
         for (Route route :
                 routes) {
