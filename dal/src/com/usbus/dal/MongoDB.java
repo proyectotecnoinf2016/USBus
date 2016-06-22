@@ -29,11 +29,11 @@ public class MongoDB {
         morphia.map(Tenant.class);
         morphia.map(Branch.class);
         morphia.map(BusStop.class);
-        morphia.map(ClosedTicket.class);
+//        morphia.map(ClosedTicket.class);
         morphia.map(HumanResource.class);
         morphia.map(Journey.class);
         morphia.map(Maintenance.class);
-        morphia.map(OpenTicket.class);
+//        morphia.map(OpenTicket.class);
         morphia.map(Parcel.class);
         morphia.map(Reservation.class);
         morphia.map(Route.class);
