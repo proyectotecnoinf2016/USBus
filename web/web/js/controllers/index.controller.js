@@ -24,12 +24,16 @@
 		}
 
         $scope.menuOptions = [];
-
+        
         $rootScope.$on('options', function (event, data) {
             var options = '';
             if (data == 'admin') {
 
                 options = [{
+                    name: "Inicio",
+                    url: "",
+                    icon: "home"
+                }, {
                     name : "Planificar Viajes",
                     url  : "admin",
                     icon : "event_seat"
@@ -61,15 +65,15 @@
                     name: "Personalizar Estilos",//<i class="material-icons">format_color_fill</i>
                     url : "admin/styles",
                     icon: "format_color_fill"
-                } , {
-                    name: "Inicio",
-                    url : "",
-                    icon: "home"
                 }];
             }
 
             if (data == 'tickets') {
                 options = [{
+                    name: "Inicio",
+                    url : "",
+                    icon: "home"
+                } , {
                     name : "Pasajes",
                     url: "tickets",
                     icon: "airline_seat_recline_normal" //<i class="material-icons">add_shopping_cart</i><i class="material-icons">airline_seat_recline_normal</i>
@@ -77,10 +81,6 @@
                     name: "Caja",
                     url : "tickets/window",
                     icon: "account_balance_wallet"
-                } , {
-                    name: "Inicio",
-                    url : "",
-                    icon: "home"
                 }];
 
             }

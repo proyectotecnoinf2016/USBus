@@ -28,8 +28,8 @@
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             console.log(result);
-            var journeys = $scope.journeys.concat(result);
-            $scope.journeys = journeys;
+            //var journeys = $scope.journeys.concat(result);
+            $scope.journeys = result;
         });
 
 
