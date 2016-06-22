@@ -11,10 +11,10 @@ import java.util.Date;
  * Created by Lufasoch on 28/05/2016.
  */
 @XmlRootElement
-@Entity(value = "tickets",noClassnameStored = false)
+@Entity(value = "tickets", noClassnameStored = false)
 @Indexes({
-        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iTicketKey", unique=true))})
-public class Ticket extends BaseEntity{
+        @Index(fields = {@Field(value = "tenantId"), @Field(value = "id")}, options = @IndexOptions(name = "iTicketKey", unique = true))})
+public class Ticket extends BaseEntity {
     private Long id;
     private Date emissionDate;
     private Boolean hasCombination;
@@ -26,11 +26,13 @@ public class Ticket extends BaseEntity{
     @Reference
     private HumanResource seller;
     private TicketStatus status;
+    private String paymentToken;
 
-    public Ticket(){
+
+    public Ticket() {
     }
 
-    public Ticket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Double amount, User passenger, HumanResource seller) {
+    public Ticket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Double amount, User passenger, HumanResource seller, String paymentToken) {
         super(tenantId);
         this.id = id;
         this.emissionDate = emissionDate;
@@ -40,6 +42,7 @@ public class Ticket extends BaseEntity{
         this.passenger = passenger;
         this.seller = seller;
         this.status = TicketStatus.UNUSED;
+        this.paymentToken = paymentToken;
     }
 
     public Long getId() {
@@ -104,5 +107,13 @@ public class Ticket extends BaseEntity{
 
     public void setStatus(TicketStatus status) {
         this.status = status;
+    }
+
+    public String getPaymentToken() {
+        return paymentToken;
+    }
+
+    public void setPaymentToken(String paymentToken) {
+        this.paymentToken = paymentToken;
     }
 }

@@ -2,6 +2,7 @@ package com.usbus.bll.administration.beans;
 
 import com.usbus.bll.administration.interfaces.TicketLocal;
 import com.usbus.bll.administration.interfaces.TicketRemote;
+import com.usbus.commons.auxiliaryClasses.TicketConfirmation;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.dal.dao.TicketDAO;
 import com.usbus.dal.dao.UserDAO;
@@ -32,6 +33,18 @@ public class TicketBean implements TicketLocal, TicketRemote{
     public Ticket setPassenger(long tenantId, Long ticketId, String passengerName) {
         User passenger = udao.getByUsername(tenantId, passengerName);
         return dao.setPassenger(tenantId, ticketId, passenger);
+    }
+
+    @Override
+    public Ticket confirmTicket(TicketConfirmation ticketConfirmation){
+        Ticket ticket = dao.getByLocalId(ticketConfirmation.getTenantId(),ticketConfirmation.getId());
+        ticket.setPassenger(udao.getByUsername(ticketConfirmation.getTenantId(),ticketConfirmation.getUsername()));
+        ticket.setPaymentToken(ticketConfirmation.getPaymentToken());
+        ticket.setStatus(ticketConfirmation.getStatus());
+        if (dao.persist(ticket) != null){
+            return ticket;
+        }
+        return null;
     }
 
     @Override

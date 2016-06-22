@@ -1,6 +1,7 @@
 package com.usbus.services.administration;
 
 import com.usbus.bll.administration.beans.TicketBean;
+import com.usbus.commons.auxiliaryClasses.TicketConfirmation;
 import com.usbus.commons.enums.Rol;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.dal.model.Ticket;
@@ -24,8 +25,9 @@ public class TicketService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createTicket(Ticket ticketAux){
         ObjectId ticketId = ejb.persist(ticketAux);
+        Ticket ticket = ejb.getById(ticketId);
         if (ticketId != null){
-            return Response.ok(ticketId).build();
+            return Response.ok(ticket).build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -61,8 +63,8 @@ public class TicketService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response setPassenger(@PathParam("tenantId")Long tenantId, @PathParam("ticketId")long ticketId, @QueryParam("username") String username){
-        Ticket ticket = ejb.setPassenger(tenantId, ticketId, username);
+    public Response setPassenger(@PathParam("tenantId")Long tenantId, @PathParam("ticketId")long ticketId, TicketConfirmation ticketConfirmation){
+        Ticket ticket = ejb.confirmTicket(ticketConfirmation);
         if(ticket == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
