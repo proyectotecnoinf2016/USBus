@@ -24,6 +24,7 @@ public class ServiceService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Secured(Rol.ADMINISTRATOR)
     public Response createService(Service service) {
         ObjectId oid = ejb.persist(service);
         if (oid==null){
