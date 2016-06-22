@@ -21,5 +21,6 @@ public interface TicketRemote {
     List<Ticket> TicketsByBuyerAndStatus(String username, TicketStatus status, int offset, int limit);
     Ticket setPassenger(long tenantId, Long ticketId, String passenger);
     Ticket confirmTicket(TicketConfirmation ticketConfirmation) throws TicketException;
+    List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit);
 
 }

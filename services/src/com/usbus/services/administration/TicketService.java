@@ -25,11 +25,13 @@ public class TicketService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
-    public Response createTicket(Ticket ticketAux){
-        ObjectId ticketId = ejb.persist(ticketAux);
-        Ticket ticket = ejb.getById(ticketId);
-        if (ticketId != null){
-            return Response.ok(ticket).build();
+    public Response createTicket(Ticket ticketAux) {
+        Ticket ticket = new Ticket(ticketAux);
+        ObjectId ticketId = ejb.persist(ticket);
+        Ticket ticketAux2 = ejb.getById(ticketId);
+
+        if (ticketId != null) {
+            return Response.ok(ticketAux2).build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -40,9 +42,9 @@ public class TicketService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
-    public Response getTicket(@PathParam("tenantId")Long tenantId, @PathParam("ticketId") Long ticketId){
+    public Response getTicket(@PathParam("tenantId") Long tenantId, @PathParam("ticketId") Long ticketId) {
         Ticket ticketAux = ejb.getByLocalId(tenantId, ticketId);
-        if (ticketAux == null){
+        if (ticketAux == null) {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
         return Response.ok(ticketAux).build();
@@ -51,28 +53,39 @@ public class TicketService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.ASSISTANT})
-    public Response getTicketsByBuyerAndStatus(@QueryParam("username")String username, @QueryParam("status") TicketStatus ticketStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
-        List<Ticket> ticketList = ejb.TicketsByBuyerAndStatus(username, ticketStatus, offset, limit);
-        if (ticketList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
+    public Response getTickets(@PathParam("tenantId") Long tenantId, @QueryParam("username") String username, @QueryParam("status") TicketStatus ticketStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("journeyId") long journeyId) {
+        if (journeyId > 0) {
+            List<Ticket> ticketList = ejb.getByJourneyId(tenantId, journeyId, offset, limit);
+            if (ticketList == null) {
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+            return Response.ok(ticketList).build();
         }
-        return Response.ok(ticketList).build();
+        if (!(username.isEmpty()) && !(ticketStatus == null)) {
+            List<Ticket> ticketList = ejb.TicketsByBuyerAndStatus(username, ticketStatus, offset, limit);
+            if (ticketList == null) {
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+            return Response.ok(ticketList).build();
+        }
+        return Response.status(Response.Status.EXPECTATION_FAILED).build();
+
     }
 
     @PUT
     @Path("{ticketId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.ASSISTANT})
-    public Response setPassenger(@PathParam("tenantId")Long tenantId, @PathParam("ticketId")long ticketId, TicketConfirmation ticketConfirmation){
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
+    public Response setPassenger(@PathParam("tenantId") Long tenantId, @PathParam("ticketId") long ticketId, TicketConfirmation ticketConfirmation) {
         try {
             Ticket ticket = ejb.confirmTicket(ticketConfirmation);
-            if(ticket == null) {
+            if (ticket == null) {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             }
             return Response.ok(ticket).build();
-        }catch (TicketException e){
+        } catch (TicketException e) {
             return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
         }
 

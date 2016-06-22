@@ -75,6 +75,12 @@ public class TicketBean implements TicketLocal, TicketRemote {
     }
 
     @Override
+    public List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit) {
+        return dao.getByJourneyId(tenantId, id, offset, limit);
+
+    }
+
+    @Override
     public List<Ticket> TicketsByBuyerAndStatus(String username, TicketStatus status, int offset, int limit) {
         return dao.TicketsByBuyerAndStatus(username, status, offset, limit);
     }
