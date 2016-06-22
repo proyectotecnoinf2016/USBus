@@ -109,7 +109,7 @@ public class RouteDAO {
         return routes;
     }
 
-    public List<Route> getRoutesByDestiantion(long tenantId, int offset, int limit, String destination) {
+    public List<Route> getRoutesByDestination(long tenantId, int offset, int limit, String destination) {
         if (!(tenantId > 0)) {
             return null;
         }
