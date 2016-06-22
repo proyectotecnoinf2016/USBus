@@ -22,7 +22,7 @@ public class RouteService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createService(Route route) {
+    public Response createRoute(Route route) {
         ObjectId oid = ejb.persist(route);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -35,7 +35,7 @@ public class RouteService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response updateService(@PathParam("tenantId")Long tenantId, @PathParam("routeId")Long routeId, Route route){
+    public Response updateRoute(@PathParam("tenantId")Long tenantId, @PathParam("routeId")Long routeId, Route route){
         Route serviceAux = ejb.getByLocalId(tenantId, routeId);
         route.set_id(serviceAux.get_id());
         ObjectId oid = ejb.persist(route);
@@ -77,11 +77,45 @@ public class RouteService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getRoutesByDestination(@PathParam("tenantId")long tenantId, @QueryParam("destination")String destination, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
-        List<Route> routeList = ejb.getRoutesByOrigin(tenantId, offset, limit, destination);
+    public Response getRoutesByDestination(@PathParam("tenantId")long tenantId,
+                                           @QueryParam("destination")String destination,
+                                           @QueryParam("offset") int offset,
+                                           @QueryParam("limit") int limit){
+        List<Route> routeList = ejb.getRoutesByDestination(tenantId, offset, limit, destination);
         if (routeList == null){
             return Response.status(Response.Status.NO_CONTENT).build();
         }
         return Response.ok(routeList).build();
+    }
+
+    @GET
+    @Path("get/byDAndO")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response getRoutesByDestination(@PathParam("tenantId")long tenantId,
+                                           @QueryParam("destination")String destination,
+                                           @QueryParam("offset") int offset,
+                                           @QueryParam("limit") int limit,
+                                           @QueryParam("origin")String origin){
+        List<Route> routeList = ejb.getRoutesByOriginDestination(tenantId, offset, limit, destination, origin);
+        if (routeList == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(routeList).build();
+    }
+
+    @DELETE
+    @Path("{routeId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured(Rol.ADMINISTRATOR)
+    public Response removeService(@PathParam("tenantId")Long tenantId, @PathParam("routeId") Long routeId){
+        try {
+            ejb.setInactive(tenantId,routeId);
+            return Response.ok().build();
+        }catch (Exception e){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

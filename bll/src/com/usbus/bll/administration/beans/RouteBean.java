@@ -28,6 +28,11 @@ public class RouteBean implements RouteLocal, RouteRemote {
     }
 
     @Override
+    public Route getByName(long tenantId, String name) {
+        return dao.getByName(tenantId, name);
+    }
+
+    @Override
     public ObjectId persist(Route route) {
         return dao.persist(route);
     }
@@ -40,5 +45,15 @@ public class RouteBean implements RouteLocal, RouteRemote {
     @Override
     public List<Route> getRoutesByDestination(long tenantId, int offset, int limit, String destination) {
         return dao.getRoutesByDestination(tenantId, offset, limit, destination);
+    }
+
+    @Override
+    public List<Route> getRoutesByOriginDestination(long tenantId, int offset, int limit, String origin, String destination) {
+        return dao.getRoutesByOriginDestination(tenantId, offset, limit, origin, destination);
+    }
+
+    @Override
+    public void setInactive(long tenantId, Long serviceId) {
+        dao.setInactive(tenantId, serviceId);
     }
 }
