@@ -63,7 +63,7 @@ public class TicketService {
             return Response.ok(ticketList).build();
         }
         if (!(username.isEmpty()) && !(ticketStatus == null)) {
-            List<Ticket> ticketList = ejb.TicketsByBuyerAndStatus(username, ticketStatus, offset, limit);
+            List<Ticket> ticketList = ejb.TicketsByBuyerAndStatus(tenantId,username, ticketStatus, offset, limit);
             if (ticketList == null) {
                 return Response.status(Response.Status.NO_CONTENT).build();
             }
