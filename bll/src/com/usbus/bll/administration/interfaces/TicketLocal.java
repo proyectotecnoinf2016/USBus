@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Local
 public interface TicketLocal {
-    ObjectId persist(Ticket ticket);
+    ObjectId persist(Ticket ticket) throws TicketException;
 
     Ticket confirmTicket(TicketConfirmation ticketConfirmation) throws TicketException;
 

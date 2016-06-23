@@ -26,15 +26,20 @@ public class TicketService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
     public Response createTicket(Ticket ticketAux) {
-        Ticket ticket = new Ticket(ticketAux);
-        ObjectId ticketId = ejb.persist(ticket);
-        Ticket ticketAux2 = ejb.getById(ticketId);
+        try {
+            Ticket ticket = new Ticket(ticketAux);
+            ObjectId ticketId = ejb.persist(ticket);
+            Ticket ticketAux2 = ejb.getById(ticketId);
 
-        if (ticketId != null) {
-            return Response.ok(ticketAux2).build();
-        } else {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            if (ticketId != null) {
+                return Response.ok(ticketAux2).build();
+            } else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        }catch (TicketException e){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
+
     }
 
     @GET

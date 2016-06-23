@@ -2,11 +2,15 @@ package com.usbus.bll.administration.beans;
 
 import com.usbus.bll.administration.interfaces.TicketLocal;
 import com.usbus.bll.administration.interfaces.TicketRemote;
+import com.usbus.commons.auxiliaryClasses.Seat;
 import com.usbus.commons.auxiliaryClasses.TicketConfirmation;
+import com.usbus.commons.enums.Position;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.commons.exceptions.TicketException;
+import com.usbus.dal.dao.JourneyDAO;
 import com.usbus.dal.dao.TicketDAO;
 import com.usbus.dal.dao.UserDAO;
+import com.usbus.dal.model.Journey;
 import com.usbus.dal.model.Ticket;
 import com.usbus.dal.model.User;
 import org.bson.types.ObjectId;
@@ -26,9 +30,17 @@ public class TicketBean implements TicketLocal, TicketRemote {
     }
 
     @Override
-    public ObjectId persist(Ticket ticket) {
+    public ObjectId persist(Ticket ticket) throws TicketException {
+
         ticket.setId(dao.getNextId(ticket.getTenantId()));
-        return dao.persist(ticket);
+        if (ticket.getStatus() == TicketStatus.CONFIRMED) {
+            updateJourney(ticket.getTenantId(), ticket.getJourneyId(), ticket.getSeat());
+        }
+        ObjectId oid = dao.persist(ticket);
+        if (oid == null) {
+            throw new TicketException("Ocurrió un error al insertar el TICKET");
+        }
+        return oid;
     }
 
     @Override
@@ -51,11 +63,16 @@ public class TicketBean implements TicketLocal, TicketRemote {
             ticket.setPaymentToken(ticketConfirmation.getPaymentToken());
             ticket.setStatus(ticketConfirmation.getStatus());
             if (dao.persist(ticket) != null) {
+                if (ticketConfirmation.getStatus() == TicketStatus.CONFIRMED) {
+                    updateJourney(ticket.getTenantId(), ticket.getJourneyId(), ticket.getSeat());
+                }
                 return ticket;
+            } else {
+                throw new TicketException("Ocurrió un error al intentar actualizar el TICKET");
             }
-
+        }else {
+            throw new TicketException("El ticket NO EXISTE");
         }
-        return null;
     }
 
 
@@ -77,8 +94,23 @@ public class TicketBean implements TicketLocal, TicketRemote {
     }
 
     @Override
-    public List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit) {
-        return dao.TicketsByBuyerAndStatus(tenantId,username, status, offset, limit);
+    public List<Ticket> TicketsByBuyerAndStatus(Long tenantId, String username, TicketStatus status, int offset, int limit) {
+        return dao.TicketsByBuyerAndStatus(tenantId, username, status, offset, limit);
     }
 
+    private void updateJourney(Long tenantId, Long journeyId, int seatNumber) throws TicketException {
+        JourneyDAO jdao = new JourneyDAO();
+        Journey journey = jdao.getByJourneyId(tenantId, journeyId);
+        Seat seats[] = journey.getSeatsState();
+        Seat seat = new Seat();
+        seat.setFree(false);
+        seat.setNumber(seatNumber);
+        //Ir a buscar al omnibus del journey que asiento es.
+        seats[seats.length + 1] = seat;
+        journey.setSeatsState(seats);
+        ObjectId oid = jdao.persist(journey);
+        if (oid == null) {
+            throw new TicketException("Error al actualizar el Journey");
+        }
+    }
 }

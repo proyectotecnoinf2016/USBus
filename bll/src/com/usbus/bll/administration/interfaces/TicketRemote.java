@@ -15,7 +15,7 @@ import java.util.List;
 @SuppressWarnings("EjbRemoteRequirementsInspection")
 @Remote
 public interface TicketRemote {
-    ObjectId persist(Ticket ticket);
+    ObjectId persist(Ticket ticket) throws TicketException;
     Ticket getById(ObjectId oid);
     Ticket getByLocalId(long tenantId, Long id);
     List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit);
