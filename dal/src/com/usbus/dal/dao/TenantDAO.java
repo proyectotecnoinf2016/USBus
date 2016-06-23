@@ -1,5 +1,6 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.auxiliaryClasses.TenantStyle;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.Tenant;
@@ -59,6 +60,17 @@ public class TenantDAO {
         return query.get();
 
     }
+
+//    public void saveStyle(long tenantId, TenantStyle style){
+//        if(tenantId <= 0 || style == null){
+//            return null;
+//        }
+//
+//        byte[] data = Base64.decodeBase64(style.getLogo());
+//        try (OutputStream stream = new FileOutputStream("c:/decode/abc.bmp")) {
+//            stream.write(data);
+//    }
+
     public void clean(){
         ds.delete(ds.createQuery(Tenant.class));
     }
