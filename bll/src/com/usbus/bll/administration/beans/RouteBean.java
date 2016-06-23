@@ -38,6 +38,11 @@ public class RouteBean implements RouteLocal, RouteRemote {
     }
 
     @Override
+    public List<Route> getRoutesByTenant(long tenantId, int offset, int limit) {
+        return dao.getRoutesByTenant(tenantId, offset, limit);
+    }
+
+    @Override
     public List<Route> getRoutesByOrigin(long tenantId, int offset, int limit, String origin) {
         return dao.getRoutesByOrigin(tenantId, offset, limit, origin);
     }

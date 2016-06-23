@@ -60,6 +60,20 @@ public class RouteService {
     }
 
     @GET
+    @Path("get/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    public Response getServiceListByTenant(@PathParam("tenantId")long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+
+        List<Route> routeList = ejb.getRoutesByTenant(tenantId, offset, limit);
+        if (routeList == null){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(routeList).build();
+    }
+
+    @GET
     @Path("get/byOrigin")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

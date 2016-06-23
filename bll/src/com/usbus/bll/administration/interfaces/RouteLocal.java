@@ -15,6 +15,7 @@ public interface RouteLocal {
     Route getByLocalId(long tenantId, Long id);
     Route getByName(long tenantId, String name);
     ObjectId persist(Route route);
+    List<Route> getRoutesByTenant(long tenantId, int offset, int limit);
     List<Route> getRoutesByOrigin(long tenantId, int offset, int limit, String origin);
     List<Route> getRoutesByDestination(long tenantId, int offset, int limit, String destination);
     List<Route> getRoutesByOriginDestination(long tenantId, int offset, int limit, String origin, String destination);

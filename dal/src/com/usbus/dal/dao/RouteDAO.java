@@ -67,6 +67,15 @@ public class RouteDAO {
         return query.get();
     }
 
+    public List<Route> getRoutesByTenant(long tenantId, int offset, int limit){
+        if (tenantId <= 0){
+            return null;
+        }
+        Query<Route> query = ds.createQuery(Route.class);
+        query.criteria("tenantId").equal(tenantId);
+        return query.offset(offset).limit(limit).asList();
+    }
+
     public void remove(ObjectId id) {
         dao.remove(Route.class, id);
     }
