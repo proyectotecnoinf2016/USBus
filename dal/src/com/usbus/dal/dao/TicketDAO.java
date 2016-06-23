@@ -58,12 +58,18 @@ public class TicketDAO {
         return query.get();
     }
 
-    public List<Ticket> TicketsByBuyerAndStatus(String username, TicketStatus status, int offset, int limit) {
-        if ((username == null) || (status == null)) {
+    public List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit) {
+        if ((!(tenantId>0))|| (username == null) || (status == null)) {
             return null;
         }
+        Query<User> queryUser = ds.createQuery(User.class);
+
+        queryUser.and(queryUser.criteria("username").equal(username),
+                queryUser.criteria("tenantId").equal(tenantId));
+        User user =  queryUser.get();
+
         Query<Ticket> query = ds.createQuery(Ticket.class);
-        query.and(query.criteria("passenger.username").equal(username), query.criteria("status").equal(status));
+        query.and(query.criteria("passenger").equal(user.get_id()), query.criteria("status").equal(status));
         return query.offset(offset).limit(limit).asList();
     }
 
