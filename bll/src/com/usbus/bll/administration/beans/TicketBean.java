@@ -41,15 +41,11 @@ public class TicketBean implements TicketLocal, TicketRemote {
     public Ticket confirmTicket(TicketConfirmation ticketConfirmation) throws TicketException {
         Ticket ticket = dao.getByLocalId(ticketConfirmation.getTenantId(), ticketConfirmation.getId());
         if (!(ticket == null)) {
-            if (ticket.getStatus() == TicketStatus.CANCELED) {
-            }
             switch (ticket.getStatus()) {
                 case CANCELED:
                     throw new TicketException("El ticket se encuentra CANCELADO");
                 case USED:
                     throw new TicketException("El ticket ya fue UTILIZADO");
-                case UNUSED:
-                    throw new TicketException("El ticket no ha sido CONFIRMADO");
             }
             ticket.setPassenger(udao.getByUsername(ticketConfirmation.getTenantId(), ticketConfirmation.getUsername()));
             ticket.setPaymentToken(ticketConfirmation.getPaymentToken());
