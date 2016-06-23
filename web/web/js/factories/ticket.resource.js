@@ -11,7 +11,7 @@
     /* @ngInject */
     function TicketResource($resource) {
         return {
-            branches: function (token) {
+                tickets: function (token) {
                 return $resource('/rest/api/:tenantId/ticket/:ticketId', {tenantId:'@tenantId', ticketId: '@ticketId'}, {
                     query: {
                         method: 'GET',

@@ -33,7 +33,8 @@
                 limit: 100,
                 tenantId: $scope.tenantId,
                 origin: from,
-                destination: to
+                destination: to,
+                journeyStatus: 'ACTIVE'
             }).$promise.then(function(result) {
                 console.log(result);
                 //var journeys = $scope.journeys.concat(result);
@@ -48,7 +49,7 @@
             $mdDialog.show({
                 controller : 'CreateTicketController',
                 templateUrl : 'templates/ticket.create.html',
-                locals:{journey: item}, //text va a ser usado para pasar el id del journey
+                locals:{journey: item}, 
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
