@@ -5,13 +5,19 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('CreateTicketController', CreateTicketController);
-    CreateTicketController.$inject = ['$scope', '$mdDialog', 'journey'];
+    CreateTicketController.$inject = ['$scope', '$mdDialog', 'journey', 'localStorage', 'TicketResource'];
     /* @ngInject */
-    function CreateTicketController($scope, $mdDialog, journey) {
+    function CreateTicketController($scope, $mdDialog, journey, localStorage, TicketResource) {
         //GENERAL VARIABLES
-        $scope.tobedone = journey.name;
+        $scope.journey = journey;
         $scope.max = 1;
         $scope.selectedIndex = 0;
+
+
+        $scope.tenantId = 0;
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+        }
 
         //SEATS VARIABLES
         $scope.selected = [];
@@ -20,7 +26,15 @@
         $scope.secondRow = [];
         $scope.thirdRow = [];
         $scope.fourthRow = [];
-        $scope.soldSeats = [5, 2, 19];
+        $scope.soldSeats = [];
+
+        if (journey.seatsState != null) {
+            var i = 0;
+            for (i = 0; i < journey.seatsState.length; i++) {
+                $scope.soldSeats.push(journey.seatsState[i].number);
+            }
+        }
+
 
         //FUNCTIONS
         $scope.selectedSeat = selectedSeat;
@@ -28,6 +42,7 @@
         $scope.soldSeat = soldSeat;
         $scope.cancel = cancel;
         $scope.nextTab = nextTab;
+        $scope.sell = sell;
 
         var s = 40;
         var i = 1;
@@ -76,6 +91,55 @@
 
         function soldSeat(item, list) {
             return list.indexOf(item) > -1;
+        }
+
+        function sell(ticket) {
+
+            $scope.userName = 0;
+            if (typeof localStorage.getData('userName') !== 'undefined' && localStorage.getData('userName') != null) {
+                $scope.userName = localStorage.getData('userName');
+            }
+
+            var token = null;//localStorage.getData('token');
+            if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+                token = localStorage.getData('token');
+            }
+
+            ticket.tenantId = $scope.tenantId;
+            ticket.amount = 0;
+            ticket.passengerName = '';
+            ticket.sellerName = $scope.userName;
+            ticket.closed = true;
+            ticket.status = 'CONFIRMED';
+            ticket.journeyId = $scope.journey.Id;
+            ticket.seat = $scope.selected[0];
+
+
+            TicketResource.tickets(token).save({
+                tenantId: $scope.tenantId
+
+            }, ticket,function (resp) {
+                console.log(resp);
+                alert('bien ahi');
+            }, function (error) {
+                console.log(error);
+            } );
+
+
+
+            /*
+
+             private Double amount;
+             private String passengerName;
+             private String sellerName;
+             private Boolean closed;
+             private TicketStatus status;
+             private Long journeyId;
+             private Integer seat;
+             private String getOnStopName;
+             private String getOffStopName;
+
+             */
         }
 
         function exists(item, list) {

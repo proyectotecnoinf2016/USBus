@@ -31,9 +31,10 @@
                         <input ng-model="route.destination" required>
                     </md-input-container>
                      <md-input-container class="customInput">
-                        <label>Combinación</label>
-                        <md-tooltip md-direction="top">Ingrese si es Combinación</md-tooltip>
-                        <input ng-model="route.hasCombination" >
+                         <md-tooltip md-direction="top">Ingrese si es Combinación</md-tooltip>
+                         <md-checkbox ng-model="route.hasCombination" aria-label="Envio de encomiendas">
+                             <span class="customInput">Combinación</span>
+                         </md-checkbox>
                     </md-input-container>
                      <md-input-container class="customInput">
                         <label>Precio por kilómetro</label>
@@ -48,17 +49,17 @@
                     <md-input-container class="customInput">
                         <label>Nombre</label>
                         <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
-                        <input ng-model="item.name" required>
+                        <input ng-model="item.name" >
                     </md-input-container>
                     <md-input-container class="customInput">
                         <label>Kilómetro</label>
                         <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
-                        <input ng-model="item.name" required>
+                        <input ng-model="item.name" >
                     </md-input-container>
                     <md-input-container class="customInput">
                         <label>Combinación</label>
                         <md-tooltip md-direction="top">Ingrese si es Combinación</md-tooltip>
-                        <input ng-model="item.name" required>
+                        <input ng-model="item.name" >
                     </md-input-container>
 
                 </md-container>
@@ -70,9 +71,11 @@
             </md-tab>
         </md-tabs>
 
+
         <md-dialog-actions class="md-actions" layout="row">
             <span flex></span>
-            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createRoute(route)'>Crear unidad</md-button>
+            <md-button class="md-raised md-primary"	ng-hide="selectedIndex != 0" ng-click="nextTab()">Siguiente</md-button>
+            <md-button class="md-raised md-primary"	ng-hide="selectedIndex == 0" ng-click='sell(user)'>Crear Ruta</md-button>
             <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
         </md-dialog-actions>
     </form>

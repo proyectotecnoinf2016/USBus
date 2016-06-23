@@ -12,7 +12,7 @@
     function BranchResource($resource) {
         return {
             branches: function (token) {
-                return $resource('/rest/api/:tenantId/branch/:busId', {tenantId:'@tenantId', busId: '@branchId'}, {
+                return $resource('/rest/api/:tenantId/branch/:branchId', {tenantId:'@tenantId', branchId: '@branchId'}, {
                     query: {
                         method: 'GET',
                         isArray: true,
