@@ -20,10 +20,20 @@
             $scope.tenantId = localStorage.getData('tenantId');
         }
 
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
         function createBranch(branch) {
             branch.windows = $scope.windows;
-            BranchResource.save(branch,function (resp) {
-                showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
+            branch.active = true;
+            BranchResource.branches(token).save({
+                tenantId: $scope.tenantId
+
+            }, branch,function (resp) {
+                console.log(resp);
+                showAlert('Exito!', 'Se ha creado su sucursal de forma exitosa');
             }, function (error) {
                 console.log(error);
                 showAlert('Error!', 'Ocurrió un error al registrar el TENANT');

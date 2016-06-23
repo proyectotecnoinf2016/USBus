@@ -9,6 +9,11 @@
     function TicketsController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, $location) {
         $scope.tenantId = 0;
         $scope.showTicket = showTicket;
+        $scope.getJourneys = getJourneys;
+
+        $scope.from = '';
+        $scope.to = '';
+        $scope.date = '';
 
         $rootScope.$emit('options', 'tickets');
 
@@ -22,15 +27,21 @@
             token = localStorage.getData('token');
         }
 
-        JourneyResource.journeys(token).query({
-            offset: 0,
-            limit: 100,
-            tenantId: $scope.tenantId
-        }).$promise.then(function(result) {
-            console.log(result);
-            var journeys = $scope.journeys.concat(result);
-            $scope.journeys = journeys;
-        });
+        function getJourneys(from, to, date) {
+            JourneyResource.journeys(token).query({
+                offset: 0,
+                limit: 100,
+                tenantId: $scope.tenantId,
+                origin: from,
+                destination: to,
+                journeyStatus: 'ACTIVE'
+            }).$promise.then(function(result) {
+                console.log(result);
+                //var journeys = $scope.journeys.concat(result);
+                $scope.journeys = result;
+            });
+        }
+
 
 
 
@@ -38,7 +49,7 @@
             $mdDialog.show({
                 controller : 'CreateTicketController',
                 templateUrl : 'templates/ticket.create.html',
-                locals:{journey: item}, //text va a ser usado para pasar el id del journey
+                locals:{journey: item}, 
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true

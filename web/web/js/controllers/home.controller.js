@@ -19,7 +19,7 @@
             $scope.token = localStorage.getData('token');
         }
 
-        $rootScope.$emit('menuOption', '');
+        $rootScope.$emit('options', '');
         $rootScope.$on('login', function(event, data) {
             if (typeof localStorage.getData('tenantName') !== 'undefined' && localStorage.getData('tenantName') != null) {
                 $rootScope.tenantName = localStorage.getData('tenantName');

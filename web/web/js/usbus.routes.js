@@ -19,6 +19,10 @@
                 templateUrl: 'templates/bus.navigate.html',
                 controller: 'BusController'
             })
+            .when('/tenant/:tenantName/admin/users', {
+                templateUrl: 'templates/user.create.html',
+                controller: 'BusController'
+            })
             .when('/tenant/:tenantName/admin/busStop', {
                 templateUrl: 'templates/busStop.navigate.html',
                 controller: 'BusStopController'
@@ -34,6 +38,10 @@
             .when('/tenant/:tenantName/admin/branch', {
                 templateUrl: 'templates/branch.navigate.html',
                 controller: 'BranchController'
+            })
+            .when('/tenant/:tenantName/admin/styles', {
+                templateUrl: 'templates/tenant.styles.html',
+                controller: 'TenantController'
             })
             .when('/tenant/:tenantName/admin', {
                 templateUrl: 'templates/journey.navigate.html',
