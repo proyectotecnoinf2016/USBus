@@ -9,6 +9,11 @@
     function TicketsController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, $location) {
         $scope.tenantId = 0;
         $scope.showTicket = showTicket;
+        $scope.getJourneys = getJourneys;
+
+        $scope.from = '';
+        $scope.to = '';
+        $scope.date = '';
 
         $rootScope.$emit('options', 'tickets');
 
@@ -22,15 +27,20 @@
             token = localStorage.getData('token');
         }
 
-        JourneyResource.journeys(token).query({
-            offset: 0,
-            limit: 100,
-            tenantId: $scope.tenantId
-        }).$promise.then(function(result) {
-            console.log(result);
-            //var journeys = $scope.journeys.concat(result);
-            $scope.journeys = result;
-        });
+        function getJourneys(from, to, date) {
+            JourneyResource.journeys(token).query({
+                offset: 0,
+                limit: 100,
+                tenantId: $scope.tenantId,
+                origin: from,
+                destination: to
+            }).$promise.then(function(result) {
+                console.log(result);
+                //var journeys = $scope.journeys.concat(result);
+                $scope.journeys = result;
+            });
+        }
+
 
 
 

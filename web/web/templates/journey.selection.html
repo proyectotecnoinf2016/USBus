@@ -8,7 +8,7 @@
             <md-input-container class="customInputRegister" flex-gt-xs="50" layout-padding>
                 <label>Fecha</label>
                 <md-tooltip md-direction="top">Ingrese Fecha de viaje</md-tooltip>
-                <input type="date" ng-model="journey.date">
+                <input type="date" ng-model="date">
             </md-input-container>
 
         </div>
@@ -16,14 +16,15 @@
             <md-input-container class="customInputRegister" layout-padding>
                 <label>Origen</label>
                 <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
-                <input ng-model="journey.from">
+                <input ng-model="from">
             </md-input-container>
             <md-input-container class="customInputRegister" layout-padding>
                 <label>Destino</label>
                 <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
-                <input ng-model="journey.to">
+                <input ng-model="to">
             </md-input-container>
         </div>
+        <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="getJourneys(from, to, date)">Buscar</md-button>
     </div>
 
 

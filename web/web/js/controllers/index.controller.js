@@ -54,7 +54,7 @@
                     url : "admin/busStop",
                     icon: "store_mall_directory"
                 } , {
-                    name: "Administrar Trayectos",
+                    name: "Administrar Rutas",
                     url : "admin/route",
                     icon: "terrain"
                 } , {

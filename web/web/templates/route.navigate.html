@@ -1,4 +1,4 @@
-<h1 class="grayHeader">Trayectos</h1>
+<h1 class="grayHeader">Rutas</h1>
 <form name="inputForm" novalidate >
     <h1 class="grayHeader">{{message}}</h1>
     <md-content ng-show="routes != null && routes.length > 0">
@@ -42,7 +42,7 @@
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
                     <img src="img/Edit_Icon.png" ng-click="showRoutes(item, $event)" class="editIcon pointer"/>
-                    <img src="img/Delete_Icon.png" ng-click="deleteRoute(item.name)" class="deleteIcon pointer"/>
+                    <img src="img/Delete_Icon.png" ng-click="deleteRoute(item)" class="deleteIcon pointer"/>
                 </p>
             </span>
         </span>

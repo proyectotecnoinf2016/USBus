@@ -14,10 +14,19 @@
                 return $resource('/rest/api/:tenantId/journey', {tenantId: '@tenantId'}, {
                     query: {
                         method: 'GET',
+                        url: '/rest/api/:tenantId/journey/get/jbyDateOriginAndDestination',
+                        params: {tenantId: '@tenantId'},
+                        isArray:true,
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }
                     },
+                    /*query: {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },*/
                     save: {
                         method: 'POST',
                         headers: {
