@@ -116,7 +116,7 @@
                <div ng-controller="IndexController" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="20">
                     <md-sidenav layout-fill  md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="">
                         <md-content style="padding: 1%">
-                            <div ng-repeat="item in menuOptions" ng-click="redirectTo(item.url);" class="pointer" back-Img="img/ticket-blank-clip-art-at-vector-clip-art-online.jpg">
+                            <div ng-repeat="item in menuOptions" ng-click="redirectTo(item.url);" class="pointer menu" back-Img="img/gray.jpg">
                                 <p hide-md="" show-gt-md="" style="padding: 5% 10%; margin: 2px"  >
                                     {{item.name}}
                                 </p>
