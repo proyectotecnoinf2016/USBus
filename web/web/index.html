@@ -113,7 +113,7 @@
 
 		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
            <section layout="row" flex>
-                <div ng-controller="IndexController" flex="25" >
+               <div ng-controller="IndexController" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25">
                     <md-sidenav layout-fill  md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="">
                         <md-content style="padding: 1%">
                             <div ng-repeat="item in menuOptions" ng-click="redirectTo(item.url);" class="pointer" back-Img="img/ticket-blank-clip-art-at-vector-clip-art-online.jpg">
