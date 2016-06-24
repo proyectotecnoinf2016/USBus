@@ -4,20 +4,16 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('RouteController', RouteController);
-    RouteController.$inject = ['$scope', '$mdDialog', 'RouteResource', '$rootScope'];
+    RouteController.$inject = ['$scope', '$mdDialog', 'RouteResource', '$rootScope', 'localStorage'];
     /* @ngInject */
-    function RouteController($scope, $mdDialog, RouteResource, $rootScope) {
+    function RouteController($scope, $mdDialog, RouteResource, $rootScope, localStorage ) {
         $scope.showRoutes = showRoutes;
         $scope.createRoute = createRoute;
         $scope.deleteRoute = deleteRoute;
+        $scope.routes = [];
 
         $scope.message = '';
         $scope.tenantId = 0;
-        $scope.routes = [{
-            'name': '1'
-        }, {
-            'name': '2'
-        }];
 
 
         $rootScope.$emit('options', 'admin');
@@ -28,14 +24,27 @@
         }
 
 
-        /*RouteResource.query({
+
+        $scope.tenantId = 0;
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+        }
+
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
+        RouteResource.routes(token).query({
+            offset: 0,
+            limit: 100,
+            routeStatus: 'ACTIVE',
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             console.log(result);
-            var journeys = $scope.journeys.concat(result);
-            $scope.journeys = journeys;
+            $scope.routes = result;
+
         });
-        */
 
 
         function showRoutes(item, ev) {
@@ -70,17 +79,15 @@
                 });
         };
 
-        function deleteRoute(text) {
-            //TODO: ver si aca va el id, el name o quien (supongo que va el id nomas);
-            /*
-            bus.active = false;
-            RouteResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-                console.log(style);
-            }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
+        function deleteRoute(route) {
+            delete bus["_id"];
+            RouteResource.routes(token).delete({
+                    tenantId: $scope.tenantId,
+                    routeId: route.id}, route).$promise.then(function(data){
+                    console.log(data);
+                }, function(error){
             });
-            */
+
             var index = 0;
 
             while (index < $scope.routes.length && text != $scope.routes[index].name) {

@@ -24,49 +24,63 @@
 		}
 
         $scope.menuOptions = [];
-
+        
         $rootScope.$on('options', function (event, data) {
             var options = '';
             if (data == 'admin') {
 
                 options = [{
+                    name: "Inicio",
+                    url: "",
+                    icon: "home"
+                }, {
                     name : "Planificar Viajes",
                     url  : "admin",
-                    icon : ""
+                    icon : "event_seat"
                 } , {
-                    name: "Administrar Usuarios"
+                    name: "Administrar Usuarios",
+                    url  : "admin/users",
+                    icon : "perm_identity"
                 } , {
                     name: "Administrar Sucursales",
-                    url : "admin/branch"
+                    url : "admin/branch",
+                    icon: "add_to_queue"
                 } , {
                     name: "Administrar Unidades",
-                    url : "admin/bus"
+                    url : "admin/bus",
+                    icon: "directions_bus"
                 } , {
                     name: "Administrar Paradas",
-                    url : "admin/busStop"
+                    url : "admin/busStop",
+                    icon: "store_mall_directory"
                 } , {
-                    name: "Administrar Trayectos",
-                    url : "admin/route"
+                    name: "Administrar Rutas",
+                    url : "admin/route",
+                    icon: "terrain"
                 } , {
                     name: "Administrar Servicios",
-                    url : "admin/service"
+                    url : "admin/service",
+                    icon: "subway"
                 } , {
-                    name: "Personalizar Estilos",
-                    url : "admin/styles"
+                    name: "Personalizar Estilos",//<i class="material-icons">format_color_fill</i>
+                    url : "admin/styles",
+                    icon: "format_color_fill"
                 }];
             }
 
             if (data == 'tickets') {
                 options = [{
+                    name: "Inicio",
+                    url : "",
+                    icon: "home"
+                } , {
                     name : "Pasajes",
                     url: "tickets",
-                    icon: "settings"
+                    icon: "airline_seat_recline_normal" //<i class="material-icons">add_shopping_cart</i><i class="material-icons">airline_seat_recline_normal</i>
                 } , {
                     name: "Caja",
-                    url : "tickets/window"
-                } , {
-                    name: "Inicio",
-                    url : ""
+                    url : "tickets/window",
+                    icon: "account_balance_wallet"
                 }];
 
             }

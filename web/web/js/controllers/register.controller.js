@@ -49,13 +49,9 @@
                 console.log(user.tenantId);
                 RegisterUserResource.save(user,function (respU) {
                     showAlert('Exito!', 'Se ha creado su empresa virtual de forma exitosa');
-                    localStorage.setData('userName', user.username);
-                    localStorage.setData('tenantName', tenant.name);
                     $window.location.href = $location.$$absUrl + 'tenant/' + tenant.name;
                 },function (error) {
                     console.log(error);
-                    localStorage.setData('tenantId', '');
-                    localStorage.setData('userName', '');
                     showAlert('Error!', 'Ocurrió un error al registrar el USUARIO');
                 });
             }, function (error) {
