@@ -1,19 +1,18 @@
 /**
- * Created by Lucia on 6/5/2016.
+ * Created by Lucia on 6/7/2016.
  */
 
 (function() {
     'use strict';
     angular
         .module('usbus')
-        .factory('RouteResource', RouteResource);
-    RouteResource.$inject = ['$resource'];
+        .factory('TicketResource', TicketResource);
+    TicketResource.$inject = ['$resource'];
     /* @ngInject */
-
-    function RouteResource($resource) {
+    function TicketResource($resource) {
         return {
-            routes: function (token) {
-                return $resource('/rest/api/:tenantId/route/:routeId', {routeId:'@routeId', tenantId:'@tenantId'}, {
+                tickets: function (token) {
+                return $resource('/rest/api/:tenantId/ticket/:ticketId', {tenantId:'@tenantId', ticketId: '@ticketId'}, {
                     query: {
                         method: 'GET',
                         isArray: true,
@@ -43,5 +42,4 @@
             }
         };
     }
-
 })();

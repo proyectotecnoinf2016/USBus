@@ -170,12 +170,12 @@ public class ServiceDAO {
         }
     }
 
-    public void setActive(long tenantId, Long serviceName) {
-        if (!(tenantId > 0) || (serviceName == null)) {
+    public void setActive(long tenantId, Long serviceId) {
+        if (!(tenantId > 0) || (serviceId == null)) {
         } else {
             Query<Service> query = ds.createQuery(Service.class);
 
-            query.and(query.criteria("name").equal(serviceName),
+            query.and(query.criteria("id").equal(serviceId),
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<Service> updateOp = ds.createUpdateOperations(Service.class).set("active", true);
             ds.update(query, updateOp);

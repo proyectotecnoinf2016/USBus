@@ -14,6 +14,7 @@
                 return $resource('/rest/api/:tenantId/journey', {tenantId: '@tenantId'}, {
                     query: {
                         method: 'GET',
+                        isArray: true,
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }

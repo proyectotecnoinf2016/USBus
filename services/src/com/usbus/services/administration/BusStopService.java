@@ -121,6 +121,7 @@ public class BusStopService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
     public Response createBusStop(BusStop busStop) {
+        busStop.setActive(true);
         ObjectId oid = ejb.persist(busStop);
         if (oid == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

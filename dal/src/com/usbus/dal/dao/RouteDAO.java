@@ -67,6 +67,15 @@ public class RouteDAO {
         return query.get();
     }
 
+    public List<Route> getRoutesByTenant(long tenantId, int offset, int limit){
+        if (tenantId <= 0){
+            return null;
+        }
+        Query<Route> query = ds.createQuery(Route.class);
+        query.criteria("tenantId").equal(tenantId);
+        return query.offset(offset).limit(limit).asList();
+    }
+
     public void remove(ObjectId id) {
         dao.remove(Route.class, id);
     }
@@ -83,14 +92,37 @@ public class RouteDAO {
         }
     }
 
+    public void setActive(long tenantId, Long routeId) {
+        if ((tenantId <= 0) || (routeId == null)) {
+        } else {
+            Query<Route> query = ds.createQuery(Route.class);
+
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("id").equal(routeId));
+            UpdateOperations<Route> updateOp = ds.createUpdateOperations(Route.class).set("active", true);
+            ds.update(query, updateOp);
+        }
+    }
+
     public void setInactive(long tenantId, String routeName) {
-        if (!(tenantId > 0) || (routeName.isEmpty())) {
+        if ((tenantId <= 0) || (routeName == null) || (routeName != null && routeName.isEmpty())) {
         } else {
             Query<Route> query = ds.createQuery(Route.class);
 
             query.and(query.criteria("name").equal(routeName),
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<Route> updateOp = ds.createUpdateOperations(Route.class).set("active", false);
+            ds.update(query, updateOp);
+        }
+    }
+
+    public void setActive(long tenantId, String routeName) {
+        if ((tenantId <= 0) || (routeName == null) || (routeName != null && routeName.isEmpty())) {
+        } else {
+            Query<Route> query = ds.createQuery(Route.class);
+
+            query.and(query.criteria("name").equal(routeName),
+                    query.criteria("tenantId").equal(tenantId));
+            UpdateOperations<Route> updateOp = ds.createUpdateOperations(Route.class).set("active", true);
             ds.update(query, updateOp);
         }
     }
@@ -102,8 +134,13 @@ public class RouteDAO {
         if (origin == null || origin.isEmpty()) {
             return null;
         }
+
+        Query<BusStop> busStopQuery = ds.createQuery(BusStop.class);
+        busStopQuery.and(busStopQuery.criteria("name").equal(origin), busStopQuery.criteria("tenantId").equal(tenantId));
+        BusStop busStopAux = busStopQuery.get();
+
         Query<Route> query = ds.createQuery(Route.class);
-        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("origin.name").equal(origin));
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("origin").equal(busStopAux.get_id()));
         List<Route> routes = query.offset(offset).limit(limit).asList();
 
         return routes;
@@ -116,8 +153,13 @@ public class RouteDAO {
         if (destination == null || destination.isEmpty()) {
             return null;
         }
+
+        Query<BusStop> busStopQuery = ds.createQuery(BusStop.class);
+        busStopQuery.and(busStopQuery.criteria("name").equal(destination), busStopQuery.criteria("tenantId").equal(tenantId));
+        BusStop busStopAux = busStopQuery.get();
+
         Query<Route> query = ds.createQuery(Route.class);
-        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("destination.name").equal(destination));
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("destination").equal(busStopAux.get_id()));
         List<Route> routes = query.offset(offset).limit(limit).asList();
 
         return routes;
@@ -133,10 +175,19 @@ public class RouteDAO {
         if (destination == null || destination.isEmpty()) {
             return null;
         }
+
+        Query<BusStop> busStopQueryO = ds.createQuery(BusStop.class);
+        busStopQueryO.and(busStopQueryO.criteria("name").equal(origin), busStopQueryO.criteria("tenantId").equal(tenantId));
+        BusStop busStopAuxO = busStopQueryO.get();
+
+        Query<BusStop> busStopQueryD = ds.createQuery(BusStop.class);
+        busStopQueryD.and(busStopQueryD.criteria("name").equal(destination), busStopQueryD.criteria("tenantId").equal(tenantId));
+        BusStop busStopAuxD = busStopQueryD.get();
+
         Query<Route> query = ds.createQuery(Route.class);
         query.and(query.criteria("tenantId").equal(tenantId),
-                query.criteria("origin.name").equal(origin),
-                query.criteria("destination.name").equal(destination));
+                query.criteria("origin").equal(busStopAuxO.get_id()),
+                query.criteria("destination").equal(busStopAuxD.get_id()));
         List<Route> routes = query.offset(offset).limit(limit).asList();
 
         return routes;

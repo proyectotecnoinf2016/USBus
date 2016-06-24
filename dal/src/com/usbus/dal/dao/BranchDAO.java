@@ -8,6 +8,8 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
+import java.util.List;
+
 /**
  * Created by Lufasoch on 28/05/2016.
  */
@@ -62,6 +64,15 @@ public class BranchDAO {
                 query.criteria("tenantId").equal(tenantId));
 
         return query.get();
+    }
+
+    public List<Branch> getBranchesByTenant(long tenantId, int offset, int limit){
+        if (tenantId <= 0){
+            return null;
+        }
+        Query<Branch> query = ds.createQuery(Branch.class);
+        query.criteria("tenantId").equal(tenantId);
+        return query.offset(offset).limit(limit).asList();
     }
 
     public void remove(ObjectId id) {
