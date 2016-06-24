@@ -30,10 +30,6 @@
             if (data == 'admin') {
 
                 options = [{
-                    name: "Inicio",
-                    url: "",
-                    icon: "home"
-                }, {
                     name : "Planificar Viajes",
                     url  : "admin",
                     icon : "event_seat"
@@ -70,10 +66,6 @@
 
             if (data == 'tickets') {
                 options = [{
-                    name: "Inicio",
-                    url : "",
-                    icon: "home"
-                } , {
                     name : "Pasajes",
                     url: "tickets",
                     icon: "airline_seat_recline_normal" //<i class="material-icons">add_shopping_cart</i><i class="material-icons">airline_seat_recline_normal</i>
