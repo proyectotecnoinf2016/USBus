@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Local
 public interface TicketLocal {
-    ObjectId persist(Ticket ticket);
+    ObjectId persist(Ticket ticket) throws TicketException;
 
     Ticket confirmTicket(TicketConfirmation ticketConfirmation) throws TicketException;
 
@@ -23,6 +23,6 @@ public interface TicketLocal {
 
     List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit);
 
-    List<Ticket> TicketsByBuyerAndStatus(String username, TicketStatus status, int offset, int limit);
+    List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit);
     Ticket setPassenger(long tenantId, Long ticketId, String passenger);
 }
