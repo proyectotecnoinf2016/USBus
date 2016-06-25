@@ -15,7 +15,8 @@ import java.util.Date;
 @Entity(value = "journeys",noClassnameStored = true)
 @Indexes({
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iJourneyKey", unique=true))})
-public class Journey extends BaseEntity{
+public class
+Journey extends BaseEntity{
     private Long id;
     @Reference
     private Service service;
