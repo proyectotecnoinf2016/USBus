@@ -46,7 +46,7 @@ public class RouteService {
     }
 
     @GET
-    @Path("id/{routeId}")
+    @Path("{routeId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
@@ -60,64 +60,104 @@ public class RouteService {
     }
 
     @GET
-    @Path("get/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getServiceListByTenant(@PathParam("tenantId")long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+    public Response queryRoutes(@PathParam("tenantId")long tenantId,
+                                @QueryParam("query") String query,
+                                @QueryParam("origin")String origin,
+                                @QueryParam("destination")String destination,
+                                @QueryParam("offset") int offset,
+                                @QueryParam("limit") int limit){
+        List<Route> routeList = null;
+        switch (query.toUpperCase()){
+            case "ALL":
+                routeList = ejb.getRoutesByTenant(tenantId, offset, limit);
+                if (routeList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(routeList).build();
+            case "ORIGIN":
+                routeList = ejb.getRoutesByOrigin(tenantId, offset, limit, origin);
+                if (routeList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(routeList).build();
+            case "DESTINATION":
+                routeList = ejb.getRoutesByDestination(tenantId, offset, limit, destination);
+                if (routeList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(routeList).build();
+            case "ORIGIN_DESTINATION":
+                routeList = ejb.getRoutesByOriginDestination(tenantId, offset, limit, destination, origin);
+                if (routeList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(routeList).build();        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
 
-        List<Route> routeList = ejb.getRoutesByTenant(tenantId, offset, limit);
-        if (routeList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(routeList).build();
     }
 
-    @GET
-    @Path("get/byOrigin")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getRoutesByOrigin(@PathParam("tenantId")long tenantId, @QueryParam("origin")String origin, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
-        List<Route> routeList = ejb.getRoutesByOrigin(tenantId, offset, limit, origin);
-        if (routeList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(routeList).build();
-    }
-
-    @GET
-    @Path("get/byDestination")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getRoutesByDestination(@PathParam("tenantId")long tenantId,
-                                           @QueryParam("destination")String destination,
-                                           @QueryParam("offset") int offset,
-                                           @QueryParam("limit") int limit){
-        List<Route> routeList = ejb.getRoutesByDestination(tenantId, offset, limit, destination);
-        if (routeList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(routeList).build();
-    }
-
-    @GET
-    @Path("get/byDAndO")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getRoutesByDestination(@PathParam("tenantId")long tenantId,
-                                           @QueryParam("destination")String destination,
-                                           @QueryParam("offset") int offset,
-                                           @QueryParam("limit") int limit,
-                                           @QueryParam("origin")String origin){
-        List<Route> routeList = ejb.getRoutesByOriginDestination(tenantId, offset, limit, destination, origin);
-        if (routeList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(routeList).build();
-    }
+//    @GET
+//    @Path("get/all")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getServiceListByTenant(@PathParam("tenantId")long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+//
+//        List<Route> routeList = ejb.getRoutesByTenant(tenantId, offset, limit);
+//        if (routeList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(routeList).build();
+//    }
+//
+//    @GET
+//    @Path("get/byOrigin")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getRoutesByOrigin(@PathParam("tenantId")long tenantId, @QueryParam("origin")String origin, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+//        List<Route> routeList = ejb.getRoutesByOrigin(tenantId, offset, limit, origin);
+//        if (routeList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(routeList).build();
+//    }
+//
+//    @GET
+//    @Path("get/byDestination")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getRoutesByDestination(@PathParam("tenantId")long tenantId,
+//                                           @QueryParam("destination")String destination,
+//                                           @QueryParam("offset") int offset,
+//                                           @QueryParam("limit") int limit){
+//        List<Route> routeList = ejb.getRoutesByDestination(tenantId, offset, limit, destination);
+//        if (routeList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(routeList).build();
+//    }
+//
+//    @GET
+//    @Path("get/byDAndO")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getRoutesByDestination(@PathParam("tenantId")long tenantId,
+//                                           @QueryParam("destination")String destination,
+//                                           @QueryParam("offset") int offset,
+//                                           @QueryParam("limit") int limit,
+//                                           @QueryParam("origin")String origin){
+//        List<Route> routeList = ejb.getRoutesByOriginDestination(tenantId, offset, limit, destination, origin);
+//        if (routeList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(routeList).build();
+//    }
 
     @DELETE
     @Path("{routeId}")
