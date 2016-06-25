@@ -1,6 +1,8 @@
 package com.usbus.dal.model;
 
+import com.usbus.commons.auxiliaryClasses.HumanResourceStatus;
 import com.usbus.commons.enums.Gender;
+import com.usbus.commons.enums.HRStatus;
 import com.usbus.commons.enums.Rol;
 import org.mongodb.morphia.annotations.*;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @Entity(value = "users",noClassnameStored = false)
 public class HumanResource extends User {
     private Boolean status;
+    private List<HumanResourceStatus> statusHistory;
     private List<Rol> roles;
 
     public HumanResource(){
@@ -46,5 +49,31 @@ public class HumanResource extends User {
 
     public void setRoles(List<Rol> roles) {
         this.roles = roles;
+    }
+
+    public List<HumanResourceStatus> getStatusHistory() {
+        return statusHistory;
+    }
+
+    public void setStatusHistory(List<HumanResourceStatus> statusHistory) {
+        this.statusHistory = statusHistory;
+    }
+
+    public void addStatus(HumanResourceStatus status){
+        switch (status.getStatus()){
+            case ACTIVE:
+                this.status = true;
+                break;
+            case DISMISSED:
+                this.status = false;
+                break;
+            case VACATION:
+                this.status = false;
+                break;
+            case LAYOFF:
+                this.status = false;
+                break;
+        }
+        this.statusHistory.add(status);
     }
 }

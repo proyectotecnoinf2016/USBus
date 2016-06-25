@@ -1,5 +1,6 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.enums.HRStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.HumanResource;
@@ -71,6 +72,36 @@ public class HumanResourceDAO {
         return query.get();
 
     }
+
+    public HumanResource getByStatus(long tenantId, Boolean status) {
+        if (!(tenantId > 0)) {
+            return null;
+        }
+
+        Query<HumanResource> query = ds.createQuery(HumanResource.class);
+        query.disableValidation();
+        query.criteria("className").equal(HumanResource.class.getCanonicalName());
+        query.and(query.criteria("status").equal(status),
+                query.criteria("tenantId").equal(tenantId));
+
+        return query.get();
+
+    }
+//
+//    public HumanResource getByHRStatus(long tenantId, HRStatus status) {
+//        if (!(tenantId > 0)) {
+//            return null;
+//        }
+//
+//        Query<HumanResource> query = ds.createQuery(HumanResource.class);
+//        query.disableValidation();
+//        query.criteria("className").equal(HumanResource.class.getCanonicalName());
+//        query.and(query.criteria("email").equal(email),
+//                query.criteria("tenantId").equal(tenantId));
+//
+//        return query.get();
+//
+//    }
 
     public List<HumanResource> getAllHumanResources(long tenantId, int offset, int limit) {
         if (!(tenantId > 0)) {

@@ -49,7 +49,7 @@ public class ServiceService {
     }
 
     @GET
-    @Path("id/{serviceId}")
+    @Path("{serviceId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
@@ -62,52 +62,89 @@ public class ServiceService {
         return Response.ok(serviceAux).build();
     }
 
+
     @GET
-    @Path("get/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getServiceListByTenant(@PathParam("tenantId")long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
-
-        List<Service> serviceList = ejb.getServicesByTenant(tenantId, offset, limit);
-        if (serviceList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
+    public Response queryService(@PathParam("tenantId")long tenantId,
+                                 @QueryParam("query") String query,
+                                 @QueryParam("dayOfWeek") DayOfWeek day,
+                                 @QueryParam("origin")String origin,
+                                 @QueryParam("destination")String destination,
+                                 @QueryParam("offset") int offset,
+                                 @QueryParam("limit") int limit){
+        List<Service> serviceList = null;
+        switch (query.toUpperCase()){
+            case "ALL":
+                serviceList = ejb.getServicesByTenant(tenantId, offset, limit);
+                if (serviceList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(serviceList).build();
+            case "DAYOFWEEK":
+                serviceList = ejb.getServicesByTenantAndDayOfTheWeek(tenantId, day, offset, limit);
+                if (serviceList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(serviceList).build();
+            case "DAYOFWEEK_FROM_TO":
+                serviceList = ejb.getServicesByTenantDOWAndStops(tenantId, day, origin, destination, offset, limit);
+                if (serviceList == null || origin.equals(destination)){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(serviceList).build();
         }
-        return Response.ok(serviceList).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
+
     }
 
-    @GET
-    @Path("get/dayofweek")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getServiceListByTenantAndDate(@PathParam("tenantId") long tenantId, @QueryParam("day") DayOfWeek day, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+//    @GET
+//    @Path("get/all")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getServiceListByTenant(@PathParam("tenantId")long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+//
+//        List<Service> serviceList = ejb.getServicesByTenant(tenantId, offset, limit);
+//        if (serviceList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(serviceList).build();
+//    }
 
-        List<Service> serviceList = ejb.getServicesByTenantAndDayOfTheWeek(tenantId, day, offset, limit);
-        if (serviceList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(serviceList).build();
-    }
+//    @GET
+//    @Path("get/dayofweek")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getServiceListByTenantAndDate(@PathParam("tenantId") long tenantId, @QueryParam("day") DayOfWeek day, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+//
+//        List<Service> serviceList = ejb.getServicesByTenantAndDayOfTheWeek(tenantId, day, offset, limit);
+//        if (serviceList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(serviceList).build();
+//    }
 
-    @GET
-    @Path("get/dowfromto")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getServiceListByTenantDOWAndStops(@PathParam("tenantId") long tenantId,
-                                                      @QueryParam("dow")DayOfWeek day,
-                                                      @QueryParam("offset") int offset,
-                                                      @QueryParam("limit") int limit,
-                                                      @QueryParam("origin")String origin,
-                                                      @QueryParam("destination")String destination){
-
-        List<Service> serviceList = ejb.getServicesByTenantDOWAndStops(tenantId, day, origin, destination, offset, limit);
-        if (serviceList == null || origin.equals(destination)){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(serviceList).build();
-    }
+//    @GET
+//    @Path("get/dowfromto")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getServiceListByTenantDOWAndStops(@PathParam("tenantId") long tenantId,
+//                                                      @QueryParam("dow")DayOfWeek day,
+//                                                      @QueryParam("offset") int offset,
+//                                                      @QueryParam("limit") int limit,
+//                                                      @QueryParam("origin")String origin,
+//                                                      @QueryParam("destination")String destination){
+//
+//        List<Service> serviceList = ejb.getServicesByTenantDOWAndStops(tenantId, day, origin, destination, offset, limit);
+//        if (serviceList == null || origin.equals(destination)){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(serviceList).build();
+//    }
 
     @DELETE
     @Path("{serviceId}")

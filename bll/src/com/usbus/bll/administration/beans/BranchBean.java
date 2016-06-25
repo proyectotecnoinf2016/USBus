@@ -17,6 +17,7 @@ public class BranchBean implements BranchLocal, BranchRemote {
 
     @Override
     public ObjectId persist(Branch branch) {
+        branch.setId(dao.getNextId(branch.getTenantId()));
         return dao.persist(branch);
     }
 
@@ -36,8 +37,8 @@ public class BranchBean implements BranchLocal, BranchRemote {
     }
 
     @Override
-    public void setInactive(long tenantId, String branchName) {
-        dao.setInactive(tenantId, branchName);
+    public void setInactive(long tenantId, Long branchId) {
+        dao.setInactive(tenantId, branchId);
     }
 
     @Override
