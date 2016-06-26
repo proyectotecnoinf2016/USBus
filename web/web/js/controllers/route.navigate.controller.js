@@ -10,6 +10,8 @@
         $scope.showRoutes = showRoutes;
         $scope.createRoute = createRoute;
         $scope.deleteRoute = deleteRoute;
+        $scope.showAlert = showAlert;
+
         $scope.routes = [];
 
         $scope.message = '';
@@ -18,10 +20,6 @@
 
         $rootScope.$emit('options', 'admin');
 
-
-        if ($scope.routes.length === 0) {
-            $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
-        }
 
 
 
@@ -38,13 +36,17 @@
         RouteResource.routes(token).query({
             offset: 0,
             limit: 100,
-            routeStatus: 'ACTIVE',
+            query: 'ALL',
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             console.log(result);
             $scope.routes = result;
 
         });
+        if ($scope.routes.length === 0) {
+            $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
+        }
+
 
 
         function showRoutes(item, ev) {
@@ -80,29 +82,44 @@
         };
 
         function deleteRoute(route) {
-            delete bus["_id"];
+            delete route["_id"];
+            route.active = false;
             RouteResource.routes(token).delete({
                     tenantId: $scope.tenantId,
                     routeId: route.id}, route).$promise.then(function(data){
+                    var index = 0;
+
+                    while (index < $scope.routes.length && route.name != $scope.routes[index].name) {
+                        index++;
+                    }
+
+                    if (index < $scope.routes.length) {
+                        $scope.routes.splice(index, 1);
+                    }
+
+                    if ($scope.routes.length === 0) {
+                        $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado.';
+                    }
                     console.log(data);
                 }, function(error){
+                showAlert('Error!', error);
             });
 
-            var index = 0;
-
-            while (index < $scope.routes.length && text != $scope.routes[index].name) {
-                index++;
-            }
-
-            if (index < $scope.routes.length) {
-                $scope.routes.splice(index, 1);
-            }
-
-            if ($scope.routes.length === 0) {
-                $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado.';
-            }
-
         }
+
+        function showAlert(title,content) {
+            $mdDialog
+                .show($mdDialog
+                    .alert()
+                    .parent(
+                        angular.element(document
+                            .querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .content(content)
+                    .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
+
+        };
 
     }
 })();
