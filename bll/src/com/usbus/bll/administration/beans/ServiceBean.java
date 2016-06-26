@@ -20,7 +20,7 @@ public class ServiceBean implements ServiceLocal, ServiceRemote{
     public ServiceBean(){}
 
     @Override
-    public Service getById(ObjectId id) {
+    public Service getById(String id) {
         return dao.getById(id);
     }
 
@@ -30,7 +30,7 @@ public class ServiceBean implements ServiceLocal, ServiceRemote{
     }
 
     @Override
-    public ObjectId persist(Service service) {
+    public String persist(Service service) {
         service.setId(dao.getNextId(service.getTenantId()));
         return dao.persist(service);
     }

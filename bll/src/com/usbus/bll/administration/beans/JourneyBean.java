@@ -22,13 +22,13 @@ public class JourneyBean implements JourneyLocal, JourneyRemote {
     public JourneyBean() {}
 
     @Override
-    public ObjectId persist(Journey journey) {
+    public String persist(Journey journey) {
         journey.setId(dao.getNextId(journey.getTenantId()));
         return dao.persist(journey);
     }
 
     @Override
-    public Journey getById(ObjectId oid) {
+    public Journey getById(String oid) {
         Journey journeyAux = dao.getById(oid);
         return journeyAux;
     }

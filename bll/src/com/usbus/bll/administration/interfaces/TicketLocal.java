@@ -14,11 +14,11 @@ import java.util.List;
  */
 @Local
 public interface TicketLocal {
-    ObjectId persist(Ticket ticket) throws TicketException;
+    String persist(Ticket ticket) throws TicketException;
 
     Ticket confirmTicket(TicketConfirmation ticketConfirmation) throws TicketException;
 
-    Ticket getById(ObjectId oid);
+    Ticket getById(String oid);
     Ticket getByLocalId(long tenantId, Long id);
 
     List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit);

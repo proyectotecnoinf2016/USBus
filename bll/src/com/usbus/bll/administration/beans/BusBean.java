@@ -19,12 +19,12 @@ public class BusBean implements BusLocal, BusRemote {
     public BusBean() {}
 
     @Override
-    public ObjectId persist(Bus bus01) {
+    public String persist(Bus bus01) {
         return dao.persist(bus01);
     }
 
     @Override
-    public Bus getById(ObjectId oid) {
+    public Bus getById(String oid) {
         Bus busAux = dao.getById(oid);
         return busAux;
     }

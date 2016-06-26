@@ -16,13 +16,13 @@ public class BranchBean implements BranchLocal, BranchRemote {
     public BranchBean() {}
 
     @Override
-    public ObjectId persist(Branch branch) {
+    public String persist(Branch branch) {
         branch.setId(dao.getNextId(branch.getTenantId()));
         return dao.persist(branch);
     }
 
     @Override
-    public Branch getById(ObjectId branchId) {
+    public Branch getById(String branchId) {
         return dao.getById(branchId);
     }
 

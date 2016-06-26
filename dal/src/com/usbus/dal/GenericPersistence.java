@@ -15,7 +15,7 @@ public class GenericPersistence {
         mongoDatastore = MongoDB.instance().getDatabase();
     }
 
-    public <E extends BaseEntity> ObjectId persist(E entity) {
+    public <E extends BaseEntity> String persist(E entity) {
         mongoDatastore.save(entity);
         return entity.get_id();
     }
@@ -28,7 +28,7 @@ public class GenericPersistence {
         return mongoDatastore.find(clazz).countAll();
     }
 
-    public <E extends BaseEntity> E get(Class<E> clazz, final ObjectId id) {
+    public <E extends BaseEntity> E get(Class<E> clazz, final String id) {
         if ((clazz == null) || (id == null)) {
             return null;
         }
@@ -36,7 +36,7 @@ public class GenericPersistence {
         return mongoDatastore.find(clazz).field("_id").equal(id).get();
     }
 
-    public <E extends BaseEntity>  void remove(Class<E> clazz, final ObjectId id){
+    public <E extends BaseEntity>  void remove(Class<E> clazz, final String id){
         if ((clazz != null) && (id != null)) {
             mongoDatastore.delete(mongoDatastore.find(clazz).field("_id").equal(id));
         }

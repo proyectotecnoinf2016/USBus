@@ -107,7 +107,7 @@ public class BusStopService {
         BusStop busStopAux = ejb.getByLocalId(tenantId, busStopId);
         busStop.set_id(busStopAux.get_id());
 
-        ObjectId oid = ejb.persist(busStop);
+        String oid = ejb.persist(busStop);
         if (oid == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -122,7 +122,7 @@ public class BusStopService {
     @Secured(Rol.ADMINISTRATOR)
     public Response createBusStop(BusStop busStop) {
         busStop.setActive(true);
-        ObjectId oid = ejb.persist(busStop);
+        String oid = ejb.persist(busStop);
         if (oid == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

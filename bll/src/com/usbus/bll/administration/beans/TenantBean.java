@@ -19,7 +19,7 @@ public class TenantBean implements TenantLocal, TenantRemote{
     public TenantBean(){}
 
     @Override
-    public Tenant getById(ObjectId id) {
+    public Tenant getById(String id) {
         return dao.getById(id);
     }
 
@@ -29,7 +29,7 @@ public class TenantBean implements TenantLocal, TenantRemote{
     }
 
     @Override
-    public ObjectId saveTenantStyle(long tenantId, TenantStyleAux style) throws IOException {
+    public String saveTenantStyle(long tenantId, TenantStyleAux style) throws IOException {
         return dao.saveTenantStyle(tenantId, style.getLogoB64(), style.getLogoExtension(), style.getHeaderB64(), style.getHeaderExtension(), style.getBusColor(), style.getShowBus(), style.getTheme());
     }
 }

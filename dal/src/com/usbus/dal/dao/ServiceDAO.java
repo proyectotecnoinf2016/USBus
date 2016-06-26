@@ -27,7 +27,7 @@ public class ServiceDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Service service) {
+    public String persist(Service service) {
         return dao.persist(service);
     }
 
@@ -125,7 +125,7 @@ public class ServiceDAO {
         return query.offset(offset).limit(limit).asList();
     }
 
-    public Service getById(ObjectId id) {
+    public Service getById(String id) {
         return dao.get(Service.class, id);
     }
 
@@ -155,7 +155,7 @@ public class ServiceDAO {
 //        return query.get();
 //    }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Service.class, id);
     }
 

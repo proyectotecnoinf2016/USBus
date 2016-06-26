@@ -32,13 +32,13 @@ public class BusStopBean implements BusStopLocal, BusStopRemote {
     }
 
     @Override
-    public ObjectId persist(BusStop busStop) {
+    public String persist(BusStop busStop) {
         busStop.setId(dao.getNextId(busStop.getTenantId()));
         return dao.persist(busStop);
     }
 
     @Override
-    public BusStop getById(ObjectId id) {
+    public BusStop getById(String id) {
         return dao.getById(id);
     }
 

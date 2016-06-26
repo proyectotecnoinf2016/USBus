@@ -27,7 +27,7 @@ public class TicketDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Ticket ticket) {
+    public String persist(Ticket ticket) {
         return dao.persist(ticket);
     }
 
@@ -41,7 +41,7 @@ public class TicketDAO {
         return query.countAll();
     }
 
-    public Ticket getById(ObjectId id) {
+    public Ticket getById(String id) {
         return dao.get(Ticket.class, id);
     }
 
@@ -109,7 +109,7 @@ public class TicketDAO {
         }
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Ticket.class, id);
     }
 
