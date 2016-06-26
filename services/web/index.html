@@ -19,8 +19,14 @@
         }
         li span{
             color: crimson;
-            padding-left: 2rem;
+            padding-left: 1rem;
+            font-size: large;
         }
+        .extra{
+            font-size: smaller;
+            color:gold;
+        }
+
     </style>
 </head>
 <body>
@@ -36,6 +42,13 @@
     <li>HOST:IP/rest/api/authentication <span>POST</span></li>
     <li class="titulo">Administración</li>
     <li>HOST:IP/rest/api/{tenantId}/busstop/{busStopId} <span>GET,POST,PUT,DELETE</span></li>
+    <li>HOST:IP/rest/api/{tenantId}/branch/{branchId} <span>GET<span class="extra">?query:{NAME,ALL}|offset|limit|branchName<span>,POST,PUT,DELETE</span></li>
+    <li>HOST:IP/rest/api/{tenantId}/route/{routeId} <span>GET<span class="extra">?query:{ORIGIN,DESTINATION,ORIGIN_DESTINATION,ALL}|origin|destination|offset|limit<span>,POST,PUT,DELETE</span></li>
+    <li>HOST:IP/rest/api/{tenantId}/service/{serviceId} <span>GET<span class="extra">?query:{DAYOFWEEK,DAYOFWEEK_FROM_TO,ALL}|origin|destination|dayOfWeek|offset|limit<span>,POST,PUT,DELETE</span></li>
+    <li>HOST:IP/rest/api/{tenantId}/ticket/{serviceId} <span>GET<span class="extra">username|status|journeyId|offset|limit<span>,POST,PUT,DELETE</span></li>
+    <li>HOST:IP/rest/api/{tenantId}/journey/{journeyId} <span>GET<span class="extra">?query:{STATUS,DATE,DATE_STATUS,DATE_ORIGIN_DESTINATION}|origin|destination|status|date|offset|limit<span>,POST,PUT,DELETE</span></li>
+    <li>HOST:IP/rest/api/{tenantId}/journey/{journeyId}/price <span>GET</span></li>
+    <li>HOST:IP/rest/api/{tenantId}/bus/{busId} <span>GET<span class="extra">busStatus|offset|limit<span>,POST,PUT,DELETE</span></li>
 </ul>
 </body>
 </html>

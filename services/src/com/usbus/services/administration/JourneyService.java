@@ -70,17 +70,116 @@ public class JourneyService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
     public Response getJourneyList(@PathParam("tenantId")Long tenantId,
-                                   @QueryParam("journeyStatus") JourneyStatus journeyStatus,
+                                   @QueryParam("query") String query,
+                                   @QueryParam("status") JourneyStatus journeyStatus,
+                                   @QueryParam ("date") Date date,
+                                   @QueryParam ("origin") String origin,
+                                   @QueryParam ("destination") String destination,
                                    @QueryParam("offset") int offset,
                                    @QueryParam("limit") int limit){
 
-        List<Journey> journeyList = ejb.JourneysByTenantIdAndStatus(tenantId, journeyStatus, offset, limit);
-        if (journeyList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
+        List<Journey> journeyList = null;
+        switch (query.toUpperCase()){
+            case "STATUS":
+                journeyList = ejb.JourneysByTenantIdAndStatus(tenantId, journeyStatus, offset, limit);
+                if (journeyList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(journeyList).build();
+            case "DATE":
+                journeyList = ejb.getJourneysByTenantAndDate(tenantId, date, offset, limit);
+
+                if (journeyList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(journeyList).build();
+            case "DATE_STATUS":
+                journeyList = ejb.getJourneysByTenantDateAndStatus(tenantId, date, journeyStatus, offset, limit);
+
+                if (journeyList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(journeyList).build();
+            case "DATE_ORIGIN_DESTINATION":
+                List<Journey> JList = ejb.getJourneysByDateOriginAndDestination(tenantId, date, origin, destination);
+                if (JList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(JList).build();
+
         }
-        return Response.ok(journeyList).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
+
     }
 
+//    @GET
+//    @Path("get/jdate")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+//    public Response journeysByTenantIdAndStatus(@PathParam("tenantId") long tenantId,
+//                                                @QueryParam ("date") Date date,
+//                                                @QueryParam ("offset") int offset,
+
+//                                                @QueryParam ("limit") int limit){
+//        List<Journey> JList = ejb.getJourneysByTenantAndDate(tenantId, date, offset, limit);
+//
+//        if (JList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(JList).build();
+//    }
+//
+//    @GET
+//    @Path("get/jdateAndStatus")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+//    public Response journeysByTenantIdAndStatus(@PathParam("tenantId") long tenantId,
+//                                                @QueryParam ("date") Date date,
+//                                                @QueryParam ("status") JourneyStatus status,
+//                                                @QueryParam ("offset") int offset,
+//                                                @QueryParam ("limit") int limit){
+//        List<Journey> JList = ejb.getJourneysByTenantDateAndStatus(tenantId, date, status, offset, limit);
+//
+//        if (JList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(JList).build();
+//    }
+//
+//
+//
+//    @GET
+//    @Path("get/jbyDateOriginAndDestination")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+//    public Response getJourneysByDateOriginAndDestination(@PathParam("tenantId") long tenantId,
+//                                                          @QueryParam ("date") Date date,
+//                                                          @QueryParam ("origin") String origin,
+//                                                          @QueryParam ("destination") String destination){
+//        List<Journey> JList = ejb.getJourneysByDateOriginAndDestination(tenantId, date, origin, destination);
+//        if (JList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(JList).build();
+//    }
+
+    @DELETE
+    @Path("{journeyId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured(Rol.ADMINISTRATOR)
+    public Response removeJourney(@PathParam("tenantId")Long tenantId,
+                                  @PathParam("journeyId")Long journeyId){
+        try {
+            ejb.setInactive(tenantId, journeyId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
+            return Response.ok().build();
+        }catch (Exception e){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     @GET
     @Path("{journeyId}/price")
     @Produces(MediaType.APPLICATION_JSON)
@@ -96,72 +195,5 @@ public class JourneyService {
         } else {
             return Response.ok(price).build();
         }
-    }
-
-    @GET
-    @Path("get/jdateAndStatus")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
-    public Response journeysByTenantIdAndStatus(@PathParam("tenantId") long tenantId,
-                                                @QueryParam ("date") Date date,
-                                                @QueryParam ("status") JourneyStatus status,
-                                                @QueryParam ("offset") int offset,
-                                                @QueryParam ("limit") int limit){
-        List<Journey> JList = ejb.getJourneysByTenantDateAndStatus(tenantId, date, status, offset, limit);
-
-        if (JList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(JList).build();
-    }
-
-    @GET
-    @Path("get/jdate")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
-    public Response journeysByTenantIdAndStatus(@PathParam("tenantId") long tenantId,
-                                                @QueryParam ("date") Date date,
-                                                @QueryParam ("offset") int offset,
-                                                @QueryParam ("limit") int limit){
-        List<Journey> JList = ejb.getJourneysByTenantAndDate(tenantId, date, offset, limit);
-
-        if (JList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(JList).build();
-    }
-
-    @GET
-    @Path("get/jbyDateOriginAndDestination")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
-    public Response getJourneysByDateOriginAndDestination(@PathParam("tenantId") long tenantId,
-                                                          @QueryParam ("date") Date date,
-                                                          @QueryParam ("origin") String origin,
-                                                          @QueryParam ("destination") String destination){
-        List<Journey> JList = ejb.getJourneysByDateOriginAndDestination(tenantId, date, origin, destination);
-        if (JList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(JList).build();
-    }
-
-    @DELETE
-    @Path("{journeyId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
-    public Response removeJourney(@PathParam("tenantId")Long tenantId,
-                                  @PathParam("journeyId")Long journeyId){
-        try {
-            ejb.setInactive(tenantId, journeyId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
-            return Response.ok().build();
-        }catch (Exception e){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
     }
 }
