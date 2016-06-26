@@ -9,8 +9,8 @@ import java.util.List;
  * Created by Lufasoch on 22/06/2016.
  */
 public interface BranchLocal {
-    ObjectId persist(Branch branch);
-    Branch getById(ObjectId branchId);
+    String persist(Branch branch);
+    Branch getById(String branchId);
     Branch getByLocalId(long tenantId, Long branchId);
     Branch getByBranchName(long tenantId, String name);
     void setInactive(long tenantId, Long branchId);

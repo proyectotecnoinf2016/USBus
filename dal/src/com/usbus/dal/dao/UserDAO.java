@@ -27,7 +27,7 @@ public class UserDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(User user) {
+    public String persist(User user) {
         return dao.persist(user);
     }
 
@@ -41,7 +41,7 @@ public class UserDAO {
         return query.countAll();
     }
 
-    public User getById(ObjectId id) {
+    public User getById(String id) {
         return dao.get(User.class, id);
     }
 
@@ -82,7 +82,7 @@ public class UserDAO {
                 .equal(tenantId).offset(offset).limit(limit).asList();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(User.class, id);
     }
 

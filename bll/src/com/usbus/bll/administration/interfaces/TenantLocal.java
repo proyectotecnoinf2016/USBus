@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 @Local
 public interface TenantLocal {
-    Tenant getById(ObjectId id);
+    Tenant getById(String id);
     Tenant getByLocalId(Long id);
-    ObjectId saveTenantStyle(long tenantId, TenantStyleAux style) throws IOException;
+    String saveTenantStyle(long tenantId, TenantStyleAux style) throws IOException;
 }

@@ -37,10 +37,10 @@ public class TenantService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR})
     public Response updateTenantStyle(@PathParam("tenantId") Long tenantId, TenantStyleAux style ) throws IOException {
-        ObjectId objectId = ejb.saveTenantStyle(tenantId,style);
-        if (objectId == null){
+        String String = ejb.saveTenantStyle(tenantId,style);
+        if (String == null){
             return Response.status(Response.Status.NO_CONTENT).build();
         }
-        return Response.ok(ejb.getById(objectId)).build();
+        return Response.ok(ejb.getById(String)).build();
     }
 }

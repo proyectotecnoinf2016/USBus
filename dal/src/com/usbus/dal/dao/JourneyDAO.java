@@ -27,7 +27,7 @@ public class JourneyDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Journey journey) {
+    public String persist(Journey journey) {
         return dao.persist(journey);
     }
 
@@ -41,7 +41,7 @@ public class JourneyDAO {
         return query.countAll();
     }
 
-    public Journey getById(ObjectId id) {
+    public Journey getById(String id) {
         return dao.get(Journey.class, id);
     }
 
@@ -231,7 +231,7 @@ public class JourneyDAO {
         return query.asList();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Journey.class, id);
     }
 

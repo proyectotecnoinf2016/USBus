@@ -28,7 +28,7 @@ public class TicketService {
     public Response createTicket(Ticket ticketAux) {
         try {
             Ticket ticket = new Ticket(ticketAux);
-            ObjectId ticketId = ejb.persist(ticket);
+            String ticketId = ejb.persist(ticket);
             Ticket ticketAux2 = ejb.getById(ticketId);
 
             if (ticketId != null) {

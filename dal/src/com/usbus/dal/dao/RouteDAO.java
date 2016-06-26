@@ -23,7 +23,7 @@ public class RouteDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Route route) {
+    public String persist(Route route) {
         return dao.persist(route);
     }
 
@@ -37,7 +37,7 @@ public class RouteDAO {
         return query.countAll();
     }
 
-    public Route getById(ObjectId id) {
+    public Route getById(String id) {
         return dao.get(Route.class, id);
     }
 
@@ -76,7 +76,7 @@ public class RouteDAO {
         return query.offset(offset).limit(limit).asList();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Route.class, id);
     }
 

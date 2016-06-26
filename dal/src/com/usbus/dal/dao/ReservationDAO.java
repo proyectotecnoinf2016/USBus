@@ -20,7 +20,7 @@ public class ReservationDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Reservation reservation) {
+    public String persist(Reservation reservation) {
         return dao.persist(reservation);
     }
 
@@ -34,7 +34,7 @@ public class ReservationDAO {
         return query.countAll();
     }
 
-    public Reservation getById(ObjectId id) {
+    public Reservation getById(String id) {
         return dao.get(Reservation.class, id);
     }
 
@@ -51,7 +51,7 @@ public class ReservationDAO {
         return query.get();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Reservation.class, id);
     }
 

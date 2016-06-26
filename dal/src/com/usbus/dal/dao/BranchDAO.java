@@ -22,7 +22,7 @@ public class BranchDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Branch branch) {
+    public String persist(Branch branch) {
         return dao.persist(branch);
     }
 
@@ -36,7 +36,7 @@ public class BranchDAO {
         return query.countAll();
     }
 
-    public Branch getById(ObjectId id) {
+    public Branch getById(String id) {
         return dao.get(Branch.class, id);
     }
 
@@ -75,7 +75,7 @@ public class BranchDAO {
         return query.offset(offset).limit(limit).asList();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Branch.class, id);
     }
 
