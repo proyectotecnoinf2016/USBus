@@ -7,10 +7,13 @@
     IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope'];
     /* @ngInject */
     function IndexController($scope, $mdDialog, localStorage, $location, $rootScope) {
+        $scope.theme = 'redpink';
+        
         $scope.show = false;
 
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
+        $scope.token = 'test';
 
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
@@ -24,7 +27,7 @@
 		}
 
         $scope.menuOptions = [];
-        
+
         $rootScope.$on('options', function (event, data) {
             var options = '';
             if (data == 'admin') {

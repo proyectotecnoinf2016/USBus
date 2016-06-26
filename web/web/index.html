@@ -111,23 +111,34 @@
 
         </md-toolbar>
 
-		<div layout="column" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
-           <section layout="row" flex>
-               <div ng-controller="IndexController" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="20">
-                    <md-sidenav layout-fill  md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="">
-                        <md-content style="padding: 1%">
-                            <div ng-repeat="item in menuOptions" ng-click="redirectTo(item.url);" class="pointer menu" back-Img="img/gray.jpg">
-                                <p hide-md="" show-gt-md="" style="padding: 5% 10%; margin: 2px"  >
-                                    {{item.name}}
+		<div layout="column" ng-controller="IndexController" md-theme="{{ dynamicTheme }}" md-theme-watch style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
+           <section layout="row" >
+                <div  class="layout-padding " layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25" >
+                    <md-button class="md-raised md-primary customButton" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">
+                        <md-icon class="indexIcon">{{item.icon}}</md-icon>
+                        <span class="indexMenuOptions" >{{item.name}}</span>
+                    </md-button>
+                </div>
+
+               <div hide >
+                   <md-sidenav layout-fill class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
+                       <md-content class="" style="background-color: rgb(63,81,181);" >
+
+                            <span ng-repeat="item in menuOptions"  ng-click="redirectTo(item.url);" class="pointer">
+                                <p hide-md="" show-gt-md="" style="padding-left: 10%; color:white;" >
+                                    <md-icon class="indexIcon">{{item.icon}}</md-icon> <span style="padding-left: 15px;" >{{item.name}}</span>
                                 </p>
-                            </div>
+                                <md-divider ></md-divider>
+                            </span>
+
 
                         </md-content>
 
                     </md-sidenav>
 
+
                 </div>
-               <div ng-controller="IndexController" hide-gt-md ng-show="menuOptions != null && menuOptions.length > 0" >
+               <div hide-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  >
                    <md-fab-speed-dial md-direction="down" class=" md-scale">
                        <md-fab-trigger>
                            <md-button aria-label="menu" class="md-fab md-warn">
@@ -145,6 +156,7 @@
                        </md-fab-actions>
                    </md-fab-speed-dial>
                </div>
+
 			    <md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> </md-content>
 
             </section>
