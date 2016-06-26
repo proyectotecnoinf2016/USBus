@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
@@ -70,9 +69,9 @@ public class TenantDAO {
 
     }
 
-    public void saveTenantStyle(long tenantId, String logo, String logoExtension,
-                                String header, String headerExtension, String busColor,
-                                Boolean showBus, String theme) throws IOException {
+    public ObjectId saveTenantStyle(long tenantId, String logo, String logoExtension,
+                                    String header, String headerExtension, String busColor,
+                                    Boolean showBus, String theme) throws IOException {
         if (!((tenantId <= 0))) {
             Tenant tenantOriginal = getByLocalId(tenantId);
             if (tenantOriginal != null) {
@@ -191,9 +190,10 @@ public class TenantDAO {
 
                 tenantOriginal.setStyle(styleFromTenant);
 
-                dao.persist(tenantOriginal);
+                return dao.persist(tenantOriginal);
             }
         }
+        return null;
     }
 
     public void clean(){

@@ -2,7 +2,10 @@ package com.usbus.bll.administration.beans;
 
 import com.usbus.bll.administration.interfaces.TenantLocal;
 import com.usbus.bll.administration.interfaces.TenantRemote;
+import com.usbus.commons.auxiliaryClasses.TenantStyleAux;
 import com.usbus.dal.dao.TenantDAO;
+import com.usbus.dal.model.Tenant;
+import org.bson.types.ObjectId;
 
 import javax.ejb.Stateless;
 import java.io.IOException;
@@ -16,8 +19,17 @@ public class TenantBean implements TenantLocal, TenantRemote{
     public TenantBean(){}
 
     @Override
-    public void saveTenantStyle(long tenantId, String logo, String logoExtension, String header,
-                                String headerExtension, String busColor, Boolean showBus, String theme) throws IOException {
-        dao.saveTenantStyle(tenantId, logo, logoExtension, header, headerExtension, busColor, showBus, theme);
+    public Tenant getById(ObjectId id) {
+        return dao.getById(id);
+    }
+
+    @Override
+    public Tenant getByLocalId(Long id) {
+        return dao.getByLocalId(id);
+    }
+
+    @Override
+    public ObjectId saveTenantStyle(long tenantId, TenantStyleAux style) throws IOException {
+        return dao.saveTenantStyle(tenantId, style.getLogoB64(), style.getLogoExtension(), style.getHeaderB64(), style.getHeaderExtension(), style.getBusColor(), style.getShowBus(), style.getTheme());
     }
 }

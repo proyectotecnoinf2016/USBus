@@ -1,5 +1,9 @@
 package com.usbus.bll.administration.interfaces;
 
+import com.usbus.commons.auxiliaryClasses.TenantStyleAux;
+import com.usbus.dal.model.Tenant;
+import org.bson.types.ObjectId;
+
 import javax.ejb.Remote;
 import java.io.IOException;
 
@@ -9,7 +13,7 @@ import java.io.IOException;
 @SuppressWarnings("EjbRemoteRequirementsInspection")
 @Remote
 public interface TenantRemote {
-    void saveTenantStyle(long tenantId, String logo, String logoExtension,
-                         String header, String headerExtension, String busColor,
-                         Boolean showBus, String theme) throws IOException;
+    Tenant getById(ObjectId id);
+    Tenant getByLocalId(Long id);
+    ObjectId saveTenantStyle(long tenantId, TenantStyleAux style) throws IOException;
 }
