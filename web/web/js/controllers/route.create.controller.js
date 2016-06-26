@@ -37,25 +37,7 @@
             item.tenantId = $scope.tenantId;
             item.busStops = $scope.routeStops.sort(compare);
 
-            delete item.origin["name"];
-            delete item.origin["active"];
-            delete item.origin["creationDate"];
-            delete item.origin["lastChange"];
-            delete item.origin["stopTime"];
-            delete item.origin["tenantId"];
-            delete item.origin["id"];
-            delete item.origin["version"];
-            delete item.origin["_id.time"];
-
-            delete item.destination["name"];
-            delete item.destination["active"];
-            delete item.destination["creationDate"];
-            delete item.destination["lastChange"];
-            delete item.destination["stopTime"];
-            delete item.destination["tenantId"];
-            delete item.destination["id"];
-            delete item.destination["version"];
-
+            console.log(item);
             RouteResource.routes(token).save({
                 tenantId: $scope.tenantId
 
