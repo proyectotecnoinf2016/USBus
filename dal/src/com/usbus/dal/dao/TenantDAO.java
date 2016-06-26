@@ -2,6 +2,7 @@ package com.usbus.dal.dao;
 
 import com.usbus.commons.auxiliaryClasses.Image;
 import com.usbus.commons.auxiliaryClasses.TenantStyle;
+import com.usbus.commons.auxiliaryClasses.TenantStyleAux;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.Tenant;
@@ -14,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Base64;
 
 /**
@@ -194,6 +196,21 @@ public class TenantDAO {
             }
         }
         return null;
+    }
+
+    public TenantStyleAux getTenantStyle(long tenantId) throws IOException {
+        if(tenantId > 0) {
+            Tenant tenant = getByLocalId(tenantId);
+            TenantStyle tenantStyle = tenant.getStyle();
+            Image logo = tenantStyle.getLogo();
+
+            File file = new File(logo.getFilePath()+File.separator+logo.getName()+File.separator+"."+logo.getExtension());
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            String encoder = Base64.getEncoder().encode(bytes).toString();
+            //getFile
+            //byte[] encodedBytes = Base64.getEncoder().encode(fileBytes);
+        }
+        return  null; //fix
     }
 
     public void clean(){
