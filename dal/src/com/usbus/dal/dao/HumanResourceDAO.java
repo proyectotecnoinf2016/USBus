@@ -73,7 +73,7 @@ public class HumanResourceDAO {
 
     }
 
-    public HumanResource getByStatus(long tenantId, Boolean status) {
+    public List<HumanResource> getByStatus(long tenantId, Boolean status, int offset, int limit) {
         if (!(tenantId > 0)) {
             return null;
         }
@@ -84,11 +84,11 @@ public class HumanResourceDAO {
         query.and(query.criteria("status").equal(status),
                 query.criteria("tenantId").equal(tenantId));
 
-        return query.get();
+        return query.offset(offset).limit(limit).asList();
 
     }
-//
-//    public HumanResource getByHRStatus(long tenantId, HRStatus status) {
+
+    public List<HumanResource> getByHRStatus(long tenantId, HRStatus status, int offset, int limit) {
 //        if (!(tenantId > 0)) {
 //            return null;
 //        }
@@ -98,10 +98,10 @@ public class HumanResourceDAO {
 //        query.criteria("className").equal(HumanResource.class.getCanonicalName());
 //        query.and(query.criteria("email").equal(email),
 //                query.criteria("tenantId").equal(tenantId));
-//
-//        return query.get();
-//
-//    }
+
+        return null;
+
+    }
 
     public List<HumanResource> getAllHumanResources(long tenantId, int offset, int limit) {
         if (!(tenantId > 0)) {

@@ -59,6 +59,14 @@ public class TicketBean implements TicketLocal, TicketRemote {
                 case USED:
                     throw new TicketException("El ticket ya fue UTILIZADO");
                 case CONFIRMED:
+                    if (ticketConfirmation.getStatus()==TicketStatus.USED){
+                        ticket.setStatus(ticketConfirmation.getStatus());
+                        if (dao.persist(ticket) != null) {
+                            return ticket;
+                        } else {
+                            throw new TicketException("Ocurrió un error al intentar actualizar el TICKET");
+                        }
+                    }
                     throw new TicketException("El ticket ya está CONFIRMADO");
             }
             ticket.setPassenger(udao.getByUsername(ticketConfirmation.getTenantId(), ticketConfirmation.getUsername()));
