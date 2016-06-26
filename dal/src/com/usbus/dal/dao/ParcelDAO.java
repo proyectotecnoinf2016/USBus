@@ -19,7 +19,7 @@ public class ParcelDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Parcel parcel) {
+    public String persist(Parcel parcel) {
         return dao.persist(parcel);
     }
 
@@ -33,7 +33,7 @@ public class ParcelDAO {
         return query.countAll();
     }
 
-    public Parcel getById(ObjectId id) {
+    public Parcel getById(String id) {
         return dao.get(Parcel.class, id);
     }
 
@@ -50,7 +50,7 @@ public class ParcelDAO {
         return query.get();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Parcel.class, id);
     }
 

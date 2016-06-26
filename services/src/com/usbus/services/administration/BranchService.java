@@ -22,7 +22,7 @@ public class BranchService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBranch(Branch branch) {
-        ObjectId oid = ejb.persist(branch);
+        String oid = ejb.persist(branch);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -37,7 +37,7 @@ public class BranchService {
     public Response updateBranch(@PathParam("tenantId")long tenantId, @PathParam("branchId")Long branchId, Branch branch){
         Branch serviceAux = ejb.getByLocalId(tenantId, branchId);
         branch.set_id(serviceAux.get_id());
-        ObjectId oid = ejb.persist(branch);
+        String oid = ejb.persist(branch);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

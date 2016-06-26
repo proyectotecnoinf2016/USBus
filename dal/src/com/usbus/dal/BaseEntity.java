@@ -2,6 +2,7 @@ package com.usbus.dal;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.PrePersist;
 import org.mongodb.morphia.annotations.Version;
@@ -14,7 +15,7 @@ import org.mongodb.morphia.annotations.Version;
 
 public abstract class BaseEntity {
     @Id
-    private ObjectId _id;
+    private String _id;
     private long tenantId;
     private Date creationDate;
     private Date lastChange;
@@ -23,15 +24,17 @@ public abstract class BaseEntity {
 
     public BaseEntity() {
         super();
+        set_id(new ObjectId().toString());
     }
 
     public BaseEntity(long tenantId) {
         super();
         setTenantId(tenantId);
+        set_id(new ObjectId().toString());
     }
 
 
-    public ObjectId get_id() {
+    public String get_id() {
         return _id;
     }
     public long getTenantId() {
@@ -50,7 +53,7 @@ public abstract class BaseEntity {
         return lastChange;
     }
 
-    public void set_id(ObjectId _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 

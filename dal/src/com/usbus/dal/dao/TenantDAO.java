@@ -28,7 +28,7 @@ public class TenantDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Tenant tenant) {
+    public String persist(Tenant tenant) {
         return dao.persist(tenant);
     }
 
@@ -36,11 +36,11 @@ public class TenantDAO {
         return dao.count(Tenant.class);
     }
 
-    public Tenant getById(ObjectId id) {
+    public Tenant getById(String id) {
         return dao.get(Tenant.class, id);
     }
 
-    public void remove(ObjectId id){
+    public void remove(String id){
         dao.remove(Tenant.class, id);
     }
     public Tenant getByName(String name) {
@@ -69,7 +69,7 @@ public class TenantDAO {
 
     }
 
-    public ObjectId saveTenantStyle(long tenantId, String logo, String logoExtension,
+    public String saveTenantStyle(long tenantId, String logo, String logoExtension,
                                     String header, String headerExtension, String busColor,
                                     Boolean showBus, String theme) throws IOException {
         if (!((tenantId <= 0))) {

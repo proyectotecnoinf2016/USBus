@@ -26,7 +26,7 @@ public class JourneyService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
     public Response createJourney(Journey journey01){
-        ObjectId oid = ejb.persist(journey01);
+        String oid = ejb.persist(journey01);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -43,7 +43,7 @@ public class JourneyService {
                                   Journey journey){
         Journey journeyAux = ejb.getByLocalId(tenantId, journeyId);
         journey.set_id(journeyAux.get_id());
-        ObjectId oid = ejb.persist(journey);
+        String oid = ejb.persist(journey);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

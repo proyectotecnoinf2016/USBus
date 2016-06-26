@@ -26,7 +26,7 @@ public class ServiceService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
     public Response createService(Service service) {
-        ObjectId oid = ejb.persist(service);
+        String oid = ejb.persist(service);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -41,7 +41,7 @@ public class ServiceService {
     public Response updateService(@PathParam("tenantId")Long tenantId, @PathParam("serviceId")Long serviceId, Service service){
         Service serviceAux = ejb.getByLocalId(tenantId, serviceId);
         service.set_id(serviceAux.get_id());
-        ObjectId oid = ejb.persist(service);
+        String oid = ejb.persist(service);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

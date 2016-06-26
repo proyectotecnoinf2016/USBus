@@ -26,7 +26,7 @@
 //        dao = new GenericPersistence();
 //    }
 //
-//    public ObjectId persist(ClosedTicket closedTicket) {
+//    public String persist(ClosedTicket closedTicket) {
 //        return dao.persist(closedTicket);
 //    }
 //

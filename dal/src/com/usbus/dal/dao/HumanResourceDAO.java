@@ -23,7 +23,7 @@ public class HumanResourceDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(HumanResource user) {
+    public String persist(HumanResource user) {
         return dao.persist(user);
     }
 
@@ -39,7 +39,7 @@ public class HumanResourceDAO {
         return query.countAll();
     }
 
-    public HumanResource getById(ObjectId id) {
+    public HumanResource getById(String id) {
         return dao.get(HumanResource.class, id);
     }
 
@@ -112,7 +112,7 @@ public class HumanResourceDAO {
                 .equal(tenantId).field("className").equal(HumanResource.class.getCanonicalName()).offset(offset).limit(limit).asList();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(HumanResource.class, id);
     }
 

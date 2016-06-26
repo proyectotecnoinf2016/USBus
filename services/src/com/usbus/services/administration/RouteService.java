@@ -23,7 +23,7 @@ public class RouteService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createRoute(Route route) {
-        ObjectId oid = ejb.persist(route);
+        String oid = ejb.persist(route);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -38,7 +38,7 @@ public class RouteService {
     public Response updateRoute(@PathParam("tenantId")Long tenantId, @PathParam("routeId")Long routeId, Route route){
         Route serviceAux = ejb.getByLocalId(tenantId, routeId);
         route.set_id(serviceAux.get_id());
-        ObjectId oid = ejb.persist(route);
+        String oid = ejb.persist(route);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

@@ -30,13 +30,13 @@ public class TicketBean implements TicketLocal, TicketRemote {
     }
 
     @Override
-    public ObjectId persist(Ticket ticket) throws TicketException {
+    public String persist(Ticket ticket) throws TicketException {
 
         ticket.setId(dao.getNextId(ticket.getTenantId()));
         if (ticket.getStatus() == TicketStatus.CONFIRMED) {
             updateJourney(ticket.getTenantId(), ticket.getJourneyId(), ticket.getSeat());
         }
-        ObjectId oid = dao.persist(ticket);
+        String oid = dao.persist(ticket);
         if (oid == null) {
             throw new TicketException("Ocurrió un error al insertar el TICKET");
         }
@@ -79,7 +79,7 @@ public class TicketBean implements TicketLocal, TicketRemote {
 
 
     @Override
-    public Ticket getById(ObjectId oid) {
+    public Ticket getById(String oid) {
         return dao.getById(oid);
     }
 
@@ -110,7 +110,7 @@ public class TicketBean implements TicketLocal, TicketRemote {
         //Ir a buscar al omnibus del journey que asiento es.
         seats[seats.length + 1] = seat;
         journey.setSeatsState(seats);
-        ObjectId oid = jdao.persist(journey);
+        String oid = jdao.persist(journey);
         if (oid == null) {
             throw new TicketException("Error al actualizar el Journey");
         }

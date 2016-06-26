@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Local
 public interface JourneyLocal {
-    ObjectId persist(Journey bus01);
-    Journey getById(ObjectId oid);
+    String persist(Journey bus01);
+    Journey getById(String oid);
     Journey getByLocalId(long tenantId, Long id);
     void setInactive(long tenantId, Long journeyId);
     void setActive(long tenantId, Long journeyId);

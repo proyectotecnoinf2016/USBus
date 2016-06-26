@@ -19,7 +19,7 @@ public class MaintenanceDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Maintenance maintenance) {
+    public String persist(Maintenance maintenance) {
         return dao.persist(maintenance);
     }
 
@@ -33,7 +33,7 @@ public class MaintenanceDAO {
         return query.countAll();
     }
 
-    public Maintenance getById(ObjectId id) {
+    public Maintenance getById(String id) {
         return dao.get(Maintenance.class, id);
     }
 
@@ -50,7 +50,7 @@ public class MaintenanceDAO {
         return query.get();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Maintenance.class, id);
     }
 
