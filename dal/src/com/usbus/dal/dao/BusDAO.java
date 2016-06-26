@@ -23,11 +23,11 @@ public class BusDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Bus bus) {
+    public String persist(Bus bus) {
         return dao.persist(bus);
     }
 
-    public Bus getById(ObjectId id) {
+    public Bus getById(String id) {
         return dao.get(Bus.class, id);
     }
 
@@ -72,7 +72,7 @@ public class BusDAO {
         return query.get();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(Bus.class, id);
     }
 

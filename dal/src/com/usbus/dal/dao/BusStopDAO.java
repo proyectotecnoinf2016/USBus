@@ -25,7 +25,7 @@ public class BusStopDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(BusStop busStop) {
+    public String persist(BusStop busStop) {
         return dao.persist(busStop);
     }
 
@@ -39,7 +39,7 @@ public class BusStopDAO {
         return query.countAll();
     }
 
-    public BusStop getById(ObjectId id) {
+    public BusStop getById(String id) {
         return dao.get(BusStop.class, id);
     }
 
@@ -82,7 +82,7 @@ public class BusStopDAO {
         return query.get();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(BusStop.class, id);
     }
 

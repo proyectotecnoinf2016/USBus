@@ -13,8 +13,8 @@ import java.util.List;
 @SuppressWarnings("EjbRemoteRequirementsInspection")
 @Remote
 public interface BusRemote {
-    ObjectId persist(Bus bus01); //service
-    Bus getById(ObjectId oid);
+    String persist(Bus bus01); //service
+    Bus getById(String oid);
     Bus getByLocalId(long tenantId, String id);
     void setInactive(long tenantId, String busId);
     void setActive(long tenantId, String busId);

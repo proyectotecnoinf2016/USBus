@@ -14,8 +14,8 @@ import java.util.List;
 @SuppressWarnings("EjbRemoteRequirementsInspection")
 @Remote
 public interface JourneyRemote {
-    ObjectId persist(Journey j01); //service
-    Journey getById(ObjectId oid);
+    String persist(Journey j01); //service
+    Journey getById(String oid);
     Journey getByLocalId(long tenantId, Long id);
     void setInactive(long tenantId, Long journeyId);
     void setActive(long tenantId, Long journeyId);
