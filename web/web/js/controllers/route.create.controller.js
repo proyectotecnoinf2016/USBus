@@ -37,6 +37,23 @@
             item.tenantId = $scope.tenantId;
             item.busStops = $scope.routeStops.sort(compare);
 
+            delete item.origin["name"];
+            delete item.origin["active"];
+            delete item.origin["creationDate"];
+            delete item.origin["lastChange"];
+            delete item.origin["stopTime"];
+            delete item.origin["tenantId"];
+            delete item.origin["id"];
+            delete item.origin["version"];
+
+            delete item.destination["name"];
+            delete item.destination["active"];
+            delete item.destination["creationDate"];
+            delete item.destination["lastChange"];
+            delete item.destination["stopTime"];
+            delete item.destination["tenantId"];
+            delete item.destination["id"];
+            delete item.destination["version"];
             console.log(item);
             RouteResource.routes(token).save({
                 tenantId: $scope.tenantId
@@ -67,7 +84,7 @@
         function addRouteStop() {
             
             $scope.routeStops.sort(compare);
-            $scope.routeStops.push({isCombinationPoint: false});
+            $scope.routeStops.push({combinationPoint: false});
 
         }
 
@@ -92,10 +109,10 @@
         function addRouteStopsToArray(route) {
             if ($scope.routeStops != null && $scope.routeStops.length == 0) {
                 if (route.origin.name != null && route.origin.name != '') {
-                    $scope.routeStops.push({name: route.origin.name, isCombinationPoint: false});
+                    $scope.routeStops.push({busStop: route.origin.name, combinationPoint: false});
                 }
                 if (route.destination.name != null && route.destination.name != '') {
-                    $scope.routeStops.push({name: route.destination.name, isCombinationPoint: false});
+                    $scope.routeStops.push({busStop: route.destination.name, combinationPoint: false});
                 }
             }
         }
