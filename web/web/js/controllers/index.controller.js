@@ -7,10 +7,13 @@
     IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope'];
     /* @ngInject */
     function IndexController($scope, $mdDialog, localStorage, $location, $rootScope) {
+        $scope.theme = 'redpink';
+        
         $scope.show = false;
 
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
+        $scope.token = 'test';
 
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
@@ -24,16 +27,12 @@
 		}
 
         $scope.menuOptions = [];
-        
+
         $rootScope.$on('options', function (event, data) {
             var options = '';
             if (data == 'admin') {
 
                 options = [{
-                    name: "Inicio",
-                    url: "",
-                    icon: "home"
-                }, {
                     name : "Planificar Viajes",
                     url  : "admin",
                     icon : "event_seat"
@@ -70,10 +69,6 @@
 
             if (data == 'tickets') {
                 options = [{
-                    name: "Inicio",
-                    url : "",
-                    icon: "home"
-                } , {
                     name : "Pasajes",
                     url: "tickets",
                     icon: "airline_seat_recline_normal" //<i class="material-icons">add_shopping_cart</i><i class="material-icons">airline_seat_recline_normal</i>
