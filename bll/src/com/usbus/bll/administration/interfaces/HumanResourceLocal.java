@@ -1,6 +1,7 @@
 package com.usbus.bll.administration.interfaces;
 
 import com.usbus.commons.enums.HRStatus;
+import com.usbus.commons.exceptions.UserException;
 import com.usbus.dal.model.HumanResource;
 
 import javax.ejb.Local;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Local
 public interface HumanResourceLocal {
-    String persist(HumanResource user);
+    void persist(HumanResource user) throws UserException;
     HumanResource getById(String id);
     HumanResource getByUsername(long tenantId, String username);
     HumanResource getByEmail(long tenantId, String email);

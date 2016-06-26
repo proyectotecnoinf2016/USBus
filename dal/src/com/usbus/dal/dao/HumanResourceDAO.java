@@ -53,7 +53,7 @@ public class HumanResourceDAO {
         query.criteria("className").equal(HumanResource.class.getCanonicalName());
         query.and(query.criteria("username").equal(username),
                 query.criteria("tenantId").equal(tenantId));
-
+        query.retrievedFields(false,"salt","passwordHash");
         return query.get();
 
     }
@@ -68,7 +68,7 @@ public class HumanResourceDAO {
         query.criteria("className").equal(HumanResource.class.getCanonicalName());
         query.and(query.criteria("email").equal(email),
                 query.criteria("tenantId").equal(tenantId));
-
+        query.retrievedFields(false,"salt","passwordHash");
         return query.get();
 
     }
@@ -83,7 +83,7 @@ public class HumanResourceDAO {
         query.criteria("className").equal(HumanResource.class.getCanonicalName());
         query.and(query.criteria("status").equal(status),
                 query.criteria("tenantId").equal(tenantId));
-
+        query.retrievedFields(false,"salt","passwordHash");
         return query.offset(offset).limit(limit).asList();
 
     }
@@ -108,7 +108,7 @@ public class HumanResourceDAO {
             return null;
         }
 
-        return ds.find(HumanResource.class).disableValidation().field("tenantId")
+        return ds.find(HumanResource.class).disableValidation().retrievedFields(false,"salt","passwordHash").field("tenantId")
                 .equal(tenantId).field("className").equal(HumanResource.class.getCanonicalName()).offset(offset).limit(limit).asList();
     }
 

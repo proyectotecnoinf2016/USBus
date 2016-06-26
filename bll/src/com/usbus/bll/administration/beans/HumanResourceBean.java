@@ -3,6 +3,7 @@ package com.usbus.bll.administration.beans;
 import com.usbus.bll.administration.interfaces.HumanResourceLocal;
 import com.usbus.bll.administration.interfaces.HumanResourceRemote;
 import com.usbus.commons.enums.HRStatus;
+import com.usbus.commons.exceptions.UserException;
 import com.usbus.dal.dao.HumanResourceDAO;
 import com.usbus.dal.model.HumanResource;
 
@@ -18,8 +19,11 @@ public class HumanResourceBean implements HumanResourceLocal,HumanResourceRemote
 
     }
     @Override
-    public String persist(HumanResource user) {
-        return hrdao.persist(user);
+    public void persist(HumanResource user) throws UserException {
+        String oid = hrdao.persist(user);
+        if (oid == null){
+            throw new UserException("Ocurrió un error al persistir el recurso humano.");
+        }
     }
 
     @Override
