@@ -17,7 +17,7 @@ import java.util.List;
 @Stateless(name = "ServiceEJB")
 public class ServiceBean implements ServiceLocal, ServiceRemote{
     private final ServiceDAO dao = new ServiceDAO();
-    public ServiceBean(){};
+    public ServiceBean(){}
 
     @Override
     public Service getById(ObjectId id) {
