@@ -24,6 +24,7 @@ public class User extends BaseEntity {
     private Date birthDate;
     @Transient
     private String password;
+    
     private byte[] passwordHash;
     private byte[] salt;
     private Gender gender;
