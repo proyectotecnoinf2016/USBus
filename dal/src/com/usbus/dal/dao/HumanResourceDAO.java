@@ -23,7 +23,7 @@ public class HumanResourceDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(HumanResource user) {
+    public String persist(HumanResource user) {
         return dao.persist(user);
     }
 
@@ -39,7 +39,7 @@ public class HumanResourceDAO {
         return query.countAll();
     }
 
-    public HumanResource getById(ObjectId id) {
+    public HumanResource getById(String id) {
         return dao.get(HumanResource.class, id);
     }
 
@@ -53,7 +53,7 @@ public class HumanResourceDAO {
         query.criteria("className").equal(HumanResource.class.getCanonicalName());
         query.and(query.criteria("username").equal(username),
                 query.criteria("tenantId").equal(tenantId));
-
+        query.retrievedFields(false,"salt","passwordHash");
         return query.get();
 
     }
@@ -68,12 +68,12 @@ public class HumanResourceDAO {
         query.criteria("className").equal(HumanResource.class.getCanonicalName());
         query.and(query.criteria("email").equal(email),
                 query.criteria("tenantId").equal(tenantId));
-
+        query.retrievedFields(false,"salt","passwordHash");
         return query.get();
 
     }
 
-    public HumanResource getByStatus(long tenantId, Boolean status) {
+    public List<HumanResource> getByStatus(long tenantId, Boolean status, int offset, int limit) {
         if (!(tenantId > 0)) {
             return null;
         }
@@ -83,12 +83,12 @@ public class HumanResourceDAO {
         query.criteria("className").equal(HumanResource.class.getCanonicalName());
         query.and(query.criteria("status").equal(status),
                 query.criteria("tenantId").equal(tenantId));
-
-        return query.get();
+        query.retrievedFields(false,"salt","passwordHash");
+        return query.offset(offset).limit(limit).asList();
 
     }
-//
-//    public HumanResource getByHRStatus(long tenantId, HRStatus status) {
+
+    public List<HumanResource> getByHRStatus(long tenantId, HRStatus status, int offset, int limit) {
 //        if (!(tenantId > 0)) {
 //            return null;
 //        }
@@ -98,21 +98,21 @@ public class HumanResourceDAO {
 //        query.criteria("className").equal(HumanResource.class.getCanonicalName());
 //        query.and(query.criteria("email").equal(email),
 //                query.criteria("tenantId").equal(tenantId));
-//
-//        return query.get();
-//
-//    }
+
+        return null;
+
+    }
 
     public List<HumanResource> getAllHumanResources(long tenantId, int offset, int limit) {
         if (!(tenantId > 0)) {
             return null;
         }
 
-        return ds.find(HumanResource.class).disableValidation().field("tenantId")
+        return ds.find(HumanResource.class).disableValidation().retrievedFields(false,"salt","passwordHash").field("tenantId")
                 .equal(tenantId).field("className").equal(HumanResource.class.getCanonicalName()).offset(offset).limit(limit).asList();
     }
 
-    public void remove(ObjectId id) {
+    public void remove(String id) {
         dao.remove(HumanResource.class, id);
     }
 

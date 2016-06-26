@@ -26,7 +26,7 @@ public class BusService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBus(Bus bus01){
-        ObjectId oid = ejb.persist(bus01);
+        String oid = ejb.persist(bus01);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -41,7 +41,7 @@ public class BusService {
     public Response updateBus(@PathParam("tenantId")Long tenantId, @PathParam("busId")String busId, Bus bus){
         Bus busAux = ejb.getByLocalId(tenantId, busId);
         bus.set_id(busAux.get_id());
-        ObjectId oid = ejb.persist(bus);
+        String oid = ejb.persist(bus);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

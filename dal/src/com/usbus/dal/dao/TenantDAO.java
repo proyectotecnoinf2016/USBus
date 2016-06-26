@@ -1,5 +1,6 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.auxiliaryClasses.Image;
 import com.usbus.commons.auxiliaryClasses.TenantStyle;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
@@ -7,6 +8,13 @@ import com.usbus.dal.model.Tenant;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 
 /**
  * Created by jpmartinez on 08/05/16.
@@ -20,7 +28,7 @@ public class TenantDAO {
         dao = new GenericPersistence();
     }
 
-    public ObjectId persist(Tenant tenant) {
+    public String persist(Tenant tenant) {
         return dao.persist(tenant);
     }
 
@@ -28,11 +36,11 @@ public class TenantDAO {
         return dao.count(Tenant.class);
     }
 
-    public Tenant getById(ObjectId id) {
+    public Tenant getById(String id) {
         return dao.get(Tenant.class, id);
     }
 
-    public void remove(ObjectId id){
+    public void remove(String id){
         dao.remove(Tenant.class, id);
     }
     public Tenant getByName(String name) {
@@ -61,17 +69,138 @@ public class TenantDAO {
 
     }
 
-//    public void saveStyle(long tenantId, TenantStyle style){
-//        if(tenantId <= 0 || style == null){
-//            return null;
-//        }
-//
-//        byte[] data = Base64.decodeBase64(style.getLogo());
-//        try (OutputStream stream = new FileOutputStream("c:/decode/abc.bmp")) {
-//            stream.write(data);
-//    }
+    public String saveTenantStyle(long tenantId, String logo, String logoExtension,
+                                    String header, String headerExtension, String busColor,
+                                    Boolean showBus, String theme) throws IOException {
+        if (!((tenantId <= 0))) {
+            Tenant tenantOriginal = getByLocalId(tenantId);
+            if (tenantOriginal != null) {
+                String OS = System.getProperty("os.name");
+                String stringAux;
+                TenantStyle styleFromTenant = tenantOriginal.getStyle();
+                if (styleFromTenant == null) {
+                    styleFromTenant = new TenantStyle();
+                }
+                ////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////                                                        ////////////////
+                ////////////////                          LOGO                          ////////////////
+                ////////////////                                                        ////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                String logoName = "logo";
+                if (!(logo == null || (logo != null && logo.isEmpty())) && !(logoExtension == null || (logoExtension != null && logoExtension.isEmpty()))) {
+                    File path = null;
+                    if (OS.startsWith("Windows")) {
+                        stringAux = "C:" + File.separator + "USBus" + File.separator + "Images" + File.separator +
+                                tenantOriginal.getName() + File.separator + logoName + "." + logoExtension;
+                        path = new File("C:" + File.separator + "USBus" + File.separator + "Images" + File.separator
+                                + tenantOriginal.getName() + File.separator);
+                        if (!(path.exists() && path.isDirectory())) {
+                            path.mkdirs();
+                        }
+                    } else {
+                        stringAux = File.separator + "USBus" + File.separator + "Images" + File.separator +
+                                tenantOriginal.getName() + File.separator + logoName + "." + logoExtension;
+                        path = new File(File.separator + "USBus" + File.separator + "Images" + File.separator +
+                                tenantOriginal.getName() + File.separator);
+                        if (!(path.exists() && path.isDirectory())) {
+                            path.mkdirs();
+                        }
+                    }
+                    byte[] decoded = Base64.getDecoder().decode(logo);
+                    BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(decoded));
+                    File imageFile = new File(stringAux);
+                    ImageIO.write(bufferedImage, logoExtension, imageFile);
+
+                    //Agregar el logo al tenant
+                    Image image = new Image(path.toString(), logoName, logoExtension);
+                    styleFromTenant.setLogo(image);
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////                                                        ////////////////
+                ////////////////                         HEADER                         ////////////////
+                ////////////////                                                        ////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                String headerName = "header";
+//                if (!(header == null || (header != null && header.isEmpty())) && !(headerExtension == null || (headerExtension != null && headerExtension.isEmpty()))) {
+//                if((!(header == null) || (header != null && !header.isEmpty())) && (!(headerExtension == null) || (headerExtension != null && !header.isEmpty()))) {
+//                }
+                if (!(header==null || header.isEmpty()) && !(headerExtension==null || headerExtension.isEmpty())){
+                    File pathHeader = null;
+                    if (OS.startsWith("Windows")) {
+                        stringAux = "C:" + File.separator + "USBus" + File.separator + "Images" + File.separator +
+                                tenantOriginal.getName() + File.separator + headerName + "." + headerExtension;
+                        pathHeader = new File("C:" + File.separator + "USBus" + File.separator + "Images" +
+                                File.separator + tenantOriginal.getName() + File.separator);
+                        if (!(pathHeader.exists() && pathHeader.isDirectory())) {
+                            pathHeader.mkdirs();
+                        }
+                    } else {
+                        stringAux = File.separator + "USBus" + File.separator + "Images" + File.separator +
+                                tenantOriginal.getName() + File.separator + headerName + "." + headerExtension;
+                        pathHeader = new File(File.separator + "USBus" + File.separator + "Images" +
+                                File.separator + tenantOriginal.getName() + File.separator);
+                        if (!(pathHeader.exists() && pathHeader.isDirectory())) {
+                            pathHeader.mkdirs();
+                        }
+                    }
+                    byte[] decodedHeader = Base64.getDecoder().decode(header);
+                    BufferedImage bufferedImageHeader = ImageIO.read(new ByteArrayInputStream(decodedHeader));
+                    File imageFileHeader = new File(stringAux);
+                    ImageIO.write(bufferedImageHeader, headerExtension, imageFileHeader);
+
+                    //Agregar el header al tenant
+                    System.out.println(pathHeader + headerName + headerExtension);
+                    Image imageHeader = new Image(pathHeader.toString(), headerName, headerExtension);
+                    System.out.println(imageHeader);
+                    styleFromTenant.setHeaderImage(imageHeader);
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////                                                        ////////////////
+                ////////////////                          BUS                           ////////////////
+                ////////////////                                                        ////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                if (!(busColor == null || (busColor != null && busColor.isEmpty()))) {
+                    styleFromTenant.setBusColor(busColor);
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////                                                        ////////////////
+                ////////////////                        SHOWBUS                         ////////////////
+                ////////////////                                                        ////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                if(showBus != null){
+                    styleFromTenant.setShowBus(showBus);
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////                                                        ////////////////
+                ////////////////                         THEME                          ////////////////
+                ////////////////                                                        ////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                if (!(theme == null || (theme != null && theme.isEmpty()))) {
+                    styleFromTenant.setTheme(theme);
+                }
+
+                tenantOriginal.setStyle(styleFromTenant);
+
+                return dao.persist(tenantOriginal);
+            }
+        }
+        return null;
+    }
 
     public void clean(){
         ds.delete(ds.createQuery(Tenant.class));
+    }
+
+    public long getNextId(){
+        return dao.count(Tenant.class) + 1;
     }
 }

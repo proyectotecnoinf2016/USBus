@@ -12,8 +12,8 @@ import java.util.List;
  */
 @Local
 public interface BusLocal {
-    ObjectId persist(Bus bus01);
-    Bus getById(ObjectId oid);
+    String persist(Bus bus01);
+    Bus getById(String oid);
     Bus getByLocalId(long tenantId, String id);
     void setInactive(long tenantId, String busId);
     void setActive(long tenantId, String busId);

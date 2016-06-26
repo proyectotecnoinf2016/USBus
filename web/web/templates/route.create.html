@@ -1,4 +1,4 @@
-<md-dialog aria-label="Crear Ruta" ng-cloak>
+<md-dialog aria-label="Crear Ruta" ng-cloak style="width: 70%">
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -8,65 +8,121 @@
             </div>
         </md-toolbar>
 
-        <md-tabs md-dynamic-height md-border-bottom>
-            <md-tab label="Datos de Ruta">
+        <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
+            <md-tab label="Datos de Ruta" >
 
-                <md-dialog-content >
+                <md-dialog-content layout="column" layout-margin class="">
                     <span flex></span>
+                    <div layout="row" >
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Nombre</label>
+                            <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
+                            <input ng-model="route.name" required>
+                        </md-input-container>
 
-                    <md-input-container class="customInput">
-                        <label>Nombre</label>
-                        <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
-                        <input ng-model="route.name" required>
-                    </md-input-container>
-                    <md-input-container class="customInput">
-                        <label>Origen</label>
-                        <md-tooltip md-direction="top">Ingrese Origen de la Ruta</md-tooltip>
-                        <input ng-model="route.origin" required>
-                    </md-input-container>
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Precio por kilómetro</label>
+                            <md-tooltip md-direction="top">Ingrese Precio por Kilómetro</md-tooltip>
+                            <input type="number" ng-model="route.pricePerKm" required >
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-autocomplete
+                                md-selected-item="route.origin"
+                                md-no-cache=true
+                                md-search-text-change="queryBusStops(name)"
+                                md-min-length="3"
+                                md-items="item in queryBusStops(name)"
+                                md-item-text="item.name"
+                                md-search-text="name"
+                                md-floating-label="Origen"
+                                md-input-id="originStopName"
+                                required flex layout-margin>
 
-                     <md-input-container class="customInput">
-                        <label>Destino</label>
-                        <md-tooltip md-direction="top">Ingrese Destino de la Ruta</md-tooltip>
-                        <input ng-model="route.destination" required>
-                    </md-input-container>
-                     <md-input-container class="customInput">
-                         <md-tooltip md-direction="top">Ingrese si es Combinación</md-tooltip>
-                         <md-checkbox ng-model="route.hasCombination" aria-label="Envio de encomiendas">
-                             <span class="customInput">Combinación</span>
-                         </md-checkbox>
-                    </md-input-container>
-                     <md-input-container class="customInput">
-                        <label>Precio por kilómetro</label>
-                        <md-tooltip md-direction="top">Ingrese Precio por Kilómetro</md-tooltip>
-                        <input type="number" ng-model="route.pricePerKm" required >
-                    </md-input-container>
-                     <span flex></span>
+                            <md-item-template>
+                                <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }}</span>
+                            </md-item-template>
+                            <md-not-found>No se han encontrado paradas con este nombre.</md-not-found>
+                        </md-autocomplete>
+                        <md-autocomplete
+                                md-selected-item="route.destination"
+                                md-no-cache=true
+                                md-search-text-change="queryBusStops(desName)"
+                                md-min-length="3"
+                                md-items="des in queryBusStops(desName)"
+                                md-item-text="des.name"
+                                md-search-text="desName"
+                                md-floating-label="Destino"
+                                md-input-id="destinationStopName"
+                                required flex layout-margin>
+
+                            <md-item-template>
+                                <span md-highlight-text="des.name" md-highlight-flags="^i"> {{ des.name }}</span>
+                            </md-item-template>
+                            <md-not-found>No se han encontrado paradas con este nombre.</md-not-found>
+                        </md-autocomplete>
+
+                    </div>
+                    <div layout="row" >
+                         <md-input-container layout-margin>
+                             <span class="customInput">Tiene combinación?</span>
+                             <md-tooltip md-direction="top">Ingrese si contiene una combinación</md-tooltip>
+                             <md-radio-group layout="row" ng-model="route.hasCombination">
+                                 <md-radio-button ng-value=true class="md-primary"><span class="label">Si</span></md-radio-button>
+                                 <md-radio-button ng-value=false> <span class="label">No</span> </md-radio-button>
+                             </md-radio-group>
+                         </md-input-container>
+                    </div>
+
                 </md-dialog-content>
-            </md-tab>
-            <md-tab label="Información de las Paradas">
-                <md-container layout="row">
-                    <md-input-container class="customInput">
-                        <label>Nombre</label>
-                        <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
-                        <input ng-model="item.name" >
-                    </md-input-container>
-                    <md-input-container class="customInput">
-                        <label>Kilómetro</label>
-                        <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
-                        <input ng-model="item.name" >
-                    </md-input-container>
-                    <md-input-container class="customInput">
-                        <label>Combinación</label>
-                        <md-tooltip md-direction="top">Ingrese si es Combinación</md-tooltip>
-                        <input ng-model="item.name" >
-                    </md-input-container>
 
-                </md-container>
-                private String busStop;
-                private Double km;
-                private boolean isCombinationPoint;
-                <md-button layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createRoute(route)'>Agregar Parada</md-button>
+            </md-tab>
+            <md-tab label="Información de las Paradas" ng-click="addRouteStopsToArray(route);">
+                <md-content >
+                    <md-content >
+                    <span layout="row" >
+                        <h3 class="grayHeader tableRow" flex="35">
+                            Nombre
+                        </h3>
+                        <h3 class="grayHeader tableRow" flex="35">
+                            Kilómetro
+                        </h3>
+                        <h3  ng-show="route.hasCombination"class="grayHeader tableRow" flex="20" >
+                            Combinación
+                        </h3>
+                        <h3 class="grayHeader tableRow" flex="10">
+                            Eliminar
+                        </h3>
+                    </span>
+                        <md-divider ></md-divider>
+                    <span>
+                        <span layout="row" ng-repeat="item in routeStops" >
+                            <md-input-container layout-padding flex="35">
+                                <input ng-model="item.busStop" >
+                            </md-input-container>
+                            <md-input-container layout-padding  flex="35">
+                                <input ng-model="item.km" >
+                            </md-input-container>
+                            <md-input-container  ng-show="route.hasCombination" layout layout-align="start center" layout-padding flex >
+                                <md-checkbox ng-model="item.combinationPoint" aria-label="Checkbox 1" ></md-checkbox>
+                            </md-input-container>
+
+                            <p class="" flex="10" layout layout-align="start start" layout-padding>
+                                <img src="img/Delete_Icon.png" ng-click="deleteRouteStop(item)" style="width: 30px" class="pointer"/>
+                            </p>
+                        </span>
+                    </span>
+
+                    </md-content>
+                    <div layout layout-align="center center">
+                        <md-button class="" ng-click="addRouteStop()" >
+                            <md-tooltip md-direction="top">Crear nueva parada</md-tooltip>
+                            <i class="material-icons pointer"  layout-padding >add_circle</i>
+                        </md-button>
+                    </div>
+
+
+                </md-content>
 
             </md-tab>
         </md-tabs>
@@ -74,8 +130,8 @@
 
         <md-dialog-actions class="md-actions" layout="row">
             <span flex></span>
-            <md-button class="md-raised md-primary"	ng-hide="selectedIndex != 0" ng-click="nextTab()">Siguiente</md-button>
-            <md-button class="md-raised md-primary"	ng-hide="selectedIndex == 0" ng-click='sell(user)'>Crear Ruta</md-button>
+            <md-button class="md-raised md-primary"	ng-hide="selectedIndex != 0" ng-click="nextTab(route)">Siguiente</md-button>
+            <md-button class="md-raised md-primary"	ng-hide="selectedIndex == 0" ng-click='createRoute(route)' ng-disabled="inputForm.$invalid">Crear Ruta</md-button>
             <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
         </md-dialog-actions>
     </form>

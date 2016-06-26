@@ -63,25 +63,42 @@ public class Ticket extends BaseEntity {
         this.id = id;
         this.emissionDate = emissionDate;
         this.hasCombination = hasCombination;
-        this.combination = new ServiceDAO().getByLocalId(tenantId,combinationId);
-        this.combinationId = combinationId;
+        if (!(combinationId == null)) {
+            this.combination = new ServiceDAO().getByLocalId(tenantId, combinationId);
+            this.combinationId = combinationId;
+        }
         this.amount = amount;
-        this.passenger = new UserDAO().getByUsername(tenantId,passengerName);
-        this.passengerName = passengerName;
-        this.seller = new HumanResourceDAO().getByUsername(tenantId,sellerName);
-        this.sellerName = sellerName;
+        if (!(passengerName == null)) {
+            this.passenger = new UserDAO().getByUsername(tenantId, passengerName);
+            this.passengerName = passengerName;
+        }
+        if (!(sellerName == null)) {
+            this.seller = new HumanResourceDAO().getByUsername(tenantId, sellerName);
+            this.sellerName = sellerName;
+        }
         this.closed = closed;
         this.status = status;
         this.paymentToken = paymentToken;
-        this.journey = new JourneyDAO().getByJourneyId(tenantId,journeyId);
-        this.journeyId = journeyId;
+        if (!(journeyId == null)) {
+
+            this.journey = new JourneyDAO().getByJourneyId(tenantId, journeyId);
+            this.journeyId = journeyId;
+        }
+
         this.seat = seat;
-        this.getsOn = new BusStopDAO().getByName(tenantId,getOnStopName);
-        this.getOnStopName = getOnStopName;
-        this.getsOff =  new BusStopDAO().getByName(tenantId,getOffStopName);;
-        this.getOffStopName = getOffStopName;
-        this.route = new RouteDAO().getByLocalId(tenantId,routeId);
-        this.routeId = routeId;
+        if (!(getOnStopName == null)) {
+
+            this.getsOn = new BusStopDAO().getByName(tenantId, getOnStopName);
+            this.getOnStopName = getOnStopName;
+        }
+        if (!(getOffStopName == null)) {
+            this.getsOff = new BusStopDAO().getByName(tenantId, getOffStopName);
+            this.getOffStopName = getOffStopName;
+        }
+        if (!(routeId == null)) {
+            this.route = new RouteDAO().getByLocalId(tenantId, routeId);
+            this.routeId = routeId;
+        }
         this.dueDate = dueDate;
     }
 
@@ -90,25 +107,39 @@ public class Ticket extends BaseEntity {
         this.id = ticket.getId();
         this.emissionDate = ticket.getEmissionDate();
         this.hasCombination = ticket.getHasCombination();
-        this.combination = new ServiceDAO().getByLocalId(ticket.getTenantId(),ticket.getCombinationId());
-        this.combinationId = ticket.getCombinationId();
+        if (!(ticket.getCombinationId() == null)) {
+            this.combination = new ServiceDAO().getByLocalId(ticket.getTenantId(), ticket.getCombinationId());
+            this.combinationId = ticket.getCombinationId();
+        }
         this.amount = ticket.getAmount();
-        this.passenger = new UserDAO().getByUsername(ticket.getTenantId(),ticket.getPassengerName());
-        this.passengerName = ticket.getPassengerName();
-        this.seller = new HumanResourceDAO().getByUsername(ticket.getTenantId(),ticket.getSellerName());
-        this.sellerName = ticket.getSellerName();
+        if (!(ticket.getPassengerName() == null)) {
+            this.passenger = new UserDAO().getByUsername(ticket.getTenantId(), ticket.getPassengerName());
+            this.passengerName = ticket.getPassengerName();
+        }
+        if (!(ticket.getSellerName() == null)) {
+            this.seller = new HumanResourceDAO().getByUsername(ticket.getTenantId(), ticket.getSellerName());
+            this.sellerName = ticket.getSellerName();
+        }
         this.closed = ticket.getClosed();
         this.status = ticket.getStatus();
         this.paymentToken = ticket.getPaymentToken();
-        this.journey = new JourneyDAO().getByJourneyId(ticket.getTenantId(),ticket.getJourneyId());
-        this.journeyId = ticket.getJourneyId();
+        if (!(ticket.getJourneyId() == null)) {
+            this.journey = new JourneyDAO().getByJourneyId(ticket.getTenantId(), ticket.getJourneyId());
+            this.journeyId = ticket.getJourneyId();
+        }
         this.seat = ticket.getSeat();
-        this.getsOn = new BusStopDAO().getByName(ticket.getTenantId(),ticket.getGetOnStopName());
-        this.getOnStopName = ticket.getGetOnStopName();
-        this.getsOff =  new BusStopDAO().getByName(ticket.getTenantId(),ticket.getGetOffStopName());
-        this.getOffStopName = ticket.getGetOffStopName();
-        this.route = new RouteDAO().getByLocalId(ticket.getTenantId(),ticket.getRouteId());
-        this.routeId = ticket.getRouteId();
+        if (!(ticket.getGetOnStopName() == null)) {
+            this.getsOn = new BusStopDAO().getByName(ticket.getTenantId(), ticket.getGetOnStopName());
+            this.getOnStopName = ticket.getGetOnStopName();
+        }
+        if (!(ticket.getGetOffStopName() == null)) {
+            this.getsOff = new BusStopDAO().getByName(ticket.getTenantId(), ticket.getGetOffStopName());
+            this.getOffStopName = ticket.getGetOffStopName();
+        }
+        if (!(ticket.getRouteId() == null)) {
+            this.route = new RouteDAO().getByLocalId(ticket.getTenantId(), ticket.getRouteId());
+            this.routeId = ticket.getRouteId();
+        }
         this.dueDate = ticket.getDueDate();
     }
 

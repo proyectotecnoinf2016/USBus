@@ -10,6 +10,7 @@
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;
+        $scope.logout = logout;
         $scope.tenantName = '';
 
         $scope.urlArray = $location.path().split('/');
@@ -45,6 +46,11 @@
     			showAlert('Error', 'Ocurrió un error al procesar su petición');
     		}
 		}
+
+
+        function logout() {
+            localStorage.clear();
+        }
 
         function cancel() {
             $mdDialog.cancel();

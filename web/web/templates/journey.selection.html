@@ -3,9 +3,9 @@
 </md-content>
 
 <form name="inputForm" novalidate >
-    <div layout="column" ng-cloak class="md-inline-form" >
+    <div ng-cloak class="md-inline-form" >
         <div layout-gt-xs="row" >
-            <md-input-container class="customInputRegister" flex-gt-xs="50" layout-padding>
+            <md-input-container class="" flayout-padding>
                 <label>Fecha</label>
                 <md-tooltip md-direction="top">Ingrese Fecha de viaje</md-tooltip>
                 <input type="date" ng-model="date">
@@ -13,20 +13,21 @@
 
         </div>
         <div layout-gt-xs="row">
-            <md-input-container class="customInputRegister" layout-padding>
+            <md-input-container class="" layout-padding>
                 <label>Origen</label>
                 <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
                 <input ng-model="from">
             </md-input-container>
-            <md-input-container class="customInputRegister" layout-padding>
+            <md-input-container class="" layout-padding>
                 <label>Destino</label>
                 <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
                 <input ng-model="to">
             </md-input-container>
         </div>
         <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="getJourneys(from, to, date)">Buscar</md-button>
+        
     </div>
-
+    
 
 
     <md-content ng-show="journeys != null && journeys.length > 0">

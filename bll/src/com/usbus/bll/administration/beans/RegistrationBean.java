@@ -36,7 +36,7 @@ public class RegistrationBean implements RegistrationLocal, RegistrationRemote {
 
     @Override
     public long registerTenant(Tenant tenant) {
-        ObjectId tenantOID = null;
+        String tenantOID = null;
         try {
             tenant.setTenantId(tenantDAO.countAll() + 1);
             tenantOID = tenantDAO.persist(tenant);
@@ -55,7 +55,7 @@ public class RegistrationBean implements RegistrationLocal, RegistrationRemote {
 
     @Override
     public int registerUser(User user) {
-        ObjectId userOID = null;
+        String userOID = null;
         try {
 
             String pass = user.getPassword();
@@ -91,7 +91,7 @@ public class RegistrationBean implements RegistrationLocal, RegistrationRemote {
 
     @Override
     public int registerClient(User user) {
-        ObjectId userOID = null;
+        String userOID = null;
         try {
 
             String pass = user.getPassword();

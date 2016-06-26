@@ -14,8 +14,8 @@ import java.util.List;
 @Remote
 public interface BusStopRemote {
     long countTenant(long tenantId);
-    ObjectId persist(BusStop busStop);
-    BusStop getById(ObjectId id);
+    String persist(BusStop busStop);
+    BusStop getById(String id);
     BusStop getByLocalId(long tenantId, Long id);
     BusStop getByName(long tenantId, String name);
     void setInactive(long tenantId, Long id);
