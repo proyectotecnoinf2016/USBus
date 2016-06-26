@@ -122,7 +122,6 @@ public class UserDAO {
         }
     }
 
-
     public List<Rol> getRoles(User user){
         Query<HumanResource> query = ds.createQuery(HumanResource.class);
         query.disableValidation();
