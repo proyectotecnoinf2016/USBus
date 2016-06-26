@@ -23,13 +23,13 @@ public class TenantService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getTenantStyle(@PathParam("tenantId")long tenantId){
+    public Response getTenantStyle(@PathParam("tenantId")long tenantId) throws IOException {
 
-        Tenant tenant = ejb.getByLocalId(tenantId);
-        if (tenant == null){
+        TenantStyleAux tenantStyleAux = ejb.getTenantStyle(tenantId);
+        if (tenantStyleAux == null){
             return Response.status(Response.Status.NO_CONTENT).build();
         }
-        return Response.ok(tenant.getStyle()).build();
+        return Response.ok(tenantStyleAux).build();
     }
 
     @PUT
