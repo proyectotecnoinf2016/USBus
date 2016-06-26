@@ -1,6 +1,6 @@
 <h1 class="grayHeader">Rutas</h1>
 <form name="inputForm" novalidate >
-    <h1 class="grayHeader">{{message}}</h1>
+    <h1 class="grayHeader" ng-show="routes == null || routes.length == 0">{{message}}</h1>
     <md-content ng-show="routes != null && routes.length > 0">
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
@@ -29,10 +29,10 @@
                     {{item.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.origin}}
+                    {{item.origin.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.destination}}
+                    {{item.destination.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
                     {{item.hasCombination}}

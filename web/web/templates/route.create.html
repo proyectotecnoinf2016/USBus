@@ -98,13 +98,13 @@
                     <span>
                         <span layout="row" ng-repeat="item in routeStops" >
                             <md-input-container layout-padding flex="35">
-                                <input ng-model="item.name" >
+                                <input ng-model="item.busStop" >
                             </md-input-container>
                             <md-input-container layout-padding  flex="35">
                                 <input ng-model="item.km" >
                             </md-input-container>
                             <md-input-container  ng-show="route.hasCombination" layout layout-align="start center" layout-padding flex >
-                                <md-checkbox ng-model="item.isCombinationPoint" aria-label="Checkbox 1" ></md-checkbox>
+                                <md-checkbox ng-model="item.combinationPoint" aria-label="Checkbox 1" ></md-checkbox>
                             </md-input-container>
 
                             <p class="" flex="10" layout layout-align="start start" layout-padding>
