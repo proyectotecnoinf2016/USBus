@@ -28,7 +28,7 @@
 
         <md-dialog-actions class="md-actions" layout="row">
             <span flex></span>
-            <md-button class="md-raised md-primary" ng-click='createBusStop(busStop)'>Ingresar</md-button>
+            <md-button class="md-raised md-primary" ng-click='createBusStop(busStop)' ng-disabled="inputForm.$invalid">Ingresar</md-button>
             <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
         </md-dialog-actions>
     </form>

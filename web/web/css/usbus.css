@@ -185,3 +185,26 @@ label {
 .whiteColor {
     color: white;
 }
+
+md-divider {
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-bottom: 1px solid rgba(250, 250, 250, 0.4);
+    border-top-color: rgba(0,0,0,0.25);
+}
+
+.indexIcon {
+    height: 35px;
+    padding-right: 15px;
+    color:white;
+    float: left;
+}
+
+.indexIcon.material-icons {
+    font-size: 40px;
+}
+
+.indexMenuOptions {
+    padding-left: 15px;
+    float:left;
+}

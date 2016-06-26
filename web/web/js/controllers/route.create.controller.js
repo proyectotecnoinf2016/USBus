@@ -4,15 +4,23 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('CreateRouteController', CreateRouteController);
-    CreateRouteController.$inject = ['$scope', 'localStorage', 'RouteResource', '$mdDialog'];
+    CreateRouteController.$inject = ['$scope', 'localStorage', 'RouteResource', '$mdDialog', 'BusStopResource'];
     /* @ngInject */
-    function CreateRouteController($scope, localStorage, RouteResource, $mdDialog) {
+    function CreateRouteController($scope, localStorage, RouteResource, $mdDialog, BusStopResource) {
         $scope.createRoute = createRoute;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
         $scope.nextTab = nextTab;
+        $scope.deleteRouteStop = deleteRouteStop;
+        $scope.addRouteStop = addRouteStop;
+        $scope.compare = compare;
+        $scope.addRouteStopsToArray = addRouteStopsToArray;
+        $scope.queryBusStops = queryBusStops;
 
+        $scope.routeStops = [];
         $scope.selectedIndex = 0;
+        $scope.origin =  [];
+        $scope.destination = [];
 
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
@@ -25,9 +33,11 @@
 
 
         function createRoute(item) {
-            bus.status = 'ACTIVE';
-            bus.active = true;
-            bus.tenantId = $scope.tenantId;
+            item.active = true;
+            item.tenantId = $scope.tenantId;
+            item.busStops = $scope.routeStops.sort(compare);
+
+            console.log(item);
             RouteResource.routes(token).save({
                 tenantId: $scope.tenantId
 
@@ -54,15 +64,67 @@
 
         };
 
+        function addRouteStop() {
+            
+            $scope.routeStops.sort(compare);
+            $scope.routeStops.push({isCombinationPoint: false});
+
+        }
+
+        function deleteRouteStop(item) {
+            var index = 0;
+
+            while (index < $scope.routeStops.length && item.name != $scope.routeStops[index].name) {
+                index++;
+            }
+
+            if (index < $scope.routeStops.length) {
+                $scope.routeStops.splice(index, 1);
+            }
+
+
+        }
+
         function cancel() {
             $mdDialog.cancel();
         };
 
-        function nextTab() {
+        function addRouteStopsToArray(route) {
+            if ($scope.routeStops != null && $scope.routeStops.length == 0) {
+                if (route.origin.name != null && route.origin.name != '') {
+                    $scope.routeStops.push({name: route.origin.name, isCombinationPoint: false});
+                }
+                if (route.destination.name != null && route.destination.name != '') {
+                    $scope.routeStops.push({name: route.destination.name, isCombinationPoint: false});
+                }
+            }
+        }
+
+        function nextTab(route) {
+            
+            addRouteStopsToArray(route);
             var index = ($scope.selectedIndex == $scope.max) ? 0 : $scope.selectedIndex + 1;
             $scope.selectedIndex = index;
         }
 
+        function compare(a,b) {
+            if (a.km < b.km)
+                return -1;
+            if (a.km > b.km)
+                return 1;
+            return 0;
+        }
+
+
+        function queryBusStops(name) {
+            return BusStopResource.busStops(token).query({
+                offset: 0,
+                limit: 5,
+                tenantId: $scope.tenantId,
+                name : name
+            }).$promise;
+            return [];
+        }
 
     }
 })();
