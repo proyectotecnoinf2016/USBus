@@ -45,7 +45,7 @@ public class BranchService {
     }
 
     @GET
-    @Path("id/{branchId}")
+    @Path("{branchId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
@@ -58,42 +58,70 @@ public class BranchService {
         return Response.ok(branchAux).build();
     }
 
+
     @GET
-    @Path("name/{branchName}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getBranch(@PathParam("tenantId")long tenantId, @PathParam("branchName") String branchName){
-
-        Branch branchAux = ejb.getByBranchName(tenantId,branchName);
-        if (branchAux == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
+    public Response queryBranch(@PathParam("tenantId")long tenantId,
+                                @QueryParam("query") String query,
+                                @QueryParam("branchName") String branchName,
+                                @QueryParam("offset") int offset,
+                                @QueryParam("limit") int limit){
+        switch (query.toUpperCase()){
+            case "NAME":
+                Branch branchAux = ejb.getByBranchName(tenantId,branchName);
+                if (branchAux == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(branchAux).build();
+            case "ALL":
+                List<Branch> serviceList = ejb.getBranchesByTenant(tenantId, offset, limit);
+                if (serviceList == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(serviceList).build();
         }
-        return Response.ok(branchAux).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
+
     }
 
-    @GET
-    @Path("get/all")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getServiceListByTenant(@PathParam("tenantId")long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
-
-        List<Branch> serviceList = ejb.getBranchesByTenant(tenantId, offset, limit);
-        if (serviceList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(serviceList).build();
-    }
+//    @GET
+//    @Path("name/{branchName}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getBranch(@PathParam("tenantId")long tenantId, @PathParam("branchName") String branchName){
+//
+//        Branch branchAux = ejb.getByBranchName(tenantId,branchName);
+//        if (branchAux == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(branchAux).build();
+//    }
+//
+//    @GET
+//    @Path("get/all")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+//    public Response getServiceListByTenant(@PathParam("tenantId")long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
+//
+//        List<Branch> serviceList = ejb.getBranchesByTenant(tenantId, offset, limit);
+//        if (serviceList == null){
+//            return Response.status(Response.Status.NO_CONTENT).build();
+//        }
+//        return Response.ok(serviceList).build();
+//    }
 
     @DELETE
-    @Path("{branchName}")
+    @Path("{branchId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response removeService(@PathParam("tenantId")Long tenantId, @PathParam("branchName") String branchName){
+    public Response removeService(@PathParam("tenantId")Long tenantId, @PathParam("branchId") Long branchId){
         try {
-            ejb.setInactive(tenantId,branchName);
+            ejb.setInactive(tenantId,branchId);
             return Response.ok().build();
         }catch (Exception e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

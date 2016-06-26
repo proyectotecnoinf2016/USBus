@@ -79,16 +79,15 @@ public class BranchDAO {
         dao.remove(Branch.class, id);
     }
 
-    public void setInactive(long tenantId, String branchName) {
-        if (!(tenantId > 0) || (branchName.isEmpty())) {
-        } else {
-            Query<Branch> query = ds.createQuery(Branch.class);
-
-            query.and(query.criteria("name").equal(branchName),
-                    query.criteria("tenantId").equal(tenantId));
+    public void setInactive(long tenantId,Long branchId){
+        if (!(tenantId > 0) || (branchId == null)) {
+            //Mueran putos
+        }
+        Query<Branch> query = ds.createQuery(Branch.class);
+        query.and(query.criteria("id").equal(branchId),
+                query.criteria("tenantId").equal(tenantId));
             UpdateOperations<Branch> updateOp = ds.createUpdateOperations(Branch.class).set("active", false);
             ds.update(query, updateOp);
-        }
     }
 
     public Long getNextId(long tenantId) {
