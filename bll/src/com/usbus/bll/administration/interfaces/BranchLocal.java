@@ -13,6 +13,6 @@ public interface BranchLocal {
     Branch getById(ObjectId branchId);
     Branch getByLocalId(long tenantId, Long branchId);
     Branch getByBranchName(long tenantId, String name);
-    void setInactive(long tenantId, String branchName);
+    void setInactive(long tenantId, Long branchId);
     List<Branch> getBranchesByTenant(long tenantId, int offset, int limit);
 }

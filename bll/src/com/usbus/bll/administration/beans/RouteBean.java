@@ -34,6 +34,7 @@ public class RouteBean implements RouteLocal, RouteRemote {
 
     @Override
     public ObjectId persist(Route route) {
+        route.setId(dao.getNextId(route.getTenantId()));
         return dao.persist(route);
     }
 
