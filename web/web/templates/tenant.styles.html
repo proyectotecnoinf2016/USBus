@@ -1,3 +1,19 @@
 <md-content md-theme="" layout-align="center center" layout-padding>
     <h1 class="grayHeader">Personalización de Estilos</h1>
+	<form name="inputForm" novalidate >
+	    <div ng-cloak class="md-inline-form" >
+
+	    <div layout="row" layout layout-padding>
+	    	<div layout="column">
+		    	<h3 class="grayHeader">Logo</h3>
+		    	<lf-ng-md-file-input lf-files="filesOnFileClick" lf-on-file-click="onFileClick" preview drag ></lf-ng-md-file-input>
+	    	</div>
+	    	<div layout="column">
+		    	<h3 class="grayHeader">Imagen de encabezado</h3>
+		    	<lf-ng-md-file-input lf-files="filesOnFileClick" lf-on-file-click="onFileClick" preview drag ></lf-ng-md-file-input>
+	    	</div>
+	    </div>
+	    	<md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='updateRoute(route)'>Guardar</md-button>
+	    </div>
+	</form>
 </md-content>
