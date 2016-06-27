@@ -32,4 +32,9 @@ public class TenantBean implements TenantLocal, TenantRemote{
     public String saveTenantStyle(long tenantId, TenantStyleAux style) throws IOException {
         return dao.saveTenantStyle(tenantId, style.getLogoB64(), style.getLogoExtension(), style.getHeaderB64(), style.getHeaderExtension(), style.getBusColor(), style.getShowBus(), style.getTheme());
     }
+
+    @Override
+    public TenantStyleAux getTenantStyle(long tenantId) throws IOException {
+        return dao.getTenantStyle(tenantId);
+    }
 }

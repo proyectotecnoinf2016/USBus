@@ -1,5 +1,6 @@
 package com.usbus.dal.test;
 
+import com.usbus.commons.auxiliaryClasses.TenantStyleAux;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.dao.TenantDAO;
@@ -55,5 +56,18 @@ public class TenantTest {
         dao.saveTenantStyle(2, null, null, header, headerExtension, busColor, showBus, theme);
         dao.saveTenantStyle(3, logo, logoExtension, null, null, null, null, null);
         dao.saveTenantStyle(3, logo, logoExtension, null, null, busColor, showBus, theme);
+    }
+
+    @Test
+    public void getStyles() throws IOException {
+        long tenantId = 1;
+        TenantStyleAux tenantStyleAux = dao.getTenantStyle(tenantId);
+//        System.out.println(tenantStyleAux.getLogoB64());
+//        System.out.println(tenantStyleAux.getLogoExtension());
+//        System.out.println(tenantStyleAux.getHeaderB64());
+//        System.out.println(tenantStyleAux.getHeaderExtension());
+//        System.out.println(tenantStyleAux.getShowBus());
+//        System.out.println(tenantStyleAux.getBusColor());
+//        System.out.println(tenantStyleAux.getTheme());
     }
 }

@@ -2,18 +2,22 @@ package com.usbus.dal.dao;
 
 import com.usbus.commons.auxiliaryClasses.Image;
 import com.usbus.commons.auxiliaryClasses.TenantStyle;
+import com.usbus.commons.auxiliaryClasses.TenantStyleAux;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.Tenant;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
+import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Base64;
 
 /**
@@ -194,6 +198,73 @@ public class TenantDAO {
             }
         }
         return null;
+    }
+
+    public TenantStyleAux getTenantStyle(long tenantId) throws IOException {
+        if(tenantId > 0) {
+            Tenant tenant = getByLocalId(tenantId);
+            TenantStyle tenantStyle = tenant.getStyle();
+
+            if(tenantStyle == null){
+                tenantStyle = new TenantStyle();
+            }
+
+            Image logo = tenantStyle.getLogo();
+            Image header = tenantStyle.getHeaderImage();
+
+            TenantStyleAux tenantStyleAux = new TenantStyleAux();
+
+            File logoFileAux = new File(logo.getFilePath()+File.separator+logo.getName()+"."+logo.getExtension());
+            if(logoFileAux.exists()){
+                BufferedImage logoBufferedImage = ImageIO.read(logoFileAux);
+                String logoB64 = encodeToString(logoBufferedImage, logo.getExtension());
+                tenantStyleAux.setLogoB64(logoB64);
+                tenantStyleAux.setLogoExtension(logo.getExtension());
+                //System.out.println(tenantStyleAux.getLogoB64());
+            } else {
+                tenantStyleAux.setLogoB64(null);
+                tenantStyleAux.setLogoExtension(null);
+            }
+
+            File headerFileAux = new File(header.getFilePath()+File.separator+header.getName()+"."+header.getExtension());
+            if(headerFileAux.exists()) {
+                BufferedImage headerBufferedImage = ImageIO.read(headerFileAux);
+                String headerB64 = encodeToString(headerBufferedImage, header.getExtension());
+                tenantStyleAux.setHeaderB64(headerB64);
+                tenantStyleAux.setHeaderExtension(header.getExtension());
+                //System.out.println(tenantStyleAux.getHeaderB64());
+            } else {
+                tenantStyleAux.setHeaderB64(null);
+                tenantStyleAux.setHeaderExtension(null);
+            }
+
+            tenantStyleAux.setTheme(tenantStyle.getTheme());
+
+            tenantStyleAux.setBusColor(tenantStyle.getBusColor());
+
+            tenantStyleAux.setShowBus(tenantStyle.getShowBus());
+
+            return tenantStyleAux;
+        }
+        return null;
+    }
+
+    public static String encodeToString(BufferedImage image, String type) {
+        String imageString = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        try {
+            ImageIO.write(image, type, bos);
+            byte[] imageBytes = bos.toByteArray();
+
+            BASE64Encoder encoder = new BASE64Encoder();
+            imageString = encoder.encode(imageBytes);
+
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageString;
     }
 
     public void clean(){
