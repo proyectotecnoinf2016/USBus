@@ -7,20 +7,21 @@
     TenantController.$inject = ['$scope'];
     /* @ngInject */
     function TenantController($scope) {
-    	$scope.upload = upload;
+    	$scope.submitForm = submitForm;
+    	$scope.logo = null;
+    	$scope.header = null;
+    	$scope.$watch('logo.length',function(newVal,oldVal){
+    		console.log($scope.logo);
+        });
+        $scope.$watch('header.length',function(newVal,oldVal){
+    		console.log($scope.header);
+        });
 
-    	function upload(file) {
-			console.log (file);
-		    if (file) {
-		        // create an object for the ids
-			      var pictureId;
-
-			      // create a new formdata to store our image
-			      var fd = new FormData();
-			      fd.append('photo', file);
-			      
-			      console.log (fd);
-		    }
+    	function submitForm() {
+			alert($scope.header.file);
 	    }
+
+	    
+
 	}
 })();
