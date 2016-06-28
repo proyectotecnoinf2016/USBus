@@ -36,7 +36,7 @@
                     <md-tooltip md-direction="top">Ingrese Ruta del Serivicio</md-tooltip>
 
                     <md-select ng-model="service.route">
-                        <md-option ng-repeat="route in routes" value="{{route.name}}" ng-disabled="$index === 1">
+                        <md-option ng-repeat="route in routes" value="{{route}}" ng-disabled="!{{route.active}}">
                             {{route.name}}
                         </md-option>
                     </md-select>
