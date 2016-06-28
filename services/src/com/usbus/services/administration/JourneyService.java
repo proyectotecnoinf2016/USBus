@@ -4,8 +4,9 @@ import com.usbus.bll.administration.beans.JourneyBean;
 import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.commons.enums.Rol;
 import com.usbus.dal.model.Journey;
+import com.usbus.dal.model.JourneyPatch;
+import com.usbus.services.PATCH;
 import com.usbus.services.auth.Secured;
-import org.bson.types.ObjectId;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -196,4 +197,65 @@ public class JourneyService {
             return Response.ok(price).build();
         }
     }
+
+    @PATCH
+    @Path("{journeyId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+    public Response updateJourney(@PathParam("tenantId")Long tenantId,
+                                  @PathParam("journeyId")Long journeyId,
+                                  JourneyPatch patch) {
+
+        Journey journeyAux = ejb.getByLocalId(tenantId, journeyId);
+
+        for (JourneyPatch.JourneyPatchField updatedField : patch.getUpdatedFields()) {
+            switch (updatedField){
+                case tenantId:
+                    journeyAux.setTenantId(patch.getTenantId());
+                    continue;
+                case id:
+                    journeyAux.setId(patch.getId());
+                    continue;
+                case service:
+                    journeyAux.setService(patch.getService());
+                    continue;
+                case date:
+                    journeyAux.setDate(patch.getDate());
+                    continue;
+                case bus:
+                    journeyAux.setBus(patch.getBus());
+                    continue;
+                case thirdPartyBus:
+                    journeyAux.setThirdPartyBus(patch.getThirdPartyBus());
+                    continue;
+                case driver:
+                    journeyAux.setDriver(patch.getDriver());
+                    continue;
+                case busNumber:
+                    journeyAux.setBusNumber(patch.getBusNumber());
+                    continue;
+                case seats:
+                    journeyAux.setSeats(patch.getSeats());
+                    continue;
+                case seatsState:
+                    journeyAux.setSeatsState(patch.getSeatsState());
+                    continue;
+                case standingPassengers:
+                    journeyAux.setStandingPassengers(patch.getStandingPassengers());
+                    continue;
+                case trunkWeight:
+                    journeyAux.setTrunkWeight(patch.getTrunkWeight());
+                    continue;
+                case status:
+                    journeyAux.setStatus(patch.getStatus());
+            }
+        }
+        String oid = ejb.persist(journeyAux);
+        if (oid==null){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(ejb.getById(oid)).build();
+    }
+
 }
