@@ -4,10 +4,13 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditRouteController', EditRouteController);
-    EditRouteController.$inject = ['$scope', 'RouteResource', '$mdDialog', 'routeToEdit', 'localStorage'];
+    EditRouteController.$inject = ['$scope', 'RouteResource', '$mdDialog', 'routeToEdit', 'localStorage', 'theme'];
     /* @ngInject */
-    function EditRouteController($scope, RouteResource, $mdDialog, routeToEdit, localStorage) {
+    function EditRouteController($scope, RouteResource, $mdDialog, routeToEdit, localStorage, theme) {
         $scope.route = routeToEdit;
+
+        $scope.theme = theme;
+        
 
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');

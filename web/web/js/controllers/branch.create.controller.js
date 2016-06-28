@@ -4,14 +4,15 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('CreateBranchController', CreateBranchController);
-    CreateBranchController.$inject = ['$scope', 'localStorage', 'BranchResource', '$mdDialog'];
+    CreateBranchController.$inject = ['$scope', 'localStorage', 'BranchResource', '$mdDialog', 'theme'];
     /* @ngInject */
-    function CreateBranchController($scope, localStorage, BranchResource, $mdDialog) {
+    function CreateBranchController($scope, localStorage, BranchResource, $mdDialog, theme) {
         $scope.createBranch = createBranch;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
         $scope.addWindow = addWindow;
         $scope.deleteWindow = deleteWindow;
+        $scope.theme = theme;
 
         $scope.branch = [];
         $scope.windows = [];

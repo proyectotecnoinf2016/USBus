@@ -4,14 +4,14 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditBranchController', EditBranchController);
-    EditBranchController.$inject = ['$scope', 'BranchResource', '$mdDialog', 'branchToEdit'];
+    EditBranchController.$inject = ['$scope', 'BranchResource', '$mdDialog', 'branchToEdit', 'theme'];
     /* @ngInject */
-    function EditBranchController($scope, BranchResource, $mdDialog, branchToEdit) {
+    function EditBranchController($scope, BranchResource, $mdDialog, branchToEdit, theme) {
         $scope.branch = branchToEdit;
         $scope.tenantId = 0;
 
         $scope.windows = $scope.branch.windows;
-        
+        $scope.theme = theme;
 
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
