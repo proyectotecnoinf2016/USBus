@@ -1,3 +1,59 @@
 <md-content md-theme="" layout-align="center center" layout-padding>
     <h1 class="grayHeader">Personalización de Estilos</h1>
+	<form name="inputForm" novalidate >
+	    <div ng-cloak class="md-inline-form" >
+			<div layout="row" layout layout-padding>
+				<div layout="column">
+					<h3 class="grayHeader">Logo</h3>
+					<lf-ng-md-file-input lf-files="logo" lf-on-file-click="onFileClick" preview drag ></lf-ng-md-file-input>
+				</div>
+				<div layout="column">
+					<h3 class="grayHeader">Imagen de encabezado</h3>
+					<lf-ng-md-file-input lf-files="header" lf-on-file-click="onFileClick" preview drag ></lf-ng-md-file-input>
+				</div>
+			</div>
+			<md-container layout="column" layout layout-padding>
+				<md-input-container class="" >
+					<md-checkbox ng-model="style.showBus" aria-label="Mostrar omnibus">
+						Mostrar ómnibus
+					</md-checkbox>
+				</md-input-container>
+				<md-input-container class="" ng-show="style.showBus">
+					<md-radio-group ng-model="style.busColor" class="md-primary" layout layout-margin>
+						<md-radio-button ng-repeat="d in radioData"
+										 aria-label="d"
+										 ng-value="d" >
+
+							<img src="img/{{d}}_Bus.png" style="width: 50px"/>
+						</md-radio-button>
+					</md-radio-group>
+
+					<md-tooltip md-direction="right">Color del ómnibus</md-tooltip>
+
+				</md-input-container>
+			</md-container>
+			<md-container layout="row" layout layout-padding>
+				<md-container layout layout-margin >
+					<md-radio-group ng-model="primaryColor" class="md-primary" layout="column" layout layout-margin >
+						<md-radio-button ng-repeat="d in primaryData"
+										 aria-label="d.label"
+										 ng-value="d.value" >
+							{{d.label}}
+						</md-radio-button>
+					</md-radio-group>
+				</md-container>
+				<md-container layout="column" layout layout-margin>
+					<md-radio-group ng-model="secondaryColor" layout="column" layout layout-margin >
+						<md-radio-button ng-repeat="d in secondaryData"
+										 aria-label="d.label"
+										 ng-value="d.value" >
+
+							{{d.label}}
+						</md-radio-button>
+					</md-radio-group>
+				</md-container>
+			</md-container>
+	    	<md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='submitForm(route)'>Guardar</md-button>
+	    </div>
+	</form>
 </md-content>

@@ -15,8 +15,6 @@
                 return $resource('/rest/api/:tenantId/service/:serviceId', {tenantId: '@tenantId', serviceId: '@serviceId'}, {
                     query: {
                         method: 'GET',
-                        url: '/rest/api/:tenantId/service/get/all',
-                        params: {tenantId: '@tenantId'},
                         isArray:true,
                         headers: {
                             'Authorization': 'Bearer ' + token

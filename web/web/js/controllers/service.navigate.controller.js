@@ -30,7 +30,8 @@
         ServiceResource.services(token).query({
             offset: 0,
             limit: 100,
-            tenantId: $scope.tenantId
+            tenantId: $scope.tenantId,
+            query: 'ALL'
         }).$promise.then(function(result) {
             console.log(result);
             $scope.services = result;

@@ -6,7 +6,8 @@
     angular.module('usbus',  [
         'ngMaterial',
         'ngRoute',
-        'ngResource'
+        'ngResource',
+        'lfNgMdFileInput'
         ]).run(function($rootScope) {
     });
 
