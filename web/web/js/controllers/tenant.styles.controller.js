@@ -4,39 +4,10 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('TenantController', TenantController);
-    TenantController.$inject = ['$scope'];
+    TenantController.$inject = ['$scope', 'TenantResource', 'localStorage'];
     /* @ngInject */
-    function TenantController($scope) {
+    function TenantController($scope, TenantResource, localStorage) {
     	$scope.submitForm = submitForm;
-
-		$scope.radioData = [{
-			"color" : "Red",
-			"label" : "1"
-		} , {
-			"color" : "Blue",
-			"label" : "2"
-		} , {
-			"color" : "Gray",
-			"label" : "3"
-		} , {
-			"color" : "Light_Gray",
-			"label" : "2"
-		} , {
-			"color" : "Green",
-			"label" : "2"
-		} , {
-			"color" : "Orange",
-			"label" : "2"
-		} , {
-			"color" : "Pink",
-			"label" : "2"
-		} , {
-			"color" : "Violet",
-			"label" : "2"
-		} , {
-			"color" : "Yellow",
-			"label" : "2"
-		}];
 
 		$scope.radioData = [
 			"Red",
@@ -102,7 +73,14 @@
 
 		$scope.style.theme = $scope.primaryColor + $scope.secondaryColor;
 
-		
+		if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+			$scope.tenantId = localStorage.getData('tenantId');
+		}
+
+		var token = null;//localStorage.getData('token');
+		if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+			token = localStorage.getData('token');
+		}
 
 		$scope.logo = null;
     	$scope.header = null;
@@ -114,10 +92,6 @@
         });
 
     	function submitForm() {
-			$scope.style.busColor = 'Red';
-			$scope.style.showBus = showBus;
-			$scope.style.theme = theme;
-
 			var i = 0;
 			var file = '';
 			if ($scope.logo != null &&  $scope.logo !== 'undefined') {
@@ -150,28 +124,16 @@
 			}
 
 
+			TenantResource.tenant(token).update({
+				tenantId: $scope.tenantId
+			}, $scope.style,function (resp) {
+				console.log(resp);
+				showAlert('Exito!', 'Se ha editado su unidad de forma exitosa');
+			}, function (error) {
+				console.log(error);
+				showAlert('Error!', 'Ocurrió un error al editar la Unidad');
+			} );
 
-			//alert($scope.header[0].lfFile);
-
-			var ext = "data:" + $scope.header[0].lfFile.type + ";base64,";
-			var file = $scope.header[0].lfFile;
-
-			var reader = new window.FileReader();
-			reader.readAsDataURL(file);
-			var base64data = '';
-			reader.onloadend = function() {
-				base64data = reader.result;
-				//console.log(base64data );
-			}
-
-			alert(ext);
-			alert(file);
-
-			/*
-			var reader  = new FileReader();
-			var read = reader.readAsDataURL($scope.header[0].lfFile);
-			alert(read);
-			console.log($scope.header[0].lfFile);*/
 	    }
 
 	    
