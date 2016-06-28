@@ -47,7 +47,7 @@
             $mdDialog.show({
                 controller : 'EditServiceController',
                 templateUrl : 'templates/service.edit.html',
-                locals:{serviceToEdit: item},
+                locals:{serviceToEdit: item, theme : $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -66,7 +66,8 @@
                 templateUrl : 'templates/service.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : true,
+                theme : $scope.theme
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';

@@ -36,7 +36,7 @@
             $mdDialog.show({
                 controller : 'CreateTicketController',
                 templateUrl : 'templates/ticket.create.html',
-                locals:{journey: item}, //text va a ser usado para pasar el id del journey
+                locals:{journey: item, theme : $scope.theme}, //text va a ser usado para pasar el id del journey
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true

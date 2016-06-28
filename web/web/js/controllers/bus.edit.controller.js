@@ -4,9 +4,10 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditBusController', EditBusController);
-    EditBusController.$inject = ['$scope', 'BusResource', '$mdDialog', 'busToEdit', 'localStorage'];
+    EditBusController.$inject = ['$scope', 'BusResource', '$mdDialog', 'busToEdit', 'localStorage', 'theme'];
     /* @ngInject */
-    function EditBusController($scope, BusResource, $mdDialog, busToEdit, localStorage) {
+    function EditBusController($scope, BusResource, $mdDialog, busToEdit, localStorage, theme) {
+        $scope.theme = theme;
         $scope.bus = busToEdit;
         $scope.tenantId = 0;
         

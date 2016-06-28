@@ -13,7 +13,6 @@
 
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
-        $scope.token = 'test';
 
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
@@ -25,6 +24,12 @@
 		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
 			$scope.userName = localStorage.getData('userName');
 		}
+
+        $rootScope.$on('theme', function (event, data) {
+            $scope.theme = data;
+            //$rootScope.$broadcast('customTheme', data);
+        });
+
 
         $scope.menuOptions = [];
 

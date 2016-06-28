@@ -46,7 +46,7 @@
             $mdDialog.show({
                 controller : 'EditBusStopController',
                 templateUrl : 'templates/busStop.edit.html',
-                locals:{busStopToEdit: item}, //text va a ser usado para pasar el id del journey
+                locals:{busStopToEdit: item, theme : $scope.theme}, //text va a ser usado para pasar el id del journey
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -66,7 +66,8 @@
                 templateUrl : 'templates/busStop.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : true,
+                locals : {theme : $scope.theme}
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';

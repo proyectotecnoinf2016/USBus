@@ -4,11 +4,12 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditServiceController', EditServiceController);
-    EditServiceController.$inject = ['$scope', 'ServiceResource', '$mdDialog', 'serviceToEdit', 'localStorage'];
+    EditServiceController.$inject = ['$scope', 'ServiceResource', '$mdDialog', 'serviceToEdit', 'localStorage', 'theme'];
     /* @ngInject */
-    function EditServiceController($scope, ServiceResource, $mdDialog, serviceToEdit, localStorage) {
+    function EditServiceController($scope, ServiceResource, $mdDialog, serviceToEdit, localStorage, theme) {
         $scope.service = serviceToEdit;
         $scope.tenantId = 0;
+        $scope.theme = theme;
 
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;

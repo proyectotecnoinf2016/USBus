@@ -47,7 +47,7 @@
             $mdDialog.show({
                 controller : 'EditBusController',
                 templateUrl : 'templates/bus.edit.html',
-                locals:{busToEdit: item},
+                locals:{busToEdit: item, theme: $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -66,7 +66,8 @@
                 templateUrl : 'templates/bus.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : true,
+                locals : {theme: $scope.theme}
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';

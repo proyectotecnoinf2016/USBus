@@ -53,7 +53,7 @@
             $mdDialog.show({
                 controller : 'EditRouteController',
                 templateUrl : 'templates/route.edit.html',
-                locals:{routeToEdit: item},
+                locals:{routeToEdit: item, theme : $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -72,7 +72,8 @@
                 templateUrl : 'templates/route.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : true,
+                locals : {theme : $scope.theme}
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';
