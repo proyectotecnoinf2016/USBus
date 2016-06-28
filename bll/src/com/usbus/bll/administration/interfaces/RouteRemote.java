@@ -4,12 +4,14 @@ import com.usbus.dal.model.Route;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
 import java.util.List;
 
 /**
  * Created by Lufasoch on 21/06/2016.
  */
-@Local
+@SuppressWarnings("EjbRemoteRequirementsInspection")
+@Remote
 public interface RouteRemote {
     Route getById(String id);
     Route getByLocalId(long tenantId, Long id);

@@ -3,9 +3,10 @@ package com.usbus.dal.dao;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.Maintenance;
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
+
+import java.util.List;
 
 /**
  * Created by Lufasoch on 28/05/2016.
@@ -28,6 +29,9 @@ public class MaintenanceDAO {
     }
 
     public long countTenant(long tenantId) {
+        if(!(tenantId > 0)){
+            return 0;
+        }
         Query<Maintenance> query = ds.createQuery(Maintenance.class);
         query.criteria("tenantId").equal(tenantId);
         return query.countAll();
@@ -37,7 +41,7 @@ public class MaintenanceDAO {
         return dao.get(Maintenance.class, id);
     }
 
-    public Maintenance getByJourneyId(long tenantId, Long id){
+    public Maintenance getByLocalId(long tenantId, Long id){
         if (!(tenantId > 0) || (id == null)) {
             return null;
         }
@@ -48,6 +52,15 @@ public class MaintenanceDAO {
                 query.criteria("tenantId").equal(tenantId));
 
         return query.get();
+    }
+
+    public List<Maintenance> getByTenant(long tenantId, int offset, int limit) {
+        if(!(tenantId > 0) || (offset < 0) || ( limit <= 0)){
+            return null;
+        }
+        Query<Maintenance> query = ds.createQuery(Maintenance.class);
+        query.criteria("tenantId").equal(tenantId);
+        return query.offset(offset).limit(limit).asList();
     }
 
     public void remove(String id) {
