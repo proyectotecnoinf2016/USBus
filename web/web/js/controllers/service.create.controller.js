@@ -25,12 +25,23 @@
         RouteResource.routes(token).query({
             offset: 0,
             limit: 100,
+            query: 'ALL',
             tenantId: $scope.tenantId
         }).$promise.then(function(result) {
             console.log(result);
             $scope.routes = result;
 
         });
+        /*
+        RouteResource.routes(token).query({
+            offset: 0,
+            limit: 100,
+            tenantId: $scope.tenantId
+        }).$promise.then(function(result) {
+            console.log(result);
+            $scope.routes = result;
+
+        });*/
         
 
         $scope.days = [{
@@ -69,7 +80,26 @@
 
         function createService(item) {
             item.tenantId = $scope.tenantId;
-            alert(item.tenantId);
+            item.active = true;
+
+
+            delete item.route["id"];
+            delete item.route["name"];
+            delete item.route["active"];
+
+            delete item.route["origin"];
+            delete item.route["destination"];
+            delete item.route["busStops"];
+            delete item.route["hasCombination"];
+            delete item.route["pricePerKm "];
+
+            delete item.route["creationDate"];
+            delete item.route["lastChange"];
+            delete item.route["tenantId"];
+            delete item.route["version"];
+
+            console.log(item);
+
             ServiceResource.services(token).save({tenantId: $scope.tenantId },item, function(){
                 showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
             }, function (error) {

@@ -324,13 +324,13 @@
 
                 scope.strCaption = '';
 
-                scope.strCaptionPlaceholder = 'Select file';
+                scope.strCaptionPlaceholder = 'Seleccionar archivo';
 
-				scope.strCaptionDragAndDrop = 'Drag & drop files here...';
+				scope.strCaptionDragAndDrop = 'Arrastre su imagen aquí...';
 
-				scope.strCaptionBrowse = 'Browse';
+				scope.strCaptionBrowse = 'Buscar';
 
-				scope.strCaptionRemove = 'Remove';
+				scope.strCaptionRemove = 'Eliminar';
 
                 scope.strAriaLabel = "";
 
