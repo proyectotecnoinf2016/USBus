@@ -117,7 +117,8 @@
 
         </md-toolbar>
 
-		<div layout="column" ng-controller="IndexController" md-theme="{{ dynamicTheme }}" md-theme-watch style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
+		<div layout="column" ng-controller="IndexController" md-theme="{{theme}}" md-theme-watch="true" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
+        
            <section layout="row" >
                 <div  class="layout-padding " layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25" >
                     <md-button class="md-raised md-primary customButton" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">

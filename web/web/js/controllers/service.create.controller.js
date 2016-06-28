@@ -4,13 +4,15 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('CreateServiceController', CreateServiceController);
-    CreateServiceController.$inject = ['$scope', 'localStorage', 'ServiceResource', 'RouteResource', '$mdDialog'];
+    CreateServiceController.$inject = ['$scope', 'localStorage', 'ServiceResource', 'RouteResource', '$mdDialog', 'theme'];
     /* @ngInject */
-    function CreateServiceController($scope, localStorage, ServiceResource, RouteResource, $mdDialog) {
+    function CreateServiceController($scope, localStorage, ServiceResource, RouteResource, $mdDialog, theme) {
         $scope.createService = createService;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
         $scope.routes = [];
+
+        $scope.theme = theme;
 
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {

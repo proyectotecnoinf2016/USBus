@@ -1,4 +1,4 @@
-<md-content md-theme="" layout-align="center center" layout-padding>
+<md-content md-theme="" layout-align="center center" layout-padding md-theme="{{style.theme}}" md-theme-watch="true">
     <h1 class="grayHeader">Personalización de Estilos</h1>
 	<form name="inputForm" novalidate >
 	    <div ng-cloak class="md-inline-form" >
@@ -34,8 +34,8 @@
 			</md-container>
 			<md-container layout="row" layout layout-padding>
 				<md-container layout layout-margin >
-					<md-radio-group ng-model="primaryColor" class="md-primary" layout="column" layout layout-margin >
-						<md-radio-button ng-repeat="d in primaryData"
+					<md-radio-group ng-model="primaryColor" class="md-primary" layout="column" layout layout-margin ng-change="themeChange()">
+						<md-radio-button ng-repeat="d in primaryData" 
 										 aria-label="d.label"
 										 ng-value="d.value" >
 							{{d.label}}
@@ -43,7 +43,7 @@
 					</md-radio-group>
 				</md-container>
 				<md-container layout="column" layout layout-margin>
-					<md-radio-group ng-model="secondaryColor" layout="column" layout layout-margin >
+					<md-radio-group ng-model="secondaryColor" layout="column" layout layout-margin ng-change="themeChange()">
 						<md-radio-button ng-repeat="d in secondaryData"
 										 aria-label="d.label"
 										 ng-value="d.value" >

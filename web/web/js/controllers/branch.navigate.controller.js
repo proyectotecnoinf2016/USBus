@@ -10,7 +10,6 @@
         $scope.showBranches = showBranches;
         $scope.createBranch = createBranch;
         $scope.deleteBranch = deleteBranch;
-        
         $rootScope.$emit('options', 'admin');
 
         $scope.message = '';
@@ -41,7 +40,7 @@
             $mdDialog.show({
                 controller : 'EditBranchController',
                 templateUrl : 'templates/branch.edit.html',
-                locals:{branchToEdit: item},
+                locals:{branchToEdit: item, theme : $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : true
@@ -60,7 +59,8 @@
                 templateUrl : 'templates/branch.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : true,
+                locals : {theme : $scope.theme}
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';

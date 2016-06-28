@@ -4,10 +4,11 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('TenantController', TenantController);
-    TenantController.$inject = ['$scope', 'TenantResource', 'localStorage'];
+    TenantController.$inject = ['$scope', '$rootScope', 'TenantResource', 'localStorage'];
     /* @ngInject */
-    function TenantController($scope, TenantResource, localStorage) {
+    function TenantController($scope, $rootScope, TenantResource, localStorage) {
     	$scope.submitForm = submitForm;
+        $scope.themeChange = themeChange;
 
 		$scope.radioData = [
 			"Red",
@@ -35,7 +36,7 @@
 			"label" : "Verde azulado"
 		} , {
 			"value" : "amber",
-			"label" : "Ámber"
+			"label" : "Ámbar"
 		} , {
 			"value" : "deep-orange",
 			"label" : "Naranja"
@@ -90,6 +91,12 @@
         $scope.$watch('header.length',function(newVal,oldVal){
     		console.log($scope.header);
         });
+
+        function themeChange() {
+            $scope.style.theme = $scope.primaryColor + $scope.secondaryColor;
+            $rootScope.$emit('theme', $scope.style.theme);
+        }
+        
 
     	function submitForm() {
 			var i = 0;
