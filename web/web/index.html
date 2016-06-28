@@ -127,7 +127,7 @@
            <section layout="row" >
                 <div  class="layout-padding " layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25" >
                     <md-button class="md-raised md-primary customButton" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">
-                        <md-icon class="indexIcon">{{item.icon}}</md-icon>
+                        <md-icon class="indexIcon" >{{item.icon}}</md-icon>
                         <span class="indexMenuOptions" >{{item.name}}</span>
                     </md-button>
                 </div>
@@ -138,7 +138,7 @@
 
                             <span ng-repeat="item in menuOptions"  ng-click="redirectTo(item.url);" class="pointer">
                                 <p hide-md="" show-gt-md="" style="padding-left: 10%; color:white;" >
-                                    <md-icon class="indexIcon">{{item.icon}}</md-icon> <span style="padding-left: 15px;" >{{item.name}}</span>
+                                    <md-icon class="indexIcon" >{{item.icon}}</md-icon> <span style="padding-left: 15px;" >{{item.name}}</span>
                                 </p>
                                 <md-divider ></md-divider>
                             </span>
