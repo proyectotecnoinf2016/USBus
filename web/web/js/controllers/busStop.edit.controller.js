@@ -4,12 +4,12 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditBusStopController', EditBusStopController);
-    EditBusStopController.$inject = ['$scope', 'BusStopResource', '$mdDialog', 'busStopToEdit', 'localStorage'];
+    EditBusStopController.$inject = ['$scope', 'BusStopResource', '$mdDialog', 'busStopToEdit', 'localStorage', 'theme'];
     /* @ngInject */
-    function EditBusStopController($scope, BusStopResource, $mdDialog, busStopToEdit, localStorage) {
+    function EditBusStopController($scope, BusStopResource, $mdDialog, busStopToEdit, localStorage, theme) {
         $scope.busStop = busStopToEdit;
         $scope.tenantId = 0;
-        
+        $scope.theme = theme;
 
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;

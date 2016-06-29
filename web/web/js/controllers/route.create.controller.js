@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('CreateRouteController', CreateRouteController);
-    CreateRouteController.$inject = ['$scope', 'localStorage', 'RouteResource', '$mdDialog', 'BusStopResource'];
+    CreateRouteController.$inject = ['$scope', 'localStorage', 'RouteResource', '$mdDialog', 'BusStopResource', 'theme'];
     /* @ngInject */
-    function CreateRouteController($scope, localStorage, RouteResource, $mdDialog, BusStopResource) {
+    function CreateRouteController($scope, localStorage, RouteResource, $mdDialog, BusStopResource, theme) {
         $scope.createRoute = createRoute;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
@@ -17,6 +17,7 @@
         $scope.addRouteStopsToArray = addRouteStopsToArray;
         $scope.queryBusStops = queryBusStops;
 
+        $scope.theme = theme;
         $scope.routeStops = [];
         $scope.selectedIndex = 0;
         $scope.origin =  [];

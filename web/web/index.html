@@ -11,11 +11,11 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <!-- Custom css files -->
         <link rel="stylesheet" type="text/css" href="css/usbus.css"/>
+        <link rel="stylesheet" type="text/css" href="css/usbus-loading.css"/>
+        <link rel="stylesheet" type="text/css" href="css/lf-ng-md-file-input.css"/>
         <!-- STYLES -->
         <link rel="SHORTCUT ICON" href="img/USBus.png" type="image/x-icon"/>
 
-        <!-- EXTERNAL -->
-        <link href="css/angular-material-calendar.min.css" type="text/css"/>
 
 
 
@@ -69,12 +69,12 @@
         <script src="js/factories/service.resource.js"></script>
         <script src="js/factories/branch.resource.js"></script>
         <script src="js/factories/ticket.resource.js"></script>
+        <script src="js/factories/tenant.resource.js"></script>
 
 
         <!-- DIRECTIVES -->
         <script src="js/directives/background.select.js"></script>
-        <script src="https://cdn.rawgit.com/bradberger/angular-material-calendar/master/dist/angular-material-calendar.js"></script>
-
+        <script src="js/directives/lf-ng-md-file-input.js"></script>
 
         <!-- EXTERNAL -->
         <script src="js/angular-material-calendar.js"></script>
@@ -117,7 +117,8 @@
 
         </md-toolbar>
 
-		<div layout="column" ng-controller="IndexController" md-theme="{{ dynamicTheme }}" md-theme-watch style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
+		<div layout="column" ng-controller="IndexController" md-theme="{{theme}}" md-theme-watch="true" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
+        
            <section layout="row" >
                 <div  class="layout-padding " layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25" >
                     <md-button class="md-raised md-primary customButton" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">

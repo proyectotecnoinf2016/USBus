@@ -23,7 +23,9 @@ public class JourneyBean implements JourneyLocal, JourneyRemote {
 
     @Override
     public String persist(Journey journey) {
-        journey.setId(dao.getNextId(journey.getTenantId()));
+        if(journey.get_id() == null) {
+            journey.setId(dao.getNextId(journey.getTenantId()));
+        }
         return dao.persist(journey);
     }
 
