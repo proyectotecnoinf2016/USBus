@@ -1,5 +1,7 @@
 package com.usbus.services.administration;
 
+import com.usbus.dal.model.BusPatch;
+import com.usbus.services.PATCH;
 import com.usbus.services.auth.Secured;
 import com.usbus.bll.administration.beans.BusBean;
 
@@ -87,6 +89,56 @@ public class BusService {
         }catch (Exception e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+    }
 
+    @PATCH
+    @Path("{busId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+    public Response updateJourney(@PathParam("tenantId")Long tenantId,
+                                  @PathParam("busId")String busId,
+                                  BusPatch patch) {
+
+        Bus busAux = ejb.getByLocalId(tenantId, busId);
+
+        for (BusPatch.BusPatchField updatedField : patch.getUpdatedFields()) {
+            switch (updatedField){
+                case id:
+                    busAux.setId(patch.getId());
+                    continue;
+                case brand:
+                    busAux.setBrand(patch.getBrand());
+                    continue;
+                case model:
+                    busAux.setModel(patch.getModel());
+                    continue;
+                case kms:
+                    busAux.setKms(patch.getKms());
+                    continue;
+                case nextMaintenance:
+                    busAux.setNextMaintenance(patch.getNextMaintenance());
+                    continue;
+                case status:
+                    busAux.setStatus(patch.getStatus());
+                    continue;
+                case active:
+                    busAux.setActive(patch.getActive());
+                    continue;
+                case seats:
+                    busAux.setSeats(patch.getSeats());
+                    continue;
+                case trunkMaxWeight:
+                    busAux.setTrunkMaxWeight(patch.getTrunkMaxWeight());
+                    continue;
+                case standingPassengers:
+                    busAux.setStandingPassengers(patch.getStandingPassengers());
+            }
+        }
+        String oid = ejb.persist(busAux);
+        if (oid==null){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(ejb.getById(oid)).build();
     }
 }
