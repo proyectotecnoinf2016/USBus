@@ -6,6 +6,7 @@ import com.usbus.dal.dao.MaintenanceDAO;
 import com.usbus.dal.model.Maintenance;
 
 import javax.ejb.Stateless;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,5 +35,15 @@ public class MaintenanceBean implements MaintenanceLocal, MaintenanceRemote{
     @Override
     public List<Maintenance> getByTenant(long tenantId, int offset, int limit) {
         return dao.getByTenant(tenantId, offset, limit);
+    }
+
+    @Override
+    public List<Maintenance> getMaintenancesBetweenDates(long tenantId, Date time1, Date time2, int offset, int limit) {
+        return dao.getMaintenancesBetweenDates(tenantId, time1, time2, offset, limit);
+    }
+
+    @Override
+    public List<Maintenance> getByBus(long tenantId, String busId, int offset, int limit) {
+        return dao.getByBus(tenantId, busId, offset, limit);
     }
 }
