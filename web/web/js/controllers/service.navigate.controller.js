@@ -71,14 +71,11 @@
             }).then(
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';
-                    ServiceResource.services(token).query({
+                    $scope.services = ServiceResource.services(token).query({
                         offset: 0,
                         limit: 100,
-                        tenantId: $scope.tenantId
-                    }).$promise.then(function(result) {
-                        console.log(result);
-                        $scope.services = result;
-
+                        tenantId: $scope.tenantId,
+                        query: "ALL"
                     });
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';

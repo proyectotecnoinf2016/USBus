@@ -10,10 +10,13 @@
         $scope.createService = createService;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
+        $scope.toggle = toggle;
+        $scope.exists = exists;
+
+        $scope.selectedDays = [];
         $scope.routes = [];
-
+        $scope.selectedRoute = '';
         $scope.theme = theme;
-
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
@@ -67,7 +70,6 @@
         } , {
             "name"  : "Domingo",
             "value" : "SUNDAY"
-        } , {
         }];
 
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
@@ -83,9 +85,7 @@
         function createService(item) {
             item.tenantId = $scope.tenantId;
             item.active = true;
-
-
-            delete item.route["id"];
+/*
             delete item.route["name"];
             delete item.route["active"];
 
@@ -94,13 +94,13 @@
             delete item.route["busStops"];
             delete item.route["hasCombination"];
             delete item.route["pricePerKm "];
-
+            delete item.route["id"];
             delete item.route["creationDate"];
             delete item.route["lastChange"];
             delete item.route["tenantId"];
-            delete item.route["version"];
+            delete item.route["version"];*/
 
-            console.log(item);
+            console.log($scope.selectedRoute);
 
             ServiceResource.services(token).save({tenantId: $scope.tenantId },item, function(){
                 showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
@@ -108,7 +108,26 @@
                 console.log(error);
                 showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
             } );
+
+
         }
+
+
+
+        function toggle(item, list) {
+            var idx = list.indexOf(item);
+            if (idx > -1) {
+                list.splice(idx, 1);
+            }
+            else {
+                list.push(item);
+            }
+        };
+
+
+        function exists(item, list) {
+            return list.indexOf(item) > -1;
+        };
 
         function showAlert(title,content) {
             $mdDialog

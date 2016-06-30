@@ -7,7 +7,9 @@
         'ngMaterial',
         'ngRoute',
         'ngResource',
-        'lfNgMdFileInput'
+        'lfNgMdFileInput',
+        'ngSanitize',
+        'materialCalendar'
         ]).run(function($rootScope) {
     });
 
