@@ -1,6 +1,7 @@
 package com.usbus.services.administration;
 
 import com.usbus.bll.administration.beans.MaintenanceBean;
+import com.usbus.commons.auxiliaryClasses.AuxServiceMaintenanceObject;
 import com.usbus.commons.enums.Rol;
 import com.usbus.dal.model.Maintenance;
 import com.usbus.services.auth.Secured;
@@ -61,14 +62,29 @@ public class MaintenanceService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getAll(@PathParam("tenantId")long tenantId,
-                           @QueryParam("offset") int offset,
-                           @QueryParam("limit") int limit){
-        List<Maintenance> maintenanceList = ejb.getByTenant(tenantId, offset, limit);
-        if (maintenanceList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
+    @Secured({Rol.ADMINISTRATOR})
+    public Response getMaintenancesLists(@PathParam("tenantId")long tenantId, @QueryParam("query") String query, AuxServiceMaintenanceObject attribute){
+        List<Maintenance> maintenanceList = null;
+        switch (query.toUpperCase()) {
+            case "ALL":
+                maintenanceList = ejb.getByTenant(tenantId, attribute.getOffset(), attribute.getLimit());
+                if (maintenanceList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(maintenanceList).build();
+            case "BETWEENDATES":
+                maintenanceList = ejb.getMaintenancesBetweenDates(tenantId, attribute.getTime1(), attribute.getTime2(), attribute.getOffset(), attribute.getLimit());
+                if (maintenanceList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(maintenanceList).build();
+            case "BYBUS":
+                maintenanceList = ejb.getByBus(tenantId, attribute.getBusId(), attribute.getOffset(), attribute.getLimit());
+                if (maintenanceList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(maintenanceList).build();
         }
-        return Response.ok(maintenanceList).build();
+        return null;
     }
 }
