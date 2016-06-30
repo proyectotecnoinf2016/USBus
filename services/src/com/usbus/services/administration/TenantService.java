@@ -22,7 +22,6 @@ public class TenantService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
     public Response getTenantStyle(@PathParam("tenantId")long tenantId) throws IOException {
 
         TenantStyleAux tenantStyleAux = ejb.getTenantStyle(tenantId);
