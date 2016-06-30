@@ -69,7 +69,7 @@ public class TicketDAO {
         User user =  queryUser.get();
 
         Query<Ticket> query = ds.createQuery(Ticket.class);
-        query.and(query.criteria("passenger").equal(user.get_id()), query.criteria("status").equal(status));
+        query.and(query.criteria("passenger").equal(user), query.criteria("status").equal(status));
         return query.offset(offset).limit(limit).asList();
     }
 

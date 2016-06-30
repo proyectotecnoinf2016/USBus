@@ -16,6 +16,7 @@ import com.usbus.dal.model.User;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Stateless;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -74,7 +75,7 @@ public class TicketBean implements TicketLocal, TicketRemote {
             ticket.setStatus(ticketConfirmation.getStatus());
             if (dao.persist(ticket) != null) {
                 if (ticketConfirmation.getStatus() == TicketStatus.CONFIRMED) {
-                    updateJourney(ticket.getTenantId(), ticket.getJourneyId(), ticket.getSeat());
+                    updateJourney(ticket.getTenantId(), ticket.getJourney().getId(), ticket.getSeat());
                 }
                 return ticket;
             } else {
@@ -111,12 +112,13 @@ public class TicketBean implements TicketLocal, TicketRemote {
     private void updateJourney(Long tenantId, Long journeyId, int seatNumber) throws TicketException {
         JourneyDAO jdao = new JourneyDAO();
         Journey journey = jdao.getByJourneyId(tenantId, journeyId);
-        Seat seats[] = journey.getSeatsState();
+        Seat[] seats = journey.getSeatsState();
         Seat seat = new Seat();
         seat.setFree(false);
         seat.setNumber(seatNumber);
         //Ir a buscar al omnibus del journey que asiento es.
-        seats[seats.length + 1] = seat;
+        seats = Arrays.copyOf(seats, seats.length + 1);
+        seats[seats.length - 1] = seat;
         journey.setSeatsState(seats);
         String oid = jdao.persist(journey);
         if (oid == null) {
