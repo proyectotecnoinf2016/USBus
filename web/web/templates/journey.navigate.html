@@ -4,4 +4,22 @@
 
 <form name="inputForm" novalidate >
 
+<calendar-md flex layout layout-fill
+  calendar-direction="direction"
+  on-prev-month="prevMonth"
+  on-next-month="nextMonth"
+  on-day-click="dayClick"
+  title-format="'MMMM y'"
+  ng-model='selectedDate'
+  week-starts-on="firstDayOfWeek"
+  data-start-month="{{currentMonth}}"
+  data-start-year="{{currentYear}}"
+  tooltips="tooltips"
+  day-format="dayFormat"
+  day-label-format="'EEE'"
+  day-label-tooltip-format="'EEEE'"
+  day-tooltip-format="'fullDate'"
+  day-content="setDayContent"
+  disable-future-selection="false" ></calendar-md>
+
 </form>
