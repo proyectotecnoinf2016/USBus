@@ -69,16 +69,12 @@
                 clickOutsideToClose : true,
                 locals : {theme: $scope.theme}
             }).then(
-                function(answer) {
-                    $scope.status = 'Aca deberia hacer la query de nuevo';
-                    BusResource.buses(token).query({
+                function() {
+                    $scope.buses = BusResource.buses(token).query({
                         offset: 0,
                         limit: 100,
+                        busStatus: 'ACTIVE',
                         tenantId: $scope.tenantId
-                    }).$promise.then(function(result) {
-                        console.log(result);
-                        $scope.buses = result;
-
                     });
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';

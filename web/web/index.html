@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="css/usbus.css"/>
         <link rel="stylesheet" type="text/css" href="css/usbus-loading.css"/>
         <link rel="stylesheet" type="text/css" href="css/lf-ng-md-file-input.css"/>
+        <link rel="stylesheet" type="text/css" href="css/angular-material-calendar.css"/>
         <!-- STYLES -->
         <link rel="SHORTCUT ICON" href="img/USBus.png" type="image/x-icon"/>
 
@@ -27,6 +28,8 @@
         <script src="node_modules/angular-animate/angular-animate.js"></script>
         <script src="node_modules/angular-aria/angular-aria.js"></script>
         <script src="node_modules/angular-messages/angular-messages.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.7/angular-sanitize.js"></script>
 
 
         <script src="js/usbus.js"></script>
@@ -75,9 +78,9 @@
         <!-- DIRECTIVES -->
         <script src="js/directives/background.select.js"></script>
         <script src="js/directives/lf-ng-md-file-input.js"></script>
+        <script src="js/directives/angular-material-calendar.js"></script>
 
-        <!-- EXTERNAL -->
-        <script src="js/angular-material-calendar.js"></script>
+
 
         <!-- SCRIPTS -->
     </head>
@@ -117,12 +120,14 @@
 
         </md-toolbar>
 
+
+
 		<div layout="column" ng-controller="IndexController" md-theme="{{theme}}" md-theme-watch="true" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
         
            <section layout="row" >
                 <div  class="layout-padding " layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25" >
                     <md-button class="md-raised md-primary customButton" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">
-                        <md-icon class="indexIcon">{{item.icon}}</md-icon>
+                        <md-icon class="indexIcon" >{{item.icon}}</md-icon>
                         <span class="indexMenuOptions" >{{item.name}}</span>
                     </md-button>
                 </div>
@@ -133,7 +138,7 @@
 
                             <span ng-repeat="item in menuOptions"  ng-click="redirectTo(item.url);" class="pointer">
                                 <p hide-md="" show-gt-md="" style="padding-left: 10%; color:white;" >
-                                    <md-icon class="indexIcon">{{item.icon}}</md-icon> <span style="padding-left: 15px;" >{{item.name}}</span>
+                                    <md-icon class="indexIcon" >{{item.icon}}</md-icon> <span style="padding-left: 15px;" >{{item.name}}</span>
                                 </p>
                                 <md-divider ></md-divider>
                             </span>
@@ -165,6 +170,7 @@
                </div>
 
 			    <md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> </md-content>
+                
 
             </section>
 

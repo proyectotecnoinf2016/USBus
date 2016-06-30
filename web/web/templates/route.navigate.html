@@ -35,7 +35,9 @@
                     {{item.destination.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.hasCombination}}
+
+                    <span ng-show="{{item.hasCombination}}">Si</span>
+                    <span ng-hide="{{item.hasCombination}}">Si</span>
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
                     {{item.pricePerKm}}
