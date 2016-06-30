@@ -3,8 +3,10 @@ package com.usbus.dal.test;
 import com.usbus.commons.auxiliaryClasses.Seat;
 import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.commons.enums.Position;
+import com.usbus.dal.dao.BusDAO;
 import com.usbus.dal.dao.JourneyDAO;
 import com.usbus.dal.dao.ServiceDAO;
+import com.usbus.dal.model.Bus;
 import com.usbus.dal.model.Journey;
 import com.usbus.dal.model.Service;
 import org.junit.Test;
@@ -23,6 +25,7 @@ import java.util.TimeZone;
 public class JourneyTest {
     protected JourneyDAO dao = new JourneyDAO();
     protected ServiceDAO serviceDAO = new ServiceDAO();
+    protected BusDAO busDAO = new BusDAO();
 
     @Test
     public void persist() throws ParseException {
@@ -128,6 +131,9 @@ public class JourneyTest {
         uno.setDate(dateFormat.parse("12/06/2016 " + suno.getTime().getHours() + ":" + suno.getTime().getMinutes()));
         uno.setBusNumber(115);
         uno.setSeatsState(new Seat[]{v3, v8, v13, v23, v40});
+        Bus abc01 = busDAO.getByBusId(2, "ABC01");
+        uno.setBus(abc01);
+
         dao.persist(uno);
 
         Date D1 = dateFormat.parse("12/06/2016 " + suno.getTime().getHours() + ":" + suno.getTime().getMinutes());
