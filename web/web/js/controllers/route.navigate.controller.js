@@ -61,6 +61,7 @@
                 function(answer) {
                     $scope.status = 'You said the information was "'
                         + answer + '".';
+
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
@@ -76,6 +77,12 @@
                 locals : {theme : $scope.theme}
             }).then(
                 function(answer) {
+                    $scope.routes = RouteResource.routes(token).query({
+                        offset: 0,
+                        limit: 100,
+                        query: 'ALL',
+                        tenantId: $scope.tenantId
+                    });
                     $scope.status = 'Aca deberia hacer la query de nuevo';
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
