@@ -97,6 +97,6 @@ public class AuthenticationBean implements AuthenticationLocal, AuthenticationRe
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA512);
         String jwt = jws.getCompactSerialization();
 
-        return new Token(jwt,credentials.getTenantId());
+        return new Token(jwt,credentials.getTenantId(),roles);
     }
 }
