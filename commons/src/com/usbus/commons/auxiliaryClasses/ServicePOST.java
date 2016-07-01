@@ -2,6 +2,7 @@ package com.usbus.commons.auxiliaryClasses;
 
 import java.time.DayOfWeek;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jpmartinez on 01/07/16.
@@ -10,16 +11,16 @@ public class ServicePOST {
     private Long tenantId;
     private Long id;
     private String name;
-    private DayOfWeek day;
-    private Date time;
-    private String route;
+    private List<DayOfWeek> day;
+    private List<Date> time;
+    private Long route;
     private Integer numberOfBuses;
     private Boolean active;
 
     public ServicePOST(){
     }
 
-    public ServicePOST(long tenantId, Long id, String name, DayOfWeek day, Date time, String route, Integer numberOfBuses, Boolean active) {
+    public ServicePOST(long tenantId, Long id, String name, List<DayOfWeek> day, List<Date> time, Long route, Integer numberOfBuses, Boolean active) {
         this.tenantId = tenantId;
         this.id = id;
         this.name = name;
@@ -28,6 +29,14 @@ public class ServicePOST {
         this.route = route;
         this.numberOfBuses = numberOfBuses;
         this.active = active;
+    }
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
     }
 
     public Long getId() {
@@ -46,27 +55,27 @@ public class ServicePOST {
         this.name = name;
     }
 
-    public DayOfWeek getDay() {
+    public List<DayOfWeek> getDay() {
         return day;
     }
 
-    public void setDay(DayOfWeek day) {
+    public void setDay(List<DayOfWeek> day) {
         this.day = day;
     }
 
-    public Date getTime() {
+    public List<Date> getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(List<Date> time) {
         this.time = time;
     }
 
-    public String getRoute() {
+    public Long getRoute() {
         return route;
     }
 
-    public void setRoute(String route) {
+    public void setRoute(Long route) {
         this.route = route;
     }
 
