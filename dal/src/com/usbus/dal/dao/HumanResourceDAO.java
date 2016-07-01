@@ -1,6 +1,7 @@
 package com.usbus.dal.dao;
 
 import com.usbus.commons.enums.HRStatus;
+import com.usbus.commons.enums.Rol;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.HumanResource;
@@ -89,18 +90,54 @@ public class HumanResourceDAO {
     }
 
     public List<HumanResource> getByHRStatus(long tenantId, HRStatus status, int offset, int limit) {
-//        if (!(tenantId > 0)) {
-//            return null;
-//        }
-//
-//        Query<HumanResource> query = ds.createQuery(HumanResource.class);
-//        query.disableValidation();
-//        query.criteria("className").equal(HumanResource.class.getCanonicalName());
-//        query.and(query.criteria("email").equal(email),
-//                query.criteria("tenantId").equal(tenantId));
+        if (!(tenantId > 0)) {
+            return null;
+        }
 
-        return null;
+        Query<HumanResource> query = ds.createQuery(HumanResource.class);
+        query.disableValidation();
+        query.criteria("className").equal(HumanResource.class.getCanonicalName());
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("statusHistory.status").hasThisElement(status));
+        query.retrievedFields(false,"salt","passwordHash");
+        return query.offset(offset).limit(limit).asList();
+    }
 
+    public List<HumanResource> getByRol(long tenantId, Rol rol, int offset, int limit) {
+        if (!(tenantId > 0)) {
+            return null;
+        }
+
+        Query<HumanResource> query = ds.createQuery(HumanResource.class);
+        query.disableValidation();
+        query.criteria("className").equal(HumanResource.class.getCanonicalName());
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").hasThisElement(rol));
+        query.retrievedFields(false,"salt","passwordHash");
+        return query.offset(offset).limit(limit).asList();
+    }
+
+    public List<HumanResource> getByRolAndStatus(long tenantId, HRStatus status,Rol rol, int offset, int limit) {
+        if (!(tenantId > 0)) {
+            return null;
+        }
+
+        Query<HumanResource> query = ds.createQuery(HumanResource.class);
+        query.disableValidation();
+        query.criteria("className").equal(HumanResource.class.getCanonicalName());
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").hasThisElement(rol), query.criteria("statusHistory.status").hasThisElement(status));
+        query.retrievedFields(false,"salt","passwordHash");
+        return query.offset(offset).limit(limit).asList();
+    }
+
+    public List<HumanResource> getByRolAvailable(long tenantId,Rol rol, int offset, int limit) {
+        if (!(tenantId > 0)) {
+            return null;
+        }
+        Query<HumanResource> query = ds.createQuery(HumanResource.class);
+        query.disableValidation();
+        query.criteria("className").equal(HumanResource.class.getCanonicalName());
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").hasThisElement(rol), query.criteria("status").equal(true));
+        query.retrievedFields(false,"salt","passwordHash");
+        return query.offset(offset).limit(limit).asList();
     }
 
     public List<HumanResource> getAllHumanResources(long tenantId, int offset, int limit) {

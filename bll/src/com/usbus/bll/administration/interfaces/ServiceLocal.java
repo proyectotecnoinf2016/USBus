@@ -1,5 +1,7 @@
 package com.usbus.bll.administration.interfaces;
 
+import com.usbus.commons.auxiliaryClasses.ServicePOST;
+import com.usbus.commons.exceptions.ServiceException;
 import com.usbus.dal.model.Service;
 import org.bson.types.ObjectId;
 
@@ -14,7 +16,10 @@ import java.util.List;
 @Local
 public interface ServiceLocal {
     Service getById(String id);
-    Service getByLocalId(long tenantId, Long serviceId);
+    Service getByLocalId(long tenantId, Long serviceId) ;
+
+    void multiPersist(ServicePOST service) throws ServiceException;
+
     String persist(Service service);
     List<Service> getServicesByTenantAndDayOfTheWeek(long tenantId, DayOfWeek dayOfWeek, int offset, int limit);
     List<Service> getServicesByTenantDOWAndStops(long tenantId, DayOfWeek day, String origin, String destination, int offset, int limit);
