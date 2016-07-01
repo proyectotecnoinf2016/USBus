@@ -1,7 +1,9 @@
 package com.usbus.services.administration;
 
 import com.usbus.bll.administration.beans.ServiceBean;
+import com.usbus.commons.auxiliaryClasses.ServicePOST;
 import com.usbus.commons.enums.Rol;
+import com.usbus.commons.exceptions.ServiceException;
 import com.usbus.dal.model.Service;
 import com.usbus.services.auth.Secured;
 import org.bson.types.ObjectId;
@@ -25,12 +27,14 @@ public class ServiceService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response createService(Service service) {
-        String oid = ejb.persist(service);
-        if (oid==null){
+    public Response createService(ServicePOST service) {
+        try {
+            ejb.multiPersist(service);
+            return Response.ok("Se crearon los servicios correctamente").build();
+        }catch (ServiceException e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-        return Response.ok(ejb.getById(oid)).build();
+
     }
 
     @PUT
