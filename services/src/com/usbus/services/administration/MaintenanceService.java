@@ -1,14 +1,15 @@
 package com.usbus.services.administration;
 
 import com.usbus.bll.administration.beans.MaintenanceBean;
-import com.usbus.commons.auxiliaryClasses.AuxServiceMaintenanceObject;
 import com.usbus.commons.enums.Rol;
+import com.usbus.dal.model.Bus;
 import com.usbus.dal.model.Maintenance;
 import com.usbus.services.auth.Secured;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,23 +64,29 @@ public class MaintenanceService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR})
-    public Response getMaintenancesLists(@PathParam("tenantId")long tenantId, @QueryParam("query") String query, AuxServiceMaintenanceObject attribute){
+    public Response getMaintenancesLists(@PathParam("tenantId")long tenantId,
+                                         @QueryParam("query") String query,
+                                         @QueryParam("beginningDate") Date beginningDate,
+                                         @QueryParam("endDate") Date endDate,
+                                         @QueryParam("offset") int offset,
+                                         @QueryParam("limit") int limit,
+                                         Bus bus){
         List<Maintenance> maintenanceList = null;
         switch (query.toUpperCase()) {
             case "ALL":
-                maintenanceList = ejb.getByTenant(tenantId, attribute.getOffset(), attribute.getLimit());
+                maintenanceList = ejb.getByTenant(tenantId, offset, limit);
                 if (maintenanceList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(maintenanceList).build();
             case "BETWEENDATES":
-                maintenanceList = ejb.getMaintenancesBetweenDates(tenantId, attribute.getTime1(), attribute.getTime2(), attribute.getOffset(), attribute.getLimit());
+                maintenanceList = ejb.getMaintenancesBetweenDates(tenantId, beginningDate, endDate, offset, limit);
                 if (maintenanceList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(maintenanceList).build();
             case "BYBUS":
-                maintenanceList = ejb.getByBus(tenantId, attribute.getBusId(), attribute.getOffset(), attribute.getLimit());
+                maintenanceList = ejb.getByBus(tenantId, bus.getId(), offset, limit);
                 if (maintenanceList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
