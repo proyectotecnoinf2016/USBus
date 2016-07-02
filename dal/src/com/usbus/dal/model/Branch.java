@@ -5,6 +5,7 @@ import com.usbus.dal.BaseEntity;
 import org.mongodb.morphia.annotations.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Created by Lufasoch on 28/05/2016.
@@ -17,13 +18,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Branch extends BaseEntity {
     private Long id;
     private String name;
-    private Window[] windows;
+    private List<Window> windows;
     private Boolean active;
 
     public Branch(){
     }
 
-    public Branch(long tenantId, Long id, String name, Window[] windows, Boolean active) {
+    public Branch(long tenantId, Long id, String name, List<Window> windows, Boolean active) {
         super(tenantId);
         this.id = id;
         this.name = name;
@@ -47,11 +48,11 @@ public class Branch extends BaseEntity {
         this.name = name;
     }
 
-    public Window[] getWindows() {
+    public List<Window> getWindows() {
         return windows;
     }
 
-    public void setWindows(Window[] windows) {
+    public void setWindows(List<Window> windows) {
         this.windows = windows;
     }
 
