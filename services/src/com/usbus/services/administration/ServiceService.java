@@ -30,7 +30,7 @@ public class ServiceService {
     public Response createService(ServicePOST service) {
         try {
             ejb.multiPersist(service);
-            return Response.ok("Se crearon los servicios correctamente").build();
+            return Response.ok().build();
         }catch (ServiceException e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

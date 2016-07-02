@@ -3,10 +3,10 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('CreateUsersController', CreateUsersController);
-    CreateUsersController.$inject = ['localStorage'];
+    angular.module('usbus').controller('UserController', UserController);
+    UserController.$inject = ['localStorage', '$scope', 'HumanResource'];
     /* @ngInject */
-    function CreateUsersController(localStorage) {
+    function UserController(localStorage, $scope, HumanResource) {
         $scope.users = [];
         $scope.message = 'No se encontraron Usuarios para mostrar';
 
@@ -23,7 +23,9 @@
         HumanResource.resources(token).query({
             offset: 0,
             limit: 100,
-            tenantId: $scope.tenantId
+            tenantId: $scope.tenantId,
+            query: 'STATUS',
+            status: true
         }).$promise.then(function(result) {
             console.log(result);
             $scope.users = result;

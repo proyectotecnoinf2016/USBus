@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('ServiceController', ServiceController);
-    ServiceController.$inject = ['$scope', '$mdDialog', 'ServiceResource', 'localStorage', '$rootScope'];
+    ServiceController.$inject = ['$scope', '$mdDialog', 'ServiceResource', 'localStorage', '$rootScope', 'dayOfWeek'];
     /* @ngInject */
-    function ServiceController($scope, $mdDialog, ServiceResource, localStorage, $rootScope) {
+    function ServiceController($scope, $mdDialog, ServiceResource, localStorage, $rootScope, dayOfWeek) {
         $scope.showServices = showServices;
         $scope.createService = createService;
         $scope.deleteService = deleteService;
@@ -34,8 +34,16 @@
             query: 'ALL'
         }).$promise.then(function(result) {
             console.log(result);
-            $scope.services = result;
 
+            var i = 0;
+            for (i = 0; i < result.length; i++) {
+                var service = result[i];
+                service.day = dayOfWeek.getDay(service.day);
+
+                service.time = moment(service.time).format('HH:mm');
+
+                $scope.services.push(service);
+            }
         });
 
         if ($scope.services.length === 0) {
@@ -50,7 +58,7 @@
                 locals:{serviceToEdit: item, theme : $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : false
             }).then(
                 function(answer) {
                     $scope.status = 'You said the information was "'
@@ -66,7 +74,7 @@
                 templateUrl : 'templates/service.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true,
+                clickOutsideToClose : false,
                 theme : $scope.theme
             }).then(
                 function(answer) {

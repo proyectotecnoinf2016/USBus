@@ -137,10 +137,10 @@
             $mdDialog.show({
                 controller : 'LoginController',
                 templateUrl : 'templates/login.html',
-
+                locals:{theme : $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : false
             }).then(
                 function(answer) {
                     $scope.status = 'You said the information was "'

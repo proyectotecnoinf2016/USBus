@@ -49,7 +49,7 @@
                 locals:{busStopToEdit: item, theme : $scope.theme}, //text va a ser usado para pasar el id del journey
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : false
             }).then(
                 function(answer) {
                     alert(answer);
@@ -66,7 +66,7 @@
                 templateUrl : 'templates/busStop.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true,
+                clickOutsideToClose : false,
                 locals : {theme : $scope.theme}
             }).then(
                 function(answer) {
