@@ -3,6 +3,7 @@ package com.usbus.bll.administration.beans;
 import com.usbus.bll.administration.interfaces.HumanResourceLocal;
 import com.usbus.bll.administration.interfaces.HumanResourceRemote;
 import com.usbus.commons.enums.HRStatus;
+import com.usbus.commons.enums.Rol;
 import com.usbus.commons.exceptions.UserException;
 import com.usbus.dal.dao.HumanResourceDAO;
 import com.usbus.dal.model.HumanResource;
@@ -50,7 +51,18 @@ public class HumanResourceBean implements HumanResourceLocal,HumanResourceRemote
     public List<HumanResource> getByHRStatus(long tenantId, HRStatus status, int offset, int limit) {
         return hrdao.getByHRStatus(tenantId,status,offset,limit);
     }
-
+    @Override
+    public List<HumanResource> getByRol(long tenantId, Rol rol, int offset, int limit) {
+        return hrdao.getByRol(tenantId,rol,offset,limit);
+    }
+    @Override
+    public List<HumanResource> getByRolAndStatus(long tenantId, HRStatus status, Rol rol, int offset, int limit) {
+        return hrdao.getByRolAndStatus(tenantId,status,rol,offset,limit);
+    }
+    @Override
+    public List<HumanResource> getByRolAvailable(long tenantId, Rol rol,int offset, int limit) {
+        return hrdao.getByRolAvailable(tenantId,rol,offset,limit);
+    }
     @Override
     public List<HumanResource> getAllHumanResources(long tenantId, int offset, int limit) {
         return hrdao.getAllHumanResources(tenantId,offset,limit);

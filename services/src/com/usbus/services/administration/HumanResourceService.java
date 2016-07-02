@@ -71,11 +71,12 @@ public class HumanResourceService {
                                 @QueryParam("query") String query,
                                 @QueryParam("email") String email,
                                 @QueryParam("status") Boolean status,
+                                @QueryParam("rol") Rol rol,
                                 @QueryParam("hrstatus") HRStatus hrstatus,
                                 @QueryParam("offset") int offset,
                                 @QueryParam("limit") int limit) {
         List<HumanResource> userList = null;
-        if (query==null){
+        if (query == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("No se envio el query param \"query\"").build();
         }
         switch (query.toUpperCase()) {
@@ -86,23 +87,44 @@ public class HumanResourceService {
                 }
                 return Response.ok(userList).build();
             case "STATUS":
-                userList = ejb.getByStatus(tenantId,status, offset, limit);
+                userList = ejb.getByStatus(tenantId, status, offset, limit);
                 if (userList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(userList).build();
             case "HRSTATUS":
-                userList = ejb.getByHRStatus(tenantId,hrstatus, offset, limit);
+                userList = ejb.getByHRStatus(tenantId, hrstatus, offset, limit);
                 if (userList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(userList).build();
-            case "EMAIL":{
+            case "EMAIL": {
                 HumanResource userAux = ejb.getByEmail(tenantId, email);
                 if (userAux == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(userAux).build();
+            }
+            case "ROL": {
+                userList = ejb.getByRol(tenantId, rol, offset, limit);
+                if (userList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(userList).build();
+            }
+            case "ROL_STATUS": {
+                userList = ejb.getByRolAndStatus(tenantId, hrstatus, rol, offset, limit);
+                if (userList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(userList).build();
+            }
+            case "ROL_AVAILABLE": {
+                userList = ejb.getByRolAvailable(tenantId,rol, offset, limit);
+                if (userList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(userList).build();
             }
         }
         return Response.status(Response.Status.BAD_REQUEST).build();

@@ -1,12 +1,17 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.Reservation;
+import com.usbus.dal.model.User;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Lufasoch on 30/05/2016.
@@ -38,7 +43,7 @@ public class ReservationDAO {
         return dao.get(Reservation.class, id);
     }
 
-    public Reservation getByBranchId(long tenantId, Long id){
+    public Reservation getByLocalId(long tenantId, Long id){
         if (!(tenantId > 0) || (id == null)) {
             return null;
         }
@@ -49,6 +54,34 @@ public class ReservationDAO {
                 query.criteria("tenantId").equal(tenantId));
 
         return query.get();
+    }
+
+    //NOT TESTED
+    public List<Reservation> getByUserNameAndStatus(long tenantId, String username, Boolean status, int offset, int limit){
+        if (!(tenantId > 0) || (username == null) || (username.isEmpty()) || (status == null) || offset < 0 || limit < 0) {
+            return null;
+        }
+
+        Query<Reservation> query = ds.createQuery(Reservation.class);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(status));
+        List<Reservation> resultList = query.asList();
+        List<Reservation> auxList = new ArrayList<>(resultList);
+        if(auxList.isEmpty()) {
+            return null;
+        } else {
+            for (Reservation res : auxList) {
+                User user = res.getPassenger();
+                if(user.getUsername() != username){
+                    resultList.remove(res);
+                }
+            }
+            if(resultList.isEmpty()){
+                return null;
+            }
+            else {
+                return resultList.subList(offset, (offset + limit));
+            }
+        }
     }
 
     public void remove(String id) {

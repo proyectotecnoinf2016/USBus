@@ -22,10 +22,9 @@ public class TenantService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getTenantStyle(@PathParam("tenantId")long tenantId) throws IOException {
+    public Response getTenantStyle(@QueryParam("tenantName") String tenantName) throws IOException {
 
-        TenantStyleAux tenantStyleAux = ejb.getTenantStyle(tenantId);
+        TenantStyleAux tenantStyleAux = ejb.getTenantStyle(tenantName);
         if (tenantStyleAux == null){
             return Response.status(Response.Status.NO_CONTENT).build();
         }
