@@ -34,7 +34,7 @@ public class TenantBean implements TenantLocal, TenantRemote{
     }
 
     @Override
-    public TenantStyleAux getTenantStyle(long tenantId) throws IOException {
-        return dao.getTenantStyle(tenantId);
+    public TenantStyleAux getTenantStyle(String tenantName) throws IOException {
+        return dao.getTenantStyle(tenantName);
     }
 }
