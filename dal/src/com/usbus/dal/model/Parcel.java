@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity(value = "parcels",noClassnameStored = true)
 @Indexes({
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iParcelKey", unique=true))})
-public class Parcel extends BaseEntity{
+public class Parcel extends BaseEntity {
     private Long id;
     private Dimension dimensions;
     private Integer weight;
@@ -25,13 +25,14 @@ public class Parcel extends BaseEntity{
     private BusStop destination;
     private String from;
     private String to;
-    private Boolean received;
+    private Boolean delivered;
+    private Boolean onDestination;
     private Boolean paid;
 
-    public Parcel(){
+    public Parcel() {
     }
 
-    public Parcel(long tenantId, Long id, Dimension dimensions, Integer weight, Journey journey, BusStop origin, BusStop destination, String from, String to, Boolean received, Boolean paid) {
+    public Parcel(long tenantId, Long id, Dimension dimensions, Integer weight, Journey journey, BusStop origin, BusStop destination, String from, String to, Boolean delivered, Boolean onDestination, Boolean paid) {
         super(tenantId);
         this.id = id;
         this.dimensions = dimensions;
@@ -41,7 +42,8 @@ public class Parcel extends BaseEntity{
         this.destination = destination;
         this.from = from;
         this.to = to;
-        this.received = received;
+        this.delivered = delivered;
+        this.onDestination = onDestination;
         this.paid = paid;
     }
 
@@ -109,12 +111,20 @@ public class Parcel extends BaseEntity{
         this.to = to;
     }
 
-    public Boolean getReceived() {
-        return received;
+    public Boolean getDelivered() {
+        return delivered;
     }
 
-    public void setReceived(Boolean received) {
-        this.received = received;
+    public void setDelivered(Boolean delivered) {
+        this.delivered = delivered;
+    }
+
+    public Boolean getOnDestination() {
+        return onDestination;
+    }
+
+    public void setOnDestination(Boolean onDestination) {
+        this.onDestination = onDestination;
     }
 
     public Boolean getPaid() {
