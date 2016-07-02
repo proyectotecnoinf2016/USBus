@@ -1,5 +1,6 @@
 package com.usbus.bll.administration.beans;
 
+import com.sun.deploy.util.ArrayUtil;
 import com.usbus.bll.administration.interfaces.TicketLocal;
 import com.usbus.bll.administration.interfaces.TicketRemote;
 import com.usbus.commons.auxiliaryClasses.Seat;
@@ -26,6 +27,7 @@ import java.util.List;
 public class TicketBean implements TicketLocal, TicketRemote {
     private final TicketDAO dao = new TicketDAO();
     private final UserDAO udao = new UserDAO();
+    private final JourneyDAO jdao = new JourneyDAO();
 
     public TicketBean() {
     }
@@ -34,8 +36,8 @@ public class TicketBean implements TicketLocal, TicketRemote {
     public String persist(Ticket ticket) throws TicketException {
 
         ticket.setId(dao.getNextId(ticket.getTenantId()));
-        if (ticket.getStatus() == TicketStatus.CONFIRMED) {
-            updateJourney(ticket.getTenantId(), ticket.getJourneyId(), ticket.getSeat());
+        if (ticket.getSeat() != 999 && ticket.getStatus() == TicketStatus.CONFIRMED) {
+            addToJourney(ticket.getTenantId(), ticket.getJourneyId(), ticket.getSeat());
         }
         String oid = dao.persist(ticket);
         if (oid == null) {
@@ -75,7 +77,7 @@ public class TicketBean implements TicketLocal, TicketRemote {
             ticket.setStatus(ticketConfirmation.getStatus());
             if (dao.persist(ticket) != null) {
                 if (ticketConfirmation.getStatus() == TicketStatus.CONFIRMED) {
-                    updateJourney(ticket.getTenantId(), ticket.getJourney().getId(), ticket.getSeat());
+                    addToJourney(ticket.getTenantId(), ticket.getJourney().getId(), ticket.getSeat());
                 }
                 return ticket;
             } else {
@@ -109,16 +111,52 @@ public class TicketBean implements TicketLocal, TicketRemote {
         return dao.TicketsByBuyerAndStatus(tenantId, username, status, offset, limit);
     }
 
-    private void updateJourney(Long tenantId, Long journeyId, int seatNumber) throws TicketException {
-        JourneyDAO jdao = new JourneyDAO();
+    public void setInactive(Long tenantId, Long ticketId) throws TicketException {
+        dao.setInactive(tenantId, ticketId);
+        removeFromJourney(tenantId, ticketId);
+    }
+
+    private void addToJourney(Long tenantId, Long journeyId, int seatNumber) throws TicketException {
         Journey journey = jdao.getByJourneyId(tenantId, journeyId);
         Seat[] seats = journey.getSeatsState();
-        Seat seat = new Seat();
-        seat.setFree(false);
-        seat.setNumber(seatNumber);
-        //Ir a buscar al omnibus del journey que asiento es.
-        seats = Arrays.copyOf(seats, seats.length + 1);
-        seats[seats.length - 1] = seat;
+        Boolean found = false;
+        for (Seat seat : seats) {
+            if(seat.getNumber() == seatNumber) {
+                seat.setFree(false);
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            Seat seat = new Seat();
+            seat.setFree(false);
+            seat.setNumber(seatNumber);
+            //Ir a buscar al omnibus del journey que asiento es.
+            if (seats == null) {
+                seats = new Seat[]{seat};
+            } else {
+                seats = Arrays.copyOf(seats, seats.length + 1);
+                seats[seats.length - 1] = seat;
+            }
+        }
+
+        journey.setSeatsState(seats);
+        String oid = jdao.persist(journey);
+        if (oid == null) {
+            throw new TicketException("Error al actualizar el Journey");
+        }
+    }
+
+    private void removeFromJourney(Long tenantId, Long ticketId) throws TicketException {
+        Ticket ticket = dao.getByLocalId(tenantId, ticketId);
+        Journey journey = ticket.getJourney();
+        Seat[] seats = journey.getSeatsState();
+        for (Seat seat : seats) {
+            if (seat.getNumber().equals(ticket.getSeat())) {
+                seat.setFree(true);
+                break;
+            }
+        }
         journey.setSeatsState(seats);
         String oid = jdao.persist(journey);
         if (oid == null) {

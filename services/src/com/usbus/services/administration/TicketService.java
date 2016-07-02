@@ -95,4 +95,18 @@ public class TicketService {
         }
 
     }
+
+    @DELETE
+    @Path("{ticketId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT})
+    public Response removeTicket(@PathParam("tenantId")Long tenantId, @PathParam("ticketId") Long ticketId){
+        try {
+            ejb.setInactive(tenantId, ticketId);
+            return Response.ok().build();
+        }catch (Exception e){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
