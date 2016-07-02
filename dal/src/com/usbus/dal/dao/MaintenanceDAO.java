@@ -1,11 +1,13 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.enums.BusStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.Bus;
 import com.usbus.dal.model.Maintenance;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -116,6 +118,27 @@ public class MaintenanceDAO {
                 }
             }
             return resultList;
+        }
+    }
+
+    //Si status es true el bus se queda bajo mantenimiento, si es false quiere decir que el mismo sale de mantenimiento
+    public Boolean setMaintenanceStatus(long tenantId, String busId, Boolean status){
+        if(tenantId < 0 || busId == null || busId.isEmpty() || status == null){
+            return false;
+        }
+        else{
+            Query<Bus> query = ds.createQuery(Bus.class);
+
+            query.and(query.criteria("id").equal(busId),
+                    query.criteria("tenantId").equal(tenantId));
+            UpdateOperations<Bus> updateOp;
+            if(status) {
+                updateOp = ds.createUpdateOperations(Bus.class).set("status", BusStatus.MANTENANCE);
+            } else {
+                updateOp = ds.createUpdateOperations(Bus.class).set("status", BusStatus.ACTIVE);
+            }
+            ds.update(query, updateOp);
+            return true;
         }
     }
 
