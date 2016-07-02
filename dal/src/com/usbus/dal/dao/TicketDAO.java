@@ -88,7 +88,7 @@ public class TicketDAO {
 
         Query<Ticket> query = ds.createQuery(Ticket.class);
 
-        query.and(query.criteria("journey").equal(journey.get_id()),
+        query.and(query.criteria("journey").equal(journey),
                 query.criteria("tenantId").equal(tenantId));
 
         return query.offset(offset).limit(limit).asList();
@@ -129,6 +129,18 @@ public class TicketDAO {
                 return new Long(1);
             }
             return ticket.getId() + 1;
+        }
+    }
+
+    public void setInactive(Long tenantId, Long ticketId) {
+        if (!(tenantId > 0) || (ticketId == null)) {
+        } else {
+            Query<Ticket> query = ds.createQuery(Ticket.class);
+
+            query.and(query.criteria("id").equal(ticketId),
+                    query.criteria("tenantId").equal(tenantId));
+            UpdateOperations<Ticket> updateOp = ds.createUpdateOperations(Ticket.class).set("status", TicketStatus.CANCELED);
+            ds.update(query, updateOp);
         }
     }
 }
