@@ -159,9 +159,9 @@ public class TenantDAO {
                     ImageIO.write(bufferedImageHeader, headerExtension, imageFileHeader);
 
                     //Agregar el header al tenant
-                    System.out.println(pathHeader + headerName + headerExtension);
+                    //System.out.println(pathHeader + headerName + headerExtension);
                     Image imageHeader = new Image(pathHeader.toString(), headerName, headerExtension);
-                    System.out.println(imageHeader);
+                    //System.out.println(imageHeader);
                     styleFromTenant.setHeaderImage(imageHeader);
                 }
 
