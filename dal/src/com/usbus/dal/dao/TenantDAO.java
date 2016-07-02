@@ -47,18 +47,7 @@ public class TenantDAO {
     public void remove(String id){
         dao.remove(Tenant.class, id);
     }
-    public Tenant getByName(String name) {
-        if (name.isEmpty()) {
-            return null;
-        }
 
-        Query<Tenant> query = ds.createQuery(Tenant.class);
-
-        query.limit(1).criteria("name").equal(name);
-
-        return query.get();
-
-    }
     public Tenant getByLocalId(Long id){
 
         if (!(id>0)) {
@@ -68,6 +57,20 @@ public class TenantDAO {
         Query<Tenant> query = ds.createQuery(Tenant.class);
 
         query.limit(1).criteria("tenantId").equal(id);
+
+        return query.get();
+
+    }
+
+    public Tenant getByName(String name){
+
+        if (name == null || name.isEmpty()) {
+            return null;
+        }
+
+        Query<Tenant> query = ds.createQuery(Tenant.class);
+
+        query.limit(1).criteria("name").equal(name);
 
         return query.get();
 
@@ -200,9 +203,9 @@ public class TenantDAO {
         return null;
     }
 
-    public TenantStyleAux getTenantStyle(long tenantId) throws IOException {
-        if(tenantId > 0) {
-            Tenant tenant = getByLocalId(tenantId);
+    public TenantStyleAux getTenantStyle(String tenantName) throws IOException {
+        if(tenantName != null && !tenantName.isEmpty()) {
+            Tenant tenant = getByName(tenantName);
             TenantStyle tenantStyle = tenant.getStyle();
 
             if(tenantStyle == null){
