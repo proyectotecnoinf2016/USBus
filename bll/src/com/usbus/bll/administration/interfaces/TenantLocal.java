@@ -15,5 +15,5 @@ public interface TenantLocal {
     Tenant getById(String id);
     Tenant getByLocalId(Long id);
     String saveTenantStyle(long tenantId, TenantStyleAux style) throws IOException;
-    TenantStyleAux getTenantStyle(long tenantId) throws IOException;
+    TenantStyleAux getTenantStyle(String tenantName) throws IOException;
 }
