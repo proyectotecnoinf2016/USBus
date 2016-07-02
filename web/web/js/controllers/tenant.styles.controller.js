@@ -4,11 +4,12 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('TenantController', TenantController);
-    TenantController.$inject = ['$scope', '$rootScope', 'TenantResource', 'localStorage'];
+    TenantController.$inject = ['$scope', '$rootScope', 'TenantResource', 'localStorage', '$mdDialog'];
     /* @ngInject */
-    function TenantController($scope, $rootScope, TenantResource, localStorage) {
+    function TenantController($scope, $rootScope, TenantResource, localStorage, $mdDialog) {
     	$scope.submitForm = submitForm;
         $scope.themeChange = themeChange;
+		$scope.showAlert = showAlert;
 
 		$scope.radioData = [
 			"Red",
@@ -66,13 +67,12 @@
 		}];
 
 
-		$scope.style = [];
 
-		$scope.style.busColor = "Red"
+		$scope.busColor = "Red";
 		$scope.primaryColor = "purple";
 		$scope.secondaryColor = "cyan";
 
-		$scope.style.theme = $scope.primaryColor + $scope.secondaryColor;
+		$scope.theme = $scope.primaryColor + $scope.secondaryColor;
 
 		if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
 			$scope.tenantId = localStorage.getData('tenantId');
@@ -100,34 +100,45 @@
 
     	function submitForm() {
 			var i = 0;
-			var file = '';
+			var logo = '';
+            $scope.style.busColor = $scope.busColor;
+            $scope.theme = $scope.primaryColor + $scope.secondaryColor;
+
 			if ($scope.logo != null &&  $scope.logo !== 'undefined') {
-				for (i = 0; i < $scope.logo.length; i++) {
-					file = $scope.logo[i].lfFile;
+                for (i = 0; i < $scope.logo.length; i++) {
+                    logo = $scope.logo[i].lfFile;
 					var reader = new window.FileReader();
-					reader.readAsDataURL(file);
+					reader.readAsDataURL(logo);
 					reader.onloadend = function() {
 						$scope.style.logoB64 = reader.result;
-						$scope.style.logoExtension = file.type;
+						$scope.style.logoExtension = logo.type;
 						//console.log(base64data );
+
+						$scope.style.logoExtension = logo.type.split("/")[1];
+						$scope.style.logoB64 = reader.result.split(",")[1];
 					}
 
 				}
 			}
 
 
-			file = '';
+			var header = '';
 			if ($scope.header != null &&  $scope.header !== 'undefined') {
 				for (i = 0; i < $scope.header.length; i++) {
-					file = $scope.header[i].lfFile;
-					var reader = new window.FileReader();
-					reader.readAsDataURL(file);
-					reader.onloadend = function() {
-						$scope.style.headerB64 = reader.result;
-						$scope.style.headerExtension = file.type;
+                    header = $scope.header[i].lfFile;
+					var reader2 = new window.FileReader();
+					reader2.readAsDataURL(header);
+					reader2.onloadend = function() {
+						$scope.style.headerB64 = reader2.result;
+						$scope.style.headerExtension = header.type;
 						//console.log($scope.style.headerB64 );
+						$scope.style.headerExtension = header.type.split("/")[1];
+						$scope.style.headerB64 = reader2.result.split(",")[1];
 					}
 				}
+
+
+				console.log($scope.style);
 			}
 
 
@@ -135,14 +146,27 @@
 				tenantId: $scope.tenantId
 			}, $scope.style,function (resp) {
 				console.log(resp);
-				showAlert('Exito!', 'Se ha editado su unidad de forma exitosa');
+				showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
 			}, function (error) {
 				console.log(error);
-				showAlert('Error!', 'Ocurrió un error al editar la Unidad');
+				showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
 			} );
 
 	    }
 
+		function showAlert(title,content) {
+			$mdDialog
+				.show($mdDialog
+					.alert()
+					.parent(
+						angular.element(document
+							.querySelector('#popupContainer')))
+					.clickOutsideToClose(true)
+					.title(title)
+					.content(content)
+					.ariaLabel('Alert Dialog Demo').ok('Cerrar'));
+
+		};
 	    
 
 	}

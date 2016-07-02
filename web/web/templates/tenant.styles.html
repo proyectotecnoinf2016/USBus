@@ -1,4 +1,4 @@
-<md-content md-theme="" layout-align="center center" layout-padding md-theme="{{style.theme}}" md-theme-watch="true">
+<md-content md-theme="" layout-align="center center" layout-padding >
     <h1 class="grayHeader">Personalización de Estilos</h1>
 	<form name="inputForm" novalidate >
 	    <div ng-cloak class="md-inline-form" >
@@ -19,7 +19,7 @@
 					</md-checkbox>
 				</md-input-container>
 				<md-input-container class="" ng-show="style.showBus">
-					<md-radio-group ng-model="style.busColor" class="md-primary" layout layout-margin>
+					<md-radio-group ng-model="busColor" class="md-primary" layout layout-margin>
 						<md-radio-button ng-repeat="d in radioData"
 										 aria-label="d"
 										 ng-value="d" >
