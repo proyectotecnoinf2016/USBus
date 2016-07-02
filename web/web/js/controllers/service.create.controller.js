@@ -13,6 +13,7 @@
         $scope.toggle = toggle;
         $scope.exists = exists;
 
+        $scope.time = [];
         $scope.selectedDays = [];
         $scope.routes = [];
         $scope.selectedRoute = '';
@@ -85,20 +86,12 @@
         function createService(item) {
             item.tenantId = $scope.tenantId;
             item.active = true;
-/*
-            delete item.route["name"];
-            delete item.route["active"];
+            item.day = $scope.selectedDays;
+            item.time = [];
+            if ($scope.time != 'undefined' && $scope.time != []) {
+                item.time.push($scope.time);
+            }
 
-            delete item.route["origin"];
-            delete item.route["destination"];
-            delete item.route["busStops"];
-            delete item.route["hasCombination"];
-            delete item.route["pricePerKm "];
-            delete item.route["id"];
-            delete item.route["creationDate"];
-            delete item.route["lastChange"];
-            delete item.route["tenantId"];
-            delete item.route["version"];*/
 
             console.log($scope.selectedRoute);
 

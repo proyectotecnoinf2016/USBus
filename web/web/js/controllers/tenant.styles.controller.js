@@ -11,6 +11,61 @@
         $scope.themeChange = themeChange;
 		$scope.showAlert = showAlert;
 
+		$scope.tenantName = '';
+        $scope.logo = null;
+        $scope.header = null;
+
+		if (typeof localStorage.getData('tenantName') !== 'undefined' && localStorage.getData('tenantName') != null) {
+			$scope.tenantName = localStorage.getData('tenantName');
+		}
+        $scope.primaryColor = "purple";
+        $scope.secondaryColor = "cyan";
+
+		TenantResource.tenant('').get({
+			tenantId: 0,
+			tenantName: $scope.tenantName
+		}).$promise.then(function (result) {
+			$scope.style = result;
+			$scope.busColor = $scope.style.busColor;
+			$scope.showBus = $scope.style.showBus;
+
+            if ($scope.style != null && $scope.style.theme != null) {
+                var theme = $scope.style.theme;
+                if (theme.includes("purple")) {
+                    $scope.primaryColor = "purple";
+                } else if (theme.includes("indigo")) {
+                    $scope.primaryColor = "indigo";
+                } else if (theme.includes("light-blue")) {
+                    $scope.primaryColor = "light-blue";
+                } else if (theme.includes("teal")) {
+                    $scope.primaryColor = "teal";
+                } else if (theme.includes("amber")) {
+                    $scope.primaryColor = "amber";
+                } else if (theme.includes("deep-orange")) {
+                    $scope.primaryColor = "deep-orange";
+                } else if (theme.includes("brown")) {
+                    $scope.primaryColor = "brown";
+
+                } else if (theme.includes("grey")) {
+                    $scope.primaryColor = "grey";
+                } else if (theme.includes("red")) {
+                    $scope.primaryColor = "red";
+                }
+
+                if (theme.includes("pink")) {
+                    $scope.secondaryColor = "pink";
+                } else if (theme.includes("cyan")) {
+                    $scope.secondaryColor = "cyan";
+                } else if (theme.includes("lime")) {
+                    $scope.secondaryColor = "lime";
+                } else if (theme.includes("yellow")) {
+                    $scope.secondaryColor = "yellow";
+                }
+            }
+			$scope.theme = $scope.primaryColor + $scope.secondaryColor;
+
+		});
+
 		$scope.radioData = [
 			"Red",
 			"Blue",
@@ -68,11 +123,7 @@
 
 
 
-		$scope.busColor = "Red";
-		$scope.primaryColor = "purple";
-		$scope.secondaryColor = "cyan";
 
-		$scope.theme = $scope.primaryColor + $scope.secondaryColor;
 
 		if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
 			$scope.tenantId = localStorage.getData('tenantId');
@@ -83,8 +134,7 @@
 			token = localStorage.getData('token');
 		}
 
-		$scope.logo = null;
-    	$scope.header = null;
+
     	$scope.$watch('logo.length',function(newVal,oldVal){
     		console.log($scope.logo);
         });
@@ -104,7 +154,8 @@
             $scope.style.busColor = $scope.busColor;
             $scope.theme = $scope.primaryColor + $scope.secondaryColor;
 
-			if ($scope.logo != null &&  $scope.logo !== 'undefined') {
+			if ($scope.logo != null && $scope.logo !== 'undefined' && $scope.logo != '') {
+                alert($scope.logo);
                 for (i = 0; i < $scope.logo.length; i++) {
                     logo = $scope.logo[i].lfFile;
 					var reader = new window.FileReader();
@@ -120,10 +171,14 @@
 
 				}
 			}
-
+            else {
+                $scope.style.logoB64 = null;
+                $scope.style.logoExtension = null;
+            }
 
 			var header = '';
-			if ($scope.header != null &&  $scope.header !== 'undefined') {
+			if ($scope.header != null &&  $scope.header !== 'undefined' && $scope.header != '') {
+                alert($scope.header);
 				for (i = 0; i < $scope.header.length; i++) {
                     header = $scope.header[i].lfFile;
 					var reader2 = new window.FileReader();
@@ -140,6 +195,12 @@
 
 				console.log($scope.style);
 			}
+            else {
+                $scope.style.headerB64 = null;
+                $scope.style.headerExtension = null;
+            }
+
+
 
 
 			TenantResource.tenant(token).update({

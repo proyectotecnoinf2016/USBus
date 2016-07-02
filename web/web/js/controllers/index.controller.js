@@ -4,12 +4,15 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope'];
+    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope', 'TenantResource'];
     /* @ngInject */
-    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope) {
+    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource) {
         $scope.theme = 'redpink';
-        
+        $scope.style = '';
         $scope.show = false;
+        $scope.logo = 'img/USBus2.png';
+        $scope.showBus = true;
+        $scope.busColor = 'Red';
 
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
@@ -17,13 +20,32 @@
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
 
-        if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
-			$scope.tenantName = localStorage.getData('tenantName');
-		}
+        $scope.urlArray = $location.path().split('/');
+        var i = 0;
+        while (i < $scope.urlArray.length && $scope.urlArray[i] != 'tenant') {
+            i++;
+        }
 
-		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
-			$scope.userName = localStorage.getData('userName');
-		}
+        if (i < $scope.urlArray.length && $scope.urlArray[i + 1] != null) {
+            $scope.tenantName = $scope.urlArray[i + 1];
+        }
+
+        if ($scope.style == '' && $scope.tenantName != 'USBus') {
+            TenantResource.tenant('').get({
+                tenantId: 0,
+                tenantName: $scope.tenantName
+            }).$promise.then(function (result) {
+                $scope.style = result;
+
+                $scope.theme = $scope.style.theme;
+                console.log($scope.theme);
+                $scope.showBus = $scope.style.showBus;
+                $scope.logo = 'data:image/' + $scope.style.logoExtension + ';base64,' + $scope.style.logoB64;
+                $scope.header = 'data:image/' + $scope.style.headerExtension + ';base64,' + $scope.style.headerB64;
+                $scope.busColor = $scope.style.busColor;
+            });
+        }
+
 
         $rootScope.$on('theme', function (event, data) {
             $scope.theme = data;

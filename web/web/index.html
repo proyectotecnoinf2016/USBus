@@ -88,16 +88,18 @@
 
 
         <md-toolbar layout="row" ng-controller="IndexController" back-Img="img/Abstract_Blue.jpg">
+
             <h1 flex class="USBusTitle" layout-align="top center" style="max-height: 150px;">
                 <div flex="50" ng-controller="IndexController"  layout-align="start center" class="pointer" ng-click="redirectTo('');">
-                    <img hide show-gt-xs src="img/USBus2.png" class="logo"/>
+
+                    <img ng-cloak hide show-gt-xs src="{{logo}}" class="logo"/>
                     <span>{{tenantName}}</span>
                 </div>
 
             </h1>
-            <div layout="row" layout-align="end center">
-                <img hide show-gt-xs src="img/Red_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
-                <img hide-gt-xs src="img/Red_Bus.png" class="customBus smallCustomBus"/>
+            <div layout="row" layout-align="end center" show={{showBus}} ng-cloak>
+                <img hide show-gt-xs  src="img/{{busColor}}_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
+                <img hide-gt-xs src="img/{{busColor}}_Bus.png" class="customBus smallCustomBus"/>
 
             </div>
             <div layout="row" layout-align="end center" flex layout-margin layout-padding>
