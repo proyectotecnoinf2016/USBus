@@ -19,6 +19,10 @@
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }
+                    },
+                    get: {
+                        method: 'GET',
+                        isArray: false
                     }
                 })
             }

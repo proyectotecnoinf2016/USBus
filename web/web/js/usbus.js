@@ -9,7 +9,8 @@
         'ngResource',
         'lfNgMdFileInput',
         'ngSanitize',
-        'materialCalendar'
+        'materialCalendar',
+        'mdPickers'
         ]).run(function($rootScope) {
     });
 

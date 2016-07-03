@@ -1,0 +1,18 @@
+package com.usbus.bll.administration.interfaces;
+
+import com.usbus.dal.model.Parcel;
+
+import javax.ejb.Local;
+import java.util.List;
+
+/**
+ * Created by Lufasoch on 02/07/2016.
+ */
+@Local
+public interface ParcelLocal {
+    String persist(Parcel parcel);
+    Parcel getByLocalId(long tenantId, Long id);
+    List<Parcel> getOnDestination(long tenantId, Long destinationId, Boolean onDestination, int offset, int limit);
+    List<Parcel> getOnDestinationNotDelivered(long tenantId, Long destinationId, Boolean onDestination, int offset, int limit);
+    List<Parcel> getByOrigin(long tenantId, Long originId, int offset, int limit);
+}

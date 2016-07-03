@@ -27,8 +27,6 @@
             bus.active = true;
             bus.tenantId = $scope.tenantId;
 
-            console.log(bus);
-
             BusResource.buses(token).save({
                 tenantId: $scope.tenantId
 
