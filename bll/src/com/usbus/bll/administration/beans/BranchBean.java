@@ -43,7 +43,7 @@ BranchBean implements BranchLocal, BranchRemote {
     }
 
     @Override
-    public List<Branch> getBranchesByTenant(long tenantId, int offset, int limit) {
-        return dao.getBranchesByTenant(tenantId,offset,limit,true);
+    public List<Branch> getBranchesByTenant(long tenantId, boolean status, int offset, int limit) {
+        return dao.getBranchesByTenant(tenantId,offset,limit,status);
     }
 }
