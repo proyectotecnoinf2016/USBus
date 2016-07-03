@@ -55,18 +55,14 @@
                     </md-input-container>
 
 
-                    <md-input-container class="customInputRegister">
-                        <label>Fecha de nacimiento</label>
-                        <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
-                        <input type="date" ng-model="user.birthDate" required>
-                    </md-input-container>
+                    <mdp-date-picker  flex ng-model="user.birthDate" mdp-placeholder="Fecha de Nacimiento"></mdp-date-picker>
 					<div style="clear:both"></div>
-					<md-input-container class="" layout="row">
-						<label style="padding-bottom: 10px" >Sexo</label>
-						
+                    <md-input-container class="" layout="row">
+                        <label style="padding-bottom: 10px" >Sexo</label>
+
                         <md-tooltip md-direction="top">Ingrese sexo</md-tooltip>
                         <md-radio-group layout="row" ng-model="gender">
-                            <md-radio-button ng-value=0 class="md-primary"><span class="label">Masculino</span></md-radio-button>
+                            <md-radio-button ng-value=0><span class="label">Masculino</span></md-radio-button>
                             <md-radio-button ng-value=1> <span class="label">Femenino</span> </md-radio-button>
                             <md-radio-button ng-value=2> <span class="label">Otro</span> </md-radio-button>
                         </md-radio-group>

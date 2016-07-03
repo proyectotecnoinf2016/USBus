@@ -4,9 +4,11 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('UserController', UserController);
-    UserController.$inject = ['localStorage', '$scope', 'HumanResource', 'gender', 'role'];
+    UserController.$inject = ['localStorage', '$scope', 'HumanResource', 'gender', 'role', '$mdDialog'];
     /* @ngInject */
-    function UserController(localStorage, $scope, HumanResource, gender, role) {
+    function UserController(localStorage, $scope, HumanResource, gender, role, $mdDialog) {
+        $scope.createUser = createUser;
+
         $scope.users = [];
         $scope.message = 'No se encontraron Usuarios para mostrar';
 
@@ -24,8 +26,9 @@
             offset: 0,
             limit: 100,
             tenantId: $scope.tenantId,
-            query: 'STATUS',
-            status: true
+            query: 'ALL',
+            status: true,
+            active: true
         }).$promise.then(function(result) {
             console.log(result);
             $scope.users = [];
@@ -39,6 +42,7 @@
                 var roles = user.roles;
                 var auxRoles = [];
                 var j = 0;
+
                 for (j = 0; j < roles.length; j++) {
                     var roleToShow = roles[j];
                     roleToShow = role.getRoleToShow(roleToShow);
@@ -53,5 +57,31 @@
 
 
         });
+
+        function createUser(ev) {
+            $mdDialog.show({
+                controller : 'CreateUsersController',
+                templateUrl : 'templates/user.create.html',
+                parent : angular.element(document.body),
+                targetEvent : ev,
+                clickOutsideToClose : false,
+                locals : {theme : $scope.theme}
+            }).then(
+                function(answer) {
+                    var result = HumanResource.resources(token).query({
+                        offset: 0,
+                        limit: 100,
+                        tenantId: $scope.tenantId,
+                        query: 'ALL',
+                        status: true,
+                        active: true
+                    });
+                    $scope.status = 'Aca deberia hacer la query de nuevo';
+                }, function() {
+                    $scope.status = 'You cancelled the dialog.';
+            });
+        }
+
+
     }
 })();

@@ -31,8 +31,7 @@ public class BusBean implements BusLocal, BusRemote {
 
     @Override
     public Bus getByLocalId(long tenantId, String id) {
-        Bus busAux = dao.getByLocalId(tenantId, id);
-        return busAux;
+        return dao.getByLocalId(tenantId, id);
     }
 
     @Override
@@ -41,15 +40,20 @@ public class BusBean implements BusLocal, BusRemote {
     }
 
     @Override
-    public void setActive(long tenantId, String busId) { dao.setActive(tenantId, busId); }
+    public void setActive(long tenantId, String busId) {
+        dao.setActive(tenantId, busId);
+    }
 
     @Override
-    public Bus getByBusId(long tenantId, String id) { return dao.getByBusId(tenantId, id); }
+    public Bus getByBusId(long tenantId, String id) {
+        return dao.getByLocalId(tenantId, id);
+    }
 
     @Override
     public List<Bus> BusesByTenantIdAndStatus(long tenantId, BusStatus status, int offset, int limit) {
         return dao.BusesByTenantIdAndStatus(tenantId, status, offset, limit);
     }
+
     @Override
     public List<Bus> BusesByTenantId(long tenantId, boolean active, int offset, int limit) {
         return dao.BusesByTenantId(tenantId, active, offset, limit);
