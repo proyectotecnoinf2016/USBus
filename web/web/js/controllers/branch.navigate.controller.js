@@ -28,6 +28,7 @@
         }
 
         BranchResource.branches(token).query({
+            status:true,
             offset: 0,
             limit: 100,
             busStatus: 'ACTIVE',
@@ -74,6 +75,7 @@
             }).then(
                 function(answer) {
                     $scope.branches = BranchResource.branches(token).query({
+                        status:true,
                         offset: 0,
                         limit: 100,
                         branchStatus: 'ACTIVE',
