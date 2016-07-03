@@ -4,14 +4,36 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('CreateServiceController', CreateServiceController);
-    CreateServiceController.$inject = ['$scope', 'localStorage', 'ServiceResource', 'RouteResource', '$mdDialog', 'theme'];
+    CreateServiceController.$inject = ['$scope', 'localStorage', 'ServiceResource', 'RouteResource',
+                                       '$mdDialog', 'theme', '$mdpDatePicker', '$mdpTimePicker'];
     /* @ngInject */
-    function CreateServiceController($scope, localStorage, ServiceResource, RouteResource, $mdDialog, theme) {
+    function CreateServiceController($scope, localStorage, ServiceResource, RouteResource, $mdDialog, theme,
+                                        $mdpDatePicker, $mdpTimePicker) {
         $scope.createService = createService;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
         $scope.toggle = toggle;
         $scope.exists = exists;
+        $scope.showDatePicker = showDatePicker;
+        $scope.showTimePicker = showTimePicker;
+
+        $scope.currentDate = new Date();
+        function showDatePicker(ev) {
+            $mdpDatePicker($scope.currentDate, {
+                targetEvent: ev
+            }).then(function(selectedDate) {
+                $scope.currentDate = selectedDate;
+            });;
+        };
+
+        function showTimePicker(ev) {
+            $mdpTimePicker($scope.currentTime, {
+                targetEvent: ev
+            }).then(function(selectedDate) {
+                $scope.currentTime = selectedDate;
+            });;
+        }
+
 
         $scope.selectedDays = [];
         $scope.routes = [];
@@ -85,28 +107,21 @@
         function createService(item) {
             item.tenantId = $scope.tenantId;
             item.active = true;
-/*
-            delete item.route["name"];
-            delete item.route["active"];
+            item.day = $scope.selectedDays;
+            item.time = [];
+            $scope.hour = moment($scope.hour).format('YYYY-MM-DDTHH:mm:ss.000Z');
+            item.time.push($scope.hour);
 
-            delete item.route["origin"];
-            delete item.route["destination"];
-            delete item.route["busStops"];
-            delete item.route["hasCombination"];
-            delete item.route["pricePerKm "];
-            delete item.route["id"];
-            delete item.route["creationDate"];
-            delete item.route["lastChange"];
-            delete item.route["tenantId"];
-            delete item.route["version"];*/
 
-            console.log($scope.selectedRoute);
+            //2012-10-01T09:45:00.000+02:00
+
+            console.log(item);
 
             ServiceResource.services(token).save({tenantId: $scope.tenantId },item, function(){
-                showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
+                showAlert('Exito!', 'Se ha creado el servicio de forma exitosa');
             }, function (error) {
                 console.log(error);
-                showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
+                showAlert('Error!', 'Ocurrió un error');
             } );
 
 

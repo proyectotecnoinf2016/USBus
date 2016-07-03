@@ -4,14 +4,16 @@
 (function() {
     'use strict';
     angular.module('usbus').controller('LoginController', LoginController);
-    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource','localStorage', '$location', '$rootScope'];
+    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource','localStorage', '$location', '$rootScope', 'theme'];
     /* @ngInject */
-    function LoginController($scope, $mdDialog, LoginUserResource, localStorage, $location, $rootScope) {
+    function LoginController($scope, $mdDialog, LoginUserResource, localStorage, $location, $rootScope, theme) {
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;
         $scope.logout = logout;
         $scope.tenantName = '';
+
+        $scope.theme = theme;
 
         $scope.urlArray = $location.path().split('/');
         var i = 0;

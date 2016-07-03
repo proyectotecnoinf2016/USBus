@@ -1,6 +1,6 @@
 <h1 class="grayHeader">Sucursales</h1>
 <form name="inputForm" novalidate >
-    <h1 class="grayHeader">{{message}}</h1>
+    <h1 class="grayHeader" ng-show="branches == null || branches.length == 0">{{message}}</h1>
     <md-content ng-show="branches != null && branches.length > 0">
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" style="" >
@@ -25,7 +25,7 @@
                 
                 <p hide-md="" show-gt-md="" class="" >
                     <img src="img/Edit_Icon.png" ng-click="showBranches(item, $event)" class="editIcon pointer"/>
-                    <img src="img/Delete_Icon.png" ng-click="deleteBranch(item.name)" class="deleteIcon pointer"/>
+                    <img src="img/Delete_Icon.png" ng-click="deleteBranch(item)" class="deleteIcon pointer"/>
                 </p>
             </span>
         </span>

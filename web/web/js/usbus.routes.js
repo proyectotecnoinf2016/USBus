@@ -20,8 +20,8 @@
                 controller: 'BusController'
             })
             .when('/tenant/:tenantName/admin/users', {
-                templateUrl: 'templates/user.create.html',
-                controller: 'BusController'
+                templateUrl: 'templates/user.navigate.html',
+                controller: 'UserController'
             })
             .when('/tenant/:tenantName/admin/busStop', {
                 templateUrl: 'templates/busStop.navigate.html',

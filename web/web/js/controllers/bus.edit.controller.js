@@ -34,8 +34,6 @@
 
         function updateBus(bus) {
             bus.tenantId = $scope.tenantId;
-
-            console.log(bus);
             delete bus["_id"];
 
             BusResource.buses(token).update({
