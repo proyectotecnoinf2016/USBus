@@ -66,12 +66,12 @@ public class BranchDAO {
         return query.get();
     }
 
-    public List<Branch> getBranchesByTenant(long tenantId, int offset, int limit){
+    public List<Branch> getBranchesByTenant(long tenantId, int offset, int limit, boolean active){
         if (tenantId <= 0){
             return null;
         }
         Query<Branch> query = ds.createQuery(Branch.class);
-        query.criteria("tenantId").equal(tenantId);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(active));
         return query.offset(offset).limit(limit).asList();
     }
 

@@ -23,9 +23,9 @@ public class Window {
         return id;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public boolean isTickets() {
         return tickets;

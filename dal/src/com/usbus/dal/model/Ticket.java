@@ -53,12 +53,14 @@ public class Ticket extends BaseEntity {
     @Transient
     private Long routeId;
     private Date dueDate;
+    private Long branchId;
+    private Long windowId;
 
 
     public Ticket() {
     }
 
-    public Ticket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Long combinationId, Double amount, User passenger, String passengerName, HumanResource seller, String sellerName, Boolean closed, TicketStatus status, String paymentToken, Journey journey, Long journeyId, Integer seat, BusStop getsOn, String getOnStopName, BusStop getsOff, String getOffStopName, Route route, Long routeId, Date dueDate) {
+    public Ticket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Long combinationId, Double amount, User passenger, String passengerName, HumanResource seller, String sellerName, Boolean closed, TicketStatus status, String paymentToken, Journey journey, Long journeyId, Integer seat, BusStop getsOn, String getOnStopName, BusStop getsOff, String getOffStopName, Route route, Long routeId, Date dueDate, Long branchId, Long windowId) {
         super(tenantId);
         this.id = id;
         this.emissionDate = emissionDate;
@@ -100,6 +102,8 @@ public class Ticket extends BaseEntity {
             this.routeId = routeId;
         }
         this.dueDate = dueDate;
+        this.branchId = branchId;
+        this.windowId = windowId;
     }
 
     public Ticket(Ticket ticket) {
@@ -141,6 +145,8 @@ public class Ticket extends BaseEntity {
             this.routeId = ticket.getRouteId();
         }
         this.dueDate = ticket.getDueDate();
+        this.branchId = ticket.getBranchId();
+        this.windowId = ticket.getWindowId();
     }
 
     public Long getId() {
@@ -325,5 +331,21 @@ public class Ticket extends BaseEntity {
 
     public void setRouteId(Long routeId) {
         this.routeId = routeId;
+    }
+
+    public Long getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
+    }
+
+    public Long getWindowId() {
+        return windowId;
+    }
+
+    public void setWindowId(Long windowId) {
+        this.windowId = windowId;
     }
 }

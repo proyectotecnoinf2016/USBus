@@ -4,32 +4,55 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('EditBranchController', EditBranchController);
-    EditBranchController.$inject = ['$scope', 'BranchResource', '$mdDialog', 'branchToEdit', 'theme'];
+    EditBranchController.$inject = ['$scope', 'BranchResource', '$mdDialog', 'branchToEdit', 'theme', 'localStorage'];
     /* @ngInject */
-    function EditBranchController($scope, BranchResource, $mdDialog, branchToEdit, theme) {
+    function EditBranchController($scope, BranchResource, $mdDialog, branchToEdit, theme, localStorage) {
+        $scope.cancel = cancel;
+        $scope.showAlert = showAlert;
+        $scope.addWindow = addWindow;
+        $scope.deleteWindow = deleteWindow;
+        $scope.updateBranch = updateBranch;
+
         $scope.branch = branchToEdit;
         $scope.tenantId = 0;
         $scope.theme = theme;
 
         $scope.windows = $scope.branch.windows;
-        
 
-        $scope.cancel = cancel;
-        $scope.showAlert = showAlert;
-        $scope.addWindow = addWindow;
-        $scope.deleteWindow = deleteWindow;
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+        }
+
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
+
 
         function updateBranch(item) {
-            BranchResource.update({id: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-            }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
-            });
+            item.windows = $scope.windows;
+            BranchResource.branches(token).update({
+                tenantId: $scope.tenantId,
+                branchId: item.id
+            }, item,function (resp) {
+                console.log(resp);
+                showAlert('Exito!', 'Se ha editado la Parada de forma exitosa');
+            }, function (error) {
+                console.log(error);
+                showAlert('Error!', 'Ocurrió un error al editar la Parada');
+            } );
+
+
         }
 
 
         function addWindow() {
-            $scope.windows.push({index: $scope.windows.length + 1,tickets : false, parcels : false});
+            if ($scope.windows == null) {
+                $scope.windows = [];
+            }
+
+            $scope.windows.push({tickets : false, parcels : false, active: true});
             console.log($scope.windows);
         }
 

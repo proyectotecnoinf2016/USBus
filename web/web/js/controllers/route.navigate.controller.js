@@ -56,7 +56,7 @@
                 locals:{routeToEdit: item, theme : $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : false
             }).then(
                 function(answer) {
                     $scope.status = 'You said the information was "'
@@ -73,7 +73,7 @@
                 templateUrl : 'templates/route.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true,
+                clickOutsideToClose : false,
                 locals : {theme : $scope.theme}
             }).then(
                 function(answer) {

@@ -26,17 +26,14 @@
                     </md-content>
                 </md-input-container>
 
-                <md-input-container class="">
-                    <label>Hora</label>
-                    <md-tooltip md-direction="top">Ingrese Hora del Servicio</md-tooltip>
-                    <input type="number" ng-model="service.time" required>
-                </md-input-container>
+                <mdp-time-picker ng-model="hour" mdp-placeholder="Hora"></mdp-time-picker>
+
                 <md-input-container class="">
                     <label>Ruta</label>
                     <md-tooltip md-direction="top">Ingrese Ruta del Serivicio</md-tooltip>
 
-                    <md-select ng-model="service.route._id">
-                        <md-option ng-repeat="route in routes" value="{{route._id}}" ng-disabled="!{{route.active}}">
+                    <md-select ng-model="service.route">
+                        <md-option ng-repeat="route in routes" value="{{route.id}}" ng-disabled="!{{route.active}}">
                             {{route.name}}
                         </md-option>
                     </md-select>

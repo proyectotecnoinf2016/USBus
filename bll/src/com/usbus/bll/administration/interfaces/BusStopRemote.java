@@ -20,7 +20,7 @@ public interface BusStopRemote {
     BusStop getByName(long tenantId, String name);
     void setInactive(long tenantId, Long id);
     void setActive(long tenantId, Long id);
-    List<BusStop> getByTenant(long tenantId, int offset, int limit, String name);
+    List<BusStop> getByTenant(long tenantId, int offset, int limit, boolean status, String name);
     List<RouteStop> getDestinations(long tenantId, int offset, int limit, String origin);
     List<RouteStop> getOrigins(long tenantId, int offset, int limit, String destination);
 }

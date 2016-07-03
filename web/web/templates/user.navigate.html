@@ -1,0 +1,51 @@
+<h1 class="grayHeader">Usuarios</h1>
+
+<form name="inputForm" novalidate >
+    <h1 class="grayHeader" ng-show="users == null || users.length == 0">{{message}}</h1>
+    <md-content ng-show="users != null && users.length > 0">
+        <span layout="row" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                Nombre
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Fecha de Nacimiento
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Sexo
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Roles
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Acciones
+            </h3>
+        </span>
+        <md-divider ></md-divider>
+        <span>
+            <span layout="row" ng-repeat="item in users" >
+                <p class="tableRow" >
+                    {{item.firstName}} {{item.lastName}}
+                </p>
+                <p hide show-gt-md="" class="tableRow" >
+                    {{item.birthDate}}
+                </p>
+                <p hide show-gt-md="" class="tableRow" >
+                    {{item.gender}}
+                </p>
+                <span hide show-gt-md="" layout="column" class="tableRow" >
+                    <p ng-repeat="rol in item.roles">
+                        {{rol}}
+
+                    </p>
+                </span>
+
+                <p  class="tableRow" >
+                    <img src="img/Edit_Icon.png" ng-click="showServices(item, $event)" class="editIcon pointer"/>
+                    <img src="img/Delete_Icon.png" ng-click="deleteService(item)" class="deleteIcon pointer"/>
+                </p>
+            </span>
+        </span>
+    </md-content>
+
+    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createService($event)">Crear Nuevo Usuario</md-button>
+</form>

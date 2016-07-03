@@ -50,7 +50,7 @@
                 locals:{busToEdit: item, theme: $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : false
             }).then(
                 function(answer) {
                     $scope.status = 'You said the information was "'
@@ -66,7 +66,7 @@
                 templateUrl : 'templates/bus.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true,
+                clickOutsideToClose : false,
                 locals : {theme: $scope.theme}
             }).then(
                 function() {

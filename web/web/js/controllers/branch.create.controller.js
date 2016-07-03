@@ -14,20 +14,22 @@
         $scope.deleteWindow = deleteWindow;
         $scope.theme = theme;
 
-        $scope.branch = [];
         $scope.windows = [];
 
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
         }
 
-        var token = null;//localStorage.getData('token');
+        var token = null;
         if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
             token = localStorage.getData('token');
         }
 
         function createBranch(branch) {
-            branch.windows = $scope.windows;
+            if ($scope.windows != null && $scope.windows != []) {
+                branch.windows = $scope.windows;
+            }
+            branch.tenantId = $scope.tenantId;
             branch.active = true;
             BranchResource.branches(token).save({
                 tenantId: $scope.tenantId
@@ -42,7 +44,7 @@
         }
 
         function addWindow() {
-            $scope.windows.push({index: $scope.windows.length + 1,tickets : false, parcels : false});
+            $scope.windows.push({tickets : false, parcels : false, active: true});
             console.log($scope.windows);
         }
 
