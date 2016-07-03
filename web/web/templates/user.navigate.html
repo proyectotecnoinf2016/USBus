@@ -8,16 +8,13 @@
                 Nombre
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Dia
+                Fecha de Nacimiento
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Hora
+                Sexo
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Ruta
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Cantidad de unidades
+                Roles
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
                 Acciones
@@ -26,22 +23,23 @@
         <md-divider ></md-divider>
         <span>
             <span layout="row" ng-repeat="item in users" >
-                <p hide-md="" show-gt-md="" class="tableRow" >
+                <p class="tableRow" >
                     {{item.firstName}} {{item.lastName}}
                 </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
+                <p hide show-gt-md="" class="tableRow" >
+                    {{item.birthDate}}
                 </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
+                <p hide show-gt-md="" class="tableRow" >
+                    {{item.gender}}
                 </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
+                <span hide show-gt-md="" layout="column" class="tableRow" >
+                    <p ng-repeat="rol in item.roles">
+                        {{rol}}
+
+                    </p>
+                </span>
+
+                <p  class="tableRow" >
                     <img src="img/Edit_Icon.png" ng-click="showServices(item, $event)" class="editIcon pointer"/>
                     <img src="img/Delete_Icon.png" ng-click="deleteService(item)" class="deleteIcon pointer"/>
                 </p>

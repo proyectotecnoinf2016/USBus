@@ -44,7 +44,7 @@
 
                 $scope.services.push(service);
             }
-        });
+        }); 
 
         if ($scope.services.length === 0) {
             $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
