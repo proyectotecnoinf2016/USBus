@@ -1,0 +1,106 @@
+<md-dialog aria-label="Crear Usuario" flex  md-theme="{{theme}}" md-theme-watch="true">
+    <form name="inputForm" novalidate>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 class="">Datos de usuario</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
+            <md-tab label="Datos personales" >
+                <md-dialog-content layout="column" layout-margin class="">
+                    <span flex></span>
+                    <div layout="row" >
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Nombre</label>
+                            <md-tooltip md-direction="top">Ingrese Nombre del usuario</md-tooltip>
+                            <input ng-model="user.firstName" required>
+                        </md-input-container>
+
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Apellido</label>
+                            <md-tooltip md-direction="top">Ingrese Apellido del usuario</md-tooltip>
+                            <input type="number" ng-model="user.lastName" required >
+                        </md-input-container>
+                    </div>
+                    <div layout="row" >
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Fecha de Nacimiento</label>
+                            <md-tooltip md-direction="top">Ingrese Fecha de Nacimiento del usuario</md-tooltip>
+                            <input ng-model="user.birthDate" required>
+                        </md-input-container>
+
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Sexo</label>
+                            <md-tooltip md-direction="top">Ingrese Sexo del usuario</md-tooltip>
+                            <input type="number" ng-model="user.lastName" required >
+                        </md-input-container>
+                    </div>
+                </md-dialog-content>
+            </md-tab>
+            <md-tab label="Datos para el sistema" >
+                <md-dialog-content layout="column" layout-margin class="">
+                    <span flex></span>
+                    <div layout="row" >
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Nombre de Usuario</label>
+                            <md-tooltip md-direction="top">Ingrese Nombre de Usuario</md-tooltip>
+                            <input ng-model="user.username" required>
+                        </md-input-container>
+
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Correo electrónico</label>
+                            <md-tooltip md-direction="top">Ingrese el correo electrónico del usuario</md-tooltip>
+                            <input type="number" ng-model="user.email" required >
+                        </md-input-container>
+                    </div>
+                    <div layout="row" >
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            <label>Fecha de Inicio</label>
+                            <md-tooltip md-direction="top">Ingrese Fecha de Inicio en la Empresa</md-tooltip>
+                            <input type="number" ng-model="user.startDate" required >
+                        </md-input-container>
+                        <md-input-container class="" layout-margin layout-padding flex>
+                            Roles
+                        </md-input-container>
+                    </div>
+
+                </md-dialog-content>
+            </md-tab>
+        </md-tabs>
+
+        <!--
+        tenantId": 1,
+"creationDate": 1466972470573,
+"lastChange": 1466972470573,
+"version": 1,
+"username": "test",
+"email": "test@test.com",
+"firstName": "test",
+"lastName": "test",
+"birthDate": -27079736400000,
+"password": null,
+"passwordHash": null,
+"salt": null,
+"gender": "FEMALE",
+"startDate": null,
+"lastActive": null,
+"active": true,
+"status": true,
+"statusHistory": null,
+"roles":[
+"ADMINISTRATOR",
+"OTHER"
+]
+-->
+
+
+        <md-dialog-actions class="md-actions" layout="row">
+            <span flex></span>
+            <md-button class="md-raised md-primary"	ng-hide="selectedIndex == 0" ng-click='createUser(user)' ng-disabled="inputForm.$invalid">Crear Usuario</md-button>
+            <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
