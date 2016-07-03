@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,9 +28,9 @@ public class BusService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createBus(Bus bus01){
+    public Response createBus(Bus bus01) {
         String oid = ejb.persist(bus01);
-        if (oid==null){
+        if (oid == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(ejb.getById(oid)).build();
@@ -40,11 +41,11 @@ public class BusService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response updateBus(@PathParam("tenantId")Long tenantId, @PathParam("busId")String busId, Bus bus){
+    public Response updateBus(@PathParam("tenantId") Long tenantId, @PathParam("busId") String busId, Bus bus) {
         Bus busAux = ejb.getByLocalId(tenantId, busId);
         bus.set_id(busAux.get_id());
         String oid = ejb.persist(bus);
-        if (oid==null){
+        if (oid == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(ejb.getById(oid)).build();
@@ -55,10 +56,10 @@ public class BusService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response getBus(@PathParam("tenantId")Long tenantId, @PathParam("busId") String busId){
+    public Response getBus(@PathParam("tenantId") Long tenantId, @PathParam("busId") String busId) {
 
-        Bus BusAux = ejb.getByLocalId(tenantId,busId);
-        if (BusAux == null){
+        Bus BusAux = ejb.getByLocalId(tenantId, busId);
+        if (BusAux == null) {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
         return Response.ok(BusAux).build();
@@ -68,13 +69,28 @@ public class BusService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response getBusList(@PathParam("tenantId")Long tenantId, @QueryParam("busStatus") BusStatus busStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit){
-
-        List<Bus> busList = ejb.BusesByTenantIdAndStatus(tenantId, busStatus, offset, limit);
-        if (busList == null){
-            return Response.status(Response.Status.NO_CONTENT).build();
+    public Response getBusList(@PathParam("tenantId") Long tenantId, @QueryParam("query") String query, @QueryParam("status") boolean status, @QueryParam("busStatus") BusStatus busStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit) {
+        if (query==null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(busList).build();
+        List<Bus> busList = new ArrayList<>();
+        switch (query.toUpperCase()) {
+
+            case "ALL":
+                busList = ejb.BusesByTenantId(tenantId, status, offset, limit);
+                if (busList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(busList).build();
+            case "BUSSTATUS":
+                busList = ejb.BusesByTenantIdAndStatus(tenantId, busStatus, offset, limit);
+                if (busList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(busList).build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
+
     }
 
     @DELETE
@@ -82,11 +98,11 @@ public class BusService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response removeBus(@PathParam("tenantId")Long tenantId, @PathParam("busId") String busId){
+    public Response removeBus(@PathParam("tenantId") Long tenantId, @PathParam("busId") String busId) {
         try {
-            ejb.setInactive(tenantId,busId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
+            ejb.setInactive(tenantId, busId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
             return Response.ok().build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -95,15 +111,15 @@ public class BusService {
     @Path("{busId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
-    public Response updateJourney(@PathParam("tenantId")Long tenantId,
-                                  @PathParam("busId")String busId,
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT, Rol.CLIENT})
+    public Response updateJourney(@PathParam("tenantId") Long tenantId,
+                                  @PathParam("busId") String busId,
                                   BusPatch patch) {
 
         Bus busAux = ejb.getByLocalId(tenantId, busId);
 
         for (BusPatch.BusPatchField updatedField : patch.getUpdatedFields()) {
-            switch (updatedField){
+            switch (updatedField) {
                 case id:
                     busAux.setId(patch.getId());
                     continue;
@@ -136,7 +152,7 @@ public class BusService {
             }
         }
         String oid = ejb.persist(busAux);
-        if (oid==null){
+        if (oid == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(ejb.getById(oid)).build();

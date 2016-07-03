@@ -65,6 +65,7 @@ public class BranchService {
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
     public Response queryBranch(@PathParam("tenantId")long tenantId,
                                 @QueryParam("query") String query,
+                                @QueryParam("status") boolean status,
                                 @QueryParam("branchName") String branchName,
                                 @QueryParam("offset") int offset,
                                 @QueryParam("limit") int limit){
@@ -76,7 +77,7 @@ public class BranchService {
                 }
                 return Response.ok(branchAux).build();
             case "ALL":
-                List<Branch> serviceList = ejb.getBranchesByTenant(tenantId, offset, limit);
+                List<Branch> serviceList = ejb.getBranchesByTenant(tenantId,status, offset, limit);
                 if (serviceList == null){
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }

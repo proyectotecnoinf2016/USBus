@@ -11,6 +11,7 @@ import org.bson.types.ObjectId;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,31 +29,41 @@ public class BusStopService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
-    public Response getBusStopList(@PathParam("tenantId") Long tenantId, @QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("name") String name, @QueryParam("origin") String origin, @QueryParam("destination") String destination) {
+    public Response getBusStopList(@PathParam("tenantId") Long tenantId,
+                                   @QueryParam("query") String query,
+                                   @QueryParam("status") boolean status,
+                                   @QueryParam("offset") int offset,
+                                   @QueryParam("limit") int limit,
+                                   @QueryParam("name") String name,
+                                   @QueryParam("origin") String origin,
+                                   @QueryParam("destination") String destination) {
+        if (query==null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        List<RouteStop> routeStops = new ArrayList<>();
+        switch (query.toUpperCase()){
+            case "ALL":
+                List<BusStop> busStopList = ejb.getByTenant(tenantId, offset, limit, status,name);
+                if (busStopList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(busStopList).build();
+            case "DESTINATIONS":
+                routeStops = ejb.getDestinations(tenantId, offset, limit, origin);
+                if (routeStops == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(routeStops).build();
+            case "ORIGINS":
+                routeStops = ejb.getOrigins(tenantId, offset, limit, destination);
+                if (routeStops == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(routeStops).build();
 
-        if ((origin == null || origin.isEmpty()) && (destination == null || destination.isEmpty())) {
-            List<BusStop> busStopList = ejb.getByTenant(tenantId, offset, limit, name);
-            if (busStopList == null) {
-                return Response.status(Response.Status.NO_CONTENT).build();
-            }
-            return Response.ok(busStopList).build();
-        }
-        if (!(origin == null || origin.isEmpty())) {
-            List<RouteStop> busStops = ejb.getDestinations(tenantId, offset, limit, origin);
-            if (busStops == null) {
-                return Response.status(Response.Status.NO_CONTENT).build();
-            }
-            return Response.ok(busStops).build();
-        }
-        if (!(destination == null || destination.isEmpty())) {
-            List<RouteStop> busStops = ejb.getOrigins(tenantId, offset, limit, destination);
-            if (busStops == null) {
-                return Response.status(Response.Status.NO_CONTENT).build();
-            }
-            return Response.ok(busStops).build();
         }
 
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
 
