@@ -143,11 +143,13 @@ public class TicketBean implements TicketLocal, TicketRemote {
         Journey journey = jdao.getByJourneyId(tenantId, journeyId);
         Seat[] seats = journey.getSeatsState();
         Boolean found = false;
-        for (Seat seat : seats) {
-            if(seat.getNumber() == seatNumber) {
-                seat.setFree(false);
-                found = true;
-                break;
+        if(seats != null && seats.length != 0) {
+            for (Seat seat : seats) {
+                if (seat.getNumber() == seatNumber) {
+                    seat.setFree(false);
+                    found = true;
+                    break;
+                }
             }
         }
         if(!found) {
@@ -174,16 +176,18 @@ public class TicketBean implements TicketLocal, TicketRemote {
         Ticket ticket = dao.getByLocalId(tenantId, ticketId);
         Journey journey = ticket.getJourney();
         Seat[] seats = journey.getSeatsState();
-        for (Seat seat : seats) {
-            if (seat.getNumber().equals(ticket.getSeat())) {
-                seat.setFree(true);
-                break;
+        if(seats != null && seats.length != 0) {
+            for (Seat seat : seats) {
+                if (seat.getNumber().equals(ticket.getSeat())) {
+                    seat.setFree(true);
+                    break;
+                }
             }
-        }
-        journey.setSeatsState(seats);
-        String oid = jdao.persist(journey);
-        if (oid == null) {
-            throw new TicketException("Error al actualizar el Journey");
+            journey.setSeatsState(seats);
+            String oid = jdao.persist(journey);
+            if (oid == null) {
+                throw new TicketException("Error al actualizar el Journey");
+            }
         }
     }
 }

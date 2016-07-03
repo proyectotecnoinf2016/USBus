@@ -23,7 +23,11 @@ public class BranchDAO {
     }
 
     public String persist(Branch branch) {
-        return dao.persist(branch);
+        if(branch != null) {
+            return dao.persist(branch);
+        } else {
+            return null;
+        }
     }
 
     public long countAll() {
@@ -31,63 +35,66 @@ public class BranchDAO {
     }
 
     public long countTenant(long tenantId) {
-        Query<Branch> query = ds.createQuery(Branch.class);
-        query.criteria("tenantId").equal(tenantId);
-        return query.countAll();
+        if(tenantId > 0) {
+            Query<Branch> query = ds.createQuery(Branch.class);
+            query.criteria("tenantId").equal(tenantId);
+            return query.countAll();
+        } else {
+            return 0;
+        }
     }
 
     public Branch getById(String id) {
-        return dao.get(Branch.class, id);
+        if(id == null || id.isEmpty()) {
+            return null;
+        } else {
+            return dao.get(Branch.class, id);
+        }
     }
 
     public Branch getByBranchId(long tenantId, Long branchId){
         if (!(tenantId > 0) || (branchId == null)) {
             return null;
+        } else {
+            Query<Branch> query = ds.createQuery(Branch.class);
+            query.and(query.criteria("id").equal(branchId), query.criteria("tenantId").equal(tenantId));
+            return query.get();
         }
-
-        Query<Branch> query = ds.createQuery(Branch.class);
-
-        query.and(query.criteria("id").equal(branchId),
-                query.criteria("tenantId").equal(tenantId));
-
-        return query.get();
     }
 
     public Branch getByBranchName(long tenantId, String name){
         if (!(tenantId > 0) || (name.isEmpty())) {
             return null;
+        } else {
+            Query<Branch> query = ds.createQuery(Branch.class);
+            query.and(query.criteria("name").equal(name), query.criteria("tenantId").equal(tenantId));
+            return query.get();
         }
-
-        Query<Branch> query = ds.createQuery(Branch.class);
-
-        query.and(query.criteria("name").equal(name),
-                query.criteria("tenantId").equal(tenantId));
-
-        return query.get();
     }
 
     public List<Branch> getBranchesByTenant(long tenantId, int offset, int limit, boolean active){
         if (tenantId <= 0){
             return null;
+        } else {
+            Query<Branch> query = ds.createQuery(Branch.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(active));
+            return query.offset(offset).limit(limit).asList();
         }
-        Query<Branch> query = ds.createQuery(Branch.class);
-        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(active));
-        return query.offset(offset).limit(limit).asList();
     }
 
     public void remove(String id) {
-        dao.remove(Branch.class, id);
+        if(id != null && !id.isEmpty()) {
+            dao.remove(Branch.class, id);
+        }
     }
 
     public void setInactive(long tenantId,Long branchId){
-        if (!(tenantId > 0) || (branchId == null)) {
-            //Mueran putos
-        }
-        Query<Branch> query = ds.createQuery(Branch.class);
-        query.and(query.criteria("id").equal(branchId),
-                query.criteria("tenantId").equal(tenantId));
+        if(tenantId > 0 && branchId != null) {
+            Query<Branch> query = ds.createQuery(Branch.class);
+            query.and(query.criteria("id").equal(branchId), query.criteria("tenantId").equal(tenantId));
             UpdateOperations<Branch> updateOp = ds.createUpdateOperations(Branch.class).set("active", false);
             ds.update(query, updateOp);
+        }
     }
 
     public Long getNextId(long tenantId) {
