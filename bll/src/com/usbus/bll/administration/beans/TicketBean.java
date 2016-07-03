@@ -7,6 +7,7 @@ import com.usbus.commons.auxiliaryClasses.Seat;
 import com.usbus.commons.auxiliaryClasses.TicketConfirmation;
 import com.usbus.commons.enums.Position;
 import com.usbus.commons.enums.TicketStatus;
+import com.usbus.commons.exceptions.CashRegisterException;
 import com.usbus.commons.exceptions.TicketException;
 import com.usbus.dal.dao.JourneyDAO;
 import com.usbus.dal.dao.TicketDAO;
@@ -28,6 +29,7 @@ public class TicketBean implements TicketLocal, TicketRemote {
     private final TicketDAO dao = new TicketDAO();
     private final UserDAO udao = new UserDAO();
     private final JourneyDAO jdao = new JourneyDAO();
+    private final CashRegisterBean cashRegisterBean = new CashRegisterBean();
 
     public TicketBean() {
     }
@@ -42,6 +44,14 @@ public class TicketBean implements TicketLocal, TicketRemote {
         String oid = dao.persist(ticket);
         if (oid == null) {
             throw new TicketException("Ocurrió un error al insertar el TICKET");
+        }
+        if (ticket.getStatus()==TicketStatus.CONFIRMED || ticket.getStatus() == TicketStatus.CANCELED){
+            try {
+                cashRegisterBean.persist(cashRegisterBean.registerFromTicket(ticket));
+            }catch (CashRegisterException e){
+                dao.remove(oid);
+                throw new TicketException("Ocurrió un error al actualizar la caja.");
+            }
         }
         return oid;
     }
@@ -76,9 +86,17 @@ public class TicketBean implements TicketLocal, TicketRemote {
             ticket.setPaymentToken(ticketConfirmation.getPaymentToken());
             ticket.setStatus(ticketConfirmation.getStatus());
             if (dao.persist(ticket) != null) {
-                if (ticketConfirmation.getStatus() == TicketStatus.CONFIRMED) {
-                    addToJourney(ticket.getTenantId(), ticket.getJourney().getId(), ticket.getSeat());
+                if (ticket.getStatus()==TicketStatus.CONFIRMED || ticket.getStatus() == TicketStatus.CANCELED){
+                    if (ticketConfirmation.getStatus() == TicketStatus.CONFIRMED) {
+                        addToJourney(ticket.getTenantId(), ticket.getJourney().getId(), ticket.getSeat());
+                    }
+                    try {
+                        cashRegisterBean.persist(cashRegisterBean.registerFromTicket(ticket));
+                    }catch (CashRegisterException e){
+                        throw new TicketException("Ocurrió un error al actualizar la caja. ERROR: " + e.getMessage());
+                    }
                 }
+
                 return ticket;
             } else {
                 throw new TicketException("Ocurrió un error al intentar actualizar el TICKET");
@@ -114,6 +132,11 @@ public class TicketBean implements TicketLocal, TicketRemote {
     public void setInactive(Long tenantId, Long ticketId) throws TicketException {
         dao.setInactive(tenantId, ticketId);
         removeFromJourney(tenantId, ticketId);
+        try {
+            cashRegisterBean.persist(cashRegisterBean.registerFromTicket(dao.getByLocalId(tenantId,ticketId)));
+        }catch (CashRegisterException e){
+            throw new TicketException("Ocurrió un error al actualizar la caja. ERROR: " + e.getMessage());
+        }
     }
 
     private void addToJourney(Long tenantId, Long journeyId, int seatNumber) throws TicketException {

@@ -14,5 +14,5 @@ public interface BranchRemote {
     Branch getByLocalId(long tenantId, Long branchId);
     Branch getByBranchName(long tenantId, String name);
     void setInactive(long tenantId, Long branchId);
-    List<Branch> getBranchesByTenant(long tenantId, int offset, int limit);
+    List<Branch> getBranchesByTenant(long tenantId,boolean status, int offset, int limit);
 }

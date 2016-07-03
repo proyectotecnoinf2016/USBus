@@ -43,12 +43,12 @@ public class BusStopDAO {
         return dao.get(BusStop.class, id);
     }
 
-    public List<BusStop> getByTenant(long tenantId, int offset, int limit, String name) {
+    public List<BusStop> getByTenant(long tenantId, int offset, int limit, boolean status, String name) {
         if (!(tenantId > 0)) {
             return null;
         }
         Query<BusStop> query = ds.createQuery(BusStop.class);
-        query.and(query.criteria("tenantId").equal(tenantId),query.criteria("active").equal(true));
+        query.and(query.criteria("tenantId").equal(tenantId),query.criteria("active").equal(status));
         if (!(name == null) && !(name.isEmpty())) {
             query.and(query.criteria("name").containsIgnoreCase(name));
         }
