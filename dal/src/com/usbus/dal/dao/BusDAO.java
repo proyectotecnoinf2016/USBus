@@ -53,16 +53,15 @@ public class BusDAO {
         }
     }
 
-    // funcion repetida
-//    public Bus getByBusId(long tenantId, String busId){
-//        if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
-//            return null;
-//        } else {
-//            Query<Bus> query = ds.createQuery(Bus.class);
-//            query.and(query.criteria("id").equal(busId), query.criteria("tenantId").equal(tenantId));
-//            return query.get();
-//        }
-//    }
+    public Bus getByLocalId(long tenantId, String busId) {
+        if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
+            return null;
+        } else {
+            Query<Bus> query = ds.createQuery(Bus.class);
+            query.and(query.criteria("id").equal(busId), query.criteria("tenantId").equal(tenantId));
+            return query.get();
+        }
+    }
 
     public List<Bus> BusesByTenantIdAndStatus(long tenantId, BusStatus status, int offset, int limit){
         if(!(tenantId > 0) || (status == null)){
@@ -80,16 +79,6 @@ public class BusDAO {
             Query<Bus> query = ds.createQuery(Bus.class);
             query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(active));
             return query.offset(offset).limit(limit).asList();
-        }
-    }
-
-    public Bus getByLocalId(long tenantId, String busId) {
-        if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
-            return null;
-        } else {
-            Query<Bus> query = ds.createQuery(Bus.class);
-            query.and(query.criteria("id").equal(busId), query.criteria("tenantId").equal(tenantId));
-            return query.get();
         }
     }
 

@@ -69,7 +69,7 @@ public class JourneyService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT, Rol.DRIVER})
     public Response getJourneyList(@PathParam("tenantId")Long tenantId,
                                    @QueryParam("query") String query,
                                    @QueryParam("status") JourneyStatus journeyStatus,
@@ -79,7 +79,7 @@ public class JourneyService {
                                    @QueryParam("offset") int offset,
                                    @QueryParam("limit") int limit){
 
-        List<Journey> journeyList = null;
+        List<Journey> journeyList;
         switch (query.toUpperCase()){
             case "STATUS":
                 journeyList = ejb.JourneysByTenantIdAndStatus(tenantId, journeyStatus, offset, limit);
