@@ -9,6 +9,7 @@
     "angular-messages": "^1.5.5",
     "angular-material": "1.0.7",
     "angular-resource": "^1.5.5",
-    "moment": "2.13.0"
+    "moment": "2.13.0",
+    "ngSanitize": "1.5.8"
   }
 }
