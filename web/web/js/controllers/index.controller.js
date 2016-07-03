@@ -4,12 +4,15 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope'];
+    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope', 'TenantResource'];
     /* @ngInject */
-    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope) {
+    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource) {
         $scope.theme = 'redpink';
-        
+        $scope.style = '';
         $scope.show = false;
+        $scope.logo = 'img/USBus2.png';
+        $scope.showBus = true;
+        $scope.busColor = 'Red';
 
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
@@ -17,13 +20,31 @@
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
 
-        if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
-			$scope.tenantName = localStorage.getData('tenantName');
-		}
+        $scope.urlArray = $location.path().split('/');
+        var i = 0;
+        while (i < $scope.urlArray.length && $scope.urlArray[i] != 'tenant') {
+            i++;
+        }
 
-		if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
-			$scope.userName = localStorage.getData('userName');
-		}
+        if (i < $scope.urlArray.length && $scope.urlArray[i + 1] != null) {
+            $scope.tenantName = $scope.urlArray[i + 1];
+        }
+
+        if ($scope.style == '' && $scope.tenantName != 'USBus') {
+            TenantResource.tenant('').get({
+                tenantId: 0,
+                tenantName: $scope.tenantName
+            }).$promise.then(function (result) {
+                $scope.style = result;
+
+                $scope.theme = $scope.style.theme;
+                $scope.showBus = $scope.style.showBus;
+                $scope.logo = 'data:image/' + $scope.style.logoExtension + ';base64,' + $scope.style.logoB64;
+                $scope.header = 'data:image/' + $scope.style.headerExtension + ';base64,' + $scope.style.headerB64;
+                $scope.busColor = $scope.style.busColor;
+            });
+        }
+
 
         $rootScope.$on('theme', function (event, data) {
             $scope.theme = data;
@@ -97,12 +118,10 @@
             if ($scope.tenantName !== 'USBus') {
                 var i = 0;
                 while (i < options.length) {
-                    console.log(options[i].name);
                     $scope.menuOptions.push(options[i]);
                     i++;
                 }
-                console.log('menuOptions');
-                console.log($scope.menuOptions);
+
             }
             else {
                 $scope.menuOptions = [];
@@ -115,10 +134,10 @@
             $mdDialog.show({
                 controller : 'LoginController',
                 templateUrl : 'templates/login.html',
-
+                locals:{theme : $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : false
             }).then(
                 function(answer) {
                     $scope.status = 'You said the information was "'
@@ -131,7 +150,6 @@
 
         function redirectTo(redirectUrl) {
             var urlArray = $location.path().split('/');
-            console.log(urlArray);
             var url = '';
             var i = 0;
 
@@ -144,8 +162,6 @@
                 url = url + urlArray[i] + '/';
             }
             url = url + redirectUrl;
-            console.log('url');
-            console.log(url);
             $location.path(url);
         }
 

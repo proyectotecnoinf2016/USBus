@@ -63,8 +63,8 @@ public class BusStopBean implements BusStopLocal, BusStopRemote {
     }
 
     @Override
-    public List<BusStop> getByTenant(long tenantId, int offset, int limit, String name) {
-        return dao.getByTenant(tenantId, offset, limit, name);
+    public List<BusStop> getByTenant(long tenantId, int offset, int limit,boolean status, String name) {
+        return dao.getByTenant(tenantId, offset, limit,status, name);
     }
 
     @Override

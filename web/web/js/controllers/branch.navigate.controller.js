@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('BranchController', BranchController);
-    BranchController.$inject = ['$scope', '$mdDialog', 'BranchResource', '$rootScope'];
+    BranchController.$inject = ['$scope', '$mdDialog', 'BranchResource', '$rootScope', 'localStorage'];
     /* @ngInject */
-    function BranchController($scope, $mdDialog, BranchResource, $rootScope) {
+    function BranchController($scope, $mdDialog, BranchResource, $rootScope, localStorage) {
         $scope.showBranches = showBranches;
         $scope.createBranch = createBranch;
         $scope.deleteBranch = deleteBranch;
@@ -14,22 +14,30 @@
 
         $scope.message = '';
         $scope.tenantId = 0;
-        $scope.branches = [{
-            'name': '1',
-            'windows': [{
-                tickets : true,
-                parcels : true
-            }, {
-                tickets : false,
-                parcels : true
-            }]
-        }, {
-            'name': '2',
-            'windows': [{
-                tickets : true,
-                parcels : false
-            }]
-        }];
+        $scope.branches = [];
+
+
+        $scope.tenantId = 0;
+        if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
+            $scope.tenantId = localStorage.getData('tenantId');
+        }
+
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
+        BranchResource.branches(token).query({
+            offset: 0,
+            limit: 100,
+            busStatus: 'ACTIVE',
+            tenantId: $scope.tenantId,
+            query: 'ALL'
+        }).$promise.then(function(result) {
+            console.log(result);
+            $scope.branches = result;
+
+        });
 
 
         if ($scope.branches.length === 0) {
@@ -43,9 +51,11 @@
                 locals:{branchToEdit: item, theme : $scope.theme},
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true
+                clickOutsideToClose : false
             }).then(
                 function(answer) {
+
+
                     $scope.status = 'You said the information was "'
                         + answer + '".';
                 }, function() {
@@ -59,30 +69,35 @@
                 templateUrl : 'templates/branch.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
-                clickOutsideToClose : true,
+                clickOutsideToClose : false,
                 locals : {theme : $scope.theme}
             }).then(
                 function(answer) {
+                    $scope.branches = BranchResource.branches(token).query({
+                        offset: 0,
+                        limit: 100,
+                        branchStatus: 'ACTIVE',
+                        tenantId: $scope.tenantId,
+                        query: 'ALL'
+                    });
+
                     $scope.status = 'Aca deberia hacer la query de nuevo';
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
 
-        function deleteBranch(text) {
-            //TODO: ver si aca va el id, el name o quien (supongo que va el id nomas);
-            /*
-            bus.active = false;
-            BranchResource.update({id: bus.id, tenantId: $scope.tenantId}, bus).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado su almac&eacute;n virtual de forma exitosa');
-                console.log(style);
+        function deleteBranch(item) {
+            delete item["_id"];
+            BranchResource.branches(token).delete({
+                tenantId: $scope.tenantId,
+                branchId: item.id}, item).$promise.then(function(data){
+                console.log(data);
             }, function(error){
-                showAlert('Error!','Ocurri&oacute; un error al procesar su petici&oacute;n');
             });
-            */
             var index = 0;
 
-            while (index < $scope.branches.length && text != $scope.branches[index].name) {
+            while (index < $scope.branches.length && item.name != $scope.branches[index].name) {
                 index++;
             }
 

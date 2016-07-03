@@ -20,4 +20,6 @@ public interface BusRemote {
     void setActive(long tenantId, String busId);
     Bus getByBusId(long tenantId, String id);
     List<Bus> BusesByTenantIdAndStatus(long tenantId, BusStatus status, int offset, int limit);
+
+    List<Bus> BusesByTenantId(long tenantId, boolean active, int offset, int limit);
 }
