@@ -11,7 +11,8 @@ import java.util.List;
 /**
  * Created by Lufasoch on 22/06/2016.
  */
-public class BranchBean implements BranchLocal, BranchRemote {
+public class
+BranchBean implements BranchLocal, BranchRemote {
     private final BranchDAO dao = new BranchDAO();
     public BranchBean() {}
 
@@ -43,6 +44,6 @@ public class BranchBean implements BranchLocal, BranchRemote {
 
     @Override
     public List<Branch> getBranchesByTenant(long tenantId, int offset, int limit) {
-        return null;
+        return dao.getBranchesByTenant(tenantId,offset,limit,true);
     }
 }

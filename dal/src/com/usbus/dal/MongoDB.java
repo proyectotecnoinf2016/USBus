@@ -33,7 +33,7 @@ public class MongoDB {
         morphia.map(HumanResource.class);
         morphia.map(Journey.class);
         morphia.map(Maintenance.class);
-//        morphia.map(OpenTicket.class);
+        morphia.map(CashRegister.class);
         morphia.map(Parcel.class);
         morphia.map(Reservation.class);
         morphia.map(Route.class);
