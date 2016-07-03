@@ -69,7 +69,12 @@ public class BusService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured(Rol.ADMINISTRATOR)
-    public Response getBusList(@PathParam("tenantId") Long tenantId, @QueryParam("query") String query, @QueryParam("status") boolean status, @QueryParam("busStatus") BusStatus busStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit) {
+    public Response getBusList(@PathParam("tenantId") Long tenantId,
+                               @QueryParam("query") String query,
+                               @QueryParam("status") boolean status,
+                               @QueryParam("busStatus") BusStatus busStatus,
+                               @QueryParam("offset") int offset,
+                               @QueryParam("limit") int limit) {
         if (query==null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
