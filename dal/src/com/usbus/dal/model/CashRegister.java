@@ -34,6 +34,7 @@ public class CashRegister extends BaseEntity {
     private Date date;
     private String notes;
 
+    public CashRegister(){}
     public CashRegister(long tenantId, Long id, Long branchId, Long windowsId, String busId, String sellerName, Long ticketId, Long parcelId, CashOrigin origin, CashType type, CashPayment payment, Double amount, Date date, String notes) {
         super(tenantId);
         this.id = id;

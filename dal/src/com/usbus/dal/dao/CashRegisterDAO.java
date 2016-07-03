@@ -100,7 +100,7 @@ public class CashRegisterDAO {
         logger.debug("cashCount ==> TenantId: " +tenantId.toString() + " branchId: " + branchId.toString() + " windowsId: " + windowsId.toString() );
         Query<CashRegister> queryInit = ds.createQuery(CashRegister.class);
         queryInit.and(queryInit.criteria("tenantId").equal(tenantId), queryInit.criteria("branchId").equal(branchId), queryInit.criteria("windowsId").equal(windowsId), queryInit.criteria("type").equal(CashType.CASH_INIT));
-        queryInit.order("tenantId, brandId, windowsId, -date").limit(1);
+        queryInit.order("tenantId, branchId, windowsId, -date").limit(1);
         CashRegister cashInit = queryInit.get();
         logger.debug("APERTURA OBTENIDA ==> " +cashInit.toString());
         Query<CashRegister> query = ds.createQuery(CashRegister.class);
@@ -136,15 +136,34 @@ public class CashRegisterDAO {
         logger.debug("cashCount ==> TenantId: " +tenantId.toString() + " branchId: " + branchId.toString() + " windowsId: " + windowsId.toString() );
         Query<CashRegister> queryClose = ds.createQuery(CashRegister.class);
         queryClose.and(queryClose.criteria("tenantId").equal(tenantId), queryClose.criteria("branchId").equal(branchId), queryClose.criteria("windowsId").equal(windowsId), queryClose.criteria("type").equal(CashType.CASH_CLOSURE));
-        queryClose.order("tenantId, brandId, windowsId, -date").limit(1);
+        queryClose.order("tenantId, branchId, windowsId, -date").limit(1);
         CashRegister cashClose = queryClose.get();
-        logger.debug("CIERRE OBTENIDO ==> " + cashClose.toString());
+
+        logger.debug("CIERRE OBTENIDO ==> ");
+        if (cashClose == null){
+            logger.debug("null");
+        }else {
+            logger.debug(cashClose.toString());
+        }
+
 
         Query<CashRegister> queryInit = ds.createQuery(CashRegister.class);
         queryInit.and(queryInit.criteria("tenantId").equal(tenantId), queryInit.criteria("branchId").equal(branchId), queryInit.criteria("windowsId").equal(windowsId), queryInit.criteria("type").equal(CashType.CASH_INIT));
-        queryInit.order("tenantId, brandId, windowsId, -date").limit(1);
+        queryInit.order("tenantId, branchId, windowsId, -date").limit(1);
         CashRegister cashInit = queryInit.get();
-        logger.debug("APERTURA OBTENIDA ==> " +cashInit.toString());
+        logger.debug("APERTURA OBTENIDA ==> ");
+        if (cashInit == null){
+            logger.debug("null");
+        }else {
+            logger.debug(cashInit.toString());
+        }
+        if (cashClose == null && !(cashInit==null)){
+            return true;
+        }
+        if (cashInit==null){
+            return false;
+        }
+
         logger.debug("(cashClose.getDate().before(cashInit.getDate()) ==> " + cashClose.getDate().before(cashInit.getDate()));
         return (cashClose.getDate().before(cashInit.getDate()));
     }
@@ -155,15 +174,9 @@ public class CashRegisterDAO {
             List<CashRegister> cashRegisterList;
 
 
-            if (branchId>0 && windowsId>0){
-                query.and(query.criteria("tenantId").equal(tenantId), query.criteria("branchId").equal(branchId), query.criteria("windowsId").equal(windowsId));
-            }else if(branchId>0){
-                query.and(query.criteria("tenantId").equal(tenantId), query.criteria("branchId").equal(branchId));
-            }else if (windowsId>0){
-                query.and(query.criteria("tenantId").equal(tenantId), query.criteria("windowsId").equal(windowsId));
-            }else{
-                query.and(query.criteria("tenantId").equal(tenantId));
-            }
+            query.and(query.criteria("tenantId").equal(tenantId));
+            if(!(branchId==null) && branchId>0) query.and(query.criteria("branchId").equal(branchId));
+            if (!(windowsId==null) && windowsId>0) query.and(query.criteria("windowsId").equal(windowsId));
             return query.offset(offset).limit(limit).asList();
         }
         return null;
@@ -173,8 +186,8 @@ public class CashRegisterDAO {
             Query<CashRegister> query = ds.createQuery(CashRegister.class);
             List<CashRegister> cashRegisterList;
             query.and(query.criteria("tenantId").equal(tenantId));
-            if(branchId>0) query.and(query.criteria("branchId").equal(branchId));
-            if (windowsId>0) query.and(query.criteria("windowsId").equal(windowsId));
+            if(!(branchId==null) && branchId>0) query.and(query.criteria("branchId").equal(branchId));
+            if (!(windowsId==null) && windowsId>0) query.and(query.criteria("windowsId").equal(windowsId));
             query.and(query.criteria("date").greaterThanOrEq(start),query.criteria("date").lessThanOrEq(end));
             return query.offset(offset).limit(limit).asList();
         }
@@ -185,8 +198,8 @@ public class CashRegisterDAO {
             Query<CashRegister> query = ds.createQuery(CashRegister.class);
             List<CashRegister> cashRegisterList;
             query.and(query.criteria("tenantId").equal(tenantId));
-            if(branchId>0) query.and(query.criteria("branchId").equal(branchId));
-            if (windowsId>0) query.and(query.criteria("windowsId").equal(windowsId));
+            if(!(branchId==null) && branchId>0) query.and(query.criteria("branchId").equal(branchId));
+            if (!(windowsId==null) && windowsId>0) query.and(query.criteria("windowsId").equal(windowsId));
             if(!(start ==null || end==null)){
                 query.and(query.criteria("date").greaterThanOrEq(start),query.criteria("date").lessThanOrEq(end));
             }

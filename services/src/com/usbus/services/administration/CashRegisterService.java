@@ -42,7 +42,7 @@ public class CashRegisterService {
                     return Response.ok().build();
             }
         } catch (CashRegisterException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
 
     }

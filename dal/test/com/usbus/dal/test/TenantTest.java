@@ -61,7 +61,7 @@ public class TenantTest {
     @Test
     public void getStyles() throws IOException {
         long tenantId = 1;
-        TenantStyleAux tenantStyleAux = dao.getTenantStyle(tenantId);
+//        TenantStyleAux tenantStyleAux = dao.getTenantStyle(tenantId);
 //        System.out.println(tenantStyleAux.getLogoB64());
 //        System.out.println(tenantStyleAux.getLogoExtension());
 //        System.out.println(tenantStyleAux.getHeaderB64());
