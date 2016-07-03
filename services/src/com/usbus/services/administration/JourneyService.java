@@ -79,7 +79,7 @@ public class JourneyService {
                                    @QueryParam("offset") int offset,
                                    @QueryParam("limit") int limit){
 
-        List<Journey> journeyList = null;
+        List<Journey> journeyList;
         switch (query.toUpperCase()){
             case "STATUS":
                 journeyList = ejb.JourneysByTenantIdAndStatus(tenantId, journeyStatus, offset, limit);

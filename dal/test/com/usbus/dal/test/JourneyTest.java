@@ -131,7 +131,7 @@ public class JourneyTest {
         uno.setDate(dateFormat.parse("12/06/2016 " + suno.getTime().getHours() + ":" + suno.getTime().getMinutes()));
         uno.setBusNumber(115);
         uno.setSeatsState(new Seat[]{v3, v8, v13, v23, v40});
-        Bus abc01 = busDAO.getByBusId(2, "ABC01");
+        Bus abc01 = busDAO.getByLocalId(2, "ABC01");
         uno.setBus(abc01);
 
         dao.persist(uno);
