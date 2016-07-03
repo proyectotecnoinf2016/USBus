@@ -58,6 +58,14 @@ public class BusDAO {
         query.and(query.criteria("tenantId").equal(tenantId), query.criteria("status").equal(status));
         return query.offset(offset).limit(limit).asList();
     }
+    public List<Bus> BusesByTenantId(long tenantId, boolean active, int offset, int limit){
+        if(!(tenantId > 0)){
+            return null;
+        }
+        Query<Bus> query = ds.createQuery(Bus.class);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(active));
+        return query.offset(offset).limit(limit).asList();
+    }
 
     public Bus getByLocalId(long tenantId, String busId) {
         if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
