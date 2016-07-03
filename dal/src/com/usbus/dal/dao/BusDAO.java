@@ -77,13 +77,14 @@ public class BusDAO {
     }
 
     public void setInactive(long tenantId, String busId) {
-        if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
+        //if (!((tenantId > 0) || (busId != null && !busId.isEmpty()))) {
+        if(tenantId < 0 || busId == null || busId.isEmpty()){
         } else {
             Query<Bus> query = ds.createQuery(Bus.class);
 
             query.and(query.criteria("id").equal(busId),
                     query.criteria("tenantId").equal(tenantId));
-            UpdateOperations<Bus> updateOp = ds.createUpdateOperations(Bus.class).set("active", false);
+            UpdateOperations<Bus> updateOp = ds.createUpdateOperations(Bus.class).set("active", false).set("status", BusStatus.INACTIVE);
             ds.update(query, updateOp);
         }
     }
@@ -95,7 +96,7 @@ public class BusDAO {
 
             query.and(query.criteria("id").equal(busId),
                     query.criteria("tenantId").equal(tenantId));
-            UpdateOperations<Bus> updateOp = ds.createUpdateOperations(Bus.class).set("active", true);
+            UpdateOperations<Bus> updateOp = ds.createUpdateOperations(Bus.class).set("active", true).set("status", BusStatus.ACTIVE);
             ds.update(query, updateOp);
         }
     }
