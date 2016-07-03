@@ -38,7 +38,6 @@
                 $scope.style = result;
 
                 $scope.theme = $scope.style.theme;
-                console.log($scope.theme);
                 $scope.showBus = $scope.style.showBus;
                 $scope.logo = 'data:image/' + $scope.style.logoExtension + ';base64,' + $scope.style.logoB64;
                 $scope.header = 'data:image/' + $scope.style.headerExtension + ';base64,' + $scope.style.headerB64;
@@ -119,12 +118,10 @@
             if ($scope.tenantName !== 'USBus') {
                 var i = 0;
                 while (i < options.length) {
-                    console.log(options[i].name);
                     $scope.menuOptions.push(options[i]);
                     i++;
                 }
-                console.log('menuOptions');
-                console.log($scope.menuOptions);
+
             }
             else {
                 $scope.menuOptions = [];
@@ -153,7 +150,6 @@
 
         function redirectTo(redirectUrl) {
             var urlArray = $location.path().split('/');
-            console.log(urlArray);
             var url = '';
             var i = 0;
 
@@ -166,8 +162,6 @@
                 url = url + urlArray[i] + '/';
             }
             url = url + redirectUrl;
-            console.log('url');
-            console.log(url);
             $location.path(url);
         }
 
