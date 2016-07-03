@@ -113,7 +113,7 @@ public class JourneyTest {
     public void getJourneysByTenantDateAndStatus() throws ParseException {
         dao.clean();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        /*SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         dateFormat.setTimeZone(TimeZone.getTimeZone("America/Montevideo"));
 
         Seat v3 = new Seat(3, Position.CORRIDOR, false);
@@ -140,6 +140,6 @@ public class JourneyTest {
 
         List<Journey> JList = dao.getJourneysByTenantDateAndStatus(2,D1,JourneyStatus.CANCELED,0,1);
 
-        System.out.println("Tamaño lista: " + JList.size());
+        System.out.println("Tamaño lista: " + JList.size());*/
     }
 }
