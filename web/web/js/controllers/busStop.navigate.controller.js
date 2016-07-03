@@ -29,6 +29,8 @@
         }
 
         BusStopResource.busStops(token).query({
+            query:"ALL",
+            status:true,
             offset: 0,
             limit: 100,
             tenantId: $scope.tenantId
@@ -72,6 +74,8 @@
                 function(answer) {
                     $scope.status = 'Aca deberia hacer la query de nuevo';
                     BusStopResource.busStops(token).query({
+                        query:"ALL",
+                        status:true,
                         offset: 0,
                         limit: 100,
                         tenantId: $scope.tenantId

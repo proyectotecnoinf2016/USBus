@@ -28,6 +28,8 @@
         }
 
         BusResource.buses(token).query({
+            query:"ALL",
+            status:true,
             offset: 0,
             limit: 100,
             busStatus: 'ACTIVE',
@@ -71,6 +73,8 @@
             }).then(
                 function() {
                     $scope.buses = BusResource.buses(token).query({
+                        query:"ALL",
+                        status:true,
                         offset: 0,
                         limit: 100,
                         busStatus: 'ACTIVE',

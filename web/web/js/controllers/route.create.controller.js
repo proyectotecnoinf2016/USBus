@@ -136,6 +136,8 @@
 
         function queryBusStops(name) {
             return BusStopResource.busStops(token).query({
+                query:"ALL",
+                status:true,
                 offset: 0,
                 limit: 5,
                 tenantId: $scope.tenantId,
