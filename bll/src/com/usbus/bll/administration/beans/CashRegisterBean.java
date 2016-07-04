@@ -91,6 +91,10 @@ public class CashRegisterBean implements CashRegisterLocal, CashRegisterRemote {
     public List<CashRegister> getByTypeOriginPaymentDate(Long tenantId, Long branchId, Long windowsId, Date start, Date end, CashType type, CashOrigin origin, CashPayment payment, String user, int limit, int offset) {
         return crDAO.getByTypeOriginPaymentDate(tenantId, branchId, windowsId, start, end, type, origin, payment, user, limit, offset);
     }
+    @Override
+    public List<CashRegister> currentCashRegister(Long tenantId, Long branchId, Long windowsId, int limit, int offset) {
+        return crDAO.currentCashRegister(tenantId, branchId, windowsId,limit, offset);
+    }
 
 
     public CashRegister registerFromTicket(Ticket ticket) throws CashRegisterException {

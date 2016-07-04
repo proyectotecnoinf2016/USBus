@@ -14,6 +14,7 @@ import org.mongodb.morphia.query.UpdateOperations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,9 +87,9 @@ public class CashRegisterDAO {
         } else {
             Query<CashRegister> query = ds.createQuery(CashRegister.class);
             query.criteria("tenantId").equal(tenantId);
-            query.order("-id").retrievedFields(true,"id");
+            query.order("-id").retrievedFields(true, "id");
             CashRegister cashRegister = query.get();
-            if (cashRegister==null){
+            if (cashRegister == null) {
                 return new Long(1);
             }
             return cashRegister.getId() + 1;
@@ -96,20 +97,20 @@ public class CashRegisterDAO {
         }
     }
 
-    public Double cashCount(Long tenantId, Long branchId, Long windowsId) throws CashRegisterException{
-        logger.debug("cashCount ==> TenantId: " +tenantId.toString() + " branchId: " + branchId.toString() + " windowsId: " + windowsId.toString() );
+    public Double cashCount(Long tenantId, Long branchId, Long windowsId) throws CashRegisterException {
+        logger.debug("cashCount ==> TenantId: " + tenantId.toString() + " branchId: " + branchId.toString() + " windowsId: " + windowsId.toString());
         Query<CashRegister> queryInit = ds.createQuery(CashRegister.class);
         queryInit.and(queryInit.criteria("tenantId").equal(tenantId), queryInit.criteria("branchId").equal(branchId), queryInit.criteria("windowsId").equal(windowsId), queryInit.criteria("type").equal(CashType.CASH_INIT));
         queryInit.order("tenantId, branchId, windowsId, -date").limit(1);
         CashRegister cashInit = queryInit.get();
-        logger.debug("APERTURA OBTENIDA ==> " +cashInit.toString());
+        logger.debug("APERTURA OBTENIDA ==> " + cashInit.toString());
         Query<CashRegister> query = ds.createQuery(CashRegister.class);
         query.and(query.criteria("tenantId").equal(tenantId), query.criteria("branchId").equal(branchId), query.criteria("windowsId").equal(windowsId), query.criteria("date").greaterThan(cashInit.getDate()), query.criteria("date").lessThanOrEq(new Date()));
         List<CashRegister> cashRegisterList = query.asList();
-        logger.debug("LISTA OBTENIDA ==> " +cashRegisterList.toString());
+        logger.debug("LISTA OBTENIDA ==> " + cashRegisterList.toString());
         Double cashCount = Double.valueOf(0);
-        for (CashRegister cr : cashRegisterList){
-            switch (cr.getType()){
+        for (CashRegister cr : cashRegisterList) {
+            switch (cr.getType()) {
                 case ENTRY:
                     cashCount = cashCount + cr.getAmount();
                     break;
@@ -132,17 +133,17 @@ public class CashRegisterDAO {
         return cashCount;
     }
 
-    public boolean isCashRegisterOpen(Long tenantId, Long branchId, Long windowsId){
-        logger.debug("cashCount ==> TenantId: " +tenantId.toString() + " branchId: " + branchId.toString() + " windowsId: " + windowsId.toString() );
+    public boolean isCashRegisterOpen(Long tenantId, Long branchId, Long windowsId) {
+        logger.debug("cashCount ==> TenantId: " + tenantId.toString() + " branchId: " + branchId.toString() + " windowsId: " + windowsId.toString());
         Query<CashRegister> queryClose = ds.createQuery(CashRegister.class);
         queryClose.and(queryClose.criteria("tenantId").equal(tenantId), queryClose.criteria("branchId").equal(branchId), queryClose.criteria("windowsId").equal(windowsId), queryClose.criteria("type").equal(CashType.CASH_CLOSURE));
         queryClose.order("tenantId, branchId, windowsId, -date").limit(1);
         CashRegister cashClose = queryClose.get();
 
         logger.debug("CIERRE OBTENIDO ==> ");
-        if (cashClose == null){
+        if (cashClose == null) {
             logger.debug("null");
-        }else {
+        } else {
             logger.debug(cashClose.toString());
         }
 
@@ -152,15 +153,15 @@ public class CashRegisterDAO {
         queryInit.order("tenantId, branchId, windowsId, -date").limit(1);
         CashRegister cashInit = queryInit.get();
         logger.debug("APERTURA OBTENIDA ==> ");
-        if (cashInit == null){
+        if (cashInit == null) {
             logger.debug("null");
-        }else {
+        } else {
             logger.debug(cashInit.toString());
         }
-        if (cashClose == null && !(cashInit==null)){
+        if (cashClose == null && !(cashInit == null)) {
             return true;
         }
-        if (cashInit==null){
+        if (cashInit == null) {
             return false;
         }
 
@@ -168,51 +169,75 @@ public class CashRegisterDAO {
         return (cashClose.getDate().before(cashInit.getDate()));
     }
 
-    public List<CashRegister> getByTenantBranchWindow(Long tenantId, Long branchId, Long windowsId, int limit, int offset){
-        if (tenantId>0){
+    public List<CashRegister> getByTenantBranchWindow(Long tenantId, Long branchId, Long windowsId, int limit, int offset) {
+        if (tenantId > 0) {
             Query<CashRegister> query = ds.createQuery(CashRegister.class);
             List<CashRegister> cashRegisterList;
 
 
             query.and(query.criteria("tenantId").equal(tenantId));
-            if(!(branchId==null) && branchId>0) query.and(query.criteria("branchId").equal(branchId));
-            if (!(windowsId==null) && windowsId>0) query.and(query.criteria("windowsId").equal(windowsId));
+            if (!(branchId == null) && branchId > 0) query.and(query.criteria("branchId").equal(branchId));
+            if (!(windowsId == null) && windowsId > 0) query.and(query.criteria("windowsId").equal(windowsId));
             return query.offset(offset).limit(limit).asList();
         }
         return null;
     }
-    public List<CashRegister> getBetweenDates(Long tenantId, Long branchId, Long windowsId, Date start, Date end, int limit, int offset){
-        if (tenantId>0){
+
+    public List<CashRegister> getBetweenDates(Long tenantId, Long branchId, Long windowsId, Date start, Date end, int limit, int offset) {
+        if (tenantId > 0) {
             Query<CashRegister> query = ds.createQuery(CashRegister.class);
             List<CashRegister> cashRegisterList;
             query.and(query.criteria("tenantId").equal(tenantId));
-            if(!(branchId==null) && branchId>0) query.and(query.criteria("branchId").equal(branchId));
-            if (!(windowsId==null) && windowsId>0) query.and(query.criteria("windowsId").equal(windowsId));
-            query.and(query.criteria("date").greaterThanOrEq(start),query.criteria("date").lessThanOrEq(end));
+            if (!(branchId == null) && branchId > 0) query.and(query.criteria("branchId").equal(branchId));
+            if (!(windowsId == null) && windowsId > 0) query.and(query.criteria("windowsId").equal(windowsId));
+            query.and(query.criteria("date").greaterThanOrEq(start), query.criteria("date").lessThanOrEq(end));
             return query.offset(offset).limit(limit).asList();
         }
         return null;
     }
-    public List<CashRegister> getByTypeOriginPaymentDate(Long tenantId, Long branchId, Long windowsId, Date start, Date end, CashType type, CashOrigin origin, CashPayment payment, String user, int limit, int offset){
-        if (tenantId>0){
+
+    public List<CashRegister> getByTypeOriginPaymentDate(Long tenantId, Long branchId, Long windowsId, Date start, Date end, CashType type, CashOrigin origin, CashPayment payment, String user, int limit, int offset) {
+        if (tenantId > 0) {
             Query<CashRegister> query = ds.createQuery(CashRegister.class);
             List<CashRegister> cashRegisterList;
             query.and(query.criteria("tenantId").equal(tenantId));
-            if(!(branchId==null) && branchId>0) query.and(query.criteria("branchId").equal(branchId));
-            if (!(windowsId==null) && windowsId>0) query.and(query.criteria("windowsId").equal(windowsId));
-            if(!(start ==null || end==null)){
-                query.and(query.criteria("date").greaterThanOrEq(start),query.criteria("date").lessThanOrEq(end));
+            if (!(branchId == null) && branchId > 0) query.and(query.criteria("branchId").equal(branchId));
+            if (!(windowsId == null) && windowsId > 0) query.and(query.criteria("windowsId").equal(windowsId));
+            if (!(start == null || end == null)) {
+                query.and(query.criteria("date").greaterThanOrEq(start), query.criteria("date").lessThanOrEq(end));
             }
-            if (!(type==null)) query.and(query.criteria("type").equal(type));
-            if (!(origin==null)) query.and(query.criteria("origin").equal(origin));
-            if (!(payment==null)) query.and(query.criteria("payment").equal(payment));
-            if (!(user==null || user.isEmpty())) query.and(query.criteria("sellerName").equal(user));
+            if (!(type == null)) query.and(query.criteria("type").equal(type));
+            if (!(origin == null)) query.and(query.criteria("origin").equal(origin));
+            if (!(payment == null)) query.and(query.criteria("payment").equal(payment));
+            if (!(user == null || user.isEmpty())) query.and(query.criteria("sellerName").equal(user));
 
             return query.offset(offset).limit(limit).asList();
         }
         return null;
     }
 
+    public List<CashRegister> currentCashRegister(Long tenantId, Long branchId, Long windowsId,int limit, int offset) {
+        logger.debug("currentCashRegister ==> TenantId: " + tenantId.toString() + " branchId: " + branchId.toString() + " windowsId: " + windowsId.toString());
+        List<CashRegister> cashRegisterList = new ArrayList<>();
+        Query<CashRegister> queryInit = ds.createQuery(CashRegister.class);
+        queryInit.and(queryInit.criteria("tenantId").equal(tenantId), queryInit.criteria("branchId").equal(branchId), queryInit.criteria("windowsId").equal(windowsId), queryInit.criteria("type").equal(CashType.CASH_INIT));
+        queryInit.order("tenantId, branchId, windowsId, -date").limit(1);
+        CashRegister cashInit = queryInit.get();
+        logger.debug("APERTURA OBTENIDA ==> ");
+        if (cashInit == null) {
+            logger.debug("null");
+        } else {
+            logger.debug(cashInit.toString());
+            Query<CashRegister> query = ds.createQuery(CashRegister.class);
+            query.and(query.criteria("tenantId").equal(tenantId));
+            if (!(branchId == null) && branchId > 0) query.and(query.criteria("branchId").equal(branchId));
+            if (!(windowsId == null) && windowsId > 0) query.and(query.criteria("windowsId").equal(windowsId));
+            query.and(query.criteria("date").greaterThanOrEq(cashInit.getDate()));
+            cashRegisterList = query.offset(offset).limit(limit).asList();
+            logger.debug(cashRegisterList.toString());
+        }
 
+        return cashRegisterList;
+    }
 
 }
