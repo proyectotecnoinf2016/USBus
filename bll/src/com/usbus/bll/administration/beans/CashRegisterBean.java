@@ -59,7 +59,8 @@ public class CashRegisterBean implements CashRegisterLocal, CashRegisterRemote {
 
     @Override
     public void persist(CashRegister cashRegister) throws CashRegisterException {
-        if (crDAO.isCashRegisterOpen(cashRegister.getTenantId(), cashRegister.getBranchId(), cashRegister.getWindowsId())) {
+        boolean isAndroid = (cashRegister.getBranchId() == 0 && cashRegister.getWindowsId() == 0);
+        if (isAndroid || crDAO.isCashRegisterOpen(cashRegister.getTenantId(), cashRegister.getBranchId(), cashRegister.getWindowsId())) {
             logger.debug("persist ==> CashRegister: " + cashRegister.toString());
             String cashRegisterOID = crDAO.persist(cashRegister);
             if (cashRegisterOID == null || cashRegisterOID == "") {
@@ -68,26 +69,28 @@ public class CashRegisterBean implements CashRegisterLocal, CashRegisterRemote {
         } else {
             throw new CashRegisterException("La caja no se encuentra abierta.");
         }
+
     }
 
     @Override
     public CashRegister getByLocalId(Long tenantId, Long cashRegisterId) {
         return crDAO.getByLocalId(tenantId, cashRegisterId);
     }
+
     @Override
     public List<CashRegister> getByTenantBranchWindow(Long tenantId, Long branchId, Long windowsId, int limit, int offset) {
-        return crDAO.getByTenantBranchWindow(tenantId,branchId,windowsId,limit,offset);
+        return crDAO.getByTenantBranchWindow(tenantId, branchId, windowsId, limit, offset);
     }
+
     @Override
     public List<CashRegister> getBetweenDates(Long tenantId, Long branchId, Long windowsId, Date start, Date end, int limit, int offset) {
-        return crDAO.getBetweenDates(tenantId,branchId,windowsId,start,end,limit,offset);
+        return crDAO.getBetweenDates(tenantId, branchId, windowsId, start, end, limit, offset);
     }
 
     @Override
-    public List<CashRegister> getByTypeOriginPaymentDate(Long tenantId, Long branchId, Long windowsId, Date start, Date end, CashType type, CashOrigin origin, CashPayment payment, String user, int limit, int offset){
-        return crDAO.getByTypeOriginPaymentDate(tenantId,branchId,windowsId,start,end,type,origin,payment,user,limit,offset);
+    public List<CashRegister> getByTypeOriginPaymentDate(Long tenantId, Long branchId, Long windowsId, Date start, Date end, CashType type, CashOrigin origin, CashPayment payment, String user, int limit, int offset) {
+        return crDAO.getByTypeOriginPaymentDate(tenantId, branchId, windowsId, start, end, type, origin, payment, user, limit, offset);
     }
-
 
 
     public CashRegister registerFromTicket(Ticket ticket) throws CashRegisterException {
@@ -102,29 +105,42 @@ public class CashRegisterBean implements CashRegisterLocal, CashRegisterRemote {
         } else {
             cashType = CashType.WITHDRAWAL;
         }
-
+        String sellerName = "NONE";
         //Origen de registro
         CashOrigin cashOrigin;
         if (ticket.getBranchId() == null || ticket.getBranchId().equals(0)) {
             if (ticket.getSeller() == null) {
                 cashOrigin = CashOrigin.CLIENT;
+                sellerName = "CLIENT";
             } else {
                 cashOrigin = CashOrigin.BUS;
+                if (ticket.getSellerName() == null || ticket.getSellerName().isEmpty()) {
+                    sellerName = ticket.getSeller().getUsername();
+                } else {
+                    sellerName = ticket.getSellerName();
+                }
             }
         } else {
             cashOrigin = CashOrigin.TICKET;
+            if (ticket.getSellerName() == null || ticket.getSellerName().isEmpty()) {
+                sellerName = ticket.getSeller().getUsername();
+            } else {
+                sellerName = ticket.getSellerName();
+            }
         }
         //Tipo de pago
         CashPayment cashPayment;
         if (cashOrigin == CashOrigin.CLIENT) {
             cashPayment = CashPayment.PAYPAL;
+
         } else {
             cashPayment = CashPayment.CASH;
         }
         Long cashRegisterId = crDAO.getNextId(ticket.getTenantId());
 
+
         return new CashRegister(ticket.getTenantId(), cashRegisterId, ticket.getBranchId(), ticket.getWindowId(), ticket.getJourney().getBus().getId(),
-                ticket.getSeller().getUsername(), ticket.getId(), null, cashOrigin, cashType, cashPayment, ticket.getAmount(), new Date(), "");
+                sellerName, ticket.getId(), null, cashOrigin, cashType, cashPayment, ticket.getAmount(), new Date(), "");
     }
 
     //CASHREGISTER FROM PARCEL
