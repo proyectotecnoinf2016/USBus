@@ -16,10 +16,12 @@
             private Date date;
             @Reference
             private Bus bus;
-            private String thirdPartyBus;
+
             @Reference
             private HumanResource driver;
+
             private Integer busNumber;
+            private String thirdPartyBus;
             private Integer seats;
             private Seat seatsState[];
             private Integer standingPassengers;
@@ -27,15 +29,15 @@
             private JourneyStatus status;-->
             <div layout="row" >
                 <md-input-container class="" layout-margin layout-padding flex>
-                    <label>Nombre</label>
-                    <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
-                    <input ng-model="route.name" required>
+                    <label>Número de ómnibus</label>
+                    <md-tooltip md-direction="top">Ingrese Número de Ómnibus</md-tooltip>
+                    <input ng-model="journey.busNumber" required>
                 </md-input-container>
 
                 <md-input-container class="" layout-margin layout-padding flex>
-                    <label>Precio por kilómetro</label>
-                    <md-tooltip md-direction="top">Ingrese Precio por Kilómetro</md-tooltip>
-                    <input type="number" ng-model="route.pricePerKm" required >
+                    <label>Unidad externa</label>
+                    <md-tooltip md-direction="top">Indique si la unidad es contratada</md-tooltip>
+                    <input type="number" ng-model="journey.thirdPartyBus" required >
                 </md-input-container>
             </div>
 
@@ -66,7 +68,7 @@
                         md-items="item in queryBus(busName)"
                         md-item-text="item.name"
                         md-search-text="busName"
-                        md-floating-label="Servicio"
+                        mdw-floating-label="Servicio"
                         md-input-id="busName"
                         required flex layout-margin>
 
@@ -82,7 +84,7 @@
 
         <md-dialog-actions class="md-actions" layout="row">
             <span flex></span>
-            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createBranch(branch)'>Crear Sucursal</md-button>
+            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createJourney(journey)'>Crear Viaje</md-button>
             <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
         </md-dialog-actions>
     </form>

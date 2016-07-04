@@ -46,8 +46,9 @@
         function queryBus(busName) {
 
             return BusResource.buses(token).query({
-                query:"ALL",
+                query:"BUSSTATUS",
                 status:true,
+                busStatus: "ACTIVE",
                 offset: 0,
                 limit: 5,
                 tenantId: $scope.tenantId
@@ -60,6 +61,11 @@
             item.tenantId = $scope.tenantId;
             item.date = moment($scope.date).format('YYYY-MM-DDTHH:mm:ss.000Z');
             item.service = $scope.service.id;
+            item.bus = $scope.bus.id;
+            item.seats = $scope.bus.seats;
+            item.standingPassengers = $scope.bus.standingPassengers;
+            item.trunkWeight = $scope.bus.trunkMaxWeight;
+            item.status = true;
             JourneyResource.save(item, function (resp) {
                 console.log(resp);
                 showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
