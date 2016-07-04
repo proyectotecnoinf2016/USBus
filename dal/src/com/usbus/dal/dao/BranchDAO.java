@@ -111,4 +111,8 @@ public class BranchDAO {
             return branch.getId() + 1;
         }
     }
+
+    public void clean(){
+        ds.delete(ds.createQuery(Branch.class));
+    }
 }

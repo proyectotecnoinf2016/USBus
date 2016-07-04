@@ -49,7 +49,7 @@ public class JourneyPatch {
     private Integer seats;
     private Seat seatsState[];
     private Integer standingPassengers;
-    private String trunkWeight;
+    private Integer trunkWeight;
     private JourneyStatus status;
 
 
@@ -156,11 +156,11 @@ public class JourneyPatch {
         this.standingPassengers = standingPassengers;
     }
 
-    public String getTrunkWeight() {
+    public Integer getTrunkWeight() {
         return trunkWeight;
     }
 
-    public void setTrunkWeight(String trunkWeight) {
+    public void setTrunkWeight(Integer trunkWeight) {
         updatedFields.add(JourneyPatchField.trunkWeight);
         this.trunkWeight = trunkWeight;
     }

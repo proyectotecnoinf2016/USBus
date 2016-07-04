@@ -105,7 +105,7 @@ public class HumanResourceDAO {
             Query<HumanResource> query = ds.createQuery(HumanResource.class);
             query.disableValidation();
             query.criteria("className").equal(HumanResource.class.getCanonicalName());
-            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("statusHistory.status").hasThisElement(status));
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("statusHistory.status").equal(status));
             query.retrievedFields(false, "salt", "passwordHash");
             return query.offset(offset).limit(limit).asList();
         }
@@ -118,7 +118,7 @@ public class HumanResourceDAO {
             Query<HumanResource> query = ds.createQuery(HumanResource.class);
             query.disableValidation();
             query.criteria("className").equal(HumanResource.class.getCanonicalName());
-            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").hasThisElement(rol));
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").equal(rol));
             query.retrievedFields(false, "salt", "passwordHash");
             return query.offset(offset).limit(limit).asList();
         }
@@ -131,7 +131,7 @@ public class HumanResourceDAO {
             Query<HumanResource> query = ds.createQuery(HumanResource.class);
             query.disableValidation();
             query.criteria("className").equal(HumanResource.class.getCanonicalName());
-            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").hasThisElement(rol), query.criteria("statusHistory.status").hasThisElement(status));
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").equal(rol), query.criteria("statusHistory.status").equal(status));
             query.retrievedFields(false, "salt", "passwordHash");
             return query.offset(offset).limit(limit).asList();
         }
@@ -144,7 +144,7 @@ public class HumanResourceDAO {
             Query<HumanResource> query = ds.createQuery(HumanResource.class);
             query.disableValidation();
             query.criteria("className").equal(HumanResource.class.getCanonicalName());
-            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").hasThisElement(rol), query.criteria("status").equal(true));
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("roles").equal(rol), query.criteria("status").equal(true));
             query.retrievedFields(false, "salt", "passwordHash");
             return query.offset(offset).limit(limit).asList();
         }

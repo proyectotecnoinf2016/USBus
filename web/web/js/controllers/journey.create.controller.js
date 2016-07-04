@@ -3,48 +3,103 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('CreateBranchController', CreateBranchController);
-    CreateBranchController.$inject = ['$scope', 'localStorage', 'BranchResource', '$mdDialog', 'theme'];
+    angular.module('usbus').controller('CreateJourneyController', CreateJourneyController);
+    CreateJourneyController.$inject = ['$scope', 'localStorage', 'JourneyResource', 'ServiceResource', 'BusResource', 'HumanResource', '$mdDialog', 'theme', 'date'];
     /* @ngInject */
-    function CreateBranchController($scope, localStorage, BranchResource, $mdDialog, theme) {
-        $scope.createBranch = createBranch;
+    function CreateJourneyController($scope, localStorage, JourneyResource, ServiceResource, BusResource, HumanResource, $mdDialog, theme, date) {
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
-        $scope.addWindow = addWindow;
-        $scope.deleteWindow = deleteWindow;
+        $scope.createJourney = createJourney;
+        $scope.queryService = queryService;
+        $scope.queryBus = queryBus;
+        $scope.queryResource = queryResource;
 
         $scope.theme = theme;
-        $scope.branch = [];
-        $scope.windows = [];
+        $scope.date = date;
+        console.log(date);
 
+        $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
         }
 
-        function createBranch(branch) {
-            branch.windows = $scope.windows;
-            BranchResource.save(branch,function (resp) {
-                showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
+        var token = null;//localStorage.getData('token');
+        if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
+            token = localStorage.getData('token');
+        }
+
+        function queryService(name) {
+            $scope.dayOfWeek = moment($scope.date).format('dddd').toUpperCase();
+            console.log($scope.dayOfWeek);
+            var lista = ServiceResource.services(token).query({
+                offset: 0,
+                limit: 100,
+                tenantId: $scope.tenantId,
+                query: 'DAYOFWEEK',
+                dayOfWeek: $scope.dayOfWeek
+
+            }).$promise;
+            console.log(lista);
+
+            return lista;
+        }
+
+
+        function queryBus(busName) {
+
+            return BusResource.buses(token).query({
+                query:"BUSSTATUS",
+                status:true,
+                busStatus: "ACTIVE",
+                offset: 0,
+                limit: 5,
+                tenantId: $scope.tenantId
+            }).$promise;
+            return [];
+        }
+
+
+        function queryResource(hrEmail) {
+            return HumanResource.resources(token).query({
+                query:"ALL",
+                status:true,
+                email: hrEmail,
+                offset: 0,
+                limit: 5,
+                tenantId: $scope.tenantId
+            }).$promise;
+            return [];
+        }
+
+
+        function createJourney(item) {
+            item.tenantId = $scope.tenantId;
+            item.date = moment($scope.date).format('YYYY-MM-DDTHH:mm:ss.000Z');
+            //item.service = $scope.service.id;
+            //item.bus = $scope.bus.id;
+            item.seats = item.bus.seats;
+            item.standingPassengers = item.bus.standingPassengers;
+            item.trunkWeight = item.bus.trunkMaxWeight;
+            item.status = 'ACTIVE';
+            //item.driver = $scope.hrDriver;
+
+            console.log(item);
+
+            JourneyResource.journeys(token).save({
+                tenantId: $scope.tenantId
+
+            }, item,function (resp) {
+                console.log(resp);
+                showAlert('Exito!', 'Se ha creado su ruta de forma exitosa');
             }, function (error) {
                 console.log(error);
-                showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
+                showAlert('Error!', 'Ocurrió un error al crear la Ruta');
             } );
+
         }
 
-        function addWindow() {
-            $scope.windows.push({index: $scope.windows.length + 1,tickets : false, parcels : false});
-            console.log($scope.windows);
-        }
 
-        function deleteWindow(index) {
-            $scope.windows.splice(index, 1);
-            var i = 0;
-            for (i = 0; i < $scope.windows.length; i++) {
-                $scope.windows[i].index = i + 1;
-            }
-        }
-
-        function showAlert(title,content) {
+        function showAlert(title, content) {
             $mdDialog
                 .show($mdDialog
                     .alert()

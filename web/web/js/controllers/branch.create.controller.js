@@ -34,17 +34,18 @@
             BranchResource.branches(token).save({
                 tenantId: $scope.tenantId
 
-            }, branch,function (resp) {
+            }, branch, function (resp) {
                 console.log(resp);
                 showAlert('Exito!', 'Se ha creado su sucursal de forma exitosa');
             }, function (error) {
                 console.log(error);
                 showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
-            } );
+            });
         }
 
         function addWindow() {
-            $scope.windows.push({tickets : false, parcels : false, active: true});
+            var id = $scope.windows.length + 1;
+            $scope.windows.push({id: id, tickets: false, parcels: false, active: true});
             console.log($scope.windows);
         }
 
@@ -56,7 +57,7 @@
             }
         }
 
-        function showAlert(title,content) {
+        function showAlert(title, content) {
             $mdDialog
                 .show($mdDialog
                     .alert()
