@@ -27,31 +27,32 @@
             private Integer standingPassengers;
             private String trunkWeight;
             private JourneyStatus status;-->
+
             <div layout="row" >
                 <md-input-container class="" layout-margin layout-padding flex>
                     <label>Número de ómnibus</label>
                     <md-tooltip md-direction="top">Ingrese Número de Ómnibus</md-tooltip>
-                    <input ng-model="journey.busNumber" required>
+                    <input type="number" ng-model="journey.busNumber" required>
                 </md-input-container>
 
                 <md-input-container class="" layout-margin layout-padding flex>
                     <label>Unidad externa</label>
                     <md-tooltip md-direction="top">Indique si la unidad es contratada</md-tooltip>
-                    <input type="number" ng-model="journey.thirdPartyBus" required >
+                    <input  ng-model="journey.thirdPartyBus" required >
                 </md-input-container>
             </div>
 
             <div layout="row">
                 <md-autocomplete
-                        md-selected-item="service"
+                        md-selected-item="journey.service"
                         md-no-cache=true
                         md-search-text-change="queryService(name)"
                         md-min-length="3"
                         md-items="item in queryService(name)"
                         md-item-text="item.name"
-                        md-search-text="name"
+                        md-search-text="serviceName"
                         md-floating-label="Servicio"
-                        md-input-id="serviceName"
+                        md-input-id="serviceId"
                         required flex layout-margin>
 
                     <md-item-template>
@@ -60,20 +61,60 @@
                     <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
                 </md-autocomplete>
 
+
                 <md-autocomplete
-                        md-selected-item="bus"
+                        md-selected-item="journey.bus"
                         md-no-cache=true
                         md-search-text-change="queryBus(busName)"
                         md-min-length="3"
-                        md-items="item in queryBus(busName)"
-                        md-item-text="item.name"
+                        md-items="busItem in queryBus(busName)"
+                        md-item-text="busItem.id"
                         md-search-text="busName"
-                        mdw-floating-label="Servicio"
-                        md-input-id="busName"
+                        md-floating-label="Omnibus"
+                        md-input-id="busId"
                         required flex layout-margin>
 
                     <md-item-template>
-                        <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }}</span>
+                        <span md-highlight-text="busItem.id" md-highlight-flags="^i"> {{ busItem.id }}</span>
+                    </md-item-template>
+                    <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
+                </md-autocomplete>
+            </div>
+            <div layout="row">
+
+                <md-autocomplete
+                        md-selected-item="hr"
+                        md-no-cache=true
+                        md-search-text-change="queryResource(assistantEmail)"
+                        md-min-length="3"
+                        md-items="hrItem in queryResource(assistantEmail)"
+                        md-item-text="hrItem.email"
+                        md-search-text="assistantEmail"
+                        md-floating-label="Guarda"
+                        md-input-id="hrId"
+                        required flex layout-margin>
+
+                    <md-item-template>
+                        <span md-highlight-text="hrItem.email" md-highlight-flags="^i"> {{ hrItem.email }}</span>
+                    </md-item-template>
+                    <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
+                </md-autocomplete>
+
+
+                <md-autocomplete
+                        md-selected-item="hrDriver"
+                        md-no-cache=true
+                        md-search-text-change="queryResource(driverEmail)"
+                        md-min-length="3"
+                        md-items="hrDriverItem in queryResource(driverEmail)"
+                        md-item-text="hrDriverItem.email"
+                        md-search-text="driverEmail"
+                        md-floating-label="Chofer"
+                        md-input-id="hrDriverId"
+                        required flex layout-margin>
+
+                    <md-item-template>
+                        <span md-highlight-text="hrDriverItem.email" md-highlight-flags="^i"> {{ hrDriverItem.email }}</span>
                     </md-item-template>
                     <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
                 </md-autocomplete>
