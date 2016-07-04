@@ -114,7 +114,7 @@
                         tenantId: $scope.tenantId,
                         journeyStatus: 'ACTIVE',
                         query: 'DATE',
-                        date: formattedDate
+                        date: $scope.formattedDate
                     });
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';

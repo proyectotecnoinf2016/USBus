@@ -4,17 +4,19 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('CreateJourneyController', CreateJourneyController);
-    CreateJourneyController.$inject = ['$scope', 'localStorage', 'JourneyResource', 'ServiceResource', 'BusResource', '$mdDialog', 'theme'];
+    CreateJourneyController.$inject = ['$scope', 'localStorage', 'JourneyResource', 'ServiceResource', 'BusResource', 'HumanResource', '$mdDialog', 'theme', 'date'];
     /* @ngInject */
-    function CreateJourneyController($scope, localStorage, JourneyResource, ServiceResource, BusResource,  $mdDialog, theme, date) {
+    function CreateJourneyController($scope, localStorage, JourneyResource, ServiceResource, BusResource, HumanResource, $mdDialog, theme, date) {
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
         $scope.createJourney = createJourney;
         $scope.queryService = queryService;
         $scope.queryBus = queryBus;
+        $scope.queryResource = queryResource;
 
         $scope.theme = theme;
         $scope.date = date;
+        console.log(date);
 
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
@@ -46,8 +48,22 @@
         function queryBus(busName) {
 
             return BusResource.buses(token).query({
+                query:"BUSSTATUS",
+                status:true,
+                busStatus: "ACTIVE",
+                offset: 0,
+                limit: 5,
+                tenantId: $scope.tenantId
+            }).$promise;
+            return [];
+        }
+
+
+        function queryResource(hrEmail) {
+            return HumanResource.resources(token).query({
                 query:"ALL",
                 status:true,
+                email: hrEmail,
                 offset: 0,
                 limit: 5,
                 tenantId: $scope.tenantId
@@ -59,14 +75,27 @@
         function createJourney(item) {
             item.tenantId = $scope.tenantId;
             item.date = moment($scope.date).format('YYYY-MM-DDTHH:mm:ss.000Z');
-            item.service = $scope.service.id;
-            JourneyResource.save(item, function (resp) {
+            //item.service = $scope.service.id;
+            //item.bus = $scope.bus.id;
+            item.seats = item.bus.seats;
+            item.standingPassengers = item.bus.standingPassengers;
+            item.trunkWeight = item.bus.trunkMaxWeight;
+            item.status = 'ACTIVE';
+            //item.driver = $scope.hrDriver;
+
+            console.log(item);
+
+            JourneyResource.journeys(token).save({
+                tenantId: $scope.tenantId
+
+            }, item,function (resp) {
                 console.log(resp);
-                showAlert('Exito!', 'Se ha creado su unidad de forma exitosa');
+                showAlert('Exito!', 'Se ha creado su ruta de forma exitosa');
             }, function (error) {
                 console.log(error);
-                showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
-            });
+                showAlert('Error!', 'Ocurrió un error al crear la Ruta');
+            } );
+
         }
 
 
