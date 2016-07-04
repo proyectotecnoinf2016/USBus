@@ -32,7 +32,7 @@ public class HumanResourceBean implements HumanResourceLocal,HumanResourceRemote
         hr.setSalt(salt);
         hr.setPasswordHash(hash);
 
-        String oid = hrdao.persist(user);
+        String oid = hrdao.persist(hr);
         if (oid == null){
             throw new UserException("Ocurrió un error al persistir el recurso humano.");
         }
