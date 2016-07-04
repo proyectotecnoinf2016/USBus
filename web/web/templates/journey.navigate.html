@@ -3,23 +3,60 @@
 </md-content>
 
 <form name="inputForm" novalidate >
+    <div ng-show="!showCalendar">
+        <md-content ng-show="journeys != null && journeys.length > 0">
+        <span layout="row" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                Nro. de ómnibus
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Servicio
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Día
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Hora
+            </h3>
+        </span>
+            <md-divider ></md-divider>
+        <span>
+            <span layout="row" ng-repeat="item in journeys" ng-click="showTicket(item, $event)" class="pointer">
 
-<calendar-md flex layout layout-fill
-  calendar-direction="direction"
-  on-prev-month="prevMonth"
-  on-next-month="nextMonth"
-  on-day-click="dayClick"
-  title-format="'MMMM y'"
-  ng-model='selectedDate'
-  week-starts-on="firstDayOfWeek"
-  data-start-month="{{currentMonth}}"
-  data-start-year="{{currentYear}}"
-  tooltips="tooltips"
-  day-format="dayFormat"
-  day-label-format="'EEE'"
-  day-label-tooltip-format="'EEEE'"
-  day-tooltip-format="'fullDate'"
-  day-content="setDayContent"
-  disable-future-selection="false" ></calendar-md>
-
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.name}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    test
+                </p>
+            </span>
+        </span>
+        </md-content>
+        <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createJourney($event)">Crear Nuevo Viaje</md-button>
+    </div>
+    <div ng-show="showCalendar">
+        <calendar-md flex layout layout-fill
+          calendar-direction="direction"
+          on-prev-month="prevMonth"
+          on-next-month="nextMonth"
+          on-day-click="dayClick"
+          title-format="'MMMM y'"
+          ng-model='selectedDate'
+          week-starts-on="firstDayOfWeek"
+          data-start-month="{{currentMonth}}"
+          data-start-year="{{currentYear}}"
+          tooltips="tooltips"
+          day-format="dayFormat"
+          day-label-format="'EEE'"
+          day-label-tooltip-format="'EEEE'"
+          day-tooltip-format="'fullDate'"
+          day-content="setDayContent"
+          disable-future-selection="false" ></calendar-md>
+    </div>
 </form>
