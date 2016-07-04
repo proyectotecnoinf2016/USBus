@@ -1,44 +1,82 @@
 
-<md-dialog aria-label="Crear Sucursal" ng-cloak style="width: 50%"  md-theme="{{theme}}" md-theme-watch="true">
+<md-dialog aria-label="Crear Viaje" ng-cloak flex md-theme="{{theme}}" md-theme-watch="true">
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2 class="">Datos de la Sucursal</h2>
+                <h2 class="">Datos del Viaje</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
             </div>
         </md-toolbar>
         <md-dialog-content >
             <span flex></span>
-            <md-input-container class="customInput">
-                <label>Nombre</label>
-                <md-tooltip md-direction="top">Ingrese Nombre de la Sucursal</md-tooltip>
-                <input ng-model="branch.name" required>
-            </md-input-container>
 
-            <md-input-container class="customInput" layout="column" ng-repeat="item in windows">
-                <h3>Caja {{item.index}}</h3>
-                <div layout="row">
-                    <div  flex >
-                        <md-checkbox ng-model="item.tickets" aria-label="Venta de boletos" class="customInput">
-                            <span class="customInput">Venta de boletos</span>
-                        </md-checkbox>
-                    </div>
-                    <div flex>
-                        <md-checkbox ng-model="item.parcels" aria-label="Envio de encomiendas">
-                            <span class="customInput">Envio de encomiendas</span>
-                        </md-checkbox>
-                    </div>
-                    <div flex>
-                        <img src="img/Delete_Icon.png" ng-click="deleteWindow(item.index - 1)" class="deleteIcon pointer"/>
-                    </div>
-                </div>
+            <!--@Reference
+            private Service service;
+            private Date date;
+            @Reference
+            private Bus bus;
+            private String thirdPartyBus;
+            @Reference
+            private HumanResource driver;
+            private Integer busNumber;
+            private Integer seats;
+            private Seat seatsState[];
+            private Integer standingPassengers;
+            private String trunkWeight;
+            private JourneyStatus status;-->
+            <div layout="row" >
+                <md-input-container class="" layout-margin layout-padding flex>
+                    <label>Nombre</label>
+                    <md-tooltip md-direction="top">Ingrese Nombre de la Ruta</md-tooltip>
+                    <input ng-model="route.name" required>
+                </md-input-container>
 
-            </md-input-container>
+                <md-input-container class="" layout-margin layout-padding flex>
+                    <label>Precio por kilómetro</label>
+                    <md-tooltip md-direction="top">Ingrese Precio por Kilómetro</md-tooltip>
+                    <input type="number" ng-model="route.pricePerKm" required >
+                </md-input-container>
+            </div>
 
-            <span flex></span>
-            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click='addWindow()'>Agregar Caja</md-button>
+            <div layout="row">
+                <md-autocomplete
+                        md-selected-item="service"
+                        md-no-cache=true
+                        md-search-text-change="queryService(name)"
+                        md-min-length="3"
+                        md-items="item in queryService(name)"
+                        md-item-text="item.name"
+                        md-search-text="name"
+                        md-floating-label="Servicio"
+                        md-input-id="serviceName"
+                        required flex layout-margin>
 
+                    <md-item-template>
+                        <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }}</span>
+                    </md-item-template>
+                    <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
+                </md-autocomplete>
+
+                <md-autocomplete
+                        md-selected-item="bus"
+                        md-no-cache=true
+                        md-search-text-change="queryBus(busName)"
+                        md-min-length="3"
+                        md-items="item in queryBus(busName)"
+                        md-item-text="item.name"
+                        md-search-text="busName"
+                        md-floating-label="Servicio"
+                        md-input-id="busName"
+                        required flex layout-margin>
+
+                    <md-item-template>
+                        <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }}</span>
+                    </md-item-template>
+                    <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
+                </md-autocomplete>
+
+            </div>
         </md-dialog-content>
 
 
