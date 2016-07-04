@@ -1,19 +1,22 @@
 package com.usbus.dal.test;
 
 import com.usbus.commons.auxiliaryClasses.Seat;
+import com.usbus.commons.enums.Gender;
 import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.commons.enums.Position;
+import com.usbus.commons.enums.Rol;
 import com.usbus.dal.dao.BusDAO;
+import com.usbus.dal.dao.HumanResourceDAO;
 import com.usbus.dal.dao.JourneyDAO;
 import com.usbus.dal.dao.ServiceDAO;
-import com.usbus.dal.model.Bus;
+import com.usbus.dal.model.HumanResource;
 import com.usbus.dal.model.Journey;
 import com.usbus.dal.model.Service;
 import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -26,8 +29,9 @@ public class JourneyTest {
     protected JourneyDAO dao = new JourneyDAO();
     protected ServiceDAO serviceDAO = new ServiceDAO();
     protected BusDAO busDAO = new BusDAO();
+    protected HumanResourceDAO humanResourceDAO = new HumanResourceDAO();
 
-    @Test
+    @Test // correr test de servicios antes que este
     public void persist() throws ParseException {
         dao.clean();
 
@@ -40,12 +44,24 @@ public class JourneyTest {
         Seat v23 = new Seat(23, Position.WINDOWS, false);
         Seat v40 = new Seat(40, Position.CORRIDOR, false);
 
+        Date date = new Date();
+        List<Rol> roles = new ArrayList<>();
+        roles.add(Rol.DRIVER);
+        roles.add(Rol.ASSISTANT);
+
+        HumanResource HR01 = new HumanResource(2,"Pepe","pepe@bc.com","Pe","Pe",date,"123456", Gender.MALE, date, date, true, true, roles);
+        HumanResource HR02 = new HumanResource(2,"Pepa","pepa@bc.com","Pe","Pa",date,"123456", Gender.FEMALE, date, date, true, true, roles);
+        humanResourceDAO.persist(HR01);
+        humanResourceDAO.persist(HR02);
+
         Journey uno = new Journey();
         Service suno = serviceDAO.getByLocalId(2, 5L);
         uno.setId((long) 1);
         uno.setTenantId(2);
         uno.setStatus(JourneyStatus.ACTIVE);
         uno.setService(suno);
+        uno.setDriver(HR01);
+        uno.setAssistant(HR02);
         uno.setDate(dateFormat.parse("12/06/2016 " + suno.getTime().getHours() + ":" + suno.getTime().getMinutes()));
         uno.setBusNumber(115);
         uno.setSeatsState(new Seat[]{v3, v8, v13, v23, v40});
@@ -53,6 +69,8 @@ public class JourneyTest {
 
         Journey dos = new Journey();
         dos.setId((long) 2);
+        dos.setDriver(HR01);
+        dos.setAssistant(HR02);
         dos.setTenantId(2);
         dos.setStatus(JourneyStatus.ACTIVE);
         dos.setService(suno);
@@ -64,6 +82,8 @@ public class JourneyTest {
         Journey tres = new Journey();
         Service sdos = serviceDAO.getByLocalId(2, 2L);
         tres.setId((long) 3);
+        tres.setDriver(HR01);
+        tres.setAssistant(HR02);
         tres.setTenantId(2);
         tres.setStatus(JourneyStatus.ACTIVE);
         tres.setService(sdos);
@@ -75,6 +95,8 @@ public class JourneyTest {
         Journey cuatro = new Journey();
         cuatro.setId((long) 4);
         cuatro.setTenantId(2);
+        cuatro.setDriver(HR01);
+        cuatro.setAssistant(HR02);
         cuatro.setService(suno);
         cuatro.setStatus(JourneyStatus.ACTIVE);
         cuatro.setDate(dateFormat.parse("16/06/2016 " + suno.getTime().getHours() + ":" + suno.getTime().getMinutes()));
@@ -86,6 +108,8 @@ public class JourneyTest {
         Service stres = serviceDAO.getByLocalId(2, 3L);
         cinco.setId((long) 5);
         cinco.setTenantId(2);
+        cinco.setDriver(HR01);
+        cinco.setAssistant(HR02);
         cinco.setService(stres);
         cinco.setStatus(JourneyStatus.ACTIVE);
         cinco.setDate(dateFormat.parse("17/06/2016 " + stres.getTime().getHours() + ":" + stres.getTime().getMinutes()));
@@ -97,6 +121,8 @@ public class JourneyTest {
         Service scuatro = serviceDAO.getByLocalId(2, 4L);
         seis.setId((long) 6);
         seis.setTenantId(2);
+        seis.setDriver(HR01);
+        seis.setAssistant(HR02);
         seis.setService(scuatro);
         seis.setStatus(JourneyStatus.ACTIVE);
         seis.setDate(dateFormat.parse("17/06/2016 " + scuatro.getTime().getHours() + ":" + scuatro.getTime().getMinutes()));

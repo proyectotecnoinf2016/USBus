@@ -26,6 +26,7 @@ Journey extends BaseEntity{
     private String thirdPartyBus;
     @Reference
     private HumanResource driver;
+    private HumanResource assistant;
     private Integer busNumber;
     private Integer seats;
     private Seat seatsState[];
@@ -36,7 +37,7 @@ Journey extends BaseEntity{
     public Journey(){
     }
 
-    public Journey(long tenantId, Long id, Service service, Date date, Bus bus, String thirdPartyBus, HumanResource driver, Integer busNumber, Integer seats, Seat[] seatsState, Integer standingPassengers, Integer trunkWeight, JourneyStatus status) {
+    public Journey(long tenantId, Long id, Service service, Date date, Bus bus, String thirdPartyBus, HumanResource driver, HumanResource assistant, Integer busNumber, Integer seats, Seat[] seatsState, Integer standingPassengers, Integer trunkWeight, JourneyStatus status) {
         super(tenantId);
         this.id = id;
         this.service = service;
@@ -44,6 +45,7 @@ Journey extends BaseEntity{
         this.bus = bus;
         this.thirdPartyBus = thirdPartyBus;
         this.driver = driver;
+        this.assistant = assistant;
         this.busNumber = busNumber;
         this.seats = seats;
         this.seatsState = seatsState;
@@ -100,6 +102,14 @@ Journey extends BaseEntity{
         this.driver = driver;
     }
 
+    public HumanResource getAssistant() {
+        return assistant;
+    }
+
+    public void setAssistant(HumanResource assistant) {
+        this.assistant = assistant;
+    }
+
     public Integer getBusNumber() {
         return busNumber;
     }
@@ -116,9 +126,13 @@ Journey extends BaseEntity{
         this.seats = seats;
     }
 
-    public Seat[] getSeatsState() { return seatsState; }
+    public Seat[] getSeatsState() {
+        return seatsState;
+    }
 
-    public void setSeatsState(Seat[] seatsState) { this.seatsState = seatsState; }
+    public void setSeatsState(Seat[] seatsState) {
+        this.seatsState = seatsState;
+    }
 
     public Integer getStandingPassengers() {
         return standingPassengers;
