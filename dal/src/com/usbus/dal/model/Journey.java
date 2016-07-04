@@ -30,13 +30,13 @@ Journey extends BaseEntity{
     private Integer seats;
     private Seat seatsState[];
     private Integer standingPassengers;
-    private String trunkWeight;
+    private Integer trunkWeight;
     private JourneyStatus status;
 
     public Journey(){
     }
 
-    public Journey(long tenantId, Long id, Service service, Date date, Bus bus, String thirdPartyBus, HumanResource driver, Integer busNumber, Integer seats, Seat[] seatsState, Integer standingPassengers, String trunkWeight, JourneyStatus status) {
+    public Journey(long tenantId, Long id, Service service, Date date, Bus bus, String thirdPartyBus, HumanResource driver, Integer busNumber, Integer seats, Seat[] seatsState, Integer standingPassengers, Integer trunkWeight, JourneyStatus status) {
         super(tenantId);
         this.id = id;
         this.service = service;
@@ -128,11 +128,11 @@ Journey extends BaseEntity{
         this.standingPassengers = standingPassengers;
     }
 
-    public String getTrunkWeight() {
+    public Integer getTrunkWeight() {
         return trunkWeight;
     }
 
-    public void setTrunkWeight(String trunkWeight) {
+    public void setTrunkWeight(Integer trunkWeight) {
         this.trunkWeight = trunkWeight;
     }
 

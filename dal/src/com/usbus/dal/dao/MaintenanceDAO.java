@@ -9,10 +9,7 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Lufasoch on 28/05/2016.
@@ -101,7 +98,7 @@ public class MaintenanceDAO {
     }
 
     public List<Maintenance> getByBus(long tenantId, String busId, int offset, int limit) {
-        if(!(tenantId > 0) || (offset < 0) || ( limit <= 0)){
+        if(!(tenantId > 0) || busId == null || busId.isEmpty() || (offset < 0) || ( limit <= 0)){
             return null;
         }
         Query<Maintenance> query = ds.createQuery(Maintenance.class);
@@ -113,10 +110,11 @@ public class MaintenanceDAO {
             return null;
         } else {
             for (Maintenance aux : auxList) {
-                if(aux.getBus().getId() == busId){
+                if(Objects.equals(aux.getBus().getId(), busId)){
                     resultList.add(aux);
                 }
             }
+
             return resultList;
         }
     }
@@ -159,5 +157,9 @@ public class MaintenanceDAO {
             }
             return maintenance.getId() + 1;
         }
+    }
+
+    public void clean(){
+        ds.delete(ds.createQuery(Maintenance.class));
     }
 }
