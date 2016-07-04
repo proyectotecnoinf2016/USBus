@@ -28,7 +28,7 @@
         }
 
         BusResource.buses(token).query({
-            query:"ALL",
+            query:"BUSSTATUS",
             status:true,
             offset: 0,
             limit: 100,

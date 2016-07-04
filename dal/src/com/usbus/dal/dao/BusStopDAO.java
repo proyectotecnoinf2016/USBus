@@ -26,7 +26,11 @@ public class BusStopDAO {
     }
 
     public String persist(BusStop busStop) {
-        return dao.persist(busStop);
+        if(busStop != null) {
+            return dao.persist(busStop);
+        } else {
+            return null;
+        }
     }
 
     public long countAll() {
@@ -34,63 +38,67 @@ public class BusStopDAO {
     }
 
     public long countTenant(long tenantId) {
-        Query<BusStop> query = ds.createQuery(BusStop.class);
-        query.criteria("tenantId").equal(tenantId);
-        return query.countAll();
+        if(tenantId > 0) {
+            Query<BusStop> query = ds.createQuery(BusStop.class);
+            query.criteria("tenantId").equal(tenantId);
+            return query.countAll();
+        } else {
+            return 0;
+        }
     }
 
     public BusStop getById(String id) {
-        return dao.get(BusStop.class, id);
+        if(id == null || id.isEmpty()) {
+            return null;
+        } else {
+            return dao.get(BusStop.class, id);
+        }
     }
 
     public List<BusStop> getByTenant(long tenantId, int offset, int limit, boolean status, String name) {
-        if (!(tenantId > 0)) {
+        if (tenantId < 0 || offset < 0 || limit < 0) {
             return null;
+        } else {
+            Query<BusStop> query = ds.createQuery(BusStop.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(status));
+            if (!(name == null) && !(name.isEmpty())) {
+                query.and(query.criteria("name").containsIgnoreCase(name));
+            }
+            return query.offset(offset).limit(limit).asList();
         }
-        Query<BusStop> query = ds.createQuery(BusStop.class);
-        query.and(query.criteria("tenantId").equal(tenantId),query.criteria("active").equal(status));
-        if (!(name == null) && !(name.isEmpty())) {
-            query.and(query.criteria("name").containsIgnoreCase(name));
-        }
-        return query.offset(offset).limit(limit).asList();
-
     }
 
     public BusStop getByLocalId(long tenantId, Long id) {
-        if (!(tenantId > 0) || (id == null)) {
+        if (tenantId > 0 || id == null) {
             return null;
+        } else {
+            Query<BusStop> query = ds.createQuery(BusStop.class);
+            query.and(query.criteria("id").equal(id),
+                    query.criteria("tenantId").equal(tenantId));
+            return query.get();
         }
-
-        Query<BusStop> query = ds.createQuery(BusStop.class);
-
-        query.and(query.criteria("id").equal(id),
-                query.criteria("tenantId").equal(tenantId));
-
-        return query.get();
     }
 
     public BusStop getByName(long tenantId, String name) {
-        if (!(tenantId > 0) || (name.isEmpty())) {
+        if (tenantId < 0 || name == null || name.isEmpty()) {
             return null;
+        } else {
+            Query<BusStop> query = ds.createQuery(BusStop.class);
+            query.and(query.criteria("name").equal(name),
+                    query.criteria("tenantId").equal(tenantId));
+            return query.get();
         }
-
-        Query<BusStop> query = ds.createQuery(BusStop.class);
-
-        query.and(query.criteria("name").equal(name),
-                query.criteria("tenantId").equal(tenantId));
-
-        return query.get();
     }
 
     public void remove(String id) {
-        dao.remove(BusStop.class, id);
+        if (id != null && !id.isEmpty()) {
+            dao.remove(BusStop.class, id);
+        }
     }
 
     public void setInactive(long tenantId, Long id) {
-        if (!(tenantId > 0) || !(id > 0)) {
-        } else {
+        if (tenantId >= 0 && id != null && id >= 0) {
             Query<BusStop> query = ds.createQuery(BusStop.class);
-
             query.and(query.criteria("id").equal(id),
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<BusStop> updateOp = ds.createUpdateOperations(BusStop.class).set("active", false);
@@ -99,10 +107,8 @@ public class BusStopDAO {
     }
 
     public void setActive(long tenantId, Long id) {
-        if (!(tenantId > 0) || !(id > 0)) {
-        } else {
+        if (tenantId >= 0 && id != null && id >= 0) {
             Query<BusStop> query = ds.createQuery(BusStop.class);
-
             query.and(query.criteria("id").equal(id),
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<BusStop> updateOp = ds.createUpdateOperations(BusStop.class).set("active", true);
@@ -115,7 +121,7 @@ public class BusStopDAO {
     }
 
     public Long getNextId(long tenantId) {
-        if (!(tenantId > 0)) {
+        if (tenantId < 0) {
             return null;
         } else {
             Query<BusStop> query = ds.createQuery(BusStop.class);
@@ -123,11 +129,9 @@ public class BusStopDAO {
             query.order("-id").retrievedFields(true,"id");
             BusStop busStop = query.get();
             if (busStop==null){
-                return new Long(1);
+                return 1L;
             }
             return busStop.getId() + 1;
-
         }
     }
-
 }

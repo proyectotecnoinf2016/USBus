@@ -113,7 +113,7 @@ public class JourneyTest {
     public void getJourneysByTenantDateAndStatus() throws ParseException {
         dao.clean();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        /*SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         dateFormat.setTimeZone(TimeZone.getTimeZone("America/Montevideo"));
 
         Seat v3 = new Seat(3, Position.CORRIDOR, false);
@@ -131,7 +131,7 @@ public class JourneyTest {
         uno.setDate(dateFormat.parse("12/06/2016 " + suno.getTime().getHours() + ":" + suno.getTime().getMinutes()));
         uno.setBusNumber(115);
         uno.setSeatsState(new Seat[]{v3, v8, v13, v23, v40});
-        Bus abc01 = busDAO.getByBusId(2, "ABC01");
+        Bus abc01 = busDAO.getByLocalId(2, "ABC01");
         uno.setBus(abc01);
 
         dao.persist(uno);
@@ -140,6 +140,6 @@ public class JourneyTest {
 
         List<Journey> JList = dao.getJourneysByTenantDateAndStatus(2,D1,JourneyStatus.CANCELED,0,1);
 
-        System.out.println("Tamaño lista: " + JList.size());
+        System.out.println("Tamaño lista: " + JList.size());*/
     }
 }

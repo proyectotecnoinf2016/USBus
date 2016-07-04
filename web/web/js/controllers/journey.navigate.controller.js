@@ -9,11 +9,15 @@
     function JourneyController($scope, $mdDialog, JourneyResource, localStorage, $rootScope) {
         $scope.tenantId = 0;
         $scope.tooltips = false;
+        $scope.showCalendar = true;
+        $scope.formattedDate = null;
+        $scope.date = null;
 
         $scope.setDirection = setDirection;
         $scope.dayClick = dayClick;
         $scope.prevMonth = prevMonth;
         $scope.nextMonth = nextMonth;
+        $scope.createJourney = createJourney;
 
 
         $rootScope.$emit('options', 'admin');
@@ -27,15 +31,6 @@
         if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
             token = localStorage.getData('token');
         }
-
-        /*JourneyResource.journeys(token).query({
-            offset: 0,
-            limit: 100,
-            tenantId: $scope.tenantId
-        }).$promise.then(function(result) {
-            $scope.journeys = result;
-        });
-*/
 
 
         $scope.dayFormat = "d";
@@ -56,7 +51,22 @@
         };
 
         function dayClick(date) {
+            $scope.showCalendar = false;
+            $scope.date = date;
             //$scope.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
+            $scope.formattedDate = moment(date).format('MM/DD/YYYY');
+            JourneyResource.journeys(token).query({
+                offset: 0,
+                limit: 100,
+                tenantId: $scope.tenantId,
+                journeyStatus: 'ACTIVE',
+                query: 'DATE',
+                date: $scope.formattedDate
+            }).$promise.then(function(result) {
+                $scope.journeys = result;
+                console.log($scope.journeys);
+            });
+
             console.log(date);
         };
 
@@ -88,6 +98,28 @@
         };
 
 
+        function createJourney(ev) {
+            $mdDialog.show({
+                controller : 'CreateJourneyController',
+                templateUrl : 'templates/journey.create.html',
+                parent : angular.element(document.body),
+                targetEvent : ev,
+                clickOutsideToClose : false,
+                locals : {theme: $scope.theme, date: $scope.date}
+            }).then(
+                function() {
+                    $scope.journeys = JourneyResource.journeys(token).query({
+                        offset: 0,
+                        limit: 100,
+                        tenantId: $scope.tenantId,
+                        journeyStatus: 'ACTIVE',
+                        query: 'DATE',
+                        date: formattedDate
+                    });
+                }, function() {
+                    $scope.status = 'You cancelled the dialog.';
+            });
+        }
 
     }
 })();

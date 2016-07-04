@@ -2,12 +2,14 @@ package com.usbus.bll.administration.beans;
 
 import com.usbus.bll.administration.interfaces.HumanResourceLocal;
 import com.usbus.bll.administration.interfaces.HumanResourceRemote;
+import com.usbus.commons.auxiliaryClasses.Password;
 import com.usbus.commons.enums.HRStatus;
 import com.usbus.commons.enums.Rol;
 import com.usbus.commons.exceptions.UserException;
 import com.usbus.dal.dao.HumanResourceDAO;
 import com.usbus.dal.model.HumanResource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +23,15 @@ public class HumanResourceBean implements HumanResourceLocal,HumanResourceRemote
     }
     @Override
     public void persist(HumanResource user) throws UserException {
+        String pass = user.getPassword();
+
+        byte[] salt = Password.getNextSalt();
+        byte[] hash = Password.hashPassword(pass.toCharArray(), salt, 10000, 256);
+
+        HumanResource hr = new HumanResource(user, true, user.getRoles());
+        hr.setSalt(salt);
+        hr.setPasswordHash(hash);
+
         String oid = hrdao.persist(user);
         if (oid == null){
             throw new UserException("Ocurrió un error al persistir el recurso humano.");
