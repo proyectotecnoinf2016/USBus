@@ -26,6 +26,7 @@ Journey extends BaseEntity{
     private String thirdPartyBus;
     @Reference
     private HumanResource driver;
+    @Reference
     private HumanResource assistant;
     private Integer busNumber;
     private Integer seats;

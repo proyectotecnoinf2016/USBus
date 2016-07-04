@@ -34,7 +34,7 @@ public class JourneyTest {
     @Test // correr test de servicios antes que este
     public void persist() throws ParseException {
         dao.clean();
-
+        humanResourceDAO.cleanHumanResources(2);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         dateFormat.setTimeZone(TimeZone.getTimeZone("America/Montevideo"));
 
@@ -56,7 +56,7 @@ public class JourneyTest {
 
         Journey uno = new Journey();
         Service suno = serviceDAO.getByLocalId(2, 5L);
-        uno.setId((long) 1);
+        uno.setId(1L);
         uno.setTenantId(2);
         uno.setStatus(JourneyStatus.ACTIVE);
         uno.setService(suno);
@@ -68,7 +68,7 @@ public class JourneyTest {
         dao.persist(uno);
 
         Journey dos = new Journey();
-        dos.setId((long) 2);
+        dos.setId(2L);
         dos.setDriver(HR01);
         dos.setAssistant(HR02);
         dos.setTenantId(2);
@@ -81,7 +81,7 @@ public class JourneyTest {
 
         Journey tres = new Journey();
         Service sdos = serviceDAO.getByLocalId(2, 2L);
-        tres.setId((long) 3);
+        tres.setId(3L);
         tres.setDriver(HR01);
         tres.setAssistant(HR02);
         tres.setTenantId(2);
@@ -93,7 +93,7 @@ public class JourneyTest {
         dao.persist(tres);
 
         Journey cuatro = new Journey();
-        cuatro.setId((long) 4);
+        cuatro.setId(4L);
         cuatro.setTenantId(2);
         cuatro.setDriver(HR01);
         cuatro.setAssistant(HR02);
@@ -106,7 +106,7 @@ public class JourneyTest {
 
         Journey cinco = new Journey();
         Service stres = serviceDAO.getByLocalId(2, 3L);
-        cinco.setId((long) 5);
+        cinco.setId(5L);
         cinco.setTenantId(2);
         cinco.setDriver(HR01);
         cinco.setAssistant(HR02);
@@ -119,7 +119,7 @@ public class JourneyTest {
 
         Journey seis = new Journey();
         Service scuatro = serviceDAO.getByLocalId(2, 4L);
-        seis.setId((long) 6);
+        seis.setId(6L);
         seis.setTenantId(2);
         seis.setDriver(HR01);
         seis.setAssistant(HR02);
