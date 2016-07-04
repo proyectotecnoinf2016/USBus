@@ -61,7 +61,10 @@ public class ServiceTest {
         srv = new Service(2, 5L, "Montevideo - Colonia (Común)", DayOfWeek.FRIDAY, format.parse("09:15"), route, 3, true);
         dao.persist(srv);
 
+        List<Service> serviceList = dao.getServicesByDayOfTheWeek(2,DayOfWeek.MONDAY,0,100);
         System.out.print("Cantidad de servicios: ");
         System.out.println(dao.countAll());
+        System.out.print("Cantidad de servicios por día de la semana: ");
+        System.out.println(serviceList.size());
     }
 }

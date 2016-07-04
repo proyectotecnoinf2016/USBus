@@ -28,7 +28,11 @@ public class JourneyDAO {
     }
 
     public String persist(Journey journey) {
-        return dao.persist(journey);
+        if(journey != null) {
+            return dao.persist(journey);
+        } else {
+            return null;
+        }
     }
 
     public long countAll() {
@@ -36,44 +40,46 @@ public class JourneyDAO {
     }
 
     public long countTenant(long tenantId) {
-        Query<Journey> query = ds.createQuery(Journey.class);
-        query.criteria("tenantId").equal(tenantId);
-        return query.countAll();
+        if(tenantId > 0) {
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.criteria("tenantId").equal(tenantId);
+            return query.countAll();
+        } else {
+            return 0;
+        }
     }
 
     public Journey getById(String id) {
-        return dao.get(Journey.class, id);
+        if(id == null || id.isEmpty()) {
+            return null;
+        } else {
+            return dao.get(Journey.class, id);
+        }
     }
 
     public Journey getByJourneyId(long tenantId, Long id){
-        if (!(tenantId > 0) || (id == null)) {
+        if (tenantId < 0 || id == null || id < 0) {
             return null;
+        } else {
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("id").equal(id), query.criteria("tenantId").equal(tenantId));
+            return query.get();
         }
-
-        Query<Journey> query = ds.createQuery(Journey.class);
-
-        query.and(query.criteria("id").equal(id),
-                query.criteria("tenantId").equal(tenantId));
-
-        return query.get();
     }
 
     public Journey getByLocalId(long tenantId, Long id) {
-        if (!(tenantId > 0) || (id == null)) {
-            return null;
-        }
-
-        Query<Journey> query = ds.createQuery(Journey.class);
-
-        query.and(query.criteria("id").equal(id),
-                query.criteria("tenantId").equal(tenantId));
-
-        return query.get();
+//        if (tenantId < 0 || id == null || id < 0) {
+//            return null;
+//        } else {
+//            Query<Journey> query = ds.createQuery(Journey.class);
+//            query.and(query.criteria("id").equal(id), query.criteria("tenantId").equal(tenantId));
+//            return query.get();
+//        }
+        return getByJourneyId(tenantId, id); //Just do it!!!
     }
 
     public void setInactive(long tenantId, Long journeyId) {
-        if (!(tenantId > 0) || (journeyId == null)) {
-        } else {
+        if (tenantId >= 0 && journeyId != null) {
             Query<Journey> query = ds.createQuery(Journey.class);
 
             query.and(query.criteria("id").equal(journeyId),
@@ -84,8 +90,7 @@ public class JourneyDAO {
     }
 
     public void setActive(long tenantId, Long journeyId) {
-        if (!(tenantId > 0) || (journeyId == null)) {
-        } else {
+        if ((tenantId > 0) && (journeyId != null)) {
             Query<Journey> query = ds.createQuery(Journey.class);
 
             query.and(query.criteria("id").equal(journeyId),
@@ -96,26 +101,25 @@ public class JourneyDAO {
     }
 
     public List<Journey> JourneysByTenantIdAndStatus(long tenantId, JourneyStatus status, int offset, int limit){
-        if(!(tenantId > 0) || (status == null)){
+        if(tenantId > 0 || status == null){
             return null;
+        } else {
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("status").equal(status));
+            return query.offset(offset).limit(limit).asList();
         }
-        Query<Journey> query = ds.createQuery(Journey.class);
-        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("status").equal(status));
-        return query.offset(offset).limit(limit).asList();
     }
 
     public Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination){
-        if(!(tenantId > 0) || !(journeyId > 0) || origin == null || origin.isEmpty() || destination == null || destination.isEmpty()) {
+        if(tenantId < 0 || journeyId == null || journeyId < 0 || origin == null ||
+                origin.isEmpty() || destination == null || destination.isEmpty()) {
             return null;
         } else {
             Journey jaux = getByJourneyId(tenantId, journeyId);
             Double pricexkm = jaux.getService().getRoute().getPricePerKm();
             Double kmOrigin = null;
             Double kmDestination = null;
-
             List<RouteStop> routeStops = jaux.getService().getRoute().getBusStops();
-
-
             for (RouteStop stop :
                     routeStops) {
                 if (stop.getBusStop().equals(origin)) {
@@ -124,7 +128,6 @@ public class JourneyDAO {
                     kmDestination = stop.getKm();
                 }
             }
-
 //            for(int i = 0; i < routeStops.length; i++) {
 //                if(routeStops[i].getBusStop().equals(origin)) {
 //                    kmOrigin = routeStops[i].getKm();
@@ -132,7 +135,6 @@ public class JourneyDAO {
 //                    kmDestination = routeStops[i].getKm();
 //                }
 //            }
-
             if(kmDestination == null || kmOrigin == null) {
                 return null;
             } else {
@@ -142,97 +144,100 @@ public class JourneyDAO {
     }
 
     public List<Journey> getJourneysByTenantDateAndStatus(long tenantId, Date time, JourneyStatus journeyStatus, int offset, int limit){
-        if(!(tenantId > 0) || (time == null) || (offset < 0) || ( limit <= 0)){
+        if(tenantId < 0 || time == null || journeyStatus == null || offset < 0 || limit <= 0){
             return null;
+        } else {
+            Date timeAux = time;
+            //CAL1
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(time);
+            cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
+            cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
+            cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
+            cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+            time = cal.getTime();
+            //CAL2
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(time);
+            cal2.set(Calendar.HOUR_OF_DAY, cal2.getMaximum(Calendar.HOUR_OF_DAY));
+            cal2.set(Calendar.MINUTE, cal2.getMaximum(Calendar.MINUTE));
+            cal2.set(Calendar.SECOND, cal2.getMaximum(Calendar.SECOND));
+            cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
+            timeAux = cal2.getTime();
+            //END
+            //System.out.println("Fecha inicial: " + time.toString());
+            //System.out.println("Fecha final: " + timeAux.toString());
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
+                    query.criteria("tenantId").equal(tenantId), query.criteria("status").equal(journeyStatus));
+            return query.offset(offset).limit(limit).asList();
         }
-        Date timeAux = time;
-        //CAL1
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(time);
-        cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
-        cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
-        cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
-        cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
-        time = cal.getTime();
-        //CAL2
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(time);
-        cal2.set(Calendar.HOUR_OF_DAY, cal2.getMaximum(Calendar.HOUR_OF_DAY));
-        cal2.set(Calendar.MINUTE, cal2.getMaximum(Calendar.MINUTE));
-        cal2.set(Calendar.SECOND, cal2.getMaximum(Calendar.SECOND));
-        cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
-        timeAux = cal2.getTime();
-        //END
-        //System.out.println("Fecha inicial: " + time.toString());
-        //System.out.println("Fecha final: " + timeAux.toString());
-        Query<Journey> query = ds.createQuery(Journey.class);
-        query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
-                query.criteria("tenantId").equal(tenantId) , query.criteria("status").equal(journeyStatus));
-        return query.offset(offset).limit(limit).asList();
     }
 
     public List<Journey> getJourneysByTenantAndDate(long tenantId, Date time, int offset, int limit){
-        if(!(tenantId > 0) || (time == null) || (offset < 0) || ( limit <= 0)){
+        if(tenantId < 0 || time == null || offset < 0 || limit <= 0){
             return null;
+        } else {
+            //CAL1
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(time);
+            cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
+            cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
+            cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
+            cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+            time = cal.getTime();
+            //CAL2
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(time);
+            cal2.set(Calendar.HOUR_OF_DAY, cal2.getMaximum(Calendar.HOUR_OF_DAY));
+            cal2.set(Calendar.MINUTE, cal2.getMaximum(Calendar.MINUTE));
+            cal2.set(Calendar.SECOND, cal2.getMaximum(Calendar.SECOND));
+            cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
+            Date timeAux = cal2.getTime();
+            //END
+//            System.out.println("Fecha inicial: " + time.toString());
+//            System.out.println("Fecha final: " + timeAux.toString());
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
+                    query.criteria("tenantId").equal(tenantId));
+            return query.offset(offset).limit(limit).asList();
         }
-        Date timeAux = time;
-        //CAL1
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(time);
-        cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
-        cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
-        cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
-        cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
-        time = cal.getTime();
-        //CAL2
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(time);
-        cal2.set(Calendar.HOUR_OF_DAY, cal2.getMaximum(Calendar.HOUR_OF_DAY));
-        cal2.set(Calendar.MINUTE, cal2.getMaximum(Calendar.MINUTE));
-        cal2.set(Calendar.SECOND, cal2.getMaximum(Calendar.SECOND));
-        cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
-        timeAux = cal2.getTime();
-        //END
-        System.out.println("Fecha inicial: " + time.toString());
-        System.out.println("Fecha final: " + timeAux.toString());
-        Query<Journey> query = ds.createQuery(Journey.class);
-        query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
-                query.criteria("tenantId").equal(tenantId));
-        return query.offset(offset).limit(limit).asList();
     }
 
     public List<Journey> getJourneysByTenantAndDateNoLimits(long tenantId, Date time){
-        if(!(tenantId > 0) || (time == null)){
+        if(tenantId < 0 || time == null){
             return null;
+        } else {
+            //CAL1
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(time);
+            cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
+            cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
+            cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
+            cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+            time = cal.getTime();
+            //CAL2
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(time);
+            cal2.set(Calendar.HOUR_OF_DAY, cal2.getMaximum(Calendar.HOUR_OF_DAY));
+            cal2.set(Calendar.MINUTE, cal2.getMaximum(Calendar.MINUTE));
+            cal2.set(Calendar.SECOND, cal2.getMaximum(Calendar.SECOND));
+            cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
+            Date timeAux = cal2.getTime();
+            //END
+//            System.out.println("Fecha inicial: " + time.toString());
+//            System.out.println("Fecha final: " + timeAux.toString());
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
+                    query.criteria("tenantId").equal(tenantId));
+            return query.asList();
         }
-        Date timeAux = time;
-        //CAL1
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(time);
-        cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
-        cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
-        cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
-        cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
-        time = cal.getTime();
-        //CAL2
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(time);
-        cal2.set(Calendar.HOUR_OF_DAY, cal2.getMaximum(Calendar.HOUR_OF_DAY));
-        cal2.set(Calendar.MINUTE, cal2.getMaximum(Calendar.MINUTE));
-        cal2.set(Calendar.SECOND, cal2.getMaximum(Calendar.SECOND));
-        cal2.set(Calendar.MILLISECOND, cal2.getMaximum(Calendar.MILLISECOND));
-        timeAux = cal2.getTime();
-        //END
-        System.out.println("Fecha inicial: " + time.toString());
-        System.out.println("Fecha final: " + timeAux.toString());
-        Query<Journey> query = ds.createQuery(Journey.class);
-        query.and(query.criteria("date").greaterThanOrEq(time), query.criteria("date").lessThanOrEq(timeAux),
-                query.criteria("tenantId").equal(tenantId));
-        return query.asList();
     }
 
     public void remove(String id) {
-        dao.remove(Journey.class, id);
+        if (id != null && !id.isEmpty()) {
+            dao.remove(Journey.class, id);
+        }
     }
 
     public void clean(){
@@ -248,7 +253,7 @@ public class JourneyDAO {
             query.order("-id").retrievedFields(true,"id");
             Journey journey = query.get();
             if (journey==null){
-                return new Long(1);
+                return 1L;
             }
             return journey.getId() + 1;
         }
