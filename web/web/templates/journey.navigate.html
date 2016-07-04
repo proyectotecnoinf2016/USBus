@@ -24,13 +24,13 @@
             <span layout="row" ng-repeat="item in journeys" ng-click="showTicket(item, $event)" class="pointer">
 
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
+                    {{item.busNumber}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.service.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.service.time}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
                     test

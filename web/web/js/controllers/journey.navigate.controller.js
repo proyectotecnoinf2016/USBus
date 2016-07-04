@@ -116,6 +116,7 @@
                         query: 'DATE',
                         date: $scope.formattedDate
                     });
+                    console.log($scope.journeys);
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
             });
