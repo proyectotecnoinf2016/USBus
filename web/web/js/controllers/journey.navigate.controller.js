@@ -41,7 +41,7 @@
 
         var today = new Date();
         $scope.currentDay = today.getDate();
-        $scope.currentMonth = today.getMonth()+1;
+        $scope.currentMonth = today.getMonth();
         $scope.currentYear = today.getFullYear();
 
         $scope.firstDayOfWeek = 0; // First day of the week, 0 for Sunday, 1 for Monday, etc.
@@ -56,11 +56,12 @@
             $scope.date = date;
             //$scope.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
             $scope.formattedDate = moment(date).format('MM/DD/YYYY');
+            console.log($scope.formattedDate);
             JourneyResource.journeys(token).query({
                 offset: 0,
                 limit: 100,
                 tenantId: $scope.tenantId,
-                journeyStatus: 'ACTIVE',
+                status: 'ACTIVE',
                 query: 'DATE',
                 date: $scope.formattedDate
             }).$promise.then(function(result) {

@@ -1,3 +1,4 @@
+<div ng-show="showJourneys">
 <md-content md-theme="" layout-align="center center" layout-padding>
     <h1 class="grayHeader">Viajes disponibles</h1>
 </md-content>
@@ -5,12 +6,7 @@
 <form name="inputForm" novalidate >
     <div ng-cloak class="md-inline-form" >
         <div layout-gt-xs="row" >
-            <md-input-container class="" flayout-padding>
-                <label>Fecha</label>
-                <md-tooltip md-direction="top">Ingrese Fecha de viaje</md-tooltip>
-                <input type="date" ng-model="date">
-            </md-input-container>
-
+            <mdp-date-picker  flex ng-model="date" mdp-placeholder="Fecha de Viaje"></mdp-date-picker>
         </div>
         <div layout-gt-xs="row">
             <md-input-container class="" layout-padding>
@@ -50,19 +46,24 @@
             <span layout="row" ng-repeat="item in journeys" ng-click="showTicket(item, $event)" class="pointer">
 
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
+                    {{item.busNumber}}
+                </p>
+                <p class="tableRow" >
+                    {{item.service.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.day}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.time}}
                 </p>
             </span>
         </span>
     </md-content>
 
 </form>
+
+</div>
+<div ng-show="!showJourneys">
+    hola
+</div>

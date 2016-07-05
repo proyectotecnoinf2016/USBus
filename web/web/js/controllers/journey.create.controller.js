@@ -43,6 +43,8 @@
             }).$promise;
             console.log(lista);
 
+            
+
             return lista;
         }
 
