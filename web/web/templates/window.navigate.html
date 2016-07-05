@@ -1,3 +1,63 @@
-<md-content md-theme="" layout-align="center center" layout-padding>
-    <h1 class="grayHeader">Caja</h1>
+<md-content layout-align="center center" layout-padding>
+    <h1 class="grayHeader">Caja {{windowId}}</h1>
+    <div layout="column">
+        <div layout="row">
+            <md-button class="md-raised md-primary customButton" ng-click="newEntry($event)" ng-disabled="!isOpen">
+                <md-icon>add_circle_outline</md-icon>
+                <span>Nueva Entrada</span>
+            </md-button>
+            <md-button class="md-raised md-primary customButton" ng-click="newWithdrawal($event)" ng-disabled="!isOpen">
+                <md-icon>remove_circle_outline</md-icon>
+                <span>Nueva Salida</span>
+            </md-button>
+            <md-button class="md-raised md-primary customButton" ng-click="cashCount($event)" ng-disabled="!isOpen">
+                <md-icon>local_atm</md-icon>
+                <span>Arqueo de Caja</span>
+            </md-button>
+            <md-button class="md-raised md-primary customButton" ng-click="openCashRegister($event)" ng-disabled="isOpen" ng-show="!isOpen">
+                <md-icon>lock_open</md-icon>
+                <span>Abrir Caja</span>
+            </md-button>
+            <md-button class="md-raised md-primary customButton" ng-click="closeCashRegister($event)" ng-disabled="!isOpen" ng-show="isOpen">
+                <md-icon>lock_outline</md-icon>
+                <span>Cerrar Caja</span>
+            </md-button>
+        </div>
+        <div>
+            <h1 ng-show="!isOpen">La caja se encuentra cerrada.</h1>
+            <md-content ng-show="isOpen">
+                <span layout="row">
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Fecha
+                    </h3>
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Monto
+                    </h3>
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Origen
+                    </h3>
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Medio de Pago
+                    </h3>
+                </span>
+                <md-divider></md-divider>
+                <span>
+                    <span layout="row" ng-repeat="item in registrys">
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.date}}
+                        </p>
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.amount}}
+                        </p>
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.origin}}
+                        </p>
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.payment}}
+                        </p>
+                    </span>
+                </span>
+            </md-content>
+        </div>
+    </div>
 </md-content>

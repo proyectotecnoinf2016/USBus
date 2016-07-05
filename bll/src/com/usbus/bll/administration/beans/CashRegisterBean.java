@@ -95,6 +95,10 @@ public class CashRegisterBean implements CashRegisterLocal, CashRegisterRemote {
     public List<CashRegister> currentCashRegister(Long tenantId, Long branchId, Long windowsId, int limit, int offset) {
         return crDAO.currentCashRegister(tenantId, branchId, windowsId,limit, offset);
     }
+    @Override
+    public boolean isCashRegisterOpen(Long tenantId, Long branchId, Long windowsId) {
+        return crDAO.isCashRegisterOpen(tenantId, branchId, windowsId);
+    }
 
 
     public CashRegister registerFromTicket(Ticket ticket) throws CashRegisterException {

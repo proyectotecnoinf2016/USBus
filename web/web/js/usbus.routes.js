@@ -53,7 +53,7 @@
             })
             .when('/tenant/:tenantName/tickets/window', {
                 templateUrl: 'templates/window.navigate.html',
-                controller: 'WindowController'
+                controller: 'CashRegisterController'
             })
 			.when('/tenant/:tenantName/boxes', {
                 templateUrl: 'templates/boxes.html',
