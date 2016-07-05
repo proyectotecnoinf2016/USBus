@@ -130,6 +130,12 @@ public class CashRegisterService {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
+            case "CURRENT":
+                cashRegisterList = ejb.currentCashRegister(tenantId,branchId,windowsId,limit,offset);
+                if (cashRegisterList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(cashRegisterList).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
 
