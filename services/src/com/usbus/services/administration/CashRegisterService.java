@@ -8,6 +8,8 @@ import com.usbus.commons.enums.Rol;
 import com.usbus.commons.exceptions.CashRegisterException;
 import com.usbus.dal.model.CashRegister;
 import com.usbus.services.auth.Secured;
+import org.jose4j.json.internal.json_simple.JSONArray;
+import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -90,7 +92,11 @@ public class CashRegisterService {
             case "CASH_COUNT":
                 try {
                     Double cashCount = ejb.cashCount(tenantId, branchId, windowsId);
-                    return Response.ok(cashCount).build();
+                    JSONObject jo = new JSONObject();
+                    jo.put("cashCount",cashCount);
+                    JSONArray ja = new JSONArray();
+                    ja.add(jo);
+                    return Response.ok(ja).build();
                 } catch (CashRegisterException e) {
                     return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
                 }
@@ -136,6 +142,15 @@ public class CashRegisterService {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
+            case "ISOPEN":
+                boolean isOpen = ejb.isCashRegisterOpen(tenantId,branchId,windowsId);
+                JSONObject jo = new JSONObject();
+                jo.put("isOpen",isOpen);
+                JSONArray ja = new JSONArray();
+                ja.add(jo);
+                return Response.ok(ja).build();
+
+
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
 
