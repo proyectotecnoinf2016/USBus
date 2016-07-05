@@ -30,4 +30,6 @@ public interface CashRegisterRemote {
     List<CashRegister> getByTypeOriginPaymentDate(Long tenantId, Long branchId, Long windowsId, Date start, Date end, CashType type, CashOrigin origin, CashPayment payment, String user, int limit, int offset);
 
     List<CashRegister> currentCashRegister(Long tenantId, Long branchId, Long windowsId, int limit, int offset);
+
+    boolean isCashRegisterOpen(Long tenantId, Long branchId, Long windowsId);
 }
