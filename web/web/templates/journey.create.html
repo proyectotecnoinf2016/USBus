@@ -11,34 +11,17 @@
         <md-dialog-content >
             <span flex></span>
 
-            <!--@Reference
-            private Service service;
-            private Date date;
-            @Reference
-            private Bus bus;
-
-            @Reference
-            private HumanResource driver;
-
-            private Integer busNumber;
-            private String thirdPartyBus;
-            private Integer seats;
-            private Seat seatsState[];
-            private Integer standingPassengers;
-            private String trunkWeight;
-            private JourneyStatus status;-->
-
-            <div layout="row" >
-                <md-input-container class="" layout-margin layout-padding flex>
+            <div layout="row" flex>
+                <md-input-container class="" flex>
                     <label>Número de ómnibus</label>
                     <md-tooltip md-direction="top">Ingrese Número de Ómnibus</md-tooltip>
                     <input type="number" ng-model="journey.busNumber" required>
                 </md-input-container>
 
-                <md-input-container class="" layout-margin layout-padding flex>
-                    <label>Unidad externa</label>
-                    <md-tooltip md-direction="top">Indique si la unidad es contratada</md-tooltip>
-                    <input  ng-model="journey.thirdPartyBus" required >
+                <md-input-container class="" flex>
+                    <md-checkbox ng-model="journey.thirdPartyBus" aria-label="Checkbox 1">
+                        Es una unidad externa?
+                    </md-checkbox>
                 </md-input-container>
             </div>
 
@@ -83,7 +66,7 @@
             <div layout="row">
 
                 <md-autocomplete
-                        md-selected-item="hr"
+                        md-selected-item="journey.driver"
                         md-no-cache=true
                         md-search-text-change="queryResource(assistantEmail)"
                         md-min-length="3"
@@ -102,7 +85,7 @@
 
 
                 <md-autocomplete
-                        md-selected-item="hrDriver"
+                        md-selected-item="journey.assistant"
                         md-no-cache=true
                         md-search-text-change="queryResource(driverEmail)"
                         md-min-length="3"

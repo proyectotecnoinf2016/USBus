@@ -4,15 +4,16 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('JourneyController', JourneyController);
-    JourneyController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope'];
+    JourneyController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope', 'dayOfWeek'];
     /* @ngInject */
-    function JourneyController($scope, $mdDialog, JourneyResource, localStorage, $rootScope) {
+    function JourneyController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, dayOfWeek) {
         $scope.tenantId = 0;
         $scope.tooltips = false;
         $scope.showCalendar = true;
         $scope.formattedDate = null;
         $scope.date = null;
 
+        $scope.cancel = cancel;
         $scope.setDirection = setDirection;
         $scope.dayClick = dayClick;
         $scope.prevMonth = prevMonth;
@@ -63,6 +64,14 @@
                 query: 'DATE',
                 date: $scope.formattedDate
             }).$promise.then(function(result) {
+
+
+
+                var i = 0;
+                for (i = 0; i < result.length; i ++) {
+                    result[i].day = dayOfWeek.getDay(result[i].service.day);
+                    result[i].time = moment(result[i].service.time).format('HH:mm');
+                }
                 $scope.journeys = result;
                 console.log($scope.journeys);
             });
@@ -120,6 +129,10 @@
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
             });
+        }
+
+        function cancel() {
+            $scope.showCalendar = true;
         }
 
     }

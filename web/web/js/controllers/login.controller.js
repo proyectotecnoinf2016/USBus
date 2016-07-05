@@ -36,6 +36,7 @@
                     localStorage.setData('tenantId',r.tenantId);
                     localStorage.setData('userName', data.username);
                     localStorage.setData('tenantName', $scope.tenantName);
+                    localStorage.setData('userRoles', r.roles);
                     $rootScope.$emit('menuOption', '');
                     $rootScope.authorization = true;
 				}, function(r){

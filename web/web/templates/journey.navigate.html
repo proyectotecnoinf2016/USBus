@@ -21,7 +21,7 @@
         </span>
             <md-divider ></md-divider>
         <span>
-            <span layout="row" ng-repeat="item in journeys" ng-click="showTicket(item, $event)" class="pointer">
+            <span layout="row" ng-repeat="item in journeys">
 
                 <p hide-md="" show-gt-md="" class="tableRow" >
                     {{item.busNumber}}
@@ -30,15 +30,18 @@
                     {{item.service.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.service.time}}
+                    {{item.day}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.time}}
                 </p>
             </span>
         </span>
         </md-content>
-        <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createJourney($event)">Crear Nuevo Viaje</md-button>
+        <div layout="row">
+            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createJourney($event)">Crear Nuevo Viaje</md-button>
+            <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+        </div>
     </div>
     <div ng-show="showCalendar">
         <calendar-md flex layout layout-fill
