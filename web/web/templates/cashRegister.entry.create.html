@@ -1,0 +1,38 @@
+<md-dialog aria-label="Entry" ng-cloak md-theme="{{vm.theme}}" md-theme-watch="true"
+           style="width: 50%;">
+    <form name="inputForm" novalidate>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h1>Nueva entrada</h1>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.cancel()"><i class="material-icons"
+                                                                         aria-label="Close dialog">clear</i></md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <span flex></span>
+
+            <md-input-container class="customInput">
+                <label>Monto</label>
+                <input type="number" ng-model="vm.cashRegister.amount" name="amount" required>
+            </md-input-container>
+            <md-input-container class="customInput">
+                <label>Notas</label>
+                <textarea ng-model="vm.cashRegister.notes" md-maxlength="100" rows="3" md-select-on-focus></textarea>
+            </md-input-container>
+
+            <span flex></span>
+        </md-dialog-content>
+
+
+        <md-dialog-actions class="md-actions" layout="row">
+            <span flex></span>
+            <md-button class="md-raised md-primary" ng-click='vm.createEntry(vm.cashRegister)'
+                       ng-disabled="inputForm.$invalid">Aceptar
+            </md-button>
+            <md-button class="md-raised" ng-click="vm.cancel()">Cancelar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+
+
