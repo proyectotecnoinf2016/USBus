@@ -4,15 +4,16 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('JourneyController', JourneyController);
-    JourneyController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope'];
+    JourneyController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope', 'dayOfWeek'];
     /* @ngInject */
-    function JourneyController($scope, $mdDialog, JourneyResource, localStorage, $rootScope) {
+    function JourneyController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, dayOfWeek) {
         $scope.tenantId = 0;
         $scope.tooltips = false;
         $scope.showCalendar = true;
         $scope.formattedDate = null;
         $scope.date = null;
 
+        $scope.cancel = cancel;
         $scope.setDirection = setDirection;
         $scope.dayClick = dayClick;
         $scope.prevMonth = prevMonth;
@@ -40,7 +41,7 @@
 
         var today = new Date();
         $scope.currentDay = today.getDate();
-        $scope.currentMonth = today.getMonth()+1;
+        $scope.currentMonth = today.getMonth();
         $scope.currentYear = today.getFullYear();
 
         $scope.firstDayOfWeek = 0; // First day of the week, 0 for Sunday, 1 for Monday, etc.
@@ -55,14 +56,23 @@
             $scope.date = date;
             //$scope.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
             $scope.formattedDate = moment(date).format('MM/DD/YYYY');
+            console.log($scope.formattedDate);
             JourneyResource.journeys(token).query({
                 offset: 0,
                 limit: 100,
                 tenantId: $scope.tenantId,
-                journeyStatus: 'ACTIVE',
+                status: 'ACTIVE',
                 query: 'DATE',
                 date: $scope.formattedDate
             }).$promise.then(function(result) {
+
+
+
+                var i = 0;
+                for (i = 0; i < result.length; i ++) {
+                    result[i].day = dayOfWeek.getDay(result[i].service.day);
+                    result[i].time = moment(result[i].service.time).format('HH:mm');
+                }
                 $scope.journeys = result;
                 console.log($scope.journeys);
             });
@@ -116,9 +126,14 @@
                         query: 'DATE',
                         date: $scope.formattedDate
                     });
+                    console.log($scope.journeys);
                 }, function() {
                     $scope.status = 'You cancelled the dialog.';
             });
+        }
+
+        function cancel() {
+            $scope.showCalendar = true;
         }
 
     }

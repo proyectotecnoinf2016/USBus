@@ -16,7 +16,9 @@
 
         $scope.theme = theme;
         $scope.date = date;
-        console.log(date);
+        $scope.buses = [];
+        $scope.users = [];
+
 
         $scope.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
@@ -40,6 +42,8 @@
 
             }).$promise;
             console.log(lista);
+
+            
 
             return lista;
         }
@@ -81,7 +85,10 @@
             item.standingPassengers = item.bus.standingPassengers;
             item.trunkWeight = item.bus.trunkMaxWeight;
             item.status = 'ACTIVE';
-            //item.driver = $scope.hrDriver;
+
+            if (item.thirdPartyBus == null || item.thirdPartyBus == 'undefined') {
+                item.thirdPartyBus = false;
+            }
 
             console.log(item);
 
@@ -90,10 +97,10 @@
 
             }, item,function (resp) {
                 console.log(resp);
-                showAlert('Exito!', 'Se ha creado su ruta de forma exitosa');
+                showAlert('Exito!', 'Se ha creado su viaje de forma exitosa');
             }, function (error) {
                 console.log(error);
-                showAlert('Error!', 'Ocurrió un error al crear la Ruta');
+                showAlert('Error!', 'Ocurrió un error al crear el Viaje');
             } );
 
         }

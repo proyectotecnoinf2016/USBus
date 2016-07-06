@@ -1,4 +1,4 @@
-<md-dialog aria-label="Crear Usuario"  md-theme="{{theme}}" md-theme-watch="true">
+<md-dialog aria-label="Crear Usuario" flex md-theme="{{theme}}" md-theme-watch="true">
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -61,7 +61,7 @@
                         <md-input-container class="" layout-margin layout-padding flex>
                             <label>Contraseña</label>
                             <md-tooltip md-direction="top">Ingrese contraseña del usuario</md-tooltip>
-                            <input ng-model="user.password" required >
+                            <input type="password" ng-model="user.password" required >
                         </md-input-container>
                     </div>
 

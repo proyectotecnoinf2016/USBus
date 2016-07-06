@@ -3,66 +3,179 @@
 </md-content>
 
 <form name="inputForm" novalidate >
-    <div ng-cloak class="md-inline-form" >
-        <div layout-gt-xs="row" >
-            <md-input-container class="" flayout-padding>
-                <label>Fecha</label>
-                <md-tooltip md-direction="top">Ingrese Fecha de viaje</md-tooltip>
-                <input type="date" ng-model="date">
-            </md-input-container>
 
+    <div >
+
+
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex" layout-fill>
+                <md-tab label="Elegir asientos" layout="row">
+                    <div flex></div>
+                    <div ng-cloak class="md-inline-form" >
+                        <div layout-gt-xs="row" >
+                            <mdp-date-picker  flex ng-model="date" mdp-placeholder="Fecha de Viaje"></mdp-date-picker>
+                        </div>
+                        <div layout-gt-xs="row">
+                            <md-input-container class="" layout-padding>
+                                <label>Origen</label>
+                                <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
+                                <input ng-model="from">
+                            </md-input-container>
+                            <md-input-container class="" layout-padding>
+                                <label>Destino</label>
+                                <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
+                                <input ng-model="to">
+                            </md-input-container>
+                        </div>
+
+                        <md-button type="submit" ng-show="selectedIndex == 0" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="getJourneys(from, to, date)">Buscar</md-button>
+
+                    </div>
+
+
+
+                    <md-content ng-show="journeys != null && journeys.length > 0">
+                        <span layout="row" >
+                            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                                Nro. de ómnibus
+                            </h3>
+                            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                                Servicio
+                            </h3>
+                            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                                Día
+                            </h3>
+                            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                                Hora
+                            </h3>
+                        </span>
+                        <md-divider ></md-divider>
+                        <span>
+                            <span layout="row" ng-repeat="item in journeys" ng-click="showTicket(item, $event)" class="pointer">
+
+                                <p hide-md="" show-gt-md="" class="tableRow" >
+                                    {{item.busNumber}}
+                                </p>
+                                <p class="tableRow" >
+                                    {{item.service.name}}
+                                </p>
+                                <p hide-md="" show-gt-md="" class="tableRow" >
+                                    {{item.day}}
+                                </p>
+                                <p hide-md="" show-gt-md="" class="tableRow" >
+                                    {{item.time}}
+                                </p>
+                            </span>
+                        </span>
+                    </md-content>
+
+
+                </md-tab>
+                <md-tab label="Elegir asientos" ng-disabled="journeyNotSelected">
+                    <div hide show-gt-md >
+                        <img src="img/Bus_Top.png" class="busImage" />
+                        <md-content flex layout="column" style="position:absolute; left: 150px; top: 85px;">
+                            <md-content layout="row">
+                                <md-content ng-repeat="item in firstRow" ng-click="selectedSeat(item);" class="pointer">
+                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <span class="busSeat">
+                                        {{item}}
+                                    </span>
+                                </md-content>
+                            </md-content>
+                            <md-content class="" layout="row">
+                                <md-content ng-repeat="item in secondRow" ng-class="{'md-padding-bottom':$last}" ng-click="selectedSeat(item);" class="pointer">
+                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <span class="busSeat">
+                                        {{item}}
+                                    </span>
+                                </md-content>
+                            </md-content>
+                            <md-content class="" layout="row">
+                                <md-content ng-repeat="item in thirdRow" ng-click="selectedSeat(item);" class="pointer">
+                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <span class="busSeat">
+                                        {{item}}
+                                    </span>
+                                </md-content>
+                            </md-content>
+                            <md-content class="" layout="row">
+                                <md-content ng-repeat="item in fourthRow" ng-click="selectedSeat(item);" class="pointer">
+                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <span class="busSeat">
+                                        {{item}}
+                                    </span>
+                                </md-content>
+                            </md-content>
+                        </md-content>
+                    </div>
+                    <div>
+                        <img src="img/Bus_Seat.png" />
+                        <span>Disponible</span>
+                    </div>
+                    <div>
+                        <img src="img/Green_Bus_Seat.png"  />
+                        <span>Seleccionado</span>
+                    </div>
+                    <div>
+                        <img src="img/Red_Bus_Seat.png" />
+                        <span>Ocupado</span>
+                    </div>
+                </md-tab>
+                <md-tab label="Datos de facturación" ng-disabled="journeyNotSelected">
+                    <md-content class="md-padding">
+                        <div layout-padding="">
+                            <span layout="row" >
+                                <md-input-container class="customInputRegister" layout-padding>
+                                    <label>Sube en</label>
+                                    <input ng-model="getOnStopName">
+                                </md-input-container>
+                            </span>
+                            <span layout="row" >
+                                <md-input-container class="customInputRegister" layout-padding>
+                                    <label>Baja en</label>
+                                    <input ng-model="getOffStopName">
+                                </md-input-container>
+                            </span>
+                            <span layout="row" >
+                                <span class="tableRow" >Fecha:</span>
+                                <span class="tableRow"> datos fecha</span>
+                            </span>
+                            <span layout="row" >
+                                <span class="tableRow" >Horario:</span>
+                                <span class="tableRow"> datos horario</span>
+                            </span>
+                            <span layout="row" >
+                                <span class="tableRow" >Número de Coche:</span>
+                                <span class="tableRow"> datos coche</span>
+                            </span>
+                            <span layout="row" >
+                                <span class="tableRow" >Precio:</span>
+                                <span class="tableRow"> datos precio</span>
+                            </span>
+                            <span layout="row" >
+                                <span class="tableRow" >Número de Asiento:</span>
+                                <span class="tableRow"> datos asiento</span>
+                            </span>
+                        </div>
+
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+        <div layout="row">
+            <md-button class="md-raised md-primary"	ng-show="selectedIndex == 1" ng-click="nextTab()">Siguiente</md-button>
+            <md-button class="md-raised md-primary"	ng-show="selectedIndex == 2" ng-click="sell()">Realizar venta</md-button>
+            <md-button class="md-raised" ng-show="selectedIndex != 0" ng-click="cancel()">Cancelar</md-button>
         </div>
-        <div layout-gt-xs="row">
-            <md-input-container class="" layout-padding>
-                <label>Origen</label>
-                <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
-                <input ng-model="from">
-            </md-input-container>
-            <md-input-container class="" layout-padding>
-                <label>Destino</label>
-                <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
-                <input ng-model="to">
-            </md-input-container>
-        </div>
-        <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="getJourneys(from, to, date)">Buscar</md-button>
-        
+
     </div>
-    
-
-
-    <md-content ng-show="journeys != null && journeys.length > 0">
-        <span layout="row" >
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
-                Nro. de ómnibus
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Servicio
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Día
-            </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
-                Hora
-            </h3>
-        </span>
-        <md-divider ></md-divider>
-        <span>
-            <span layout="row" ng-repeat="item in journeys" ng-click="showTicket(item, $event)" class="pointer">
-
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
-                </p>
-            </span>
-        </span>
-    </md-content>
-
 </form>
