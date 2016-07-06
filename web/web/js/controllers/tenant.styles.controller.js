@@ -14,6 +14,7 @@
 		$scope.tenantName = '';
         $scope.logo = null;
         $scope.header = null;
+		$scope.showBus = false;
 
 		if (typeof localStorage.getData('tenantName') !== 'undefined' && localStorage.getData('tenantName') != null) {
 			$scope.tenantName = localStorage.getData('tenantName');
