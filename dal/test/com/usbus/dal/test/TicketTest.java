@@ -1,12 +1,17 @@
 package com.usbus.dal.test;
 
+import com.itextpdf.text.DocumentException;
+import com.usbus.dal.dao.TenantDAO;
 import com.usbus.dal.dao.TicketDAO;
 import com.usbus.dal.dao.UserDAO;
+import com.usbus.dal.model.Tenant;
 import com.usbus.dal.model.Ticket;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -15,6 +20,7 @@ import java.util.TimeZone;
 public class TicketTest {
     protected TicketDAO dao = new TicketDAO();
     protected UserDAO udao = new UserDAO();
+    protected TenantDAO tdao = new TenantDAO();
 
     @Test
     public void persist() throws ParseException {
@@ -43,5 +49,18 @@ public class TicketTest {
 //
 //
 //        System.out.println(dao.countAll());
+    }
+
+    @Test
+    public void pdfTest() throws IOException, DocumentException {
+        tdao.clean();
+        String tenantName = "SSS";
+        Tenant t = new Tenant(1,tenantName);
+        tdao.persist(t);
+        Ticket ticket = new Ticket();
+        Date date = new Date();
+        ticket.setEmissionDate(date);
+        ticket.setId(666L);
+        dao.createPDF(tenantName, ticket);
     }
 }

@@ -1,5 +1,6 @@
 package com.usbus.bll.administration.beans;
 
+import com.itextpdf.text.DocumentException;
 import com.sun.deploy.util.ArrayUtil;
 import com.usbus.bll.administration.interfaces.TicketLocal;
 import com.usbus.bll.administration.interfaces.TicketRemote;
@@ -18,6 +19,7 @@ import com.usbus.dal.model.User;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Stateless;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,6 +62,11 @@ public class TicketBean implements TicketLocal, TicketRemote {
     public Ticket setPassenger(long tenantId, Long ticketId, String passengerName) {
         User passenger = udao.getByUsername(tenantId, passengerName);
         return dao.setPassenger(tenantId, ticketId, passenger);
+    }
+
+    @Override
+    public void createPDF(String tenantName, Ticket ticket) throws DocumentException, IOException {
+        //NOT IMPLEMENTED
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.usbus.dal.test;
 
+import com.itextpdf.text.DocumentException;
 import com.usbus.commons.auxiliaryClasses.TenantStyleAux;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.dao.TenantDAO;
 import com.usbus.dal.model.Tenant;
+import com.usbus.dal.model.Ticket;
 import org.junit.Test;
 
 import java.io.IOException;

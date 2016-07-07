@@ -32,6 +32,7 @@ public class TicketService {
             Ticket ticketAux2 = ejb.getById(ticketId);
 
             if (ticketId != null) {
+                //ACÁ PDF
                 return Response.ok(ticketAux2).build();
             } else {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

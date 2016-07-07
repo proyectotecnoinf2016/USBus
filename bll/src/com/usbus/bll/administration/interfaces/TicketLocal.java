@@ -1,5 +1,6 @@
 package com.usbus.bll.administration.interfaces;
 
+import com.itextpdf.text.DocumentException;
 import com.usbus.commons.auxiliaryClasses.TicketConfirmation;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.commons.exceptions.TicketException;
@@ -7,6 +8,7 @@ import com.usbus.dal.model.Ticket;
 import org.bson.types.ObjectId;
 
 import javax.ejb.Local;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,4 +27,6 @@ public interface TicketLocal {
 
     List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit);
     Ticket setPassenger(long tenantId, Long ticketId, String passenger);
+
+    void createPDF(String tenantName, Ticket ticket)	throws DocumentException, IOException;
 }

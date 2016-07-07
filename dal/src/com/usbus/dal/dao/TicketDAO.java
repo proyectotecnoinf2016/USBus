@@ -1,18 +1,24 @@
 package com.usbus.dal.dao;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
-import com.usbus.dal.model.Journey;
-import com.usbus.dal.model.Service;
-import com.usbus.dal.model.Ticket;
-import com.usbus.dal.model.User;
+import com.usbus.dal.model.*;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -141,6 +147,105 @@ public class TicketDAO {
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<Ticket> updateOp = ds.createUpdateOperations(Ticket.class).set("status", TicketStatus.CANCELED);
             ds.update(query, updateOp);
+        }
+    }
+
+    public void createPDF(String tenantName, Ticket ticket)	throws DocumentException, IOException {
+        // OBTENER TENANT
+        Tenant tenantOriginal = null;
+        if (tenantName != null && !tenantName.isEmpty()) {
+
+        Query<Tenant> query = ds.createQuery(Tenant.class);
+        query.limit(1).criteria("name").equal(tenantName);
+        tenantOriginal = query.get();
+        }
+        // SO CHECK! FOLDER CHECK! PATH CHECK!...
+        if (tenantOriginal != null) {
+            String OS = System.getProperty("os.name");
+            String stringAux;
+            File path = null;
+
+            // MUST NOT USE DATE AGAIN
+            Date emissionDate = ticket.getEmissionDate();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(emissionDate);
+            Integer year = cal.get(Calendar.YEAR);
+            Integer month = cal.get(Calendar.MONTH)+1;
+            Integer day = cal.get(Calendar.DAY_OF_MONTH);
+            Integer hour = cal.get(Calendar.HOUR_OF_DAY);
+            Integer minute = cal.get(Calendar.MINUTE);
+            String Syear = year.toString();
+            String Smon;
+            String Sday;
+            String Shour;
+            String Smin;
+
+            if(month < 10){
+                Smon = "0"+month.toString();
+            }else {
+                Smon = month.toString();
+            }
+            if(day < 10) {
+                Sday = "0"+day.toString();
+            } else {
+                Sday = day.toString();
+            }
+            if(hour < 10) {
+                Shour = "0"+hour.toString();
+            } else {
+                Shour = hour.toString();
+            }
+            if(minute < 10) {
+                Smin = "0"+minute.toString();
+            } else {
+                Smin = minute.toString();
+            }
+
+            if (OS.startsWith("Windows")) {
+                stringAux = "C:" + File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+                        tenantOriginal.getName() + File.separator + year.toString()+"-"+Smon + File.separator + Sday + File.separator +
+                ticket.getId() + ".pdf";
+                path = new File("C:" + File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+                        tenantOriginal.getName() + File.separator + year.toString()+"-"+Smon + File.separator + Sday + File.separator);
+                if (!(path.exists() && path.isDirectory())) {
+                    path.mkdirs();
+                }
+            } else {
+                stringAux = File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+                        tenantOriginal.getName() + File.separator + year.toString()+"-"+Smon + File.separator + Sday + File.separator
+                        + ticket.getId() + ".pdf";
+                path = new File(File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+                        tenantOriginal.getName() + File.separator + year.toString()+"-"+Smon + File.separator + Sday + File.separator);
+                if (!(path.exists() && path.isDirectory())) {
+                    path.mkdirs();
+                }
+            }
+
+//            // OBTENER USUARIO
+//            Query<User> query = ds.createQuery(User.class);
+//            query.and(query.criteria("username").equal(passengerNickname),
+//                    query.criteria("tenantId").equal(tenantOriginal.getTenantId()));
+//            query.retrievedFields(false,"salt","passwordHash");
+//            User user = query.get();
+
+            // CREAR DOCUMENTO
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(stringAux));
+            document.open();
+
+            //"{"tenantId":X, "id":Y}"
+
+            document.add(new Paragraph(""));
+            document.add(new Paragraph("    " + tenantOriginal.getName()));
+            document.add(new Paragraph("Suc/Puesto "+ ticket.getBranchId() + " / " + ticket.getWindowId()));
+            document.add(new Paragraph("Funcionario: " + ticket.getSellerName()));
+            document.add(new Paragraph("Fecha: " + Sday + "/" + Smon + "/" + Sday + " " + Shour + ":" + Smin));
+            document.add(new Paragraph(""));
+            document.add(new Paragraph("Número: " + ticket.getId()));
+
+
+            // step 5
+            document.close();
         }
     }
 }
