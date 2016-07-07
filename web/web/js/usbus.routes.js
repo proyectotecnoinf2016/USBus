@@ -72,6 +72,11 @@
                 templateUrl: 'templates/humanResources.html',
                 controller: 'HomeController'
             })
+            .when('/tenant/:tenantName/admin/schedule', {
+                templateUrl: 'templates/schedule.html',
+                controller: 'ScheduleController',
+                controllerAs: 'vm'
+            })
             .otherwise({
                 redirectTo: '/'
             });

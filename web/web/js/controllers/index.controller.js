@@ -90,6 +90,10 @@
                     name: "Personalizar Estilos",//<i class="material-icons">format_color_fill</i>
                     url : "admin/styles",
                     icon: "format_color_fill"
+                }, {
+                    name: "Ver Agenda",//<i class="material-icons">format_color_fill</i>
+                    url : "admin/schedule",
+                    icon: "assignment"
                 }];
             }
 

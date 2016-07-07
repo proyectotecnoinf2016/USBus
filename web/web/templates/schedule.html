@@ -1,0 +1,67 @@
+<md-content layout-align="center center" layout-padding>
+    <h1 class="grayHeader">Agenda {{vm.username}}</h1>
+    <div layout="column">
+
+        <div ng-show="vm.journeys.asAssistant.length > 0">
+            <h1 >Ejerciendo labores de guarda</h1>
+            <md-content>
+                <span layout="row">
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Fecha
+                    </h3>
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Servicio
+                    </h3>
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Bus
+                    </h3>
+                </span>
+                <md-divider></md-divider>
+                <span>
+                    <span layout="row" ng-repeat="item in vm.journeys.asAssistant">
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.date | date:'dd/MM/yy HH:mm'}}
+                        </p>
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.service.name}}
+                        </p>
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.bus.id}}
+                        </p>
+                    </span>
+                </span>
+            </md-content>
+        </div>
+
+        <div ng-show="vm.journeys.asDriver.length > 0">
+            <h1 >Ejerciendo labores de chofer</h1>
+            <md-content>
+                <span layout="row">
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Fecha
+                    </h3>
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Servicio
+                    </h3>
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Bus
+                    </h3>
+                </span>
+                <md-divider></md-divider>
+                <span>
+                    <span layout="row" ng-repeat="item in vm.journeys.asDriver">
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.date | date:'dd/MM/yy HH:mm'}}
+                        </p>
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.service.name}}
+                        </p>
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.bus.id}}
+                        </p>
+                    </span>
+                </span>
+            </md-content>
+        </div>
+    </div>
+</md-content>
