@@ -57,9 +57,66 @@ public class ReservationDAO {
         return query.get();
     }
 
-    //NOT TESTED
-    public List<Reservation> getByUserNameAndStatus(long tenantId, String username, Boolean status, int offset, int limit){
-        if (!(tenantId > 0) || (username == null) || (username.isEmpty()) || (status == null) || offset < 0 || limit < 0) {
+//    //NOT TESTED
+//    //CON EL JOURNEY (OBJETO!!!!)
+//    public List<Reservation> getByUserNameAndStatus(long tenantId, String username, Boolean status, int offset, int limit){
+//        if (!(tenantId > 0) || (username == null) || (username.isEmpty()) || (status == null) || offset < 0 || limit < 0) {
+//            return null;
+//        }
+//
+//        Query<Reservation> query = ds.createQuery(Reservation.class);
+//        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(status));
+//        List<Reservation> resultList = query.asList();
+//        List<Reservation> auxList = new ArrayList<>(resultList);
+//        if(auxList.isEmpty()) {
+//            return null;
+//        } else {
+//            for (Reservation res : auxList) {
+//                User user = res.getPassenger();
+//                if(user.getUsername() != username){
+//                    resultList.remove(res);
+//                }
+//            }
+//            if(resultList.isEmpty()){
+//                return null;
+//            }
+//            else {
+//                return resultList.subList(offset, (offset + limit));
+//            }
+//        }
+//    }
+
+//    //CON EL JOURNEY (OBJETO!!!!)
+//    public List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit){
+//        if (!(tenantId > 0) || (journeyId == null) || (journeyId < 1) || offset < 0 || limit < 0) {
+//            return null;
+//        }
+//
+//        Query<Reservation> query = ds.createQuery(Reservation.class);
+//        query.criteria("tenantId").equal(tenantId);
+//        List<Reservation> resultList = query.asList();
+//        List<Reservation> auxList = new ArrayList<>(resultList);
+//
+//        if(auxList.isEmpty()) {
+//            return null;
+//        } else {
+//            for (Reservation res : auxList) {
+//                Journey journey = res.getJourney();
+//                if(journey.getId() != journeyId){
+//                    resultList.remove(res);
+//                }
+//            }
+//            if(resultList.isEmpty()){
+//                return null;
+//            }
+//            else {
+//                return resultList.subList(offset, (offset + limit));
+//            }
+//        }
+//    }
+
+    public List<Reservation> getByUserNameAndStatus(long tenantId, String clientId, Boolean status, int offset, int limit){
+        if (!(tenantId > 0) || (clientId == null) || (clientId.isEmpty()) || (status == null) || offset < 0 || limit < 0) {
             return null;
         }
 
@@ -71,8 +128,7 @@ public class ReservationDAO {
             return null;
         } else {
             for (Reservation res : auxList) {
-                User user = res.getPassenger();
-                if(user.getUsername() != username){
+                if(res.getClientId() != clientId){
                     resultList.remove(res);
                 }
             }
@@ -99,8 +155,7 @@ public class ReservationDAO {
             return null;
         } else {
             for (Reservation res : auxList) {
-                Journey journey = res.getJourney();
-                if(journey.getId() != journeyId){
+                if(res.getJourneyId() != journeyId){
                     resultList.remove(res);
                 }
             }

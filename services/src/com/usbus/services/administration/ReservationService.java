@@ -71,7 +71,7 @@ public class ReservationService {
     public Response getReservationList(@PathParam("tenantId")Long tenantId,
                                    @QueryParam("query") String query,
                                    @QueryParam("journeyId") Long journeyId,
-                                   @QueryParam("username") String username,
+                                   @QueryParam("clientId") String clientId,
                                    @QueryParam("status") Boolean status,
                                    @QueryParam("offset") int offset,
                                    @QueryParam("limit") int limit) {
@@ -79,7 +79,7 @@ public class ReservationService {
         List<Reservation> reservationList;
         switch (query.toUpperCase()) {
             case "USERANDSTATUS":
-                reservationList = ejb.getByUserNameAndStatus(tenantId,username,status,offset,limit);
+                reservationList = ejb.getByUserNameAndStatus(tenantId,clientId,status,offset,limit);
                 if (reservationList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
