@@ -12,8 +12,10 @@ import java.util.List;
 @Remote
 public interface ReservationRemote {
     String persist(Reservation reservation);
+    Reservation getById(String id);
     Reservation getByLocalId(long tenantId, Long id);
     void remove(String id);
     void setInactive(long tenantId, Long reservationId);
     List<Reservation> getByUserNameAndStatus(long tenantId, String username, Boolean status, int offset, int limit);
+    List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit);
 }

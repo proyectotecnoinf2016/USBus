@@ -24,6 +24,11 @@ public class ReservationBean implements ReservationLocal, ReservationRemote {
     }
 
     @Override
+    public Reservation getById(String id) {
+        return dao.getById(id);
+    }
+
+    @Override
     public Reservation getByLocalId(long tenantId, Long id) {
         return dao.getByLocalId(tenantId, id);
     }
@@ -41,5 +46,10 @@ public class ReservationBean implements ReservationLocal, ReservationRemote {
     @Override
     public List<Reservation> getByUserNameAndStatus(long tenantId, String username, Boolean status, int offset, int limit) {
         return dao.getByUserNameAndStatus(tenantId, username, status, offset, limit);
+    }
+
+    @Override
+    public List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit) {
+        return dao.getByJourney(tenantId, journeyId, offset, limit);
     }
 }
