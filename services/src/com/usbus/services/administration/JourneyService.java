@@ -79,6 +79,7 @@ public class JourneyService {
                                    @QueryParam ("origin") String origin,
                                    @QueryParam ("destination") String destination,
                                    @QueryParam("offset") int offset,
+                                   @QueryParam("username") String username,
                                    @QueryParam("limit") int limit){
 
         List<Journey> journeyList;
@@ -109,6 +110,13 @@ public class JourneyService {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(JList).build();
+            case "USERNAME":
+
+                JSONObject list = ejb.getNextJourneysForUser(tenantId, username, new Date(), offset, limit);
+                if (list == null){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(list).build();
 
         }
         return Response.status(Response.Status.BAD_REQUEST).build();

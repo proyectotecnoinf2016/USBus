@@ -6,6 +6,7 @@ import com.usbus.dal.dao.ReservationDAO;
 import com.usbus.dal.model.Reservation;
 
 import javax.ejb.Stateless;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -20,7 +21,15 @@ public class ReservationBean implements ReservationLocal, ReservationRemote {
 
     @Override
     public String persist(Reservation reservation) {
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(reservation.getJourney().getDate());
+//        cal.add(Calendar.MINUTE, -30);
         return dao.persist(reservation);
+    }
+
+    @Override
+    public Reservation getById(String id) {
+        return dao.getById(id);
     }
 
     @Override
@@ -39,7 +48,12 @@ public class ReservationBean implements ReservationLocal, ReservationRemote {
     }
 
     @Override
-    public List<Reservation> getByUserNameAndStatus(long tenantId, String username, Boolean status, int offset, int limit) {
-        return dao.getByUserNameAndStatus(tenantId, username, status, offset, limit);
+    public List<Reservation> getByUserNameAndStatus(long tenantId, String clientId, Boolean status, int offset, int limit) {
+        return dao.getByUserNameAndStatus(tenantId, clientId, status, offset, limit);
+    }
+
+    @Override
+    public List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit) {
+        return dao.getByJourney(tenantId, journeyId, offset, limit);
     }
 }

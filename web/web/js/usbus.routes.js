@@ -51,6 +51,10 @@
                 templateUrl: 'templates/journey.selection.html',
                 controller: 'TicketsController'
             })
+            .when('/tenant/:tenantName/tickets/cancel', {
+                templateUrl: 'templates/tickets.cancel.html',
+                controller: 'TicketsController'
+            })
             .when('/tenant/:tenantName/tickets/window', {
                 templateUrl: 'templates/window.navigate.html',
                 controller: 'CashRegisterController',
@@ -71,6 +75,11 @@
 			.when('/tenant/:tenantName/humanResources', {
                 templateUrl: 'templates/humanResources.html',
                 controller: 'HomeController'
+            })
+            .when('/tenant/:tenantName/admin/schedule', {
+                templateUrl: 'templates/schedule.html',
+                controller: 'ScheduleController',
+                controllerAs: 'vm'
             })
             .otherwise({
                 redirectTo: '/'
