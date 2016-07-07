@@ -16,12 +16,12 @@
                             <mdp-date-picker  flex ng-model="date" mdp-placeholder="Fecha de Viaje"></mdp-date-picker>
                         </div>
                         <div layout-gt-xs="row">
-                            <md-input-container class="" layout-padding>
+                            <md-input-container class="" >
                                 <label>Origen</label>
                                 <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
                                 <input ng-model="from">
                             </md-input-container>
-                            <md-input-container class="" layout-padding>
+                            <md-input-container class="" >
                                 <label>Destino</label>
                                 <md-tooltip md-direction="top">Ingrese Fecha de nacimiento</md-tooltip>
                                 <input ng-model="to">
@@ -134,20 +134,20 @@
                     <md-content class="md-padding">
                         <div layout-padding="">
                             <span layout="row" >
-                                <md-input-container class="customInputRegister" layout-padding>
+                                <md-input-container class="customInputRegister" >
                                     <label>Sube en</label>
                                     <input ng-model="ticket.getOnStopName">
                                 </md-input-container>
                             </span>
                             <span layout="row" >
-                                <md-input-container class="customInputRegister" layout-padding>
+                                <md-input-container class="customInputRegister" >
                                     <label>Baja en</label>
                                     <input ng-model="ticket.getOffStopName">
                                 </md-input-container>
                             </span>
 
                             <span layout="row" >
-                                <md-input-container class="customInputRegister" layout-padding>
+                                <md-input-container class="customInputRegister" >
                                     <md-checkbox ng-model="reservation" aria-label="Checkbox 1">
                                         Reserva <md-tooltip md-direction="top">Seleccione en caso de realizar una reserva en vez de una venta</md-tooltip>
                                     </md-checkbox>
@@ -187,7 +187,7 @@
         </md-content>
         <div layout="row">
             <md-button class="md-raised md-primary"	ng-show="selectedIndex == 1 || selectedIndex == 2" ng-click="nextTab()">Siguiente</md-button>
-            <md-button class="md-raised md-primary"	ng-show="selectedIndex == 3" ng-click="sell()">Realizar venta</md-button>
+            <md-button class="md-raised md-primary"	ng-show="selectedIndex == 3" ng-click="sell()">{{sellOrReservation}}</md-button>
             <md-button class="md-raised" ng-show="selectedIndex != 0" ng-click="cancel()">Cancelar</md-button>
         </div>
 

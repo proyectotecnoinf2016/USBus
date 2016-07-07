@@ -23,6 +23,8 @@
         $scope.price = 0;
         $scope.journeyNotSelected = true;
         $scope.reservation = false;
+        
+        $scope.sellOrReservation = "Realizar venta";
 
         //SEATS VARIABLES
         $scope.selected = [];
@@ -172,6 +174,13 @@
                     $scope.price = result.price;
 
                 });
+
+                if ($scope.reservation) {
+                    $scope.sellOrReservation = "Realizar reserva";
+                }
+                else {
+                    $scope.sellOrReservation = "Realizar venta";
+                }
             }
         }
 
@@ -190,56 +199,58 @@
                 token = localStorage.getData('token');
             }
 
-            $scope.ticket.combination = null;
-            $scope.ticket.combinationId = null;
-
-            if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
-                $scope.ticket.sellerName = localStorage.getData('userName');
-            }
-
-            $scope.ticket.closed = true;
-
-
-            if (localStorage.getData('branchId') != null && localStorage.getData('branchId') != '') {
-                $scope.ticket.branchId = localStorage.getData('branchId');
-            }
-
-            if (localStorage.getData('windowsId') != null && localStorage.getData('windowsId') != '') {
-                $scope.ticket.windowId = localStorage.getData('windowsId');
-            }
-
-            /*
-             newTicket.put("amount", paymentAmount);
-             newTicket.put("branchId", 0);
-             newTicket.put("windowId", 0);
-             */
-
-            $scope.ticket.tenantId = $scope.tenantId;
-            $scope.ticket.amount = $scope.price;
-            $scope.ticket.passengerName = '';
-            $scope.ticket.sellerName = $scope.userName;
-            $scope.ticket.closed = true;
-            $scope.ticket.status = 'CONFIRMED';
-            $scope.ticket.journeyId = $scope.journey.id;
-
-            if ($scope.journey != null && $scope.journey != 'undefined' &&
-                $scope.journey.service != null && $scope.journey.service != 'undefined' &&
-                $scope.journey.service.route != null && $scope.journey.service.route != 'undefined') {
-                $scope.ticket.routeId = $scope.journey.service.route.id;
-                $scope.ticket.hasCombination = $scope.journey.service.route.hasCombination;
-            }
-
-
-
-            $scope.ticket.emissionDate = new Date();//2016-07-06T01:50:45.077Z
-            console.log('ticket');
-            console.log($scope.ticket);
 
             var i = 0;
             for (i = 0; i < $scope.selected.length; i++) {
                 $scope.ticket.seat = $scope.selected[i];
 
                 if (!$scope.reservation) {
+
+                    $scope.ticket.combination = null;
+                    $scope.ticket.combinationId = null;
+
+                    if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
+                        $scope.ticket.sellerName = localStorage.getData('userName');
+                    }
+
+                    $scope.ticket.closed = true;
+
+
+                    if (localStorage.getData('branchId') != null && localStorage.getData('branchId') != '') {
+                        $scope.ticket.branchId = localStorage.getData('branchId');
+                    }
+
+                    if (localStorage.getData('windowsId') != null && localStorage.getData('windowsId') != '') {
+                        $scope.ticket.windowId = localStorage.getData('windowsId');
+                    }
+
+                    /*
+                     newTicket.put("amount", paymentAmount);
+                     newTicket.put("branchId", 0);
+                     newTicket.put("windowId", 0);
+                     */
+
+                    $scope.ticket.tenantId = $scope.tenantId;
+                    $scope.ticket.amount = $scope.price;
+                    $scope.ticket.passengerName = '';
+                    $scope.ticket.sellerName = $scope.userName;
+                    $scope.ticket.closed = true;
+                    $scope.ticket.status = 'CONFIRMED';
+                    $scope.ticket.journeyId = $scope.journey.id;
+
+                    if ($scope.journey != null && $scope.journey != 'undefined' &&
+                        $scope.journey.service != null && $scope.journey.service != 'undefined' &&
+                        $scope.journey.service.route != null && $scope.journey.service.route != 'undefined') {
+                        $scope.ticket.routeId = $scope.journey.service.route.id;
+                        $scope.ticket.hasCombination = $scope.journey.service.route.hasCombination;
+                    }
+
+
+
+                    $scope.ticket.emissionDate = new Date();//2016-07-06T01:50:45.077Z
+                    console.log('ticket');
+                    console.log($scope.ticket);
+
                     TicketResource.tickets(token).save({
                         tenantId: $scope.tenantId
 
@@ -253,6 +264,14 @@
                     } );
                 }
                 else {
+                    $scope.ticket.dueDate = moment(journey.service.time).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+                    $scope.ticket.seat = $scope.selected[i];
+                    $scope.ticket.journey = journey.id;
+                    $scope.ticket.active = true;
+                    $scope.ticket.tenantId = $scope.tenantId;
+                    delete $scope.ticket["getOnStopName"];
+                    delete $scope.ticket["getOffStopName"];
+
                     ReservationResource.reservations(token).save({
                         tenantId: $scope.tenantId
 
@@ -262,7 +281,7 @@
                         cancel();
                     }, function (error) {
                         console.log(error);
-                        showAlert('Error!', 'Ocurrio un erro al realizar la reserva');
+                        showAlert('Error!', 'Ocurrio un error al realizar la reserva');
                     } );
                 }
 
