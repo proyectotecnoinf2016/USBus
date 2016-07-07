@@ -33,10 +33,10 @@
                     {{item.service.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.day}}
+                    {{item.service.day}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.time}}
+                    {{item.service.time | date:'HH:mm'}}
                 </p>
                 <p class="tableRow" >
                     <img src="img/Edit_Icon.png" ng-click="showBusStop(item, $event)" class="editIcon pointer"/>
