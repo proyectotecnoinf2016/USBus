@@ -9,7 +9,7 @@
 
         <md-content>
             <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex" layout-fill>
-                <md-tab label="Elegir asientos" layout="row">
+                <md-tab label="Seleccionar Viaje" layout="row">
                     <div flex></div>
                     <div ng-cloak class="md-inline-form" >
                         <div layout-gt-xs="row" >
@@ -136,35 +136,39 @@
                             <span layout="row" >
                                 <md-input-container class="customInputRegister" layout-padding>
                                     <label>Sube en</label>
-                                    <input ng-model="getOnStopName">
+                                    <input ng-model="ticket.getOnStopName">
                                 </md-input-container>
                             </span>
                             <span layout="row" >
                                 <md-input-container class="customInputRegister" layout-padding>
                                     <label>Baja en</label>
-                                    <input ng-model="getOffStopName">
+                                    <input ng-model="ticket.getOffStopName">
                                 </md-input-container>
                             </span>
-                            <span layout="row" >
-                                <span class="tableRow" >Fecha:</span>
-                                <span class="tableRow"> datos fecha</span>
-                            </span>
-                            <span layout="row" >
-                                <span class="tableRow" >Horario:</span>
-                                <span class="tableRow"> datos horario</span>
-                            </span>
-                            <span layout="row" >
-                                <span class="tableRow" >Número de Coche:</span>
-                                <span class="tableRow"> datos coche</span>
-                            </span>
-                            <span layout="row" >
-                                <span class="tableRow" >Precio:</span>
-                                <span class="tableRow"> datos precio</span>
-                            </span>
-                            <span layout="row" >
-                                <span class="tableRow" >Número de Asiento:</span>
-                                <span class="tableRow"> datos asiento</span>
-                            </span>
+
+                            <div ng-repeat="ticketNumber in selected">
+                                <span layout="row" >
+                                    <span class="tableRow" >Fecha:</span>
+                                    <span class="tableRow"> {{formattedDate}}</span>
+                                </span>
+                                <span layout="row" >
+                                    <span class="tableRow" >Horario:</span>
+                                    <span class="tableRow"> {{journey.time}}</span>
+                                </span>
+                                <span layout="row" >
+                                    <span class="tableRow" >Número de Coche:</span>
+                                    <span class="tableRow"> {{journey.busNumber}}</span>
+                                </span>
+                                <span layout="row" >
+                                    <span class="tableRow" >Precio:</span>
+                                    <span class="tableRow"> {{price}}</span>
+                                </span>
+                                <span layout="row" >
+                                    <span class="tableRow" >Número de Asiento:</span>
+                                    <span class="tableRow"> {{ticketNumber}}</span>
+                                </span>
+                            </div>
+
                         </div>
 
                     </md-content>
