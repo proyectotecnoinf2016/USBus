@@ -95,10 +95,14 @@
 
             if (data == 'tickets') {
                 options = [{
-                    name : "Pasajes",
+                    name : "Venta/Reserva de Pasajes",
                     url: "tickets",
                     icon: "airline_seat_recline_normal" //<i class="material-icons">add_shopping_cart</i><i class="material-icons">airline_seat_recline_normal</i>
                 } , {
+                    name: "Cancelar Venta/Reserva",
+                    url: "tickets/cancel",
+                    icon: "signal_cellular_no_sim"
+            }, {
                     name: "Caja",
                     url : "tickets/window",
                     icon: "account_balance_wallet"
