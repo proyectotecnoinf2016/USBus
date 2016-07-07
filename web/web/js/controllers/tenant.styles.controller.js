@@ -156,7 +156,7 @@
             $scope.theme = $scope.primaryColor + $scope.secondaryColor;
 
 			if ($scope.logo != null && $scope.logo !== 'undefined' && $scope.logo != '') {
-                alert($scope.logo);
+                //alert($scope.logo);
                 for (i = 0; i < $scope.logo.length; i++) {
                     logo = $scope.logo[i].lfFile;
 					var reader = new window.FileReader();
@@ -164,8 +164,6 @@
 					reader.onloadend = function() {
 						$scope.style.logoB64 = reader.result;
 						$scope.style.logoExtension = logo.type;
-						//console.log(base64data );
-
 						$scope.style.logoExtension = logo.type.split("/")[1];
 						$scope.style.logoB64 = reader.result.split(",")[1];
 					}
@@ -179,7 +177,7 @@
 
 			var header = '';
 			if ($scope.header != null &&  $scope.header !== 'undefined' && $scope.header != '') {
-                alert($scope.header);
+                //alert($scope.header);
 				for (i = 0; i < $scope.header.length; i++) {
                     header = $scope.header[i].lfFile;
 					var reader2 = new window.FileReader();
@@ -187,22 +185,17 @@
 					reader2.onloadend = function() {
 						$scope.style.headerB64 = reader2.result;
 						$scope.style.headerExtension = header.type;
-						//console.log($scope.style.headerB64 );
 						$scope.style.headerExtension = header.type.split("/")[1];
 						$scope.style.headerB64 = reader2.result.split(",")[1];
 					}
 				}
 
-
-				console.log($scope.style);
 			}
             else {
                 $scope.style.headerB64 = null;
                 $scope.style.headerExtension = null;
             }
-
-
-
+			
 
 			TenantResource.tenant(token).update({
 				tenantId: $scope.tenantId

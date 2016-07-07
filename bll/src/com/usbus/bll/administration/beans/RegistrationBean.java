@@ -114,8 +114,8 @@ public class RegistrationBean implements RegistrationLocal, RegistrationRemote {
             }
 
         } catch (Exception ex) {
-            Tenant tenant = tenantDAO.getByLocalId(user.getTenantId());
-            tenantDAO.remove(tenant.get_id());
+//            Tenant tenant = tenantDAO.getByLocalId(user.getTenantId());
+//            tenantDAO.remove(tenant.get_id());
             return 0;
 
         }
