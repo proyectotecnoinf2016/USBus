@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('TicketsController', TicketsController);
-    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope', '$location', 'dayOfWeek', 'TicketResource'];
+    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope', 'ReservationResource', 'dayOfWeek', 'TicketResource'];
     /* @ngInject */
-    function TicketsController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, $location, dayOfWeek, TicketResource ) {
+    function TicketsController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, ReservationResource, dayOfWeek, TicketResource ) {
         //FUNCTIONS
         $scope.selectedSeat = selectedSeat;
         $scope.exists = exists;
@@ -22,6 +22,7 @@
         $scope.tenantId = 0;
         $scope.price = 0;
         $scope.journeyNotSelected = true;
+        $scope.reservation = false;
 
         //SEATS VARIABLES
         $scope.selected = [];
@@ -237,17 +238,34 @@
             var i = 0;
             for (i = 0; i < $scope.selected.length; i++) {
                 $scope.ticket.seat = $scope.selected[i];
-                TicketResource.tickets(token).save({
-                    tenantId: $scope.tenantId
 
-                }, $scope.ticket,function (resp) {
-                    console.log(resp);
-                    showAlert('Exito!', 'Se ha realizado la venta de forma exitosa');
-                    cancel();
-                }, function (error) {
-                    console.log(error);
-                    showAlert('Error!', 'Ocurrio un erro al realizar la venta');
-                } );
+                if (!$scope.reservation) {
+                    TicketResource.tickets(token).save({
+                        tenantId: $scope.tenantId
+
+                    }, $scope.ticket,function (resp) {
+                        console.log(resp);
+                        showAlert('Exito!', 'Se ha realizado la venta de forma exitosa');
+                        cancel();
+                    }, function (error) {
+                        console.log(error);
+                        showAlert('Error!', 'Ocurrio un erro al realizar la venta');
+                    } );
+                }
+                else {
+                    ReservationResource.reservations(token).save({
+                        tenantId: $scope.tenantId
+
+                    }, $scope.ticket,function (resp) {
+                        console.log(resp);
+                        showAlert('Exito!', 'Se ha realizado la reserva de forma exitosa');
+                        cancel();
+                    }, function (error) {
+                        console.log(error);
+                        showAlert('Error!', 'Ocurrio un erro al realizar la reserva');
+                    } );
+                }
+
             }
         }
 

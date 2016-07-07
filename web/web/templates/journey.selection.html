@@ -145,6 +145,15 @@
                                     <input ng-model="ticket.getOffStopName">
                                 </md-input-container>
                             </span>
+
+                            <span layout="row" >
+                                <md-input-container class="customInputRegister" layout-padding>
+                                    <md-checkbox ng-model="reservation" aria-label="Checkbox 1">
+                                        Reserva <md-tooltip md-direction="top">Seleccione en caso de realizar una reserva en vez de una venta</md-tooltip>
+                                    </md-checkbox>
+                                </md-input-container>
+                            </span>
+
                         </div>
                         <md-tab label="Datos de facturación" ng-disabled="journeyNotSelected">
                             <div ng-repeat="ticketNumber in selected">
