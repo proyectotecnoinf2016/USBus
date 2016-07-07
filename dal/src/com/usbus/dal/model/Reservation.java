@@ -15,25 +15,25 @@ import java.util.Date;
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iReservationKey", unique=true))})
 public class Reservation extends BaseEntity {
     private Long id;
-    @Reference
-    private User passenger;
-    private String CI;
+//    @Reference
+//    private User passenger;
+    private String clientId;
     private Date dueDate;
-    @Reference
-    private Journey journey;
+//    @Reference
+//    private Journey journey;
+    private Long journeyId;
     private Integer seat;
     private Boolean active;
 
     public Reservation() {
     }
 
-    public Reservation(long tenantId, Long id, User passenger, String CI, Date dueDate, Journey journey, Integer seat, Boolean active) {
+    public Reservation(long tenantId, Long id, String clientId, Date dueDate, Long journeyId, Integer seat, Boolean active) {
         super(tenantId);
         this.id = id;
-        this.passenger = passenger;
-        this.CI = CI;
+        this.clientId = clientId;
         this.dueDate = dueDate;
-        this.journey = journey;
+        this.journeyId = journeyId;
         this.seat = seat;
         this.active = active;
     }
@@ -46,20 +46,12 @@ public class Reservation extends BaseEntity {
         this.id = id;
     }
 
-    public User getPassenger() {
-        return passenger;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setPassenger(User passenger) {
-        this.passenger = passenger;
-    }
-
-    public String getCI() {
-        return CI;
-    }
-
-    public void setCI(String CI) {
-        this.CI = CI;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public Date getDueDate() {
@@ -70,12 +62,12 @@ public class Reservation extends BaseEntity {
         this.dueDate = dueDate;
     }
 
-    public Journey getJourney() {
-        return journey;
+    public Long getJourneyId() {
+        return journeyId;
     }
 
-    public void setJourney(Journey journey) {
-        this.journey = journey;
+    public void setJourneyId(Long journeyId) {
+        this.journeyId = journeyId;
     }
 
     public Integer getSeat() {
