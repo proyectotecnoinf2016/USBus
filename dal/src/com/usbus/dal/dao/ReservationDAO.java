@@ -3,6 +3,7 @@ package com.usbus.dal.dao;
 import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
+import com.usbus.dal.model.Journey;
 import com.usbus.dal.model.Reservation;
 import com.usbus.dal.model.User;
 import org.bson.types.ObjectId;
@@ -72,6 +73,34 @@ public class ReservationDAO {
             for (Reservation res : auxList) {
                 User user = res.getPassenger();
                 if(user.getUsername() != username){
+                    resultList.remove(res);
+                }
+            }
+            if(resultList.isEmpty()){
+                return null;
+            }
+            else {
+                return resultList.subList(offset, (offset + limit));
+            }
+        }
+    }
+
+    public List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit){
+        if (!(tenantId > 0) || (journeyId == null) || (journeyId < 1) || offset < 0 || limit < 0) {
+            return null;
+        }
+
+        Query<Reservation> query = ds.createQuery(Reservation.class);
+        query.criteria("tenantId").equal(tenantId);
+        List<Reservation> resultList = query.asList();
+        List<Reservation> auxList = new ArrayList<>(resultList);
+
+        if(auxList.isEmpty()) {
+            return null;
+        } else {
+            for (Reservation res : auxList) {
+                Journey journey = res.getJourney();
+                if(journey.getId() != journeyId){
                     resultList.remove(res);
                 }
             }
