@@ -20,12 +20,12 @@ public class ReservationTest {
 
     @Test
     public void persist(){
-//        User user = userDAO.getByUsername(2,"Pepe");
-//
-//        Date date = new Date();
-//        Journey journey = jdao.getByLocalId(2,1L);
-//
-//        Reservation reservation = new Reservation(2,4L,null,"6.666.666/6",null,journey,1,true);
-//        dao.persist(reservation);
+        User user = userDAO.getByUsername(2,"Pepe");
+
+        Date date = new Date();
+        Journey journey = jdao.getByLocalId(2,1L);
+
+        Reservation reservation = new Reservation(2,4L,null,"6.666.666/6",null,journey,1,true);
+        dao.persist(reservation);
     }
 }
