@@ -3,6 +3,7 @@ package com.usbus.bll.administration.interfaces;
 import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.dal.model.Journey;
 import org.bson.types.ObjectId;
+import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ejb.Remote;
 import java.util.Date;
@@ -24,5 +25,8 @@ public interface JourneyRemote {
     List<Journey> getJourneysByTenantAndDate(long tenantId, Date time, int offset, int limit);
     List<Journey> getJourneysByTenantDateAndStatus(long tenantId, Date time, JourneyStatus journeyStatus, int offset, int limit);
     Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination);
+
+    JSONObject getNextJourneysForUser(long tenantId, String username, Date date, int offset, int limit);
+
     List<Journey> getJourneysByDateOriginAndDestination(long tenantId, Date time, String origin, String destination);
 }

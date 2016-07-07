@@ -5,13 +5,21 @@ import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
+import com.usbus.dal.model.HumanResource;
 import com.usbus.dal.model.Journey;
 import com.usbus.dal.model.Route;
 import org.bson.types.ObjectId;
+import org.jose4j.json.internal.json_simple.JSONArray;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.json.Json;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonObject;
 import java.util.*;
 
 /**
@@ -21,6 +29,8 @@ public class JourneyDAO {
     private final Datastore ds;
     private final GenericPersistence dao;
     private final BusStopDAO bsdao = new BusStopDAO();
+    private static final Logger logger = LoggerFactory.getLogger(JourneyDAO.class);
+
 
     public JourneyDAO() {
         ds = MongoDB.instance().getDatabase();
@@ -203,7 +213,37 @@ public class JourneyDAO {
             return query.offset(offset).limit(limit).asList();
         }
     }
+    public JSONObject getNextJourneysForUser(long tenantId,String username, Date date, int offset, int limit){
+        if(tenantId < 0 || date == null || offset < 0 || limit <= 0 || username==null || username.isEmpty()){
+            return null;
+        } else {
+            logger.debug("tenantId:" + tenantId + " username " + username + "Date" + date);
+            List<Journey> asDriverList = new ArrayList<>();
+            List<Journey> asAssistantList = new ArrayList<>();
 
+            Query<HumanResource> query = ds.createQuery(HumanResource.class);
+            query.disableValidation();
+            query.criteria("className").equal(HumanResource.class.getCanonicalName());
+            query.and(query.criteria("username").equal(username),
+                    query.criteria("tenantId").equal(tenantId));
+            query.retrievedFields(false, "salt", "passwordHash");
+            HumanResource hr = query.get();
+
+            Query<Journey> qDriver = ds.createQuery(Journey.class);
+            qDriver.and(qDriver.criteria("date").greaterThanOrEq(date), qDriver.criteria("tenantId").equal(tenantId), qDriver.criteria("driver").equal(hr));
+            asDriverList = qDriver.retrievedFields(true,"service","date","bus").offset(offset).limit(limit).asList();
+
+            Query<Journey> qAssistant = ds.createQuery(Journey.class);
+            qAssistant.and(qAssistant.criteria("date").greaterThanOrEq(date), qAssistant.criteria("tenantId").equal(tenantId), qAssistant.criteria("assistant").equal(hr));
+            asAssistantList = qAssistant.retrievedFields(true,"service","date","bus")
+                    .offset(offset).limit(limit).asList();
+
+            JSONObject list = new JSONObject();
+            list.put("asDriver", new JSONArray(asDriverList));
+            list.put("asAssistant", new JSONArray(asAssistantList));
+            return list;
+        }
+    }
     public List<Journey> getJourneysByTenantAndDateNoLimits(long tenantId, Date time){
         if(tenantId < 0 || time == null){
             return null;

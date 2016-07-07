@@ -28,6 +28,12 @@
                             'Authorization': 'Bearer ' + token
                         }
                     },
+                    queryOne: {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
                     save: {
                         method: 'POST',
                         headers: {
