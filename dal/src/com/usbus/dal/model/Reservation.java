@@ -13,22 +13,25 @@ import java.util.Date;
 @Entity(value = "reservations",noClassnameStored = true)
 @Indexes({
         @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iReservationKey", unique=true))})
-public class Reservation extends BaseEntity{
+public class Reservation extends BaseEntity {
     private Long id;
+    @Reference
     private User passenger;
+    private String CI;
     private Date dueDate;
     @Reference
     private Journey journey;
     private Integer seat;
     private Boolean active;
 
-    public Reservation(){
+    public Reservation() {
     }
 
-    public Reservation(long tenantId, Long id, User passenger, Date dueDate, Journey journey, Integer seat, Boolean active) {
+    public Reservation(long tenantId, Long id, User passenger, String CI, Date dueDate, Journey journey, Integer seat, Boolean active) {
         super(tenantId);
         this.id = id;
         this.passenger = passenger;
+        this.CI = CI;
         this.dueDate = dueDate;
         this.journey = journey;
         this.seat = seat;
@@ -49,6 +52,14 @@ public class Reservation extends BaseEntity{
 
     public void setPassenger(User passenger) {
         this.passenger = passenger;
+    }
+
+    public String getCI() {
+        return CI;
+    }
+
+    public void setCI(String CI) {
+        this.CI = CI;
     }
 
     public Date getDueDate() {
