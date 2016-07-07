@@ -11,10 +11,19 @@
     function JourneyResource($resource) {
         return {
             journeys: function (token) {
-                return $resource('/rest/api/:tenantId/journey', {tenantId: '@tenantId'}, {
+                return $resource('/rest/api/:tenantId/journey/:journeyId', {tenantId: '@tenantId', journeyId: '@journeyId'}, {
                     query: {
                         method: 'GET',
                         isArray: true,
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    get: {
+                        method: 'GET',
+                        url: '/rest/api/:tenantId/journey/:journeyId/price',
+                        params: {tenantId: '@tenantId', journeyId: '@journeyId'},
+                        isArray: false,
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }

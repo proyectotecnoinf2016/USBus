@@ -7,6 +7,8 @@ import com.usbus.dal.model.Journey;
 import com.usbus.dal.model.JourneyPatch;
 import com.usbus.services.PATCH;
 import com.usbus.services.auth.Secured;
+import org.jose4j.json.internal.json_simple.JSONArray;
+import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -176,6 +178,7 @@ public class JourneyService {
                                   @PathParam("journeyId")Long journeyId){
         try {
             ejb.setInactive(tenantId, journeyId); //POR AHORA SOLO IMPLEMENTAMOS UN BORRADO LÓGICO.
+
             return Response.ok().build();
         }catch (Exception e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -191,10 +194,12 @@ public class JourneyService {
                                     @QueryParam("origin") String origin,
                                     @QueryParam("destination") String destination){
         Double price = ejb.getJourneyPrice(tenantId, journeyId, origin, destination);
+        JSONObject jo = new JSONObject();
+        jo.put("price",price);
         if (price == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         } else {
-            return Response.ok(price).build();
+            return Response.ok(jo).build();
         }
     }
 
