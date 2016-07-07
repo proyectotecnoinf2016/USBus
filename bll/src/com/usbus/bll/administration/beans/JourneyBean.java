@@ -7,6 +7,7 @@ import com.usbus.commons.enums.JourneyStatus;
 import com.usbus.dal.dao.JourneyDAO;
 import com.usbus.dal.model.Journey;
 import org.bson.types.ObjectId;
+import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ejb.Stateless;
 import java.util.ArrayList;
@@ -71,7 +72,10 @@ public class JourneyBean implements JourneyLocal, JourneyRemote {
     public Double getJourneyPrice(long tenantId, Long journeyId, String origin, String destination) {
         return dao.getJourneyPrice(tenantId, journeyId, origin, destination);
     }
-
+    @Override
+    public JSONObject getNextJourneysForUser(long tenantId, String username, Date date, int offset, int limit){
+        return dao.getNextJourneysForUser(tenantId,username,date,offset,limit);
+    }
     @Override
     public List<Journey> getJourneysByDateOriginAndDestination(long tenantId, Date time, String origin, String destination){
         List<Journey> resultList = dao.getJourneysByTenantAndDateNoLimits(tenantId, time);
