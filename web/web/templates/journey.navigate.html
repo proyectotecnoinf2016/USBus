@@ -9,7 +9,7 @@
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
                 Nro. de ómnibus
             </h3>
-            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+            <h3 class="grayHeader tableRow" >
                 Servicio
             </h3>
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
@@ -18,27 +18,37 @@
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
                 Hora
             </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Acciones
+            </h3>
         </span>
             <md-divider ></md-divider>
         <span>
-            <span layout="row" ng-repeat="item in journeys" ng-click="showTicket(item, $event)" class="pointer">
+            <span layout="row" ng-repeat="item in journeys">
 
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.name}}
+                    {{item.busNumber}}
+                </p>
+                <p class="tableRow" >
+                    {{item.service.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.day}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                    {{item.time}}
                 </p>
-                <p hide-md="" show-gt-md="" class="tableRow" >
-                    test
+                <p class="tableRow" >
+                    <img src="img/Edit_Icon.png" ng-click="showBusStop(item, $event)" class="editIcon pointer"/>
+                    <img src="img/Delete_Icon.png" ng-click="deleteBusStop(item)" class="deleteIcon pointer"/>
                 </p>
             </span>
         </span>
         </md-content>
-        <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createJourney($event)">Crear Nuevo Viaje</md-button>
+        <div layout="row">
+            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createJourney($event)">Crear Nuevo Viaje</md-button>
+            <md-button class="md-raised" ng-click="cancel()">Volver</md-button>
+        </div>
     </div>
     <div ng-show="showCalendar">
         <calendar-md flex layout layout-fill

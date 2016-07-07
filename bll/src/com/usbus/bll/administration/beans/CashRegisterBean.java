@@ -61,6 +61,7 @@ public class CashRegisterBean implements CashRegisterLocal, CashRegisterRemote {
     public void persist(CashRegister cashRegister) throws CashRegisterException {
         boolean isAndroid = (cashRegister.getBranchId() == 0 && cashRegister.getWindowsId() == 0);
         if (isAndroid || crDAO.isCashRegisterOpen(cashRegister.getTenantId(), cashRegister.getBranchId(), cashRegister.getWindowsId())) {
+            cashRegister.setId(crDAO.getNextId(cashRegister.getTenantId()));
             logger.debug("persist ==> CashRegister: " + cashRegister.toString());
             String cashRegisterOID = crDAO.persist(cashRegister);
             if (cashRegisterOID == null || cashRegisterOID == "") {
