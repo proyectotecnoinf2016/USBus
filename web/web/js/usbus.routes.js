@@ -51,6 +51,10 @@
                 templateUrl: 'templates/journey.selection.html',
                 controller: 'TicketsController'
             })
+            .when('/tenant/:tenantName/tickets/cancel', {
+                templateUrl: 'templates/tickets.cancel.html',
+                controller: 'TicketsController'
+            })
             .when('/tenant/:tenantName/tickets/window', {
                 templateUrl: 'templates/window.navigate.html',
                 controller: 'CashRegisterController',

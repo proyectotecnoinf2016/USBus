@@ -1,35 +1,21 @@
 /**
- * Created by Lucia on 6/5/2016.
+ * Created by Lucia on 6/7/2016.
  */
+
 (function() {
     'use strict';
     angular
         .module('usbus')
-        .factory('JourneyResource', JourneyResource);
-    JourneyResource.$inject = ['$resource'];
+        .factory('ReservationResource', ReservationResource);
+    ReservationResource.$inject = ['$resource'];
     /* @ngInject */
-    function JourneyResource($resource) {
+    function ReservationResource($resource) {
         return {
-            journeys: function (token) {
-                return $resource('/rest/api/:tenantId/journey/:journeyId', {tenantId: '@tenantId', journeyId: '@journeyId'}, {
+            reservations: function (token) {
+                return $resource('/rest/api/:tenantId/reservation/:ticketId', {tenantId:'@tenantId', ticketId: '@ticketId'}, {
                     query: {
                         method: 'GET',
                         isArray: true,
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        }
-                    },
-                    get: {
-                        method: 'GET',
-                        url: '/rest/api/:tenantId/journey/:journeyId/price',
-                        params: {tenantId: '@tenantId', journeyId: '@journeyId'},
-                        isArray: false,
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        }
-                    },
-                    queryOne: {
-                        method: 'GET',
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }
@@ -39,10 +25,21 @@
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }
+                    },
+                    update: {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
+                    delete: {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
                     }
                 })
             }
         };
     }
-    
 })();
