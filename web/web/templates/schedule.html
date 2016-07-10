@@ -12,6 +12,12 @@
                     <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
                         Servicio
                     </h3>
+					<h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+
+                    </h3>
+					<h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+
+                    </h3>
                     <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
                         Bus
                     </h3>
@@ -20,10 +26,16 @@
                 <span>
                     <span layout="row" ng-repeat="item in vm.journeys.asAssistant">
                         <p hide-md="" show-gt-md="" class="tableRow">
-                            {{item.date | date:'dd/MM/yy HH:mm'}}
+                            {{item.date | date:'dd/MM/yy'}}
                         </p>
                         <p hide-md="" show-gt-md="" class="tableRow">
                             {{item.service.name}}
+                        </p>
+						<p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.service.day}}
+                        </p>
+						<p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.service.time | date:'HH:mm'}}
                         </p>
                         <p hide-md="" show-gt-md="" class="tableRow">
                             {{item.bus.id}}
@@ -43,6 +55,12 @@
                     <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
                         Servicio
                     </h3>
+					<h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+
+                    </h3>
+					<h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+
+                    </h3>
                     <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
                         Bus
                     </h3>
@@ -51,10 +69,16 @@
                 <span>
                     <span layout="row" ng-repeat="item in vm.journeys.asDriver">
                         <p hide-md="" show-gt-md="" class="tableRow">
-                            {{item.date | date:'dd/MM/yy HH:mm'}}
+                            {{item.date | date:'dd/MM/yy'}}
                         </p>
                         <p hide-md="" show-gt-md="" class="tableRow">
                             {{item.service.name}}
+                        </p>
+						<p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.service.day}}
+                        </p>
+						<p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.service.time | date:'HH:mm'}}
                         </p>
                         <p hide-md="" show-gt-md="" class="tableRow">
                             {{item.bus.id}}

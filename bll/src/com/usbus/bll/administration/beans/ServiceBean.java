@@ -46,7 +46,8 @@ public class ServiceBean implements ServiceLocal, ServiceRemote {
         for (DayOfWeek day: sp.getDay()) {
             for (Date time : sp.getTime()) {
 
-                String serviceName = sp.getName() + "-" + day.name() + "-" + hour.format(time);
+//                String serviceName = sp.getName() + "-" + day.name() + "-" + hour.format(time);
+                String serviceName = sp.getName();
                 Service service = new Service(sp.getTenantId(), sp.getId(), serviceName.trim(), day, time, route, sp.getNumberOfBuses(), sp.getActive());
                 service.setId(dao.getNextId(service.getTenantId()));
                 String oid = dao.persist(service);

@@ -125,7 +125,8 @@ public class ReservationDAO {
         List<Reservation> resultList = query.asList();
         List<Reservation> auxList = new ArrayList<>(resultList);
         if(auxList.isEmpty()) {
-            return null;
+            return auxList;
+            //return null;
         } else {
             for (Reservation res : auxList) {
                 if(res.getClientId() != clientId){
@@ -133,7 +134,7 @@ public class ReservationDAO {
                 }
             }
             if(resultList.isEmpty()){
-                return null;
+                return resultList;
             }
             else {
                 return resultList.subList(offset, (offset + limit));
@@ -152,7 +153,8 @@ public class ReservationDAO {
         List<Reservation> auxList = new ArrayList<>(resultList);
 
         if(auxList.isEmpty()) {
-            return null;
+            return auxList;
+            //return null;
         } else {
             for (Reservation res : auxList) {
                 if(res.getJourneyId() != journeyId){
@@ -160,7 +162,7 @@ public class ReservationDAO {
                 }
             }
             if(resultList.isEmpty()){
-                return null;
+                return resultList;
             }
             else {
                 return resultList.subList(offset, (offset + limit));
