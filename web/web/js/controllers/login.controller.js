@@ -10,7 +10,7 @@
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;
-        $scope.logout = logout;
+        
         $scope.tenantName = '';
 
         $scope.theme = theme;
@@ -38,6 +38,7 @@
                     localStorage.setData('tenantName', $scope.tenantName);
                     localStorage.setData('userRoles', r.roles);
                     $rootScope.$emit('menuOption', '');
+                    $rootScope.$emit('login', '');
                     $rootScope.authorization = true;
 				}, function(r){
 					console.log(r);
@@ -51,9 +52,7 @@
 		}
 
 
-        function logout() {
-            localStorage.clear();
-        }
+        
 
         function cancel() {
             $mdDialog.cancel();

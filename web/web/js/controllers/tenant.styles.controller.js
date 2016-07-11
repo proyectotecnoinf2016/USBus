@@ -152,7 +152,11 @@
     	function submitForm() {
 			var i = 0;
 			var logo = '';
-            $scope.style.busColor = $scope.busColor;
+            $scope.style.showBus = $scope.showBus;
+            if ($scope.style.showBus) {
+                $scope.style.busColor = $scope.busColor;
+            }
+
             $scope.theme = $scope.primaryColor + $scope.secondaryColor;
 
 			if ($scope.logo != null && $scope.logo !== 'undefined' && $scope.logo != '') {
@@ -162,13 +166,14 @@
 					var reader = new window.FileReader();
 					reader.readAsDataURL(logo);
 					reader.onloadend = function() {
-						$scope.style.logoB64 = reader.result;
+						$rootScope.style.logoB64 = reader.result;
 						$scope.style.logoExtension = logo.type;
 						$scope.style.logoExtension = logo.type.split("/")[1];
 						$scope.style.logoB64 = reader.result.split(",")[1];
 					}
 
 				}
+				alert($rootScope.style.logoB64 );
 			}
             else {
                 $scope.style.logoB64 = null;
