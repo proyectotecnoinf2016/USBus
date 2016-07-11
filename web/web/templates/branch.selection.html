@@ -1,0 +1,36 @@
+<md-dialog aria-label="Login" ng-cloak md-theme="{{theme}}" md-theme-watch="true"
+           style="width: 50%;">
+    <form name="inputForm" novalidate>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h1>Ingreso al sistema</h1>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+
+            <md-autocomplete
+                    md-selected-item="branch"
+                    md-no-cache=true
+                    md-search-text-change="queryBranch(branchName)"
+                    md-min-length="3"
+                    md-items="item in queryBranch(branchName)"
+                    md-item-text="item.name"
+                    md-search-text="branchName"
+                    md-floating-label="Sucursal"
+                    md-input-id="branchId"
+                    required flex layout-margin>
+
+                <md-item-template>
+                    <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }}</span>
+                </md-item-template>
+                <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
+            </md-autocomplete>
+
+
+
+        <md-dialog-actions class="md-actions" layout="row">
+            <span flex></span>
+            <md-button class="md-raised md-primary"	ng-click='selectBranch()'>Seleccionar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
