@@ -17,6 +17,18 @@
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
 
+        $scope.logout = logout;
+
+        $rootScope.$on('login', function(event, data) {
+            if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
+                $scope.tenantName = localStorage.getData('tenantName');
+            }
+            if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
+                $scope.userName = localStorage.getData('userName');
+            }
+        });
+
+
 		$scope.login = login;
         $scope.redirectTo = redirectTo;
 
@@ -116,12 +128,7 @@
 
             $scope.menuOptions = [];
 
-            if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
-                $scope.tenantName = localStorage.getData('tenantName');
-            }
-            if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
-                $scope.userName = localStorage.getData('userName');
-            }
+
 
             if ($scope.tenantName !== 'USBus') {
                 var i = 0;
@@ -179,6 +186,14 @@
         $scope.$on('Module',function(event, showMenu){
 
         })
+
+        function logout() {
+            localStorage.clear();
+            $scope.tenantName = 'USBus';
+            $scope.userName = 'Invitado';
+
+            $rootScope.$emit('logout', '');
+        }
 
     }
 })();

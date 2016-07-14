@@ -122,8 +122,12 @@
             <div layout="row" layout-align="end center" flex layout-margin layout-padding>
                 <div layout-padding=""  layout-align="center center" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage " >
                     <div class="ripplelink " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado'">
-                        <i layout-padding class="material-icons">account_box</i>
-                        <span class="whiteColor" hide show-gt-xs>{{userName}}</span>
+
+
+                        <ng-md-icon icon="login" size="32" layout layout-align="center center" >
+                            <span class="whiteColor" hide show-gt-xs>Bienvenido {{userName}}!</span>
+                            <i class="material-icons whiteColor" ng-click="logout($event);" layout-padding>exit_to_app</i>
+                        </ng-md-icon>
                     </div>
                     <div class="ripplelink pointer " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'" ng-click="login($event);" >
                         <span class="whiteColor" hide show-gt-xs>Ingresar</span>
