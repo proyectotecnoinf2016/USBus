@@ -46,4 +46,9 @@ public class MaintenanceBean implements MaintenanceLocal, MaintenanceRemote{
     public List<Maintenance> getByBus(long tenantId, String busId, int offset, int limit) {
         return dao.getByBus(tenantId, busId, offset, limit);
     }
+
+    @Override
+    public Boolean setMaintenanceStatus(long tenantId, String busId, Boolean toMaintenance) {
+        return dao.setMaintenanceStatus(tenantId, busId, toMaintenance);
+    }
 }
