@@ -18,7 +18,7 @@
 		$scope.userName = 'Invitado';
 
         $scope.logout = logout;
-
+        $scope.showAlert = showAlert;
         $rootScope.$on('login', function(event, data) {
             if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
                 $scope.tenantName = localStorage.getData('tenantName');
@@ -193,7 +193,22 @@
             $scope.userName = 'Invitado';
 
             $rootScope.$emit('logout', '');
+
+            showAlert('Hasta Luego!', 'Esperamos regreses pronto!!')
         }
+
+
+        function showAlert(title, body, ev) {
+            var useFullScreen = false;
+            $mdDialog.show({
+                template: '</p><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTGZqvke96TnMbyRvGxwCiccHvsv6cY4vLGoaSTJggL79zTCO8axg"/>',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                fullscreen: useFullScreen
+            })
+
+        };
 
     }
 })();
