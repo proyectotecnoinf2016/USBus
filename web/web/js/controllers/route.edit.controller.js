@@ -49,7 +49,7 @@
         function deleteRouteStop(item) {
             var index = 0;
 
-            while (index < $scope.route.busStops.length && item.name != $scope.route.busStops[index].name) {
+            while (index < $scope.route.busStops.length && item.busStop != $scope.route.busStops[index].busStop) {
                 index++;
             }
 
