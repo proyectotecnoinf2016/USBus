@@ -86,7 +86,7 @@
                 templateUrl : 'templates/branch.selection.html',
                 controller : 'BranchSelectionController',
                 parent : angular.element(document.body),
-                clickOutsideToClose : true,
+                clickOutsideToClose : false,
                 locals : {theme : $scope.theme}
             }).then(
                 function(answer) {

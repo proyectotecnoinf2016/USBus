@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope', 'TenantResource'];
+    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope', 'TenantResource', '$geolocation'];
     /* @ngInject */
-    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource) {
+    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource, $geolocation) {
         $scope.theme = 'redpink';
         $scope.style = '';
         $scope.show = false;
@@ -181,7 +181,14 @@
         }
 
 
+        $geolocation.getCurrentPosition({
+            timeout: 60000
+        }).then(function(position) {
+            $scope.myPosition = position;
+            console.log($scope.myPosition);
+        });
 
+        console.log($scope.myPosition);
 
         $scope.$on('Module',function(event, showMenu){
 
