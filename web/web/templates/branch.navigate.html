@@ -1,7 +1,10 @@
-<h1 class="grayHeader">Sucursales</h1>
+<h1 class="grayHeader" layout layout-margin>Sucursales</h1>
+<ng-map ng-hide="true" center="{{address}}" zoom="15">
+    <marker position="[{{address}}]"></marker>
+</ng-map>
 <form name="inputForm" novalidate >
-    <h1 class="grayHeader" ng-show="branches == null || branches.length == 0">{{message}}</h1>
-    <md-content ng-show="branches != null && branches.length > 0">
+    <h3 class="grayHeader" ng-show="branches == null || branches.length == 0" layout layout-margin>{{message}}</h3>
+    <md-content ng-show="branches != null && branches.length > 0" >
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" style="" >
                 Nombre
@@ -31,5 +34,5 @@
         </span>
     </md-content>
 
-    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBranch($event)">Crear Nueva Sucursal</md-button>
+    <md-button type="submit" layout="row" class="md-raised md-primary" ng-click="createBranch($event)">Crear Nueva Sucursal</md-button>
 </form>
