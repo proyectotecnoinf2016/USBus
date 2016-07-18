@@ -4,9 +4,11 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('TicketsController', TicketsController);
-    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage', '$rootScope', 'ReservationResource', 'dayOfWeek', 'TicketResource'];
+    TicketsController.$inject = ['$scope', '$mdDialog', 'JourneyResource', 'localStorage',
+                                '$rootScope', 'ReservationResource', 'dayOfWeek', 'TicketResource', 'BusStopResource'];
     /* @ngInject */
-    function TicketsController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, ReservationResource, dayOfWeek, TicketResource ) {
+    function TicketsController($scope, $mdDialog, JourneyResource, localStorage, $rootScope,
+                               ReservationResource, dayOfWeek, TicketResource, BusStopResource) {
         //FUNCTIONS
         $scope.selectedSeat = selectedSeat;
         $scope.exists = exists;
@@ -18,6 +20,11 @@
         $scope.getJourneys = getJourneys;
         $scope.calculatePrice = calculatePrice;
         $scope.showAlert = showAlert;
+        $scope.queryBusStops = queryBusStops;
+        $scope.selectStops = selectStops;
+        $scope.queryGetOnRouteStops = queryGetOnRouteStops;
+        $scope.queryGetOffRouteStops = queryGetOffRouteStops;
+        $scope.compare = compare;
 
         $scope.tenantId = 0;
         $scope.price = 0;
@@ -36,8 +43,8 @@
         $scope.soldSeats = [];
 
 
-        $scope.from = '';
-        $scope.to = '';
+        $scope.fromName = '';
+        $scope.toName = '';
         $scope.date = '';
         $scope.showJourneys = true;
 
@@ -58,12 +65,14 @@
             $scope.formattedDate = moment(date).format('MM/DD/YYYY');
             //query=DATE_ORIGIN_DESTINATION&date=08/02/2016&origin=Montevideo&destination=Colonia&offset=0&limit=100&status=ACTIVE&active=true
 
+            $scope.fromName = from.name;
+            $scope.toName = to.name;
             JourneyResource.journeys(token).query({
                 offset: 0,
                 limit: 100,
                 tenantId: $scope.tenantId,
-                origin: from,
-                destination: to,
+                origin: $scope.fromName,
+                destination: $scope.toName,
                 date: $scope.formattedDate,
                 status: 'ACTIVE',
                 query: 'DATE_ORIGIN_DESTINATION'
@@ -82,12 +91,61 @@
         }
 
 
+        function queryBusStops(name) {
+            return BusStopResource.busStops(token).query({
+                query:"ALL",
+                status:true,
+                offset: 0,
+                limit: 5,
+                tenantId: $scope.tenantId,
+                name : name
+            }).$promise;
+            return [];
+        }
 
 
-        function showTicket(journey, ev) {
+        function queryGetOnRouteStops(name) {
+            console.log($scope.journey.service.route.busStops);
+            var auxBusStops = $scope.journey.service.route.busStops.sort(compare).slice();
+            auxBusStops.pop();
+            var busStops = [];
+            var i = 0;
+
+            for (i = 0; i < auxBusStops.length; i++) {
+                if (auxBusStops[i].busStop.includes(name)) {
+                    busStops.push(auxBusStops[i]);
+                }
+            }
+            return busStops;
+        }
+
+        function queryGetOffRouteStops(name) {
+            console.log($scope.journey.service.route.busStops);
+            var auxBusStops = $scope.journey.service.route.busStops.sort(compare).slice();
+            auxBusStops.shift();
+            var busStops = [];
+            var i = 0;
+
+            for (i = 0; i < auxBusStops.length; i++) {
+                if (auxBusStops[i].busStop.includes(name)) {
+                    busStops.push(auxBusStops[i]);
+                }
+            }
+            return busStops;
+
+        }
+
+
+        function selectStops(journey) {
+            nextTab();
+
+            showTicket(journey);
+        }
+
+
+        function showTicket(journey) {
             $scope.journeyNotSelected = false;
             console.log(journey);
-            nextTab();
             $scope.showJourneys = false;
             $scope.journey = journey;
             if (journey.seatsState != null) {
@@ -161,6 +219,10 @@
 
 
         function calculatePrice() {
+            $scope.ticket = {};
+            $scope.ticket.getOnStopName = $scope.getOnStopName.busStop;
+            $scope.ticket.getOffStopName = $scope.getOffStopName.busStop;
+
             if ($scope.ticket != null && $scope.ticket != 'undefined' &&
                 $scope.ticket.getOnStopName != null && $scope.ticket.getOffStopName != null) {
                 JourneyResource.journeys(token).get({
@@ -328,9 +390,7 @@
             $scope.soldSeats = [];
             $scope.journeys = [];
 
-            $scope.from = '';
-            $scope.to = '';
-            $scope.date = '';
+            $scope.journeyNotSelected = true;
             $scope.showJourneys = true;
         };
 
@@ -341,6 +401,15 @@
 
             var index = ($scope.selectedIndex == $scope.max) ? 0 : $scope.selectedIndex + 1;
             $scope.selectedIndex = index;
+        }
+
+
+        function compare(a,b) {
+            if (a.km < b.km)
+                return -1;
+            if (a.km > b.km)
+                return 1;
+            return 0;
         }
 
     }
