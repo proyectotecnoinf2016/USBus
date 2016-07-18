@@ -1,65 +1,79 @@
-<md-dialog aria-label="Crear Unidad" ng-cloak md-theme="{{theme}}" md-theme-watch="true" >
+<md-dialog aria-label="Crear Unidad" ng-cloak md-theme="{{theme}}" md-theme-watch="true">
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2 class="">Datos de la Unidad</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
+                <md-button class="md-icon-button" ng-click="cancel()"><i class="material-icons"
+                                                                         aria-label="Close dialog">clear</i></md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content >
+        <md-dialog-content layout="column" layout layout-margin>
             <span flex></span>
-            <md-input-container class="customInput">
-                <label>Matricula</label>
-                <md-tooltip md-direction="top">Ingrese Matricula de la Unidad</md-tooltip>
-                <input ng-model="bus.id">
-            </md-input-container>
-            <md-input-container class="customInput">
-                <label>Marca</label>
-                <md-tooltip md-direction="top">Ingrese Marca de la Unidad</md-tooltip>
-                <input ng-model="bus.brand" required>
-            </md-input-container>
-            <md-input-container class="customInput">
-                <label>Modelo</label>
-                <md-tooltip md-direction="top">Ingrese Modelo de la Unidad</md-tooltip>
-                <input ng-model="bus.model" required>
-            </md-input-container>
+            <div layout="row" layout layout-margin>
+                <md-input-container class="customInput">
+                    <label>Matricula</label>
+                    <md-tooltip md-direction="top">Ingrese Matricula de la Unidad</md-tooltip>
+                    <input ng-model="bus.id">
+                </md-input-container>
+                <md-input-container class="customInput">
+                    <label>Marca</label>
+                    <md-tooltip md-direction="top">Ingrese Marca de la Unidad</md-tooltip>
+                    <input ng-model="bus.brand" required>
+                </md-input-container>
+            </div>
+            <div layout="row" layout layout-margin>
+                <md-input-container class="customInput">
+                    <label>Modelo</label>
+                    <md-tooltip md-direction="top">Ingrese Modelo de la Unidad</md-tooltip>
+                    <input ng-model="bus.model" required>
+                </md-input-container>
 
-             <md-input-container class="customInput">
-                <label>Kilometraje</label>
-                <md-tooltip md-direction="top">Ingrese Kilometraje de la Unidad</md-tooltip>
-                <input type="number" ng-model="bus.kms" required>
-            </md-input-container>
-             <md-input-container class="customInput">
-                <label>Próximo Mantenimiento</label>
-                <md-tooltip md-direction="top">Ingrese Próximo Mantenimiento</md-tooltip>
-                <input type="number" ng-model="bus.nextMaintenance" >
-            </md-input-container>
-             <md-input-container class="customInput">
-                <label>Número de Asientos</label>
-                <md-tooltip md-direction="top">Ingrese Número de Asientos</md-tooltip>
-                <input type="number" ng-model="bus.seats" required >
-            </md-input-container>
-             <md-input-container class="customInput">
-                <label>Número de Pasajeros de Pie</label>
-                <md-tooltip md-direction="top">Ingrese Número de Pasajeros de Pie</md-tooltip>
-                <input type="number" ng-model="bus.standingPassengers" required >
-            </md-input-container>
-            <md-input-container class="customInput">
-                <label>Capacidad para encomiendas (kg)</label>
-                <md-tooltip md-direction="top">Ingrese Capacidad para encomiendas</md-tooltip>
-                <input type="number" ng-model="bus.trunkMaxWeight" required >
-            </md-input-container>
-
+                <md-input-container class="customInput">
+                    <label>Kilometraje</label>
+                    <md-tooltip md-direction="top">Ingrese Kilometraje de la Unidad</md-tooltip>
+                    <input type="number" ng-model="bus.kms" required>
+                </md-input-container>
+            </div>
+            <div layout="row" layout layout-margin>
+                <md-input-container class="customInput">
+                    <label>Próximo Mantenimiento</label>
+                    <md-tooltip md-direction="top">Ingrese Próximo Mantenimiento</md-tooltip>
+                    <input type="number" ng-model="bus.nextMaintenance">
+                </md-input-container>
+                <md-input-container class="customInput">
+                    <label>Número de Asientos</label>
+                    <md-tooltip md-direction="top">Ingrese Número de Asientos</md-tooltip>
+                    <input type="number" ng-model="bus.seats" required>
+                </md-input-container>
+            </div>
+            <div layout="row" layout layout-margin>
+                <md-input-container class="customInput">
+                    <label>Número de Pasajeros de Pie</label>
+                    <md-tooltip md-direction="top">Ingrese Número de Pasajeros de Pie</md-tooltip>
+                    <input type="number" ng-model="bus.standingPassengers" required>
+                </md-input-container>
+                <md-input-container class="customInput">
+                    <label>Capacidad para encomiendas (kg)</label>
+                    <md-tooltip md-direction="top">Ingrese Capacidad para encomiendas</md-tooltip>
+                    <input type="number" ng-model="bus.trunkMaxWeight" required>
+                </md-input-container>
+            </div>
             <span flex></span>
         </md-dialog-content>
 
 
         <md-dialog-actions class="md-actions" layout="row">
             <span flex></span>
-            <md-button type="submit" hide show-gt-md layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createBus(bus)'>Crear unidad</md-button>
-        <md-button type="submit" hide-gt-md layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createBus(bus)'>Crear unidad</md-button>
-        <md-button layout="row" layout-align="center center" class="md-raised " ng-click='cancel()'>Cancel</md-button>
+            <md-button type="submit" hide show-gt-md layout="row" layout-align="center center"
+                       class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createBus(bus)'>Crear
+                unidad
+            </md-button>
+            <md-button type="submit" hide-gt-md layout="row" layout-align="center center" class="md-raised md-primary"
+                       ng-disabled="inputForm.$invalid" ng-click='createBus(bus)'>Crear unidad
+            </md-button>
+            <md-button layout="row" layout-align="center center" class="md-raised " ng-click='cancel()'>Cancel
+            </md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>
