@@ -1,4 +1,4 @@
-<md-dialog aria-label="Crear Usuario" flex md-theme="{{theme}}" md-theme-watch="true">
+<md-dialog aria-label="Crear Usuario"  md-theme="{{theme}}" md-theme-watch="true">
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -13,25 +13,24 @@
                 <md-dialog-content layout="column" layout-margin class="">
                     <span flex></span>
                     <div layout="row" >
-                        <md-input-container class="" layout-margin layout-padding flex>
+                        <md-input-container class="" layout-margin >
                             <label>Nombre</label>
                             <md-tooltip md-direction="top">Ingrese Nombre del usuario</md-tooltip>
                             <input ng-model="user.firstName" required>
                         </md-input-container>
 
-                        <md-input-container class="" layout-margin layout-padding flex>
+                        <md-input-container class="" layout-margin >
                             <label>Apellido</label>
                             <md-tooltip md-direction="top">Ingrese Apellido del usuario</md-tooltip>
                             <input ng-model="user.lastName" required >
                         </md-input-container>
                     </div>
                     <div layout="row" >
-                        <mdp-date-picker  flex ng-model="user.birthDate" mdp-placeholder="Fecha de Nacimiento"></mdp-date-picker>
+                        <mdp-date-picker layout layout-margin ng-model="user.birthDate" mdp-placeholder="Fecha de Nacimiento"></mdp-date-picker>
 
-                        <md-input-container class="" layout-margin layout-padding flex>
-                            <label>Sexo</label>
+                        <md-input-container layout-margin >
                             <md-tooltip md-direction="top">Ingrese Sexo del usuario</md-tooltip>
-                            <md-radio-group layout="row" ng-model="gender">
+                            <md-radio-group layout="column" ng-model="gender">
                                 <md-radio-button ng-value=0><span class="label">Masculino</span></md-radio-button>
                                 <md-radio-button ng-value=1> <span class="label">Femenino</span> </md-radio-button>
                                 <md-radio-button ng-value=2> <span class="label">Otro</span> </md-radio-button>
@@ -44,30 +43,27 @@
                 <md-dialog-content layout="column" layout-margin class="">
                     <span flex></span>
                     <div layout="row" >
-                        <md-input-container class="" layout-margin layout-padding flex>
+                        <md-input-container class="" layout-margin>
                             <label>Nombre de Usuario</label>
                             <md-tooltip md-direction="top">Ingrese Nombre de Usuario</md-tooltip>
                             <input ng-model="user.username" required>
                         </md-input-container>
 
-                        <md-input-container class="" layout-margin layout-padding flex>
+                        <md-input-container class="" layout-margin >
                             <label>Correo electrónico</label>
                             <md-tooltip md-direction="top">Ingrese el correo electrónico del usuario</md-tooltip>
                             <input type="email" ng-model="user.email" required >
                         </md-input-container>
-                    </div>
-                    <div layout="row" >
-                        <mdp-date-picker flex ng-model="user.startDate" mdp-placeholder="Fecha de Inicio"></mdp-date-picker>
-                        <md-input-container class="" layout-margin layout-padding flex>
+                        <md-input-container class="" layout-margin>
                             <label>Contraseña</label>
                             <md-tooltip md-direction="top">Ingrese contraseña del usuario</md-tooltip>
                             <input type="password" ng-model="user.password" required >
                         </md-input-container>
                     </div>
-
                     <div layout="row" >
-                        <md-input-container class="" layout-margin layout-padding flex>
-                            <md-content layout layout="row">
+                        <mdp-date-picker ng-model="user.startDate" mdp-placeholder="Fecha de Inicio"></mdp-date-picker>
+                        <md-input-container class="" layout-margin>
+                            <md-content layout layout="column">
                                 <div ng-repeat="role in roles" layout layout-padding>
                                     <md-checkbox ng-checked="exists(role.value, selectedRoles)" ng-click="toggle(role.value, selectedRoles)" aria-label="Rol">
                                         {{ role.name }}
@@ -75,6 +71,10 @@
                                 </div>
                             </md-content>
                         </md-input-container>
+                    </div>
+
+                    <div layout="row" >
+
                     </div>
 
 

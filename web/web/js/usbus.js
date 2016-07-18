@@ -10,7 +10,8 @@
         'lfNgMdFileInput',
         'ngSanitize',
         'materialCalendar',
-        'mdPickers'
+        'mdPickers',
+        'ngGeolocation'
         ]).run(function($rootScope) {
     });
 

@@ -18,5 +18,5 @@ public interface MaintenanceRemote {
     List<Maintenance> getByTenant(long tenantId, int offset, int limit);
     List<Maintenance> getMaintenancesBetweenDates(long tenantId, Date time1, Date time2, int offset, int limit);
     List<Maintenance> getByBus(long tenantId, String busId, int offset, int limit);
-
+    Boolean setMaintenanceStatus(long tenantId, String busId, Boolean toMaintenance);
 }

@@ -40,6 +40,7 @@ public class MaintenanceDAO {
         return query.countAll();
     }
 
+    //get por el ObjectId de mongo
     public Maintenance getById(String id) {
         return dao.get(Maintenance.class, id);
     }
@@ -120,8 +121,8 @@ public class MaintenanceDAO {
     }
 
     //Si status es true el bus se queda bajo mantenimiento, si es false quiere decir que el mismo sale de mantenimiento
-    public Boolean setMaintenanceStatus(long tenantId, String busId, Boolean status){
-        if(tenantId < 0 || busId == null || busId.isEmpty() || status == null){
+    public Boolean setMaintenanceStatus(long tenantId, String busId, Boolean toMaintenance){
+        if(tenantId < 0 || busId == null || busId.isEmpty() || toMaintenance == null){
             return false;
         }
         else{
@@ -130,8 +131,8 @@ public class MaintenanceDAO {
             query.and(query.criteria("id").equal(busId),
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<Bus> updateOp;
-            if(status) {
-                updateOp = ds.createUpdateOperations(Bus.class).set("status", BusStatus.MANTENANCE);
+            if(toMaintenance) {
+                updateOp = ds.createUpdateOperations(Bus.class).set("status", BusStatus.MAINTENANCE);
             } else {
                 updateOp = ds.createUpdateOperations(Bus.class).set("status", BusStatus.ACTIVE);
             }

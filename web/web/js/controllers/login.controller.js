@@ -10,6 +10,7 @@
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;
+        $scope.selectBranch = selectBranch;
         
         $scope.tenantName = '';
 
@@ -31,7 +32,13 @@
 
                 LoginUserResource.Login(data,function(r){
                     console.log(r);
-                    showAlert('Exito!','Ha ingresado al sistema de forma exitosa');
+                    if (r.roles.includes("CASHIER")) {
+                        selectBranch();
+                    }
+                    else {
+                        showAlert('Exito!','Ha ingresado al sistema de forma exitosa');
+                    }
+
                     localStorage.setData('token',r.token);
                     localStorage.setData('tenantId',r.tenantId);
                     localStorage.setData('userName', data.username);
@@ -73,5 +80,22 @@
                     .content(content)
                     .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
         };
+
+        function selectBranch(ev) {
+            $mdDialog.show({
+                templateUrl : 'templates/branch.selection.html',
+                controller : 'BranchSelectionController',
+                parent : angular.element(document.body),
+                clickOutsideToClose : false,
+                locals : {theme : $scope.theme}
+            }).then(
+                function(answer) {
+
+                }, function() {
+                    $scope.status = 'You cancelled the dialog.';
+            });
+
+
+        }
 
     }})();

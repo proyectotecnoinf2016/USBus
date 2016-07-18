@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('IndexController', IndexController);
-    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope', 'TenantResource'];
+    IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope', 'TenantResource', '$geolocation'];
     /* @ngInject */
-    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource) {
+    function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource, $geolocation) {
         $scope.theme = 'redpink';
         $scope.style = '';
         $scope.show = false;
@@ -18,7 +18,7 @@
 		$scope.userName = 'Invitado';
 
         $scope.logout = logout;
-
+        $scope.showAlert = showAlert;
         $rootScope.$on('login', function(event, data) {
             if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
                 $scope.tenantName = localStorage.getData('tenantName');
@@ -181,11 +181,14 @@
         }
 
 
+        $geolocation.getCurrentPosition({
+            timeout: 60000
+        }).then(function(position) {
+            $scope.myPosition = position;
+            console.log($scope.myPosition);
+            localStorage.setData('location', $scope.myPosition);
+        });
 
-
-        $scope.$on('Module',function(event, showMenu){
-
-        })
 
         function logout() {
             localStorage.clear();
@@ -193,7 +196,22 @@
             $scope.userName = 'Invitado';
 
             $rootScope.$emit('logout', '');
+
+            showAlert('Hasta Luego!', 'Esperamos regreses pronto!!')
         }
+
+
+        function showAlert(title, body, ev) {
+            var useFullScreen = false;
+            $mdDialog.show({
+                template: '</p><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTGZqvke96TnMbyRvGxwCiccHvsv6cY4vLGoaSTJggL79zTCO8axg"/>',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                fullscreen: useFullScreen
+            })
+
+        };
 
     }
 })();
