@@ -1,6 +1,5 @@
-<md-dialog aria-label="Login" ng-cloak md-theme="{{theme}}" md-theme-watch="true"
-           style="width: 50%;">
-    <form name="inputForm" novalidate>
+<md-dialog aria-label="Login" ng-cloak md-theme="{{theme}}" flex="30" md-theme-watch="true">
+    <form name="inputForm" novalidate >
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h1>Ingreso al sistema</h1>
@@ -8,7 +7,8 @@
                 <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content >
+        <md-dialog-content layout="column" layout-align="center center" layout layout-margin>
+            <i class="material-icons" style="font-size: 100px">account_circle</i>
             <span flex></span>
             <md-input-container class="customInput">
                 <label>Usuario</label>
@@ -24,6 +24,8 @@
             </md-input-container>
 
             <span flex></span>
+
+
         </md-dialog-content>
 
 
