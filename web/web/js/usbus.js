@@ -12,7 +12,8 @@
         'materialCalendar',
         'mdPickers',
         'ngGeolocation',
-        'ngMap'
+        'ngMap',
+        'angularSlideables'
         ]).run(function($rootScope) {
     });
 
