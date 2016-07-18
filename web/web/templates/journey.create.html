@@ -1,5 +1,5 @@
 
-<md-dialog aria-label="Crear Viaje" ng-cloak flex md-theme="{{theme}}" md-theme-watch="true">
+<md-dialog aria-label="Crear Viaje" ng-cloak md-theme="{{theme}}"  md-theme-watch="true">
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -8,17 +8,17 @@
                 <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content >
+        <md-dialog-content layout-padding>
             <span flex></span>
 
-            <div layout="row" flex>
-                <md-input-container class="" flex>
+            <div layout="row" >
+                <md-input-container class="" layout-margin>
                     <label>Número de ómnibus</label>
                     <md-tooltip md-direction="top">Ingrese Número de Ómnibus</md-tooltip>
                     <input type="number" ng-model="journey.busNumber" required>
                 </md-input-container>
 
-                <md-input-container class="" flex>
+                <md-input-container class="" >
                     <md-checkbox ng-model="journey.thirdPartyBus" aria-label="Checkbox 1">
                         Es una unidad externa?
                     </md-checkbox>
@@ -36,7 +36,7 @@
                         md-search-text="serviceName"
                         md-floating-label="Servicio"
                         md-input-id="serviceId"
-                        required flex layout-margin>
+                        required  layout-margin>
 
                     <md-item-template>
                         <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }}</span>
@@ -55,7 +55,7 @@
                         md-search-text="busName"
                         md-floating-label="Omnibus"
                         md-input-id="busId"
-                        required flex layout-margin>
+                        required  layout-margin>
 
                     <md-item-template>
                         <span md-highlight-text="busItem.id" md-highlight-flags="^i"> {{ busItem.id }}</span>
@@ -75,7 +75,7 @@
                         md-search-text="assistantEmail"
                         md-floating-label="Guarda"
                         md-input-id="hrId"
-                        required flex layout-margin>
+                        required  layout-margin>
 
                     <md-item-template>
                         <span md-highlight-text="hrItem.email" md-highlight-flags="^i"> {{ hrItem.email }}</span>
@@ -94,7 +94,7 @@
                         md-search-text="driverEmail"
                         md-floating-label="Chofer"
                         md-input-id="hrDriverId"
-                        required flex layout-margin>
+                        required  layout-margin>
 
                     <md-item-template>
                         <span md-highlight-text="hrDriverItem.email" md-highlight-flags="^i"> {{ hrDriverItem.email }}</span>
@@ -107,7 +107,6 @@
 
 
         <md-dialog-actions class="md-actions" layout="row">
-            <span flex></span>
             <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-disabled="inputForm.$invalid" ng-click='createJourney(journey)'>Crear Viaje</md-button>
             <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
         </md-dialog-actions>

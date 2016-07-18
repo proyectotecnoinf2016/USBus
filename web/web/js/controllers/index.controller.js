@@ -186,13 +186,9 @@
         }).then(function(position) {
             $scope.myPosition = position;
             console.log($scope.myPosition);
+            localStorage.setData('location', $scope.myPosition);
         });
 
-        console.log($scope.myPosition);
-
-        $scope.$on('Module',function(event, showMenu){
-
-        })
 
         function logout() {
             localStorage.clear();

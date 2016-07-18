@@ -13,6 +13,8 @@
         $scope.showAlert = showAlert;
 
 
+        localStorage.setData('location', $scope.myPosition);
+
         $scope.branch = '';
 
         $scope.theme = theme;
