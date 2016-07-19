@@ -23,8 +23,8 @@ public class ReservationService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
-    public Response createReservation(Reservation reservation) {
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+            public Response createReservation(Reservation reservation) {
         String oid = ejb.persist(reservation);
         if (oid==null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -98,7 +98,7 @@ public class ReservationService {
     @Path("{reservationId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
     public Response removeReservation(@PathParam("tenantId")Long tenantId,
                                   @PathParam("reservationId")Long reservationId){
         try {
