@@ -24,6 +24,7 @@ public class ReservationBean implements ReservationLocal, ReservationRemote {
 //        Calendar cal = Calendar.getInstance();
 //        cal.setTime(reservation.getJourney().getDate());
 //        cal.add(Calendar.MINUTE, -30);
+        reservation.setId(dao.getNextId(reservation.getTenantId()));
         return dao.persist(reservation);
     }
 

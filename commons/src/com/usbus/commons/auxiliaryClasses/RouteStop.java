@@ -8,13 +8,17 @@ public class RouteStop {
     private String busStop;
     private Double km;
     private boolean isCombinationPoint;
+    private Double latitude;
+    private Double longitude;
 
     public RouteStop(){};
 
-    public RouteStop(String busStop, Double km, boolean isCombinationPoint) {
+    public RouteStop(String busStop, Double km, boolean isCombinationPoint, Double latitude, Double longitude) {
         this.busStop = busStop;
         this.km = km;
         this.isCombinationPoint = isCombinationPoint;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getBusStop() {
@@ -39,5 +43,21 @@ public class RouteStop {
 
     public void setCombinationPoint(boolean combinationPoint) {
         isCombinationPoint = combinationPoint;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

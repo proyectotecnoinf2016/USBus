@@ -20,16 +20,20 @@ public class Branch extends BaseEntity {
     private String name;
     private List<Window> windows;
     private Boolean active;
+    private Double latitude;
+    private Double longitude;
 
     public Branch(){
     }
 
-    public Branch(long tenantId, Long id, String name, List<Window> windows, Boolean active) {
+    public Branch(long tenantId, Long id, String name, List<Window> windows, Boolean active, Double latitude, Double longitude) {
         super(tenantId);
         this.id = id;
         this.name = name;
         this.windows = windows;
         this.active = active;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Long getId() {
@@ -62,5 +66,21 @@ public class Branch extends BaseEntity {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
