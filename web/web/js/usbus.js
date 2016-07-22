@@ -11,7 +11,9 @@
         'ngSanitize',
         'materialCalendar',
         'mdPickers',
-        'ngGeolocation'
+        'ngGeolocation',
+        'ngMap',
+        'angularSlideables'
         ]).run(function($rootScope) {
     });
 

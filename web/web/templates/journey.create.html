@@ -12,13 +12,13 @@
             <span flex></span>
 
             <div layout="row" >
-                <md-input-container class="" layout-margin>
+                <md-input-container class="customInput" layout-margin>
                     <label>Número de ómnibus</label>
                     <md-tooltip md-direction="top">Ingrese Número de Ómnibus</md-tooltip>
                     <input type="number" ng-model="journey.busNumber" required>
                 </md-input-container>
 
-                <md-input-container class="" >
+                <md-input-container style="padding-left: 30px; padding-bottom: 30px" layout="row">
                     <md-checkbox ng-model="journey.thirdPartyBus" aria-label="Checkbox 1">
                         Es una unidad externa?
                     </md-checkbox>

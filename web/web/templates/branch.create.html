@@ -1,5 +1,5 @@
 
-<md-dialog aria-label="Crear Sucursal" ng-cloak style="width: 50%" md-theme="{{theme}}" md-theme-watch="true" >
+<md-dialog aria-label="Crear Sucursal" ng-cloak flex="50" md-theme="{{theme}}" md-theme-watch="true" >
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -10,23 +10,28 @@
         </md-toolbar>
         <md-dialog-content >
             <span flex></span>
-            <md-input-container class="customInput">
-                <label>Nombre</label>
+            <md-input-container>
+                <label  layout-margin layout>Nombre</label>
                 <md-tooltip md-direction="top">Ingrese Nombre de la Sucursal</md-tooltip>
-                <input ng-model="branch.name" required>
+                <input ng-model="branch.name" required  layout-margin layout>
+            </md-input-container>
+            <md-input-container>
+                <label  layout-margin layout>Dirección</label>
+                <md-tooltip md-direction="top">Ingrese Dirección de la Sucursal</md-tooltip>
+                <input ng-model="branch.address" required  layout-margin layout>
             </md-input-container>
 
-            <md-input-container class="customInput" layout="column" ng-repeat="item in windows">
-                <h3>Caja {{item.index}}</h3>
+            <md-input-container class="" layout="column" ng-repeat="item in windows" layout-margin>
+                <h3>Caja {{item.id}}</h3>
                 <div layout="row">
                     <div  flex >
                         <md-checkbox ng-model="item.tickets" aria-label="Venta de boletos" class="customInput">
-                            <span class="customInput">Venta de boletos</span>
+                            <span class="">Venta de boletos</span>
                         </md-checkbox>
                     </div>
                     <div flex>
                         <md-checkbox ng-model="item.parcels" aria-label="Envio de encomiendas">
-                            <span class="customInput">Envio de encomiendas</span>
+                            <span class="">Envio de encomiendas</span>
                         </md-checkbox>
                     </div>
                     <div flex>

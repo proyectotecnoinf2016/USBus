@@ -1,7 +1,15 @@
-<h1 class="grayHeader">Sucursales</h1>
+<h1 class="grayHeader" layout layout-margin>Sucursales</h1>
+<div id="map" class="slideable" ng-cloak="">
+    <ng-map center="{{address}}" zoom="15">
+        <marker position="[{{address}}]"></marker>
+    </ng-map>
+</div>
+
+<i class="material-icons" slide-toggle="#map">pin_drop</i>
+
 <form name="inputForm" novalidate >
-    <h1 class="grayHeader" ng-show="branches == null || branches.length == 0">{{message}}</h1>
-    <md-content ng-show="branches != null && branches.length > 0">
+    <h3 class="grayHeader" ng-show="branches == null || branches.length == 0" layout layout-margin>{{message}}</h3>
+    <md-content ng-show="branches != null && branches.length > 0" >
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRowBusStop" style="" >
                 Nombre
@@ -26,10 +34,14 @@
                 <p hide-md="" show-gt-md="" class="" >
                     <img src="img/Edit_Icon.png" ng-click="showBranches(item, $event)" class="editIcon pointer"/>
                     <img src="img/Delete_Icon.png" ng-click="deleteBranch(item)" class="deleteIcon pointer"/>
+
+                    <i class="material-icons" slide-toggle="#derp" ng-click="showMap()">pin_drop</i>
+                    <i class="material-icons">add_location</i>
+                    <i class="material-icons">edit_location</i>
                 </p>
             </span>
         </span>
     </md-content>
 
-    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBranch($event)">Crear Nueva Sucursal</md-button>
+    <md-button type="submit" layout="row" class="md-raised md-primary" ng-click="createBranch($event)">Crear Nueva Sucursal</md-button>
 </form>
