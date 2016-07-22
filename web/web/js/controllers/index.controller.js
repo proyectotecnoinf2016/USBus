@@ -81,7 +81,7 @@
                 } , {
                     name: "Administrar Sucursales",
                     url : "admin/branch",
-                    icon: "add_to_queue"
+                    icon: "location_city"
                 } , {
                     name: "Administrar Unidades",
                     url : "admin/bus",

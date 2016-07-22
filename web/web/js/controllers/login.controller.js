@@ -26,6 +26,19 @@
             $scope.tenantName = $scope.urlArray[i + 1];
         }
 
+
+        function queryBranch(name) {
+            return BranchResource.branches(token).query({
+                status:true,
+                offset: 0,
+                limit: 100,
+                tenantId: $scope.tenantId,
+                query: 'NAME',
+                branchName: name
+            }).$promise;
+        }
+
+
 		function login(data) {
 			if (data != null && typeof data.username !== 'undefined') {
                 data.tenantName = $scope.tenantName;

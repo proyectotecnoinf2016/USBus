@@ -1,5 +1,5 @@
 <md-dialog aria-label="Login" ng-cloak  md-theme="{{theme}}" md-theme-watch="true"
-           style="width: 50%;">
+           >
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -8,15 +8,15 @@
                 <md-button class="md-icon-button" ng-click="cancel()"> <i class="material-icons" aria-label="Close dialog">clear</i> </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content >
+        <md-dialog-content layout layout-margin>
             <span flex></span>
 
-            <md-input-container class="customInput">
+            <md-input-container  layout-margin>
                 <label>Nombre</label>
                 <md-tooltip md-direction="top">Ingrese nombre de la parada</md-tooltip>
                 <input ng-model="busStop.name" name="busName" required>
             </md-input-container>
-            <md-input-container class="customInput">
+            <md-input-container  layout-margin>
                 <label>Tiempo de espera</label>
                 <md-tooltip md-direction="top">Ingrese tiempo de espera</md-tooltip>
                 <input type="number" ng-model="busStop.stopTime" name="stopTime" required>

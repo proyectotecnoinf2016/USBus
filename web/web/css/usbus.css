@@ -48,11 +48,15 @@
 }
 
 .customInput {
-    width: 95%;
+    width: 195px;
 }
 
 .customInputRegister {
     width: 95%;
+}
+
+.customInputLogin {
+    width: 85%;
 }
 
 .noMarginTopBottom {
@@ -168,7 +172,7 @@ label {
 }
 
 .tableRowBusStop {
-    width: 45%;
+    width: 40%;
 }
 
 .customJumbotron {
@@ -201,10 +205,25 @@ md-divider {
 }
 
 .indexIcon.material-icons {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .indexMenuOptions {
     padding-left: 15px;
     float:left;
+    font-weight: 100!important;
+}
+
+span {
+    /*font-weight: 100!important;*/
+}
+
+md-autocomplete-wrap > md-input-container{
+    padding:0px!important;
+    margin:0px!important;
+}
+
+
+button > span {
+    font-weight: 100!important;
 }

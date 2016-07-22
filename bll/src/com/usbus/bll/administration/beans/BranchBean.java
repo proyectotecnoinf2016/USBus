@@ -4,7 +4,6 @@ import com.usbus.bll.administration.interfaces.BranchLocal;
 import com.usbus.bll.administration.interfaces.BranchRemote;
 import com.usbus.dal.dao.BranchDAO;
 import com.usbus.dal.model.Branch;
-import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -33,8 +32,8 @@ BranchBean implements BranchLocal, BranchRemote {
     }
 
     @Override
-    public Branch getByBranchName(long tenantId, String name) {
-        return dao.getByBranchName(tenantId, name);
+    public List<Branch> getByBranchName(long tenantId, String name, boolean status, int offset, int limit) {
+        return dao.getByBranchName(tenantId, name, status, offset, limit);
     }
 
     @Override
