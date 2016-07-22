@@ -12,7 +12,7 @@ public interface BranchRemote {
     String persist(Branch branch);
     Branch getById(String branchId);
     Branch getByLocalId(long tenantId, Long branchId);
-    Branch getByBranchName(long tenantId, String name);
+    List<Branch> getByBranchName(long tenantId, String name, boolean status, int offset, int limit);
     void setInactive(long tenantId, Long branchId);
     List<Branch> getBranchesByTenant(long tenantId,boolean status, int offset, int limit);
 }

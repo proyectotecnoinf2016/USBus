@@ -125,9 +125,9 @@
                 <img hide-gt-xs src="img/{{busColor}}_Bus.png" class="customBus smallCustomBus"/>
 
             </div>
-            <div layout="row" layout-align="end center" flex layout-margin layout-padding>
+            <div layout="row" layout-align="end center" flex layout-margin layout-padding >
                 <div layout-padding=""  layout-align="center center" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage " >
-                    <div class="ripplelink " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado'">
+                    <div class="ripplelink " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado' && tenantName != 'USBus' && tenantName != ''">
 
 
                         <ng-md-icon icon="login" size="32" layout layout-align="center center" >
@@ -135,7 +135,7 @@
                             <i class="material-icons whiteColor" ng-click="logout($event);" layout-padding>exit_to_app</i>
                         </ng-md-icon>
                     </div>
-                    <div class="ripplelink pointer " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'" ng-click="login($event);" >
+                    <div class="ripplelink pointer " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'  && tenantName != 'USBus'" ng-click="login($event);" >
                         <span class="whiteColor" hide show-gt-xs>Ingresar</span>
                         <md-button class="md-icon-button" aria-label="Settings" >
                             <ng-md-icon icon="login" size="32"  >

@@ -62,13 +62,13 @@ public class BranchDAO {
         }
     }
 
-    public Branch getByBranchName(long tenantId, String name){
+    public List<Branch> getByBranchName(long tenantId, String name, boolean active, int offset, int limit){
         if (!(tenantId > 0) || (name.isEmpty())) {
             return null;
         } else {
             Query<Branch> query = ds.createQuery(Branch.class);
-            query.and(query.criteria("name").equal(name), query.criteria("tenantId").equal(tenantId));
-            return query.get();
+            query.and(query.criteria("name").containsIgnoreCase(name), query.criteria("tenantId").equal(tenantId),  query.criteria("active").equal(active));
+            return query.offset(offset).limit(limit).asList();
         }
     }
 
