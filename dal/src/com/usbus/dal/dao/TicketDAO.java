@@ -1,18 +1,17 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.auxiliaryClasses.Seat;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
-import com.usbus.dal.model.Journey;
-import com.usbus.dal.model.Service;
-import com.usbus.dal.model.Ticket;
-import com.usbus.dal.model.User;
+import com.usbus.dal.model.*;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -143,4 +142,72 @@ public class TicketDAO {
             ds.update(query, updateOp);
         }
     }
+
+    public List<Ticket> /*getByGetsOff*/getByJourney(long tenantId/*, String getOffStopName*/, Journey journey){
+        if (tenantId > 0 /*&& !getOffStopName.equals(null)*/ && !journey.equals(null)) {
+            Query<Ticket> query = ds.createQuery(Ticket.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("journey").equal(journey),
+                    query.criteria("closed").equal(true), query.criteria("status").equal(TicketStatus.CONFIRMED));
+            return  query.asList();
+        } else {
+            return null;
+        }
+    }
+
+    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId){
+        if (tenantId > 0 && routeStopKm != null && journeyId != null) {
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query+.criteria("id").equal(journeyId));
+            Journey journey = query.get();
+
+            List<Ticket> ticketList = getByJourney(tenantId, journey);
+            List<Ticket> auxTicketList = new ArrayList<>(ticketList);
+
+            List<Integer> returnSeatNumberList = new ArrayList<>();
+            int numberOfSeats = journey.getBus().getSeats();
+            for (Integer i = 1; i <= numberOfSeats; i++) { returnSeatNumberList.add(i); }
+
+            if (!auxTicketList.isEmpty()) {
+                for(Ticket auxTicket : auxTicketList){
+                    if(auxTicket.getKmGetsOn() <= routeStopKm && auxTicket.getKmGetsOff() > routeStopKm
+                            && returnSeatNumberList.contains(auxTicket.getSeat())) {
+                        returnSeatNumberList.remove(auxTicket.getSeat());
+                    }
+                }
+            }
+            return returnSeatNumberList;
+        } else {
+            return null;
+        }
+    }
+
+    //    public void releaseJourneySeats(long tenantId, BusStop getsOff, Journey journey){
+//        List<Ticket> ticketList = getByGetsOff(tenantId, getsOff, journey);
+//        List<Ticket> auxToRemoveSeatTicketList = new ArrayList<>(ticketList);
+//
+//        Query<Journey> query = ds.createQuery(Journey.class);
+//        query.and(query.criteria("id").equal(journey.getId()), query.criteria("tenantId").equal(tenantId));
+//        Journey currentJourney = query.get();
+//        Seat[] journeySeatList = currentJourney.getSeatsState();
+//        Seat[] stillOcupatedSeats = new Seat[journey.getBus().getSeats()];
+//        //hola
+//        boolean seatFound = false;
+//        int position = -1;
+//        Seat seatAux = null;
+//        if (!auxToRemoveSeatTicketList.isEmpty()) {
+//            for(Ticket ticketWithSeatToRemove : auxToRemoveSeatTicketList){
+//                for(Seat journeySeat:journeySeatList){
+//                    if(ticketWithSeatToRemove.getSeat() == journeySeat.getNumber()){
+//                        seatFound = true;
+//                        seatAux = journeySeat;
+//                    }
+//                }
+//                if(!seatFound){
+//                    stillOcupatedSeats[position++] = seatAux;
+//                }
+//            }
+//        }
+//        currentJourney.setSeatsState(stillOcupatedSeats);
+//        currentJourney.setSeats(stillOcupatedSeats.length);
+//    }
 }
