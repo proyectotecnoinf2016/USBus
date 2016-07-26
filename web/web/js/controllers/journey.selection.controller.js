@@ -18,6 +18,7 @@
         $scope.sell = sell;
         $scope.showTicket = showTicket;
         $scope.getJourneys = getJourneys;
+        $scope.getReservations = getReservations;
         $scope.calculatePrice = calculatePrice;
         $scope.showAlert = showAlert;
         $scope.queryBusStops = queryBusStops;
@@ -90,6 +91,22 @@
             });
         }
 
+        function getReservations(journey){
+            console.log(journey.id);
+            ReservationResource.reservations(token).query({
+                offset: 0,
+                limit: 100,
+                tenantId: $scope.tenantId,
+                journeyId: journey.id,
+                status: 'ACTIVE',
+                query: 'JOURNEY'
+            }).$promise.then(function(result) {
+                console.log(result);
+                $scope.reservations = result;
+            });
+
+        }
+
 
         function queryBusStops(name) {
             return BusStopResource.busStops(token).query({
@@ -105,7 +122,6 @@
 
 
         function queryGetOnRouteStops(name) {
-            console.log($scope.journey.service.route.busStops);
             var auxBusStops = $scope.journey.service.route.busStops.sort(compare).slice();
             auxBusStops.pop();
             var busStops = [];
@@ -140,6 +156,7 @@
             nextTab();
 
             showTicket(journey);
+            getReservations(journey);
         }
 
 

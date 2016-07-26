@@ -175,7 +175,6 @@
 					}
 
 				}
-				alert($rootScope.style.logoB64 );
 			}
             else {
                 $scope.style.logoB64 = null;

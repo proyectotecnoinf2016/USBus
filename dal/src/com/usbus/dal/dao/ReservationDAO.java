@@ -142,32 +142,16 @@ public class ReservationDAO {
         }
     }
 
-    public List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit){
-        if (!(tenantId > 0) || (journeyId == null) || (journeyId < 1) || offset < 0 || limit < 0) {
+    public List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit, boolean active){
+        if ((tenantId < 1) || (journeyId == null) || (journeyId < 1) || offset < 0 || limit < 0) {
             return null;
         }
 
         Query<Reservation> query = ds.createQuery(Reservation.class);
-        query.criteria("tenantId").equal(tenantId);
-        List<Reservation> resultList = query.asList();
-        List<Reservation> auxList = new ArrayList<>(resultList);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("journeyId").equal(journeyId), query.criteria("active").equal(active));
+        List<Reservation> reservations = query.offset(offset).limit(limit).asList();
 
-        if(auxList.isEmpty()) {
-            return auxList;
-            //return null;
-        } else {
-            for (Reservation res : auxList) {
-                if(res.getJourneyId() != journeyId){
-                    resultList.remove(res);
-                }
-            }
-            if(resultList.isEmpty()){
-                return resultList;
-            }
-            else {
-                return resultList.subList(offset, (offset + limit));
-            }
-        }
+        return reservations;
     }
 
     public void remove(String id) {
