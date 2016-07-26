@@ -16,4 +16,8 @@ public interface ParcelRemote {
     List<Parcel> getOnDestination(long tenantId, Long destinationId, Boolean onDestination, int offset, int limit);
     List<Parcel> getOnDestinationNotDelivered(long tenantId, Long destinationId, Boolean onDestination, int offset, int limit);
     List<Parcel> getByOrigin(long tenantId, Long originId, int offset, int limit);
+
+    List<Parcel> getParcels(long tenantId, int offset, int limit);
+
+    List<Parcel> getByJourney(long tenantId, Long journeyId, int offset, int limit);
 }

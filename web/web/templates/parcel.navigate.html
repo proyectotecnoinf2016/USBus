@@ -1,0 +1,71 @@
+<h1 class="grayHeader">Unidades</h1>
+<form name="inputForm" novalidate >
+    <h3 class="grayHeader" ng-show="buses == null || buses.length == 0">{{message}}</h3>
+    <md-content ng-show="buses != null && buses.length > 0">
+        <span layout="row" >
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                Matricula
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
+                Marca
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Modelo
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Kilometraje
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Próximo Mantenimiento
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Número de Asientos
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Número de Pasajeros de Pie
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Capacidad para encomiendas (kg)
+            </h3>
+            <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" >
+                Acciones
+            </h3>
+        </span>
+        <md-divider ></md-divider>
+        <span>
+            <span layout="row" ng-repeat="item in buses" >
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.id}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.brand}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.model}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.kms}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.nextMaintenance}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.seats}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.standingPassengers}}
+                </p>
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    {{item.trunkMaxWeight}}
+                </p>
+
+                <p hide-md="" show-gt-md="" class="tableRow" >
+                    <img src="img/Edit_Icon.png" ng-click="showBus(item, $event)" class="editIcon pointer"/> 
+                    <img src="img/Delete_Icon.png" ng-click="deleteBus(item)" class="deleteIcon pointer"/>
+                </p>
+            </span>
+        </span>
+    </md-content>
+
+    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBus($event)">Crear Nueva unidad</md-button>
+</form>
