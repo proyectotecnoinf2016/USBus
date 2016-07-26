@@ -43,4 +43,12 @@ public class ParcelBean implements ParcelLocal, ParcelRemote{
     public List<Parcel> getByOrigin(long tenantId, Long originId, int offset, int limit) {
         return dao.getByOrigin(tenantId, originId, offset, limit);
     }
+    @Override
+    public List<Parcel> getParcels(long tenantId, int offset, int limit) {
+        return dao.getParcels(tenantId, offset, limit);
+    }
+    @Override
+    public List<Parcel> getByJourney(long tenantId, Long journeyId, int offset, int limit) {
+        return dao.getByJourney(tenantId, journeyId, offset, limit);
+    }
 }

@@ -216,29 +216,32 @@ public class TenantDAO {
             Image header = tenantStyle.getHeaderImage();
 
             TenantStyleAux tenantStyleAux = new TenantStyleAux();
-
-            File logoFileAux = new File(logo.getFilePath()+File.separator+logo.getName()+"."+logo.getExtension());
-            if(logoFileAux.exists()){
-                BufferedImage logoBufferedImage = ImageIO.read(logoFileAux);
-                String logoB64 = encodeToString(logoBufferedImage, logo.getExtension());
-                tenantStyleAux.setLogoB64(logoB64);
-                tenantStyleAux.setLogoExtension(logo.getExtension());
-                //System.out.println(tenantStyleAux.getLogoB64());
-            } else {
-                tenantStyleAux.setLogoB64(null);
-                tenantStyleAux.setLogoExtension(null);
+            if (!(logo==null)) {
+                System.out.println(logo);
+                File logoFileAux = new File(logo.getFilePath() + File.separator + logo.getName() + "." + logo.getExtension());
+                if (logoFileAux.exists()) {
+                    BufferedImage logoBufferedImage = ImageIO.read(logoFileAux);
+                    String logoB64 = encodeToString(logoBufferedImage, logo.getExtension());
+                    tenantStyleAux.setLogoB64(logoB64);
+                    tenantStyleAux.setLogoExtension(logo.getExtension());
+                    //System.out.println(tenantStyleAux.getLogoB64());
+                } else {
+                    tenantStyleAux.setLogoB64(null);
+                    tenantStyleAux.setLogoExtension(null);
+                }
             }
-
-            File headerFileAux = new File(header.getFilePath()+File.separator+header.getName()+"."+header.getExtension());
-            if(headerFileAux.exists()) {
-                BufferedImage headerBufferedImage = ImageIO.read(headerFileAux);
-                String headerB64 = encodeToString(headerBufferedImage, header.getExtension());
-                tenantStyleAux.setHeaderB64(headerB64);
-                tenantStyleAux.setHeaderExtension(header.getExtension());
-                //System.out.println(tenantStyleAux.getHeaderB64());
-            } else {
-                tenantStyleAux.setHeaderB64(null);
-                tenantStyleAux.setHeaderExtension(null);
+            if  (!(header==null)) {
+                File headerFileAux = new File(header.getFilePath() + File.separator + header.getName() + "." + header.getExtension());
+                if (headerFileAux.exists()) {
+                    BufferedImage headerBufferedImage = ImageIO.read(headerFileAux);
+                    String headerB64 = encodeToString(headerBufferedImage, header.getExtension());
+                    tenantStyleAux.setHeaderB64(headerB64);
+                    tenantStyleAux.setHeaderExtension(header.getExtension());
+                    //System.out.println(tenantStyleAux.getHeaderB64());
+                } else {
+                    tenantStyleAux.setHeaderB64(null);
+                    tenantStyleAux.setHeaderExtension(null);
+                }
             }
 
             tenantStyleAux.setTheme(tenantStyle.getTheme());

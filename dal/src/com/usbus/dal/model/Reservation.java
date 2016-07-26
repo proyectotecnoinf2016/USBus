@@ -1,6 +1,7 @@
 package com.usbus.dal.model;
 
 import com.usbus.dal.BaseEntity;
+import com.usbus.dal.dao.JourneyDAO;
 import org.mongodb.morphia.annotations.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,20 +23,26 @@ public class Reservation extends BaseEntity {
 //    @Reference
 //    private Journey journey;
     private Long journeyId;
+    private String serviceName;
     private Integer seat;
     private Boolean active;
+    private String getsOn;
+    private String getsOff;
 
     public Reservation() {
     }
 
-    public Reservation(long tenantId, Long id, String clientId, Date dueDate, Long journeyId, Integer seat, Boolean active) {
+    public Reservation(long tenantId, Long id, String clientId, Date dueDate, Long journeyId, Integer seat, Boolean active, String getsOn, String getsOff) {
         super(tenantId);
         this.id = id;
         this.clientId = clientId;
         this.dueDate = dueDate;
         this.journeyId = journeyId;
+        this.serviceName = new JourneyDAO().getByJourneyId(tenantId,journeyId).getService().getName();
         this.seat = seat;
         this.active = active;
+        this.getsOn = getsOn;
+        this.getsOff = getsOff;
     }
 
     public Long getId() {
