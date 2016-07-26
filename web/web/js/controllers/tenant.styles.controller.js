@@ -170,10 +170,11 @@
 						$scope.style.logoExtension = logo.type;
 						$scope.style.logoExtension = logo.type.split("/")[1];
 						$scope.style.logoB64 = reader.result.split(",")[1];
+						localStorage.setData('logoType', $scope.style.logoExtension);
+						localStorage.setData('logoContent', $scope.style.logoB64)
 					}
 
 				}
-				alert($rootScope.style.logoB64 );
 			}
             else {
                 $scope.style.logoB64 = null;
@@ -200,7 +201,13 @@
                 $scope.style.headerB64 = null;
                 $scope.style.headerExtension = null;
             }
-			
+
+
+            if (localStorage.getData('logoType') != 'undefined' && localStorage.getData('logoType') != null
+				&& localStorage.getData('logoContent') != 'undefined' && localStorage.getData('logoContent') != null) {
+				$scope.style.logoExtension = localStorage.getData('logoType');
+				$scope.style.logoB64 = localStorage.getData('logoContent');
+			}
 
 			TenantResource.tenant(token).update({
 				tenantId: $scope.tenantId

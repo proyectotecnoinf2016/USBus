@@ -54,12 +54,22 @@ public class ParcelDAO {
 
         return query.get();
     }
+    public List<Parcel> getParcels(long tenantId, int offset, int limit){
+        if (!(tenantId > 0)) {
+            return null;
+        }
+
+        Query<Parcel> query = ds.createQuery(Parcel.class);
+
+        query.criteria("tenantId").equal(tenantId);
+
+        return query.limit(limit).offset(offset).asList();
+    }
 
     public List<Parcel> getByJourney(long tenantId, Long journeyId, int offset, int limit){
         if ((tenantId < 0) || (journeyId == null) || offset < 0 || limit < 0) {
             return null;
         }
-
         Query<Parcel> query = ds.createQuery(Parcel.class);
         query.criteria("tenantId").equal(tenantId);
         List<Parcel> resultList = query.asList();

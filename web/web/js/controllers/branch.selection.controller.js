@@ -34,7 +34,8 @@
                 offset: 0,
                 limit: 100,
                 tenantId: $scope.tenantId,
-                query: 'ALL'
+                query: 'NAME',
+                branchName: name
             }).$promise;
         }
 

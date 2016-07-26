@@ -85,7 +85,7 @@ public class ReservationService {
                 }
                 return Response.ok(reservationList).build();
             case "JOURNEY":
-                reservationList = ejb.getByJourney(tenantId,journeyId,offset,limit);
+                reservationList = ejb.getByJourney(tenantId,journeyId,offset,limit, status);
                 if (reservationList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }

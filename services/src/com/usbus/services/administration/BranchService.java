@@ -71,7 +71,7 @@ public class BranchService {
                                 @QueryParam("limit") int limit){
         switch (query.toUpperCase()){
             case "NAME":
-                Branch branchAux = ejb.getByBranchName(tenantId,branchName);
+                List<Branch> branchAux = ejb.getByBranchName(tenantId,branchName,status,  offset, limit);
                 if (branchAux == null){
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }

@@ -17,5 +17,5 @@ public interface ReservationRemote {
     void remove(String id);
     void setInactive(long tenantId, Long reservationId);
     List<Reservation> getByUserNameAndStatus(long tenantId, String clientId, Boolean status, int offset, int limit);
-    List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit);
+    List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit, boolean active);
 }

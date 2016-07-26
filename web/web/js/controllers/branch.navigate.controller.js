@@ -4,9 +4,9 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('BranchController', BranchController);
-    BranchController.$inject = ['$scope', '$mdDialog', 'BranchResource', '$rootScope', 'localStorage'];
+    BranchController.$inject = ['$scope', '$mdDialog', 'BranchResource', '$rootScope', 'localStorage', 'NgMap'];
     /* @ngInject */
-    function BranchController($scope, $mdDialog, BranchResource, $rootScope, localStorage) {
+    function BranchController($scope, $mdDialog, BranchResource, $rootScope, localStorage, NgMap) {
         $scope.showBranches = showBranches;
         $scope.createBranch = createBranch;
         $scope.deleteBranch = deleteBranch;
@@ -15,6 +15,18 @@
         $scope.message = '';
         $scope.tenantId = 0;
         $scope.branches = [];
+        var latitude = -34.908894599999996;
+        var longitude = -56.197728299999994;
+        $scope.address = latitude + ',' + longitude;
+
+
+
+        NgMap.getMap().then(function(map) {
+            console.log(map.getCenter());
+            console.log('markers', map.markers);
+            console.log('shapes', map.shapes);
+        });
+
 
 
         $scope.tenantId = 0;
