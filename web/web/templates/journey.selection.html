@@ -156,9 +156,12 @@
                         <md-content flex layout="column" style="position:absolute; left: 150px; top: 85px;">
                             <md-content layout="row">
                                 <md-content ng-repeat="item in firstRow" ng-click="selectedSeat(item);" class="pointer">
-                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
-                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
                                     <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+
+                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+
                                     <span class="busSeat">
                                         {{item}}
                                     </span>
@@ -166,9 +169,10 @@
                             </md-content>
                             <md-content class="" layout="row">
                                 <md-content ng-repeat="item in secondRow" ng-class="{'md-padding-bottom':$last}" ng-click="selectedSeat(item);" class="pointer">
-                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
-                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
                                     <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
                                     <span class="busSeat">
                                         {{item}}
                                     </span>
@@ -176,9 +180,10 @@
                             </md-content>
                             <md-content class="" layout="row">
                                 <md-content ng-repeat="item in thirdRow" ng-click="selectedSeat(item);" class="pointer">
-                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
-                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
                                     <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
                                     <span class="busSeat">
                                         {{item}}
                                     </span>
@@ -186,9 +191,10 @@
                             </md-content>
                             <md-content class="" layout="row">
                                 <md-content ng-repeat="item in fourthRow" ng-click="selectedSeat(item);" class="pointer">
-                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Bus_Seat.png" class="seatImage" />
-                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
                                     <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
                                     <span class="busSeat">
                                         {{item}}
                                     </span>
