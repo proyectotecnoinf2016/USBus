@@ -121,25 +121,11 @@ public class ReservationDAO {
         }
 
         Query<Reservation> query = ds.createQuery(Reservation.class);
-        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(status));
-        List<Reservation> resultList = query.asList();
-        List<Reservation> auxList = new ArrayList<>(resultList);
-        if(auxList.isEmpty()) {
-            return auxList;
-            //return null;
-        } else {
-            for (Reservation res : auxList) {
-                if(res.getClientId() != clientId){
-                    resultList.remove(res);
-                }
-            }
-            if(resultList.isEmpty()){
-                return resultList;
-            }
-            else {
-                return resultList.subList(offset, (offset + limit));
-            }
-        }
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(status),
+                query.criteria("clientId").equal(clientId));
+
+        return query.offset(offset).limit(limit).asList();
+
     }
 
     public List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit, boolean active){
