@@ -136,13 +136,6 @@
 		}
 
 
-    	$scope.$watch('logo.length',function(newVal,oldVal){
-    		console.log($scope.logo);
-        });
-        $scope.$watch('header.length',function(newVal,oldVal){
-    		console.log($scope.header);
-        });
-
         function themeChange() {
             $scope.style.theme = $scope.primaryColor + $scope.secondaryColor;
             $rootScope.$emit('theme', $scope.style.theme);
@@ -152,7 +145,7 @@
     	function submitForm() {
 			var i = 0;
 			var logo = '';
-            $scope.style.showBus = $scope.showBus;
+            //$scope.style.showBus = $scope.showBus;
             if ($scope.style.showBus) {
                 $scope.style.busColor = $scope.busColor;
             }
@@ -168,21 +161,48 @@
 					reader.onloadend = function() {
 						var logoB64 = reader.result.split(",")[1];
 						var logoExtension = logo.type.split("/")[1];
-						localStorage.setData('reader', reader.result);
-						localStorage.setData('logoType', logoExtension);
-						localStorage.setData('logoContent', logoB64)
-
 						$scope.style.logoB64 = logoB64;
 						$scope.style.logoExtension = logoExtension;
-						TenantResource.tenant(token).update({
-							tenantId: $scope.tenantId
-						}, $scope.style,function (resp) {
-							console.log(resp);
-							showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
-						}, function (error) {
-							console.log(error);
-							showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
-						} );
+
+						if ($scope.header != null &&  $scope.header !== 'undefined' && $scope.header != '') {
+							//alert($scope.header);
+							for (i = 0; i < $scope.header.length; i++) {
+								header = $scope.header[i].lfFile;
+								var reader2 = new window.FileReader();
+								reader2.readAsDataURL(header);
+								reader2.onloadend = function() {
+									$scope.style.headerB64 = reader2.result;
+									$scope.style.headerExtension = header.type;
+									$scope.style.headerExtension = header.type.split("/")[1];
+									$scope.style.headerB64 = reader2.result.split(",")[1];
+									TenantResource.tenant(token).update({
+										tenantId: $scope.tenantId
+									}, $scope.style, function (resp) {
+										console.log(resp);
+										showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
+									}, function (error) {
+										console.log(error);
+										showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
+									});
+								}
+							}
+
+						}
+						else {
+							$scope.style.headerB64 = null;
+							$scope.style.headerExtension = null;
+
+
+							TenantResource.tenant(token).update({
+								tenantId: $scope.tenantId
+							}, $scope.style, function (resp) {
+								console.log(resp);
+								showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
+							}, function (error) {
+								console.log(error);
+								showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
+							});
+						}
 					}
 
 				}
