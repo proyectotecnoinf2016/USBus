@@ -11,7 +11,7 @@
         $scope.style = '';
         $scope.show = false;
         $scope.logo = 'img/USBus2.png';
-        $scope.showBus = true;
+        //$scope.showBus = true;
         $scope.busColor = 'Red';
 
 		$scope.tenantName = 'USBus';
@@ -50,7 +50,8 @@
                 $scope.style = result;
 
                 $scope.theme = $scope.style.theme;
-                $scope.showBus = $scope.style.showBus;
+                //$scope.showBus = $scope.style.showBus;
+                //console.log($scope.showBus);
                 $scope.logo = 'data:image/' + $scope.style.logoExtension + ';base64,' + $scope.style.logoB64;
                 $scope.header = 'data:image/' + $scope.style.headerExtension + ';base64,' + $scope.style.headerB64;
                 $scope.busColor = $scope.style.busColor;
