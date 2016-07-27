@@ -45,6 +45,30 @@ public class Reservation extends BaseEntity {
         this.getsOff = getsOff;
     }
 
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getGetsOn() {
+        return getsOn;
+    }
+
+    public void setGetsOn(String getsOn) {
+        this.getsOn = getsOn;
+    }
+
+    public String getGetsOff() {
+        return getsOff;
+    }
+
+    public void setGetsOff(String getsOff) {
+        this.getsOff = getsOff;
+    }
+
     public Long getId() {
         return id;
     }
