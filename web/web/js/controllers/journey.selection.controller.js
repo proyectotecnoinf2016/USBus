@@ -93,7 +93,8 @@
         }
 
         function getReservations(journey){
-            console.log(journey.id);
+
+            console.log(journey.date);
             ReservationResource.reservations(token).query({
                 offset: 0,
                 limit: 100,
@@ -107,7 +108,6 @@
                 //$scope.reservedSeats = result;
                 var i = 0;
                 for (i = 0; i < result.length; i++) {
-                    console.log(result[i].seat);
                     $scope.reservedSeats.push(result[i].seat);
                 }
             });
