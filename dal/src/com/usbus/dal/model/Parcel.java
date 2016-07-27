@@ -19,10 +19,20 @@ public class Parcel extends BaseEntity {
     private Integer weight;
     @Reference
     private Journey journey;
+    @Transient
+    private Long journeyId;
     @Reference
     private BusStop origin;
+    @Transient
+    private String originName;
+    @Transient
+    private Long originId;
     @Reference
     private BusStop destination;
+    @Transient
+    private Long destinationId;
+    @Transient
+    private String destinationName;
     private String from;
     private String to;
     private Boolean delivered;
