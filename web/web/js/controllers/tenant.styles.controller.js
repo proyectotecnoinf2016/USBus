@@ -166,23 +166,43 @@
 					var reader = new window.FileReader();
 					reader.readAsDataURL(logo);
 					reader.onloadend = function() {
-						$rootScope.style.logoB64 = reader.result;
-						$scope.style.logoExtension = logo.type;
-						$scope.style.logoExtension = logo.type.split("/")[1];
-						$scope.style.logoB64 = reader.result.split(",")[1];
-						localStorage.setData('logoType', $scope.style.logoExtension);
-						localStorage.setData('logoContent', $scope.style.logoB64)
+						var logoB64 = reader.result.split(",")[1];
+						var logoExtension = logo.type.split("/")[1];
+						localStorage.setData('reader', reader.result);
+						localStorage.setData('logoType', logoExtension);
+						localStorage.setData('logoContent', logoB64)
+
+						$scope.style.logoB64 = logoB64;
+						$scope.style.logoExtension = logoExtension;
+						TenantResource.tenant(token).update({
+							tenantId: $scope.tenantId
+						}, $scope.style,function (resp) {
+							console.log(resp);
+							showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
+						}, function (error) {
+							console.log(error);
+							showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
+						} );
 					}
 
 				}
 			}
             else {
-                $scope.style.logoB64 = null;
-                $scope.style.logoExtension = null;
+				$scope.style.logoB64 = null;
+				$scope.style.logoExtension = null;
+				TenantResource.tenant(token).update({
+					tenantId: $scope.tenantId
+				}, $scope.style,function (resp) {
+					console.log(resp);
+					showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
+				}, function (error) {
+					console.log(error);
+					showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
+				} );
             }
 
 			var header = '';
-			if ($scope.header != null &&  $scope.header !== 'undefined' && $scope.header != '') {
+			/*if ($scope.header != null &&  $scope.header !== 'undefined' && $scope.header != '') {
                 //alert($scope.header);
 				for (i = 0; i < $scope.header.length; i++) {
                     header = $scope.header[i].lfFile;
@@ -200,26 +220,21 @@
             else {
                 $scope.style.headerB64 = null;
                 $scope.style.headerExtension = null;
-            }
+            }*/
+			$scope.style.headerB64 = null;
+			$scope.style.headerExtension = null;
 
 
-            if (localStorage.getData('logoType') != 'undefined' && localStorage.getData('logoType') != null
+            /*if (localStorage.getData('logoType') != 'undefined' && localStorage.getData('logoType') != null
 				&& localStorage.getData('logoContent') != 'undefined' && localStorage.getData('logoContent') != null) {
 				$scope.style.logoExtension = localStorage.getData('logoType');
 				$scope.style.logoB64 = localStorage.getData('logoContent');
-			}
+			}*/
 
-			TenantResource.tenant(token).update({
-				tenantId: $scope.tenantId
-			}, $scope.style,function (resp) {
-				console.log(resp);
-				showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
-			}, function (error) {
-				console.log(error);
-				showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
-			} );
+
 
 	    }
+
 
 		function showAlert(title,content) {
 			$mdDialog
@@ -234,7 +249,68 @@
 					.ariaLabel('Alert Dialog Demo').ok('Cerrar'));
 
 		};
-	    
 
+
+		/*function submitForm() {
+			var i = 0;
+			var logo = '';
+			$scope.style.showBus = $scope.showBus;
+			if ($scope.style.showBus) {
+				$scope.style.busColor = $scope.busColor;
+			}
+
+
+			var i = 0;
+			var file = '';
+			if ($scope.logo != null &&  $scope.logo !== 'undefined') {
+				for (i = 0; i < $scope.logo.length; i++) {
+					file = $scope.logo[i].lfFile;
+					var reader = new window.FileReader();
+					reader.readAsDataURL(file);
+					reader.onloadend = function() {
+						$scope.style.logoB64 = reader.result;
+						$scope.style.logoExtension = file.type;
+
+
+						console.log($scope.style);
+						TenantResource.tenant(token).update({
+							tenantId: $scope.tenantId
+						}, $scope.style,function (resp) {
+							console.log(resp);
+							showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
+						}, function (error) {
+							console.log(error);
+							showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
+						} );
+					}
+
+				}
+			}
+			else {
+
+
+				console.log($scope.style);
+				TenantResource.tenant(token).update({
+					tenantId: $scope.tenantId
+				}, $scope.style,function (resp) {
+					console.log(resp);
+					showAlert('Exito!', 'Se ha editado el estilo de forma exitosa');
+				}, function (error) {
+					console.log(error);
+					showAlert('Error!', 'Ocurrió un error al procesar su solicitud');
+				} );
+			}
+
+
+
+
+
+			 var reader  = new FileReader();
+			 var read = reader.readAsDataURL($scope.header[0].lfFile);
+			 alert(read);
+			 console.log($scope.header[0].lfFile);
+		}
+
+*/
 	}
 })();

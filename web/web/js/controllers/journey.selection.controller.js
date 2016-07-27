@@ -42,6 +42,7 @@
         $scope.thirdRow = [];
         $scope.fourthRow = [];
         $scope.soldSeats = [];
+        $scope.reservedSeats = [];
 
 
         $scope.fromName = '';
@@ -92,17 +93,23 @@
         }
 
         function getReservations(journey){
-            console.log(journey.id);
+
+            console.log(journey.date);
             ReservationResource.reservations(token).query({
                 offset: 0,
                 limit: 100,
                 tenantId: $scope.tenantId,
                 journeyId: journey.id,
-                status: 'ACTIVE',
+                status: true,
                 query: 'JOURNEY'
             }).$promise.then(function(result) {
                 console.log(result);
-                $scope.reservations = result;
+
+                //$scope.reservedSeats = result;
+                var i = 0;
+                for (i = 0; i < result.length; i++) {
+                    $scope.reservedSeats.push(result[i].seat);
+                }
             });
 
         }
