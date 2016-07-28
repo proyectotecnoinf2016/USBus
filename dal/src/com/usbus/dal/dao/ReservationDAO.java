@@ -12,6 +12,7 @@ import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class ReservationDAO {
         if (!(tenantId > 0) || (id == null)) {
             return null;
         }
+        updateReservationsStatus(tenantId, null, null, id);
 
         Query<Reservation> query = ds.createQuery(Reservation.class);
 
@@ -119,33 +121,21 @@ public class ReservationDAO {
         if (!(tenantId > 0) || (clientId == null) || (clientId.isEmpty()) || (status == null) || offset < 0 || limit < 0) {
             return null;
         }
+        updateReservationsStatus(tenantId, null, clientId, null);
 
         Query<Reservation> query = ds.createQuery(Reservation.class);
-        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(status));
-        List<Reservation> resultList = query.asList();
-        List<Reservation> auxList = new ArrayList<>(resultList);
-        if(auxList.isEmpty()) {
-            return auxList;
-            //return null;
-        } else {
-            for (Reservation res : auxList) {
-                if(res.getClientId() != clientId){
-                    resultList.remove(res);
-                }
-            }
-            if(resultList.isEmpty()){
-                return resultList;
-            }
-            else {
-                return resultList.subList(offset, (offset + limit));
-            }
-        }
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("active").equal(status),
+                query.criteria("clientId").equal(clientId));
+
+        return query.offset(offset).limit(limit).asList();
+
     }
 
     public List<Reservation> getByJourney(long tenantId, Long journeyId, int offset, int limit, boolean active){
         if ((tenantId < 1) || (journeyId == null) || (journeyId < 1) || offset < 0 || limit < 0) {
             return null;
         }
+        updateReservationsStatus(tenantId, journeyId, null, null);
 
         Query<Reservation> query = ds.createQuery(Reservation.class);
         query.and(query.criteria("tenantId").equal(tenantId), query.criteria("journeyId").equal(journeyId), query.criteria("active").equal(active));
@@ -182,6 +172,53 @@ public class ReservationDAO {
                 return new Long(1);
             }
             return reservation.getId() + 1;
+        }
+    }
+
+    private void updateReservationsStatus (Long tenantId, Long journeyId, String clientId, Long reservationId) {
+        if (tenantId == null || !(tenantId > 0)) {
+        } else {
+            Date now = new Date();
+
+            if(reservationId != null && reservationId > 0) {
+                Query<Reservation> reservationQuery = ds.createQuery(Reservation.class);
+                reservationQuery.and(reservationQuery.criteria("id").equal(reservationId),
+                        reservationQuery.criteria("tenantId").equal(tenantId));
+                Reservation reservation = reservationQuery.get();
+                if (reservation.getDueDate().before(now)) {
+                    setInactive(tenantId, reservation.getId());
+                }
+            }
+
+            if (journeyId != null && journeyId > 0) {
+                Query<Reservation> reservationsQuery = ds.createQuery(Reservation.class);
+                reservationsQuery.and(reservationsQuery.criteria("active").equal(true),
+                        reservationsQuery.criteria("journeyId").equal(journeyId),
+                        reservationsQuery.criteria("tenantId").equal(tenantId));
+                List<Reservation> reservations = reservationsQuery.asList();
+
+                for (Reservation r : reservations) {
+                    Date dueDate = r.getDueDate();
+                    if (dueDate.before(now)) {
+                        setInactive(tenantId, r.getId());
+                    }
+                }
+            }
+
+            if (clientId != null && !clientId.isEmpty()) {
+                Query<Reservation> reservationsQuery = ds.createQuery(Reservation.class);
+                reservationsQuery.and(reservationsQuery.criteria("active").equal(true),
+                        reservationsQuery.criteria("clientId").equal(clientId),
+                        reservationsQuery.criteria("tenantId").equal(tenantId));
+                List<Reservation> reservations = reservationsQuery.asList();
+
+                for (Reservation r : reservations) {
+                    Date dueDate = r.getDueDate();
+                    if (dueDate.before(now)) {
+                        setInactive(tenantId, r.getId());
+                    }
+                }
+            }
         }
     }
 }

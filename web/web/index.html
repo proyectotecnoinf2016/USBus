@@ -120,14 +120,14 @@
                 </div>
 
             </h1>
-            <div layout="row" layout-align="end center" show={{showBus}} ng-cloak>
-                <img hide show-gt-xs  src="img/{{busColor}}_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
-                <img hide-gt-xs src="img/{{busColor}}_Bus.png" class="customBus smallCustomBus"/>
+            <div layout="row" layout-align="end center" ng-show="style.showBus" ng-cloak>
+                <img hide show-gt-xs  src="img/{{style.busColor}}_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
+                <img hide-gt-xs src="img/{{style.busColor}}_Bus.png" class="customBus smallCustomBus"/>
 
             </div>
             <div layout="row" layout-align="end center" flex layout-margin layout-padding >
                 <div layout-padding=""  layout-align="center center" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage " >
-                    <div class="ripplelink " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado' && tenantName != 'USBus' && tenantName != ''">
+                    <div class="ripplelink " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado' && tenantName != 'USBus'">
 
 
                         <ng-md-icon icon="login" size="32" layout layout-align="center center" >
