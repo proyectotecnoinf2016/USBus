@@ -193,7 +193,7 @@
 
         function logout() {
             localStorage.clear();
-            $scope.tenantName = 'USBus';
+            //$scope.tenantName = 'USBus';
             $scope.userName = 'Invitado';
 
             $rootScope.$emit('logout', '');
