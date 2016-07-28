@@ -157,7 +157,7 @@ public class TicketDAO {
     public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId){
         if (tenantId > 0 && routeStopKm != null && journeyId != null) {
             Query<Journey> query = ds.createQuery(Journey.class);
-            query.and(query.criteria("tenantId").equal(tenantId), query+.criteria("id").equal(journeyId));
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("id").equal(journeyId));
             Journey journey = query.get();
 
             List<Ticket> ticketList = getByJourney(tenantId, journey);
