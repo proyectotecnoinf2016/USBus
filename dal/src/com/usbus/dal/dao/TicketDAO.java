@@ -1,19 +1,21 @@
 package com.usbus.dal.dao;
 
+import com.usbus.commons.auxiliaryClasses.RouteStop;
+import com.usbus.commons.auxiliaryClasses.Seat;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
-import com.usbus.dal.model.Journey;
-import com.usbus.dal.model.Service;
-import com.usbus.dal.model.Ticket;
-import com.usbus.dal.model.User;
+import com.usbus.dal.model.*;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Lufasoch on 30/05/2016.
@@ -141,6 +143,80 @@ public class TicketDAO {
                     query.criteria("tenantId").equal(tenantId));
             UpdateOperations<Ticket> updateOp = ds.createUpdateOperations(Ticket.class).set("status", TicketStatus.CANCELED);
             ds.update(query, updateOp);
+        }
+    }
+
+    public List<Ticket> /*getByGetsOff*/getByJourney(long tenantId/*, String getOffStopName*/, Journey journey){
+        if (tenantId > 0 /*&& !getOffStopName.equals(null)*/ && !journey.equals(null)) {
+            Query<Ticket> query = ds.createQuery(Ticket.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("journey").equal(journey),
+                    query.criteria("closed").equal(true), query.criteria("status").equal(TicketStatus.CONFIRMED));
+            return  query.asList();
+        } else {
+            return null;
+        }
+    }
+
+    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId){
+        if (tenantId > 0 && routeStopKm != null && journeyId != null) {
+//GET TICKETS OF A JOURNEY
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("id").equal(journeyId));
+            Journey journey = query.get();
+
+            List<Ticket> ticketList = getByJourney(tenantId, journey);
+            List<Ticket> auxTicketList = new ArrayList<>(ticketList);
+//GET TICKETS OF A JOURNEY
+
+//GET RESERVATIONS BY JOURNEY
+            Query<Reservation> rquery = ds.createQuery(Reservation.class);
+            rquery.and(rquery.criteria("tenantId").equal(tenantId), rquery.criteria("journeyId").equal(journeyId),
+                    rquery.criteria("active").equal(true));
+            List<Reservation> reservations = rquery.asList();
+            List<Reservation> auxReservationList = new ArrayList<>(reservations);
+//GET RESERVATIONS BY JOURNEY
+
+//GET RESERVATIONS KM...
+            List<RouteStop> routeList = journey.getService().getRoute().getBusStops();
+            List<RouteStop> auxRouteStopList = new ArrayList<>(routeList);
+            Map<String,Double> map = new HashMap<>();
+
+            for(RouteStop auxRouteStop : auxRouteStopList){
+                map.put(auxRouteStop.getBusStop(),auxRouteStop.getKm());
+            }
+//GET RESERVATIONS KM...
+
+            List<Integer> returnSeatNumberList = new ArrayList<>();
+            int numberOfSeats = journey.getBus().getSeats();
+            for (Integer i = 1; i <= numberOfSeats; i++) { returnSeatNumberList.add(i); }
+
+            if (!auxTicketList.isEmpty()) {
+//REMOVE OCCUPIED SEATS
+                for (Ticket auxTicket : auxTicketList) {
+                    //DEBUG
+                    Double d1 = auxTicket.getKmGetsOn();
+                    Double d2 = routeStopKm;
+                    Double d3 = auxTicket.getKmGetsOff();
+                    Boolean b1 = returnSeatNumberList.contains(auxTicket.getSeat());
+                    //DEBUG
+                    if (auxTicket.getKmGetsOn() <= routeStopKm && auxTicket.getKmGetsOff() > routeStopKm && returnSeatNumberList.contains(auxTicket.getSeat())) {
+                        returnSeatNumberList.remove(auxTicket.getSeat());
+                    }
+                }
+                for (Reservation auxReservation : auxReservationList) {
+                    if (map.get(auxReservation.getGetsOn()) <= routeStopKm && map.get(auxReservation.getGetsOff()) > routeStopKm
+                            && returnSeatNumberList.contains(auxReservation.getSeat())) {
+                        returnSeatNumberList.remove(auxReservation.getSeat());
+                    }
+                }
+//REMOVE OCCUPIED SEATS
+                return returnSeatNumberList;
+            }
+            else {
+                return null;
+            }
+        } else {
+            return null;
         }
     }
 }

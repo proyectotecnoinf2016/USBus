@@ -1,31 +1,31 @@
-//package com.usbus.dal.test;
-//
-//import com.usbus.commons.auxiliaryClasses.RouteStop;
-//import com.usbus.dal.dao.BusStopDAO;
-//import com.usbus.dal.dao.RouteDAO;
-//import com.usbus.dal.dao.ServiceDAO;
-//import com.usbus.dal.model.BusStop;
-//import com.usbus.dal.model.Route;
-//import com.usbus.dal.model.Service;
-//import org.junit.Test;
-//
-//import java.text.ParseException;
-//import java.text.SimpleDateFormat;
-//import java.time.DayOfWeek;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.TimeZone;
-//
-///**
-// * Created by Kavesa on 09/06/16.
-// */
-//public class ServiceTest {
-//    protected ServiceDAO dao = new ServiceDAO();
-//    protected RouteDAO rdao = new RouteDAO();
-//    protected BusStopDAO bsdao = new BusStopDAO();
-//
-//    @Test
-//    public void persist() throws ParseException {
+package com.usbus.dal.test;
+
+import com.usbus.commons.auxiliaryClasses.RouteStop;
+import com.usbus.dal.dao.BusStopDAO;
+import com.usbus.dal.dao.RouteDAO;
+import com.usbus.dal.dao.ServiceDAO;
+import com.usbus.dal.model.BusStop;
+import com.usbus.dal.model.Route;
+import com.usbus.dal.model.Service;
+import org.junit.Test;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
+
+/**
+ * Created by Kavesa on 09/06/16.
+ */
+public class ServiceTest {
+    protected ServiceDAO dao = new ServiceDAO();
+    protected RouteDAO rdao = new RouteDAO();
+    protected BusStopDAO bsdao = new BusStopDAO();
+
+    @Test
+    public void persist() throws ParseException {
 //        dao.clean();
 //        rdao.clean();
 //        bsdao.clean();
@@ -66,5 +66,5 @@
 //        System.out.println(dao.countAll());
 //        System.out.print("Cantidad de servicios por día de la semana: ");
 //        System.out.println(serviceList.size());
-//    }
-//}
+    }
+}

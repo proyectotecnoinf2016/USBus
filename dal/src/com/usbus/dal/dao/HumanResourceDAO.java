@@ -183,4 +183,8 @@ public class HumanResourceDAO {
             ds.delete(ds.createQuery(HumanResource.class).disableValidation().field("className").equal(HumanResource.class.getCanonicalName()));
         }
     }
+
+    public void clean() {
+            ds.delete(ds.createQuery(HumanResource.class));
+    }
 }
