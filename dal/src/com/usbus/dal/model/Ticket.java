@@ -98,10 +98,12 @@ public class Ticket extends BaseEntity {
         if(!(getJourney() == null)){
             List<RouteStop> routeStopList = this.getJourney().getService().getRoute().getBusStops();
             for(RouteStop routeStopAux : routeStopList){
-                if(routeStopAux.getBusStop() == this.getOnStopName){
+//                String s1 = routeStopAux.getBusStop();
+                if(routeStopAux.getBusStop().equals(getOnStopName)){
                     this.kmGetsOn = routeStopAux.getKm();
                 }
-                if(routeStopAux.getBusStop() == this.getGetOffStopName()){
+                String s2 = routeStopAux.getBusStop();
+                if(routeStopAux.getBusStop().equals(getOffStopName)){
                     this.kmGetsOff = routeStopAux.getKm();
                 }
             }
