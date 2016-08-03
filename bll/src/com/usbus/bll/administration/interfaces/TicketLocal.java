@@ -25,4 +25,6 @@ public interface TicketLocal {
 
     List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit);
     Ticket setPassenger(long tenantId, Long ticketId, String passenger);
+
+    List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId);
 }

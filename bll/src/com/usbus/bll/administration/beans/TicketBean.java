@@ -63,6 +63,11 @@ public class TicketBean implements TicketLocal, TicketRemote {
     }
 
     @Override
+    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId) {
+        return dao.getFreeSeatsForRouteStop(tenantId, routeStopKm, journeyId);
+    }
+
+    @Override
     public Ticket confirmTicket(TicketConfirmation ticketConfirmation) throws TicketException {
         Ticket ticket = dao.getByLocalId(ticketConfirmation.getTenantId(), ticketConfirmation.getId());
         if (!(ticket == null)) {
