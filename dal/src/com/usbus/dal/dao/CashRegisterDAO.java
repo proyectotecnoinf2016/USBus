@@ -7,6 +7,11 @@ import com.usbus.commons.exceptions.CashRegisterException;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.CashRegister;
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
 import org.mongodb.morphia.query.Query;
@@ -14,6 +19,8 @@ import org.mongodb.morphia.query.UpdateOperations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -240,4 +247,38 @@ public class CashRegisterDAO {
         return cashRegisterList;
     }
 
+    public void createExcel(String tenantName) throws IOException, WriteException {
+        File path = null;
+        String OS = System.getProperty("os.name");
+        String stringAux;
+        String dateString = new Date().toString();
+        if (OS.startsWith("Windows")) {
+            stringAux = "C:" + File.separator + "USBus" + File.separator + "Excel" + File.separator +
+                    tenantName + File.separator + dateString + ".xls";
+            path = new File("C:" + File.separator + "USBus" + File.separator + "Excel" + File.separator
+                    + tenantName + File.separator);
+            if (!(path.exists() && path.isDirectory())) {
+                path.mkdirs();
+            }
+        } else {
+            stringAux = File.separator + "USBus" + File.separator + "Excel" + File.separator +
+                    tenantName + File.separator + dateString + ".xls";
+            path = new File(File.separator + "USBus" + File.separator + "Excel" + File.separator +
+                    tenantName + File.separator);
+            if (!(path.exists() && path.isDirectory())) {
+                path.mkdirs();
+            }
+        }
+
+        stringAux = stringAux.replaceAll("\\s","");
+        File excel = new File("C:" + File.separator + "USBus" + File.separator + "Excel" + File.separator +
+                tenantName + File.separator + "hola.xls");
+
+        WritableWorkbook myExcel = Workbook.createWorkbook(excel);
+        WritableSheet Hoja1 = myExcel.createSheet("Hoja1",1);
+        Hoja1.addCell(new Label(0,0,"hola!!!"));
+        myExcel.write();
+        myExcel.close();
+
+    }
 }

@@ -21,5 +21,6 @@
     <orderEntry type="module" module-name="bll" />
     <orderEntry type="module" module-name="dal" />
     <orderEntry type="module" module-name="commons" />
+    <orderEntry type="library" name="jxl" level="project" />
   </component>
 </module>
