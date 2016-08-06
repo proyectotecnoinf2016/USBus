@@ -56,6 +56,19 @@ public class TicketService {
     }
 
     @GET
+    @Path("{journeyId}/freeseats")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
+    public Response getFreeTicket(@PathParam("tenantId") long tenantId, @PathParam("journeyId") Long journeyId, Double routeStopKm) {
+        List<Integer> freeSeatsForRouteStop = ejb.getFreeSeatsForRouteStop(tenantId, routeStopKm, journeyId);
+        if (freeSeatsForRouteStop == null) {
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        return Response.ok(freeSeatsForRouteStop).build();
+    }
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})

@@ -1,5 +1,6 @@
 package com.usbus.dal.model;
 
+import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.dal.BaseEntity;
 import com.usbus.dal.dao.*;
@@ -7,6 +8,7 @@ import org.mongodb.morphia.annotations.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Lufasoch on 28/05/2016.
@@ -55,12 +57,18 @@ public class Ticket extends BaseEntity {
     private Date dueDate;
     private Long branchId;
     private Long windowId;
-
+    private Double kmGetsOn;
+    private Double kmGetsOff;
 
     public Ticket() {
     }
 
-    public Ticket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination, Long combinationId, Double amount, User passenger, String passengerName, HumanResource seller, String sellerName, Boolean closed, TicketStatus status, String paymentToken, Journey journey, Long journeyId, Integer seat, BusStop getsOn, String getOnStopName, BusStop getsOff, String getOffStopName, Route route, Long routeId, Date dueDate, Long branchId, Long windowId) {
+    public Ticket(long tenantId, Long id, Date emissionDate, Boolean hasCombination, Service combination,
+                  Long combinationId, Double amount, User passenger, String passengerName, HumanResource seller,
+                  String sellerName, Boolean closed, TicketStatus status, String paymentToken,
+                  Journey journey, Long journeyId, Integer seat, BusStop getsOn, String getOnStopName,
+                  BusStop getsOff, String getOffStopName, Route route, Long routeId, Date dueDate,
+                  Long branchId, Long windowId) {
         super(tenantId);
         this.id = id;
         this.emissionDate = emissionDate;
@@ -82,14 +90,25 @@ public class Ticket extends BaseEntity {
         this.status = status;
         this.paymentToken = paymentToken;
         if (!(journeyId == null)) {
-
             this.journey = new JourneyDAO().getByJourneyId(tenantId, journeyId);
             this.journeyId = journeyId;
         }
 
         this.seat = seat;
+        if(!(getJourney() == null)){
+            List<RouteStop> routeStopList = this.getJourney().getService().getRoute().getBusStops();
+            for(RouteStop routeStopAux : routeStopList){
+//                String s1 = routeStopAux.getBusStop();
+                if(routeStopAux.getBusStop().equals(getOnStopName)){
+                    this.kmGetsOn = routeStopAux.getKm();
+                }
+                String s2 = routeStopAux.getBusStop();
+                if(routeStopAux.getBusStop().equals(getOffStopName)){
+                    this.kmGetsOff = routeStopAux.getKm();
+                }
+            }
+        }
         if (!(getOnStopName == null)) {
-
             this.getsOn = new BusStopDAO().getByName(tenantId, getOnStopName);
             this.getOnStopName = getOnStopName;
         }
@@ -104,6 +123,7 @@ public class Ticket extends BaseEntity {
         this.dueDate = dueDate;
         this.branchId = branchId;
         this.windowId = windowId;
+
     }
 
     public Ticket(Ticket ticket) {
@@ -347,5 +367,21 @@ public class Ticket extends BaseEntity {
 
     public void setWindowId(Long windowId) {
         this.windowId = windowId;
+    }
+
+    public Double getKmGetsOn() {
+        return kmGetsOn;
+    }
+
+    public void setKmGetsOn(Double kmGetsOn) {
+        this.kmGetsOn = kmGetsOn;
+    }
+
+    public Double getKmGetsOff() {
+        return kmGetsOff;
+    }
+
+    public void setKmGetsOff(Double kmGetsOff) {
+        this.kmGetsOff = kmGetsOff;
     }
 }
