@@ -401,6 +401,7 @@
                         "version" : NumberLong(1)
                     }
 */
+                    $scope.ticket.ci = $scope.userCI;
                     ReservationResource.reservations(token).save({
                         tenantId: $scope.tenantId
 
