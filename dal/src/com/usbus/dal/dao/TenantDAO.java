@@ -217,7 +217,7 @@ public class TenantDAO {
 
             TenantStyleAux tenantStyleAux = new TenantStyleAux();
             if (!(logo==null)) {
-                System.out.println(logo);
+                //System.out.println(logo);
                 File logoFileAux = new File(logo.getFilePath() + File.separator + logo.getName() + "." + logo.getExtension());
                 if (logoFileAux.exists()) {
                     BufferedImage logoBufferedImage = ImageIO.read(logoFileAux);

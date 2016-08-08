@@ -15,7 +15,7 @@ public class CashTest {
     @Test
     public void excelTest(){
         try {
-            cashRegisterDAO.createExcel("SSS");
+            cashRegisterDAO.createExcel("SSS","Lufasoch");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (WriteException e) {

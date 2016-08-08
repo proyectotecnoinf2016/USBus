@@ -7,6 +7,7 @@ import com.usbus.commons.exceptions.CashRegisterException;
 import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.CashRegister;
+import com.usbus.dal.model.Tenant;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -18,12 +19,15 @@ import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.misc.BASE64Encoder;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by jpmartinez on 02/07/16.
@@ -247,38 +251,82 @@ public class CashRegisterDAO {
         return cashRegisterList;
     }
 
-    public void createExcel(String tenantName) throws IOException, WriteException {
-        File path = null;
-        String OS = System.getProperty("os.name");
-        String stringAux;
-        String dateString = new Date().toString();
-        if (OS.startsWith("Windows")) {
-            stringAux = "C:" + File.separator + "USBus" + File.separator + "Excel" + File.separator +
-                    tenantName + File.separator + dateString + ".xls";
-            path = new File("C:" + File.separator + "USBus" + File.separator + "Excel" + File.separator
-                    + tenantName + File.separator);
-            if (!(path.exists() && path.isDirectory())) {
-                path.mkdirs();
+    public void createExcel(long tenantId, String username, Long branchId, Long windowsId, Date start, Date end) throws IOException, WriteException {
+        if (tenantId>0 && !username.equals(null) && !username.isEmpty()) {
+            Query<Tenant> query = ds.createQuery(Tenant.class);
+            query.limit(1).criteria("tenantId").equal(tenantId);
+            Tenant tenant = query.get();
+
+            File path = null;
+            String OS = System.getProperty("os.name");
+            String stringAux;
+            if (OS.startsWith("Windows")) {
+                stringAux = "C:" + File.separator + "USBus" + File.separator + "Reportes" + File.separator +
+                        tenant.getName() + File.separator;
+                path = new File("C:" + File.separator + "USBus" + File.separator + "Reportes" + File.separator
+                        + tenant.getName() + File.separator);
+                if (!(path.exists() && path.isDirectory())) {
+                    path.mkdirs();
+                }
+            } else {
+                stringAux = File.separator + "USBus" + File.separator + "Reportes" + File.separator +
+                        tenant.getName() + File.separator;
+                path = new File(File.separator + "USBus" + File.separator + "Reportes" + File.separator +
+                        tenant.getName() + File.separator);
+                if (!(path.exists() && path.isDirectory())) {
+                    path.mkdirs();
+                }
             }
-        } else {
-            stringAux = File.separator + "USBus" + File.separator + "Excel" + File.separator +
-                    tenantName + File.separator + dateString + ".xls";
-            path = new File(File.separator + "USBus" + File.separator + "Excel" + File.separator +
-                    tenantName + File.separator);
-            if (!(path.exists() && path.isDirectory())) {
-                path.mkdirs();
+
+            List<CashRegister> cashRegisterList =  new ArrayList<>(getBetweenDates(tenantId,branchId,windowsId,start,end,0,0));
+
+            String dateString = new Date().toString();
+            dateString = dateString.replaceAll("\\W", "");
+            String filepath = stringAux;
+            String filename = username + "_" + dateString + ".xls";
+            File excel = new File(filepath + filename);
+
+            WritableWorkbook myExcel = Workbook.createWorkbook(excel);
+            WritableSheet Reporte = myExcel.createSheet("Reporte", 1);
+
+            Reporte.addCell(new Label(0,0,"Fecha"));
+            Reporte.addCell(new Label(1,0,"Concepto"));
+            Reporte.addCell(new Label(2,0,"Debe"));
+            Reporte.addCell(new Label(3,0,"Haber"));
+
+            //Hoja1.addCell(new Label(0,0,"Fecha"));
+            int row = 1;
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            for ( CashRegister cashRegister : cashRegisterList){
+                cal.setTime(cashRegister.getDate());
+                cal.add(Calendar.HOUR, -3);
+                Date oneHourBack = cal.getTime();
+                Reporte.addCell(new Label(0,row,dateFormat.format(cal)));
+                if(cashRegister.getType() == CashType.ENTRY){
+                    Reporte.addCell(new Label(1,row,"Entrada"));
+                    Reporte.addCell(new Label(2,row,cashRegister.getAmount().toString()));
+                } else if (cashRegister.getType() == CashType.WITHDRAWAL){
+                    Reporte.addCell(new Label(1,row,"Salida"));
+                    Reporte.addCell(new Label(3,row,cashRegister.getAmount().toString()));
+                }
+                row++;
             }
+            myExcel.write();
+            myExcel.close();
+
+            //ENCODE
+            BASE64Encoder encoder = new BASE64Encoder();
+            Path pathEncode = Paths.get(filepath + filename);
+            byte[] data = Files.readAllBytes(pathEncode);
+            String stringExcel = encoder.encode(data);
+            System.out.println("String:   " + stringExcel);
+            //ENCODE
+
+//        byte[] decoded = Base64.getDecoder().decode(stringExcel);
+//        FileOutputStream fos = new FileOutputStream(filepath + "chau.xls");
+//        fos.write(decoded);
+//        fos.close();
         }
-
-        stringAux = stringAux.replaceAll("\\s","");
-        File excel = new File("C:" + File.separator + "USBus" + File.separator + "Excel" + File.separator +
-                tenantName + File.separator + "hola.xls");
-
-        WritableWorkbook myExcel = Workbook.createWorkbook(excel);
-        WritableSheet Hoja1 = myExcel.createSheet("Hoja1",1);
-        Hoja1.addCell(new Label(0,0,"hola!!!"));
-        myExcel.write();
-        myExcel.close();
-
     }
 }
