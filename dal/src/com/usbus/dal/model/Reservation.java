@@ -123,7 +123,7 @@ public class Reservation extends BaseEntity {
         return ci;
     }
 
-    public void setCI(Integer seat) {
+    public void setCI(String ci) {
         this.ci = ci;
     }
 }
