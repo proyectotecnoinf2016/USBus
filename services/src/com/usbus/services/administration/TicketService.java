@@ -74,7 +74,7 @@ public class TicketService {
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
     public Response getTickets(@PathParam("tenantId") Long tenantId, @QueryParam("username") String username, @QueryParam("status") TicketStatus ticketStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("journeyId") long journeyId) {
         if (journeyId > 0) {
-            List<Ticket> ticketList = ejb.getByJourneyId(tenantId, journeyId, offset, limit);
+            List<Ticket> ticketList = ejb.getByJourneyId(tenantId, journeyId, offset, limit, ticketStatus);
             if (ticketList == null) {
                 return Response.status(Response.Status.NO_CONTENT).build();
             }

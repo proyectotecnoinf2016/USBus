@@ -124,8 +124,8 @@ public class TicketBean implements TicketLocal, TicketRemote {
     }
 
     @Override
-    public List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit) {
-        return dao.getByJourneyId(tenantId, id, offset, limit);
+    public List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit, TicketStatus ticketStatus) {
+        return dao.getByJourneyId(tenantId, id, offset, limit, ticketStatus);
 
     }
 

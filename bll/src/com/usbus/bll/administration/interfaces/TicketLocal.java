@@ -21,7 +21,7 @@ public interface TicketLocal {
     Ticket getById(String oid);
     Ticket getByLocalId(long tenantId, Long id);
 
-    List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit);
+    List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit, TicketStatus status);
 
     List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit);
     Ticket setPassenger(long tenantId, Long ticketId, String passenger);
