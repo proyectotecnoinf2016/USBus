@@ -101,15 +101,18 @@
                 limit: 100,
                 tenantId: $scope.tenantId,
                 journeyId: journey.id,
-                status: true,
+                status: 'CONFIRMED',
+                username: '',
                 query: 'JOURNEY'
             }).$promise.then(function(result) {
                 console.log(result);
-                $scope.reservations = result;
+                $scope.tickets = result;
+
                 var i = 0;
-                for (i = 0; i < result.length; i++) {
-                    $scope.reservedSeats.push(result[i].seat);
+                for (i = 0; i < $scope.tickets.length; i++) {
+                    $scope.soldSeats.push($scope.tickets[i].seat );
                 }
+
             });
         }
 
@@ -183,8 +186,11 @@
         function selectStops(journey) {
             nextTab();
 
-            showTicket(journey);
+
             getReservations(journey);
+            getTickets(journey);
+
+            showTicket(journey);
         }
 
 
@@ -198,7 +204,7 @@
             $scope.dueDate = $scope.dueDate - 30 * 60000;
             //$scope.ticket.dueDate = moment(journey.service.time).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
-            if (journey.seatsState != null) {
+            /*if (journey.seatsState != null) {
                 var i = 0;
                 for (i = 0; i < journey.seatsState.length; i++) {
                     $scope.soldSeats.push(journey.seatsState[i].number);
@@ -206,7 +212,7 @@
             }
             else {
                 journey.seatsState = [];
-            }
+            }*/
 
             var i = 1;
 
@@ -371,7 +377,7 @@
                         cancel();
                     }, function (error) {
                         console.log(error);
-                        showAlert('Error!', 'Ocurrio un erro al realizar la venta');
+                        showAlert('Error!', 'Ocurrio un error al realizar la venta');
                     } );
                 }
                 else {
@@ -440,6 +446,7 @@
             $scope.soldSeats = [];
             $scope.journeys = [];
             $scope.reservedSeats = [];
+            $scope.tickets = [];
 
             $scope.journeyNotSelected = true;
             $scope.showJourneys = true;
@@ -492,22 +499,23 @@
                 var i = 0;
                 for (i = 0; i < $scope.tickets.length; i++) {
                     if ($scope.tickets[i].seat == item) {
+                        TicketResource.tickets(token).delete({
+                            tenantId: $scope.tenantId,
+                            journeyId: $scope.journey.id,
+                            ticketId: $scope.tickets[i].id
 
+                        },function (resp) {
+                            console.log(resp);
+                            cancel();
+                            showAlert('Exito!', 'Se ha cancelado el pasaje de forma exitosa');
+                        }, function (error) {
+                            console.log(error);
+                            showAlert('Error!', 'Ocurrio un error al cancelar el pasaje');
+                        } );
                     }
                 }
 
-                TicketResource.tickets(token).delete({
-                    tenantId: $scope.tenantId,
-                    journeyId: $scope.journey.id,
-                    ticketId: $scope.journey.seatsState[item].id
 
-                },function (resp) {
-                    console.log(resp);
-                    showAlert('Exito!', 'Se ha realizado la reserva de forma exitosa');
-                }, function (error) {
-                    console.log(error);
-                    showAlert('Error!', 'Ocurrio un error al realizar la reserva');
-                } );
             }
         }
 
