@@ -9,7 +9,7 @@
         <md-dialog-content layout="column" layout-align="center center" layout style="min-height: 175px">
 
             <i class="material-icons" style="font-size: 80px">location_city</i>
-            <md-autocomplete
+            <md-autocomplete class="customInputLogin"
                     md-selected-item="branch"
                     md-no-cache=true
                     md-search-text-change="queryBranch(branchName)"
@@ -31,7 +31,7 @@
 
         <md-dialog-actions class="md-actions" layout="row">
             <span flex></span>
-            <md-button class="md-raised md-primary"	ng-click='selectBranch()'>Seleccionar</md-button>
+            <md-button class="md-raised md-primary"	ng-click='selectBranch()' ng-disabled="inputForm.$invalid">Seleccionar</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>
