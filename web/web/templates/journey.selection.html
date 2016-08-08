@@ -160,7 +160,7 @@
                                     <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
                                     <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
 
-                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Blue_Bus_Seat.png" class="seatImage" />
 
                                     <span class="busSeat">
                                         {{item}}
@@ -172,7 +172,7 @@
                                     <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Bus_Seat.png" class="seatImage" />
                                     <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
                                     <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
-                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Blue_Bus_Seat.png" class="seatImage" />
                                     <span class="busSeat">
                                         {{item}}
                                     </span>
@@ -183,7 +183,7 @@
                                     <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Bus_Seat.png" class="seatImage" />
                                     <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
                                     <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
-                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Blue_Bus_Seat.png" class="seatImage" />
                                     <span class="busSeat">
                                         {{item}}
                                     </span>
@@ -194,7 +194,7 @@
                                     <img ng-show="!exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Bus_Seat.png" class="seatImage" />
                                     <img ng-show="exists(item, selected) && !soldSeat(item, soldSeats) && !soldSeat(item, reservedSeats);" src="img/Green_Bus_Seat.png" class="seatImage" />
                                     <img ng-show="soldSeat(item, soldSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
-                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Red_Bus_Seat.png" class="seatImage" />
+                                    <img ng-show="soldSeat(item, reservedSeats);" src="img/Blue_Bus_Seat.png" class="seatImage" />
                                     <span class="busSeat">
                                         {{item}}
                                     </span>
@@ -202,18 +202,29 @@
                             </md-content>
                         </md-content>
                     </div>
-                    <div>
-                        <img src="img/Bus_Seat.png" />
-                        <span>Disponible</span>
+                    <div layout="row" layout-padding layout-margin>
+                        <div layout="column">
+                            <div>
+                                <img src="img/Bus_Seat.png" />
+                                <span>Disponible</span>
+                            </div>
+                            <div>
+                                <img src="img/Green_Bus_Seat.png"  />
+                                <span>Seleccionado</span>
+                            </div>
+                        </div>
+                        <div layout="column">
+                            <div>
+                                <img src="img/Red_Bus_Seat.png" />
+                                <span>Ocupado</span>
+                            </div>
+                            <div>
+                                <img src="img/Blue_Bus_Seat.png" />
+                                <span>Reservado</span>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <img src="img/Green_Bus_Seat.png"  />
-                        <span>Seleccionado</span>
-                    </div>
-                    <div>
-                        <img src="img/Red_Bus_Seat.png" />
-                        <span>Ocupado</span>
-                    </div>
+
                 </md-tab>
                 <md-tab label="Datos de facturación" ng-disabled="journeyNotSelected">
                     <div ng-repeat="ticketNumber in selected">

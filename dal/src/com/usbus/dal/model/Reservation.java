@@ -28,13 +28,15 @@ public class Reservation extends BaseEntity {
     private Boolean active;
     private String getsOn;
     private String getsOff;
+    private String ci;
 
     public Reservation() {
     }
 
-    public Reservation(long tenantId, Long id, String clientId, Date dueDate, Long journeyId, Integer seat, Boolean active, String getsOn, String getsOff) {
+    public Reservation(long tenantId, Long id, String clientId, Date dueDate, Long journeyId, Integer seat, Boolean active, String getsOn, String getsOff, String ci) {
         super(tenantId);
         this.id = id;
+        this.ci = ci;
         this.clientId = clientId;
         this.dueDate = dueDate;
         this.journeyId = journeyId;
@@ -115,5 +117,13 @@ public class Reservation extends BaseEntity {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getCI() {
+        return ci;
+    }
+
+    public void setCI(Integer seat) {
+        this.ci = ci;
     }
 }
