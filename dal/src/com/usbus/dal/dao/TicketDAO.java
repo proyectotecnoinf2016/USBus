@@ -158,8 +158,8 @@ public class TicketDAO {
         }
     }
 
-    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId){
-        if (tenantId > 0 && routeStopKm != null && journeyId != null) {
+    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId){
+        if (tenantId > 0 && routeStopKmA != null && routeStopKmB != null && journeyId != null) {
 //GET TICKETS OF A JOURNEY
             Query<Journey> query = ds.createQuery(Journey.class);
             query.and(query.criteria("tenantId").equal(tenantId), query.criteria("id").equal(journeyId));
@@ -194,19 +194,18 @@ public class TicketDAO {
             if (!auxTicketList.isEmpty()) {
 //REMOVE OCCUPIED SEATS
                 for (Ticket auxTicket : auxTicketList) {
-                    //DEBUG
-                    Double d1 = auxTicket.getKmGetsOn();
-                    Double d2 = routeStopKm;
-                    Double d3 = auxTicket.getKmGetsOff();
-                    Boolean b1 = returnSeatNumberList.contains(auxTicket.getSeat());
-                    //DEBUG
-                    if (auxTicket.getKmGetsOn() <= routeStopKm && auxTicket.getKmGetsOff() > routeStopKm && returnSeatNumberList.contains(auxTicket.getSeat())) {
+                    if( returnSeatNumberList.contains(auxTicket.getSeat())
+                        && ( (routeStopKmA >= auxTicket.getKmGetsOn() && routeStopKmA < auxTicket.getKmGetsOff())
+                            || (routeStopKmB > auxTicket.getKmGetsOn() && routeStopKmB <= auxTicket.getKmGetsOff())
+                            || (routeStopKmA <= auxTicket.getKmGetsOn() && routeStopKmB >= auxTicket.getKmGetsOff()) ) ){
                         returnSeatNumberList.remove(auxTicket.getSeat());
                     }
                 }
                 for (Reservation auxReservation : auxReservationList) {
-                    if (map.get(auxReservation.getGetsOn()) <= routeStopKm && map.get(auxReservation.getGetsOff()) > routeStopKm
-                            && returnSeatNumberList.contains(auxReservation.getSeat())) {
+                    if( returnSeatNumberList.contains(auxReservation.getSeat())
+                            && ( (routeStopKmA >= map.get(auxReservation.getGetsOn()) && routeStopKmA < map.get(auxReservation.getGetsOff()))
+                            || (routeStopKmB > map.get(auxReservation.getGetsOn()) && routeStopKmB <= map.get(auxReservation.getGetsOff()))
+                            || (routeStopKmA <= map.get(auxReservation.getGetsOn()) && routeStopKmB >= map.get(auxReservation.getGetsOff())) ) ){
                         returnSeatNumberList.remove(auxReservation.getSeat());
                     }
                 }

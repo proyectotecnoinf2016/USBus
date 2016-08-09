@@ -56,39 +56,44 @@ public class TicketService {
     }
 
     @GET
-    @Path("{journeyId}/freeseats")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
-    public Response getFreeTicket(@PathParam("tenantId") long tenantId, @PathParam("journeyId") Long journeyId, Double routeStopKm) {
-        List<Integer> freeSeatsForRouteStop = ejb.getFreeSeatsForRouteStop(tenantId, routeStopKm, journeyId);
-        if (freeSeatsForRouteStop == null) {
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        return Response.ok(freeSeatsForRouteStop).build();
-    }
+    public Response getTickets(@PathParam("tenantId") Long tenantId, @QueryParam("username") String username,
+                               @QueryParam("status") TicketStatus ticketStatus, @QueryParam("offset") int offset,
+                               @QueryParam("limit") int limit, @QueryParam("journeyId") long journeyId,
+                               @QueryParam("routeStopKmA") Double routeStopKmA,
+                               @QueryParam("routeStopKmB") Double routeStopKmB,
+                               @QueryParam("query") String query) {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
-    public Response getTickets(@PathParam("tenantId") Long tenantId, @QueryParam("username") String username, @QueryParam("status") TicketStatus ticketStatus, @QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("journeyId") long journeyId) {
-        if (journeyId > 0) {
-            List<Ticket> ticketList = ejb.getByJourneyId(tenantId, journeyId, offset, limit, ticketStatus);
-            if (ticketList == null) {
-                return Response.status(Response.Status.NO_CONTENT).build();
-            }
-            return Response.ok(ticketList).build();
-        }
-        if (!(username.isEmpty()) && !(ticketStatus == null)) {
-            List<Ticket> ticketList = ejb.TicketsByBuyerAndStatus(tenantId,username, ticketStatus, offset, limit);
-            if (ticketList == null) {
-                return Response.status(Response.Status.NO_CONTENT).build();
-            }
-            return Response.ok(ticketList).build();
+        List<Ticket> ticketList;
+        switch (query.toUpperCase()) {
+            case "JOURNEY":
+                if (journeyId > 0) {
+                    ticketList = ejb.getByJourneyId(tenantId, journeyId, offset, limit);
+                    if (ticketList == null) {
+                        return Response.status(Response.Status.NO_CONTENT).build();
+                    }
+                    return Response.ok(ticketList).build();
+                }
+            case "BUYERANDSTATUS":
+                if (!(username.isEmpty()) && !(ticketStatus == null)) {
+                    ticketList = ejb.TicketsByBuyerAndStatus(tenantId, username, ticketStatus, offset, limit);
+                    if (ticketList == null) {
+                        return Response.status(Response.Status.NO_CONTENT).build();
+                    }
+                    return Response.ok(ticketList).build();
+                }
+            case "FREESEATS":
+                if (journeyId > 0) {
+                    List<Integer> ticketFreeNoList = ejb.getFreeSeatsForRouteStop(tenantId, routeStopKmA, routeStopKmB, journeyId);
+                    if (ticketFreeNoList == null) {
+                        return Response.status(Response.Status.NO_CONTENT).build();
+                    }
+                    return Response.ok(ticketFreeNoList).build();
+                }
         }
         return Response.status(Response.Status.EXPECTATION_FAILED).build();
-
     }
 
     @PUT
