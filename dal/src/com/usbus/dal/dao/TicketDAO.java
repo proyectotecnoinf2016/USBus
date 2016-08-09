@@ -7,6 +7,8 @@ import com.usbus.dal.GenericPersistence;
 import com.usbus.dal.MongoDB;
 import com.usbus.dal.model.*;
 import org.bson.types.ObjectId;
+import org.jose4j.json.internal.json_simple.JSONArray;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -158,8 +160,8 @@ public class TicketDAO {
         }
     }
 
-    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId){
-        if (tenantId > 0 && routeStopKm != null && journeyId != null) {
+    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId){
+        if (tenantId > 0 && routeStopKmA != null && routeStopKmB != null && journeyId != null) {
 //GET TICKETS OF A JOURNEY
             Query<Journey> query = ds.createQuery(Journey.class);
             query.and(query.criteria("tenantId").equal(tenantId), query.criteria("id").equal(journeyId));
@@ -194,19 +196,18 @@ public class TicketDAO {
             if (!auxTicketList.isEmpty()) {
 //REMOVE OCCUPIED SEATS
                 for (Ticket auxTicket : auxTicketList) {
-                    //DEBUG
-                    Double d1 = auxTicket.getKmGetsOn();
-                    Double d2 = routeStopKm;
-                    Double d3 = auxTicket.getKmGetsOff();
-                    Boolean b1 = returnSeatNumberList.contains(auxTicket.getSeat());
-                    //DEBUG
-                    if (auxTicket.getKmGetsOn() <= routeStopKm && auxTicket.getKmGetsOff() > routeStopKm && returnSeatNumberList.contains(auxTicket.getSeat())) {
+                    if( returnSeatNumberList.contains(auxTicket.getSeat())
+                        && ( (routeStopKmA >= auxTicket.getKmGetsOn() && routeStopKmA < auxTicket.getKmGetsOff())
+                            || (routeStopKmB > auxTicket.getKmGetsOn() && routeStopKmB <= auxTicket.getKmGetsOff())
+                            || (routeStopKmA <= auxTicket.getKmGetsOn() && routeStopKmB >= auxTicket.getKmGetsOff()) ) ){
                         returnSeatNumberList.remove(auxTicket.getSeat());
                     }
                 }
                 for (Reservation auxReservation : auxReservationList) {
-                    if (map.get(auxReservation.getGetsOn()) <= routeStopKm && map.get(auxReservation.getGetsOff()) > routeStopKm
-                            && returnSeatNumberList.contains(auxReservation.getSeat())) {
+                    if( returnSeatNumberList.contains(auxReservation.getSeat())
+                            && ( (routeStopKmA >= map.get(auxReservation.getGetsOn()) && routeStopKmA < map.get(auxReservation.getGetsOff()))
+                            || (routeStopKmB > map.get(auxReservation.getGetsOn()) && routeStopKmB <= map.get(auxReservation.getGetsOff()))
+                            || (routeStopKmA <= map.get(auxReservation.getGetsOn()) && routeStopKmB >= map.get(auxReservation.getGetsOff())) ) ){
                         returnSeatNumberList.remove(auxReservation.getSeat());
                     }
                 }
@@ -214,8 +215,79 @@ public class TicketDAO {
                 return returnSeatNumberList;
             }
             else {
-                return null;
+                return returnSeatNumberList;
             }
+        } else {
+            return null;
+        }
+    }
+
+    public JSONObject getOccupiedSeatsForSubRoute(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId){
+        if (tenantId > 0 && routeStopKmA != null && routeStopKmB != null && journeyId != null) {
+//GET TICKETS OF A JOURNEY
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("id").equal(journeyId));
+            Journey journey = query.get();
+
+            List<Ticket> ticketList = getByJourney(tenantId, journey);
+            List<Ticket> auxTicketList = new ArrayList<>(ticketList);
+//GET TICKETS OF A JOURNEY
+
+//GET RESERVATIONS BY JOURNEY
+            Query<Reservation> rquery = ds.createQuery(Reservation.class);
+            rquery.and(rquery.criteria("tenantId").equal(tenantId), rquery.criteria("journeyId").equal(journeyId),
+                    rquery.criteria("active").equal(true));
+            List<Reservation> reservations = rquery.asList();
+            List<Reservation> auxReservationList = new ArrayList<>(reservations);
+//GET RESERVATIONS BY JOURNEY
+
+//GET ROUTESTOPS KM...
+            List<RouteStop> routeList = journey.getService().getRoute().getBusStops();
+            List<RouteStop> auxRouteStopList = new ArrayList<>(routeList);
+            Map<String,Double> map = new HashMap<>();
+
+            for(RouteStop auxRouteStop : auxRouteStopList){
+                map.put(auxRouteStop.getBusStop(),auxRouteStop.getKm());
+            }
+//GET ROUTESTOPS KM...
+
+            JSONObject result = new JSONObject();
+            List<Seat> soldSeats = new ArrayList<>();
+            List<Seat> bookedSeats = new ArrayList<>();
+            List<Integer> processedSeats = new ArrayList<>();
+            //int numberOfSeats = journey.getBus().getSeats();
+            //for (Integer i = 1; i <= numberOfSeats; i++) { returnSeatNumberList.add(i); }
+
+            if (!auxTicketList.isEmpty()) {
+//ADD SOLD SEATS
+                for (Ticket auxTicket : auxTicketList) {
+                    if (!processedSeats.contains(auxTicket.getSeat())
+                            && ((routeStopKmA >= auxTicket.getKmGetsOn() && routeStopKmA < auxTicket.getKmGetsOff())
+                            || (routeStopKmB > auxTicket.getKmGetsOn() && routeStopKmB <= auxTicket.getKmGetsOff())
+                            || (routeStopKmA <= auxTicket.getKmGetsOn() && routeStopKmB >= auxTicket.getKmGetsOff()))) {
+                        soldSeats.add(new Seat(auxTicket.getSeat(), null, false));
+                        processedSeats.add(auxTicket.getSeat());
+                    }
+                }
+            }
+//ADD SOLD SEATS
+
+//ADD BOOKED SEATS
+            if (!auxReservationList.isEmpty()) {
+                for (Reservation auxReservation : auxReservationList) {
+                    if( !processedSeats.contains(auxReservation.getSeat())
+                            && ( (routeStopKmA >= map.get(auxReservation.getGetsOn()) && routeStopKmA < map.get(auxReservation.getGetsOff()))
+                            || (routeStopKmB > map.get(auxReservation.getGetsOn()) && routeStopKmB <= map.get(auxReservation.getGetsOff()))
+                            || (routeStopKmA <= map.get(auxReservation.getGetsOn()) && routeStopKmB >= map.get(auxReservation.getGetsOff())) ) ){
+                        bookedSeats.add(new Seat(auxReservation.getSeat(), null, false));
+                        processedSeats.add(auxReservation.getSeat());
+                    }
+                }
+            }
+            result.put("sold", new JSONArray(soldSeats));
+            result.put("booked", new JSONArray(bookedSeats));
+
+            return result;
         } else {
             return null;
         }

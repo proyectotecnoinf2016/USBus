@@ -167,6 +167,8 @@ public class Ticket extends BaseEntity {
         this.dueDate = ticket.getDueDate();
         this.branchId = ticket.getBranchId();
         this.windowId = ticket.getWindowId();
+        this.kmGetsOn = ticket.getKmGetsOn();
+        this.kmGetsOff = ticket.getKmGetsOff();
     }
 
     public Long getId() {

@@ -16,6 +16,7 @@ import com.usbus.dal.model.Journey;
 import com.usbus.dal.model.Ticket;
 import com.usbus.dal.model.User;
 import org.bson.types.ObjectId;
+import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ejb.Stateless;
 import java.util.Arrays;
@@ -63,8 +64,13 @@ public class TicketBean implements TicketLocal, TicketRemote {
     }
 
     @Override
-    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId) {
-        return dao.getFreeSeatsForRouteStop(tenantId, routeStopKm, journeyId);
+    public List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId) {
+        return dao.getFreeSeatsForRouteStop(tenantId, routeStopKmA, routeStopKmB, journeyId);
+    }
+
+    @Override
+    public JSONObject getOccupiedSeatsForSubRoute(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId) {
+        return dao.getOccupiedSeatsForSubRoute(tenantId, routeStopKmA, routeStopKmB, journeyId);
     }
 
     @Override

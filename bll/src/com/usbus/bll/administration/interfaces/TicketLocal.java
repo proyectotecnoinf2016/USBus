@@ -5,6 +5,7 @@ import com.usbus.commons.enums.TicketStatus;
 import com.usbus.commons.exceptions.TicketException;
 import com.usbus.dal.model.Ticket;
 import org.bson.types.ObjectId;
+import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -15,16 +16,12 @@ import java.util.List;
 @Local
 public interface TicketLocal {
     String persist(Ticket ticket) throws TicketException;
-
     Ticket confirmTicket(TicketConfirmation ticketConfirmation) throws TicketException;
-
     Ticket getById(String oid);
     Ticket getByLocalId(long tenantId, Long id);
-
     List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit, TicketStatus status);
-
     List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit);
     Ticket setPassenger(long tenantId, Long ticketId, String passenger);
-
-    List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKm, Long journeyId);
+    List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId);
+    JSONObject getOccupiedSeatsForSubRoute(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId);
 }
