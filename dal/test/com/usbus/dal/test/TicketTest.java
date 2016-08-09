@@ -118,7 +118,7 @@ public class TicketTest {
         //TICKET
 
         //ACTUAL TEST
-        List<Integer> seatsNumbers = ticketDAO.getFreeSeatsForRouteStop(1,15D,1L);
+        List<Integer> seatsNumbers = ticketDAO.getFreeSeatsForRouteStop(1,15D,30D,1L);
         //ACTUAL TEST
 
         System.out.println(seatsNumbers);
