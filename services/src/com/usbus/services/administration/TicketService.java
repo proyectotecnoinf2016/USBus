@@ -8,6 +8,7 @@ import com.usbus.commons.exceptions.TicketException;
 import com.usbus.dal.model.Ticket;
 import com.usbus.services.auth.Secured;
 import org.bson.types.ObjectId;
+import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -70,7 +71,7 @@ public class TicketService {
         switch (query.toUpperCase()) {
             case "JOURNEY":
                 if (journeyId > 0) {
-                    ticketList = ejb.getByJourneyId(tenantId, journeyId, offset, limit);
+                    ticketList = ejb.getByJourneyId(tenantId, journeyId, offset, limit, ticketStatus);
                     if (ticketList == null) {
                         return Response.status(Response.Status.NO_CONTENT).build();
                     }
@@ -91,6 +92,14 @@ public class TicketService {
                         return Response.status(Response.Status.NO_CONTENT).build();
                     }
                     return Response.ok(ticketFreeNoList).build();
+                }
+            case "OCCUPIEDSEATS":
+                if (journeyId > 0) {
+                    JSONObject occupiedSeats = ejb.getOccupiedSeatsForSubRoute(tenantId, routeStopKmA, routeStopKmB, journeyId);
+                    if (occupiedSeats == null || occupiedSeats.isEmpty()) {
+                        return Response.status(Response.Status.NO_CONTENT).build();
+                    }
+                    return Response.ok(occupiedSeats).build();
                 }
         }
         return Response.status(Response.Status.EXPECTATION_FAILED).build();
