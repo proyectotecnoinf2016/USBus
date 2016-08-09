@@ -52,7 +52,7 @@
                 controller: 'TicketsController'
             })
             .when('/tenant/:tenantName/tickets/cancel', {
-                templateUrl: 'templates/tickets.cancel.html',
+                templateUrl: 'templates/ticket.cancel.html',
                 controller: 'TicketsController'
             })
             .when('/tenant/:tenantName/tickets/window', {

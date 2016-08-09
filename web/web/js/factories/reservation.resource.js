@@ -12,7 +12,7 @@
     function ReservationResource($resource) {
         return {
             reservations: function (token) {
-                return $resource('/rest/api/:tenantId/reservation/:ticketId', {tenantId:'@tenantId', ticketId: '@ticketId'}, {
+                return $resource('/rest/api/:tenantId/reservation/:reservationId', {tenantId:'@tenantId', reservationId: '@reservationId'}, {
                     query: {
                         method: 'GET',
                         isArray: true,

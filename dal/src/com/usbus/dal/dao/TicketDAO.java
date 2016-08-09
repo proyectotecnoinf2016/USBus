@@ -75,7 +75,7 @@ public class TicketDAO {
         return query.offset(offset).limit(limit).asList();
     }
 
-    public List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit) {
+    public List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit, TicketStatus ticketStatus) {
         if (!(tenantId > 0) || (id == null)) {
             return null;
         }
@@ -91,7 +91,8 @@ public class TicketDAO {
         Query<Ticket> query = ds.createQuery(Ticket.class);
 
         query.and(query.criteria("journey").equal(journey),
-                query.criteria("tenantId").equal(tenantId));
+                query.criteria("tenantId").equal(tenantId),
+                query.criteria("status").equal(ticketStatus));
 
         return query.offset(offset).limit(limit).asList();
     }

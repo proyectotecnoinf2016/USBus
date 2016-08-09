@@ -78,7 +78,10 @@
 
         function createJourney(item) {
             item.tenantId = $scope.tenantId;
-            item.date = moment($scope.date).format('YYYY-MM-DDTHH:mm:ss.000Z');
+            item.date = new Date(moment($scope.date)/*.tz('America/Montevideo')*/.format('YYYY-MM-DDTHH:mm:ss.000Z'));
+            item.date.setHours(new Date(item.service.time).getHours());
+            item.date.setMinutes(new Date(item.service.time).getMinutes());
+
             //item.service = $scope.service.id;
             //item.bus = $scope.bus.id;
             item.seats = item.bus.seats;

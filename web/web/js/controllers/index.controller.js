@@ -17,6 +17,13 @@
 		$scope.tenantName = 'USBus';
 		$scope.userName = 'Invitado';
 
+        if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
+            $scope.tenantName = localStorage.getData('tenantName');
+        }
+        if (localStorage.getData('userName') != null && localStorage.getData('userName') != '') {
+            $scope.userName = localStorage.getData('userName');
+        }
+
         $scope.logout = logout;
         $scope.showAlert = showAlert;
         $rootScope.$on('login', function(event, data) {
@@ -193,12 +200,13 @@
 
         function logout() {
             localStorage.clear();
-            $scope.tenantName = 'USBus';
+            //$scope.tenantName = 'USBus';
             $scope.userName = 'Invitado';
 
             $rootScope.$emit('logout', '');
 
             showAlert('Hasta Luego!', 'Esperamos regreses pronto!!')
+            redirectTo('');
         }
 
 
