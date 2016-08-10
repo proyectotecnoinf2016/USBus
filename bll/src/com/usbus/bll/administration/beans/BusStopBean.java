@@ -105,4 +105,20 @@ public class BusStopBean implements BusStopLocal, BusStopRemote {
         routeStops.clear();
         routeStops.addAll(hs);
         return routeStops;    }
+
+    @Override
+    public List<BusStop> getEndpointsByTenant(long tenantId, int offset, int limit) {
+        RouteDAO routeDAO = new RouteDAO();
+        List<Route> routes = routeDAO.getRoutesByTenant(tenantId, offset, limit);
+        List<BusStop> endpoints = new ArrayList<>();
+        for (Route r : routes) {
+            if(!endpoints.contains(r.getOrigin())) {
+                endpoints.add(r.getOrigin());
+            }
+            if(!endpoints.contains(r.getDestination())) {
+                endpoints.add(r.getDestination());
+            }
+        }
+        return endpoints;
+    }
 }
