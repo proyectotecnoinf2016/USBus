@@ -97,8 +97,8 @@
 
                 </md-tab>
                 <md-tab label="Paradas en la ruta" ng-disabled="journeyNotSelected">
-                    <md-content class="md-padding">
-                        <div layout="row" layout-padding="">
+                    <md-content class="md-padding" layout="row">
+                        <div layout="column" layout-padding="">
                             <md-autocomplete
                                     md-selected-item="getOnStopName"
                                     md-no-cache=true
@@ -134,14 +134,14 @@
                             </md-autocomplete>
 
                         </div>
-                        <span layout="row" >
+                        <span layout="column" layout-margin>
                             <md-input-container  slide-toggle="#ci">
                                 <md-checkbox ng-model="reservation" aria-label="Checkbox 1">
                                     Reserva <md-tooltip md-direction="top">Seleccione en caso de realizar una reserva en vez de una venta</md-tooltip>
                                 </md-checkbox>
                             </md-input-container>
                             <div id="ci" class="slideable" ng-cloak="">
-                                <md-input-container class="" layout-margin >
+                                <md-input-container class=""  >
                                     <label>CI</label>
                                     <md-tooltip md-direction="top">Ingrese CI del usuario</md-tooltip>
                                     <input ng-model="userCI">

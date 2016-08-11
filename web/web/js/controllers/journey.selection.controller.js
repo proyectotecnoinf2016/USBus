@@ -390,18 +390,7 @@
                     delete $scope.ticket["getOnStopName"];
                     delete $scope.ticket["getOffStopName"];
 
-                    /*{
-                        "clientId" : "4.999.999/8",
-                        "journeyId" : NumberLong(2),
-                        "seat" : 1,
-                        "active" : true,
-                        "tenantId" : NumberLong(2),
-                        "creationDate" : ISODate("2016-07-07T03:23:12.756Z"),
-                        "lastChange" : ISODate("2016-07-07T03:23:12.756Z"),
-                        "version" : NumberLong(1)
-                    }
-*/
-                    $scope.ticket.ci = $scope.userCI;
+                    $scope.ticket.clientId = $scope.userCI;
                     ReservationResource.reservations(token).save({
                         tenantId: $scope.tenantId
 
