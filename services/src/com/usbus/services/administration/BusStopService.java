@@ -48,6 +48,12 @@ public class BusStopService {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(busStopList).build();
+            case "ENDPOINTS":
+                List<BusStop> endpointsList = ejb.getEndpointsByTenant(tenantId, offset, limit);
+                if (endpointsList == null) {
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(endpointsList).build();
             case "DESTINATIONS":
                 routeStops = ejb.getDestinations(tenantId, offset, limit, origin);
                 if (routeStops == null) {
