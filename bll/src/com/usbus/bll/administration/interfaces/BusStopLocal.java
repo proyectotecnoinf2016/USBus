@@ -22,5 +22,5 @@ public interface BusStopLocal {
     List<BusStop> getByTenant(long tenantId, int offset, int limit, boolean status, String name);
     List<RouteStop> getDestinations(long tenantId, int offset, int limit, String origin);
     List<RouteStop> getOrigins(long tenantId, int offset, int limit, String destination);
-
+    List<BusStop> getEndpointsByTenant(long tenantId, int offset, int limit);
 }
