@@ -437,6 +437,7 @@
             $scope.journeys = [];
             $scope.reservedSeats = [];
             $scope.tickets = [];
+            $scope.userCI = '';
 
             $scope.journeyNotSelected = true;
             $scope.showJourneys = true;
