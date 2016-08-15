@@ -28,11 +28,15 @@
         $scope.compare = compare;
         $scope.cancelTicket = cancelTicket;
         $scope.getTickets = getTickets;
+        $scope.showConfirm = showConfirm;
+        $scope.findSeat = findSeat;
+
 
         $scope.tenantId = 0;
         $scope.price = 0;
         $scope.journeyNotSelected = true;
         $scope.reservation = false;
+        $scope.removeReservation = false;
         
         $scope.sellOrReservation = "Realizar venta";
 
@@ -239,11 +243,50 @@
 
         };
 
+
+        function showConfirm(title, textContent, item) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            var confirm = $mdDialog.confirm()
+                .title(title)
+                .textContent(textContent)
+                .theme($scope.theme)
+                .ariaLabel('Lucky day')
+                .ok('Aceptar')
+                .cancel('Cancelar');
+
+            $mdDialog.show(confirm).then(function() {
+                findSeat(item);
+                $scope.removeReservation = true;
+                nextTab();
+            }, function() {
+                $scope.status = 'You decided to keep your debt.';
+            });
+
+        }
+
+
         function selectedSeat(item) {
             var i = 0;
+
+            if (soldSeat(item, $scope.reservedSeats)) {
+                for (i = 0; i < $scope.reservations.length; i++) {
+                    if ($scope.reservations[i].seat == item) {
+                        $scope.reservationToRemove = item;
+                        showConfirm('Confirmación', 'Esta seguro que desea vender este asiento? ' +
+                            '\nIdentificación de usuario: ' + $scope.reservations[i].clientId, item);
+                        console.log($scope.reservations[i].clientId);
+                    }
+                }
+            }
+            else {
+                findSeat(item);
+            }
+        }
+
+        function findSeat(item) {
             var exists = false;
             var existsIndex = 0;
-
+            var i = 0;
             var j = 0;
             while  (j < $scope.soldSeats.length && $scope.soldSeats[j] != item) {
                 j++;
@@ -265,8 +308,8 @@
                     $scope.selected.push(item);
                 }
             }
-
         }
+
 
         function soldSeat(item, list) {
             return list.indexOf(item) > -1;
@@ -373,6 +416,11 @@
 
                     }, $scope.ticket,function (resp) {
                         console.log(resp);
+                        if ($scope.removeReservation) {
+                            if ($scope.reservationToRemove != null && $scope.reservationToRemove != 'undefined') {
+                                cancelTicket($scope.reservationToRemove);
+                            }
+                        }
                         showAlert('Exito!', 'Se ha realizado la venta de forma exitosa');
                         cancel();
                     }, function (error) {
@@ -476,7 +524,10 @@
                         },function (resp) {
                             console.log(resp);
                             cancel();
-                            showAlert('Exito!', 'Se ha cancelado la reserva de forma exitosa');
+                            if (!$scope.removeReservation) {
+                                showAlert('Exito!', 'Se ha cancelado la reserva de forma exitosa');
+                            }
+
                         }, function (error) {
                             console.log(error);
                             showAlert('Error!', 'Ocurrio un error al cancelar la reserva');
