@@ -251,7 +251,7 @@ public class CashRegisterDAO {
         return cashRegisterList;
     }
 
-    public void createExcel(long tenantId, String username, Long branchId, Long windowsId, Date start, Date end) throws IOException, WriteException {
+    public String createExcel(long tenantId, String username, Long branchId, Long windowsId, Date start, Date end) throws IOException, WriteException {
         if (tenantId>0 && !username.equals(null) && !username.isEmpty()) {
             Query<Tenant> query = ds.createQuery(Tenant.class);
             query.limit(1).criteria("tenantId").equal(tenantId);
@@ -280,19 +280,19 @@ public class CashRegisterDAO {
 
             List<CashRegister> cashRegisterList =  new ArrayList<>(getBetweenDates(tenantId,branchId,windowsId,start,end,0,0));
 
-            String dateString = new Date().toString();
-            dateString = dateString.replaceAll("\\W", "");
+//            String dateString = new Date().toString();
+//            dateString = dateString.replaceAll("\\W", "");
             String filepath = stringAux;
-            String filename = username + "_" + dateString + ".xls";
+            String filename = username + ".xls";
             File excel = new File(filepath + filename);
 
             WritableWorkbook myExcel = Workbook.createWorkbook(excel);
-            WritableSheet Reporte = myExcel.createSheet("Reporte", 1);
+            WritableSheet Report = myExcel.createSheet("Reporte", 1);
 
-            Reporte.addCell(new Label(0,0,"Fecha"));
-            Reporte.addCell(new Label(1,0,"Concepto"));
-            Reporte.addCell(new Label(2,0,"Debe"));
-            Reporte.addCell(new Label(3,0,"Haber"));
+            Report.addCell(new Label(0,0,"Fecha"));
+            Report.addCell(new Label(1,0,"Concepto"));
+            Report.addCell(new Label(2,0,"Debe"));
+            Report.addCell(new Label(3,0,"Haber"));
 
             //Hoja1.addCell(new Label(0,0,"Fecha"));
             int row = 1;
@@ -302,13 +302,13 @@ public class CashRegisterDAO {
                 cal.setTime(cashRegister.getDate());
                 cal.add(Calendar.HOUR, -3);
                 Date oneHourBack = cal.getTime();
-                Reporte.addCell(new Label(0,row,dateFormat.format(cal)));
+                Report.addCell(new Label(0,row,dateFormat.format(cal)));
                 if(cashRegister.getType() == CashType.ENTRY){
-                    Reporte.addCell(new Label(1,row,"Entrada"));
-                    Reporte.addCell(new Label(2,row,cashRegister.getAmount().toString()));
+                    Report.addCell(new Label(1,row,"Entrada"));
+                    Report.addCell(new Label(2,row,cashRegister.getAmount().toString()));
                 } else if (cashRegister.getType() == CashType.WITHDRAWAL){
-                    Reporte.addCell(new Label(1,row,"Salida"));
-                    Reporte.addCell(new Label(3,row,cashRegister.getAmount().toString()));
+                    Report.addCell(new Label(1,row,"Salida"));
+                    Report.addCell(new Label(3,row,cashRegister.getAmount().toString()));
                 }
                 row++;
             }
@@ -319,8 +319,9 @@ public class CashRegisterDAO {
             BASE64Encoder encoder = new BASE64Encoder();
             Path pathEncode = Paths.get(filepath + filename);
             byte[] data = Files.readAllBytes(pathEncode);
-            String stringExcel = encoder.encode(data);
-            System.out.println("String:   " + stringExcel);
+//            String stringExcel = encoder.encode(data);
+            return encoder.encode(data);
+//            System.out.println("String:   " + stringExcel);
             //ENCODE
 
 //        byte[] decoded = Base64.getDecoder().decode(stringExcel);
@@ -328,5 +329,6 @@ public class CashRegisterDAO {
 //        fos.write(decoded);
 //        fos.close();
         }
+        return null;
     }
 }
