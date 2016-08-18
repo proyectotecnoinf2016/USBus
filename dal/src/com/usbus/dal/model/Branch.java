@@ -22,6 +22,15 @@ public class Branch extends BaseEntity {
     private Boolean active;
     private Double latitude;
     private Double longitude;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Branch(){
     }

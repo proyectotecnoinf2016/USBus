@@ -10,6 +10,7 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -90,6 +91,45 @@ public class ParcelDAO {
                 return resultList.subList(offset, (offset + limit));
             }
         }
+    }
+
+    public List<Parcel> getByShippedDate(long tenantId, Date date, int offset, int limit){
+        if ((tenantId < 0) || (date == null) || offset < 0 || limit < 0) {
+            return null;
+        }
+        Query<Parcel> query = ds.createQuery(Parcel.class);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("shippedDate").greaterThanOrEq(date));
+        List<Parcel> resultList = query.offset(offset).limit(limit).asList();
+        return  resultList;
+    }
+    public List<Parcel> getByEnteredDate(long tenantId, Date date, int offset, int limit){
+        if ((tenantId < 0) || (date == null) || offset < 0 || limit < 0) {
+            return null;
+        }
+        Query<Parcel> query = ds.createQuery(Parcel.class);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("entered").greaterThanOrEq(date));
+        List<Parcel> resultList = query.offset(offset).limit(limit).asList();
+        return  resultList;
+    }
+
+    public List<Parcel> getBySender(long tenantId, String sender, int offset, int limit){
+        if ((tenantId < 0) || (sender == null) || sender.isEmpty() || offset < 0 || limit < 0) {
+            return null;
+        }
+        Query<Parcel> query = ds.createQuery(Parcel.class);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("from").greaterThanOrEq(sender));
+        List<Parcel> resultList = query.offset(offset).limit(limit).asList();
+        return  resultList;
+    }
+
+    public List<Parcel> getByReceiver(long tenantId, String receiver, int offset, int limit){
+        if ((tenantId < 0) || (receiver == null) || receiver.isEmpty() || offset < 0 || limit < 0) {
+            return null;
+        }
+        Query<Parcel> query = ds.createQuery(Parcel.class);
+        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("to").greaterThanOrEq(receiver));
+        List<Parcel> resultList = query.offset(offset).limit(limit).asList();
+        return  resultList;
     }
 
     public List<Parcel> getOnDestination(long tenantId, Long destinationId, Boolean onDestination, int offset, int limit){
