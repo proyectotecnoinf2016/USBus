@@ -5,8 +5,10 @@ import com.usbus.commons.enums.CashPayment;
 import com.usbus.commons.enums.CashType;
 import com.usbus.commons.exceptions.CashRegisterException;
 import com.usbus.dal.model.CashRegister;
+import jxl.write.WriteException;
 
 import javax.ejb.Local;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -31,4 +33,6 @@ public interface CashRegisterLocal {
     List<CashRegister> currentCashRegister(Long tenantId, Long branchId, Long windowsId, int limit, int offset);
 
     boolean isCashRegisterOpen(Long tenantId, Long branchId, Long windowsId);
+
+    String createExcel(long tenantId, String username, Long branchId, Long windowsId, Date start, Date end) throws IOException, WriteException;
 }
