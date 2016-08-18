@@ -2,17 +2,20 @@ package com.usbus.dal.model;
 
 import com.usbus.commons.auxiliaryClasses.Dimension;
 import com.usbus.dal.BaseEntity;
+import com.usbus.dal.dao.BusStopDAO;
+import com.usbus.dal.dao.JourneyDAO;
 import org.mongodb.morphia.annotations.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 /**
  * Created by Lufasoch on 28/05/2016.
  */
 @XmlRootElement
-@Entity(value = "parcels",noClassnameStored = true)
+@Entity(value = "parcels", noClassnameStored = true)
 @Indexes({
-        @Index(fields = { @Field(value = "tenantId"), @Field(value = "id") }, options = @IndexOptions(name="iParcelKey", unique=true))})
+        @Index(fields = {@Field(value = "tenantId"), @Field(value = "id")}, options = @IndexOptions(name = "iParcelKey", unique = true))})
 public class Parcel extends BaseEntity {
     private Long id;
     private Dimension dimensions;
@@ -38,23 +41,27 @@ public class Parcel extends BaseEntity {
     private Boolean delivered;
     private Boolean onDestination;
     private Boolean paid;
+    private Date entered;
+    private Date shippedDate;
 
     public Parcel() {
     }
 
-    public Parcel(long tenantId, Long id, Dimension dimensions, Integer weight, Journey journey, BusStop origin, BusStop destination, String from, String to, Boolean delivered, Boolean onDestination, Boolean paid) {
+    public Parcel(long tenantId, Long id, Dimension dimensions, Integer weight, Long journey, Long origin, Long destination, String from, String to, Boolean delivered, Boolean onDestination, Boolean paid) {
         super(tenantId);
         this.id = id;
         this.dimensions = dimensions;
         this.weight = weight;
-        this.journey = journey;
-        this.origin = origin;
-        this.destination = destination;
+        this.journey = new JourneyDAO().getByJourneyId(tenantId, journey);
+        this.origin = new BusStopDAO().getByLocalId(tenantId, origin);
+        this.destination = new BusStopDAO().getByLocalId(tenantId, destination);
         this.from = from;
         this.to = to;
         this.delivered = delivered;
         this.onDestination = onDestination;
         this.paid = paid;
+        this.entered = new Date();
+        this.shippedDate = this.journey.getDate();
     }
 
     public Long getId() {
@@ -143,5 +150,61 @@ public class Parcel extends BaseEntity {
 
     public void setPaid(Boolean paid) {
         this.paid = paid;
+    }
+
+    public Long getJourneyId() {
+        return journeyId;
+    }
+
+    public void setJourneyId(Long journeyId) {
+        this.journeyId = journeyId;
+    }
+
+    public String getOriginName() {
+        return originName;
+    }
+
+    public void setOriginName(String originName) {
+        this.originName = originName;
+    }
+
+    public Long getOriginId() {
+        return originId;
+    }
+
+    public void setOriginId(Long originId) {
+        this.originId = originId;
+    }
+
+    public Long getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(Long destinationId) {
+        this.destinationId = destinationId;
+    }
+
+    public String getDestinationName() {
+        return destinationName;
+    }
+
+    public void setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
+    }
+
+    public Date getEntered() {
+        return entered;
+    }
+
+    public void setEntered(Date entered) {
+        this.entered = entered;
+    }
+
+    public Date getShippedDate() {
+        return shippedDate;
+    }
+
+    public void setShippedDate(Date shippedDate) {
+        this.shippedDate = shippedDate;
     }
 }
