@@ -294,7 +294,6 @@ public class CashRegisterDAO {
             Report.addCell(new Label(2,0,"Debe"));
             Report.addCell(new Label(3,0,"Haber"));
 
-            //Hoja1.addCell(new Label(0,0,"Fecha"));
             int row = 1;
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
