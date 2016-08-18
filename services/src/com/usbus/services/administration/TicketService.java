@@ -6,6 +6,8 @@ import com.usbus.commons.enums.Rol;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.commons.exceptions.TicketException;
 import com.usbus.dal.model.Ticket;
+import com.usbus.dal.model.TicketPatch;
+import com.usbus.services.PATCH;
 import com.usbus.services.auth.Secured;
 import org.bson.types.ObjectId;
 import org.jose4j.json.internal.json_simple.JSONObject;
@@ -65,7 +67,8 @@ public class TicketService {
                                @QueryParam("limit") int limit, @QueryParam("journeyId") long journeyId,
                                @QueryParam("routeStopKmA") Double routeStopKmA,
                                @QueryParam("routeStopKmB") Double routeStopKmB,
-                               @QueryParam("query") String query) {
+                               @QueryParam("query") String query,
+                               @QueryParam("routeStop") String routeStop) {
 
         List<Ticket> ticketList;
         switch (query.toUpperCase()) {
@@ -94,12 +97,20 @@ public class TicketService {
                     return Response.ok(ticketFreeNoList).build();
                 }
             case "OCCUPIEDSEATS":
-                if (journeyId > 0) {
+                if (journeyId > 0 && routeStopKmA != null && routeStopKmB != null) {
                     JSONObject occupiedSeats = ejb.getOccupiedSeatsForSubRoute(tenantId, routeStopKmA, routeStopKmB, journeyId);
                     if (occupiedSeats == null || occupiedSeats.isEmpty()) {
                         return Response.status(Response.Status.NO_CONTENT).build();
                     }
                     return Response.ok(occupiedSeats).build();
+                }
+            case "ROUTESTOP":
+                if(journeyId > 0 && routeStop != null && !routeStop.isEmpty()) {
+                    List<Ticket> updatedTickets = ejb.updateTicketsStatus(tenantId, journeyId, routeStop);
+                    if (updatedTickets == null) {
+                        return Response.status(Response.Status.NOT_MODIFIED).build();
+                    }
+                    return Response.ok(updatedTickets).build();
                 }
         }
         return Response.status(Response.Status.EXPECTATION_FAILED).build();
@@ -135,5 +146,130 @@ public class TicketService {
         }catch (Exception e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PATCH
+    @Path("{ticketId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT, Rol.CLIENT})
+    public Response updateJourney(@PathParam("tenantId") Long tenantId,
+                                  @PathParam("ticketId") Long ticketId,
+                                  TicketPatch patch) throws TicketException {
+
+        Ticket ticketAux = ejb.getByLocalId(tenantId, ticketId);
+
+        for (TicketPatch.TicketPatchField updatedField : patch.getUpdatedFields()) {
+            switch (updatedField) {
+                case id:
+                    ticketAux.setId(patch.getId());
+                    break;
+
+                case hasCombination:
+                    ticketAux.setHasCombination(patch.getHasCombination());
+                    break;
+
+                case combination:
+                    ticketAux.setCombination(patch.getCombination());
+                    break;
+
+                case combinationId:
+                    ticketAux.setCombinationId(patch.getCombinationId());
+                    break;
+
+                case amount:
+                    ticketAux.setAmount(patch.getAmount());
+                    break;
+
+                case passenger:
+                    ticketAux.setPassenger(patch.getPassenger());
+                    break;
+
+                case passengerName:
+                    ticketAux.setPassengerName(patch.getPassengerName());
+                    break;
+
+                case seller:
+                    ticketAux.setSeller(patch.getSeller());
+                    break;
+
+                case sellerName:
+                    ticketAux.setSellerName(patch.getSellerName());
+                    break;
+
+                case closed:
+                    ticketAux.setClosed(patch.getClosed());
+                    break;
+
+                case status:
+                    ticketAux.setStatus(patch.getStatus());
+                    break;
+
+                case paymentToken:
+                    ticketAux.setPaymentToken(patch.getPaymentToken());
+                    break;
+
+                case journey:
+                    ticketAux.setJourney(patch.getJourney());
+                    break;
+
+                case journeyId:
+                    ticketAux.setJourneyId(patch.getJourneyId());
+                    break;
+
+                case seat:
+                    ticketAux.setSeat(patch.getSeat());
+                    break;
+
+                case getsOn:
+                    ticketAux.setGetsOn(patch.getGetsOn());
+                    break;
+
+                case getOnStopName:
+                    ticketAux.setGetOnStopName(patch.getGetOnStopName());
+                    break;
+
+                case getsOff:
+                    ticketAux.setGetsOff(patch.getGetsOff());
+                    break;
+
+                case getOffStopName:
+                    ticketAux.setGetOffStopName(patch.getGetOffStopName());
+                    break;
+
+                case route:
+                    ticketAux.setRoute(patch.getRoute());
+                    break;
+
+                case routeId:
+                    ticketAux.setRouteId(patch.getRouteId());
+                    break;
+
+                case dueDate:
+                    ticketAux.setDueDate(patch.getDueDate());
+                    break;
+
+                case branchId:
+                    ticketAux.setBranchId(patch.getBranchId());
+                    break;
+
+                case windowId:
+                    ticketAux.setWindowId(patch.getWindowId());
+                    break;
+
+                case kmGetsOn:
+                    ticketAux.setKmGetsOn(patch.getKmGetsOn());
+                    break;
+
+                case kmGetsOff:
+                    ticketAux.setKmGetsOff(patch.getKmGetsOff());
+
+            }
+        }
+        String oid = ejb.persist(ticketAux);
+        if (oid == null) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(ejb.getById(oid)).build();
     }
 }
