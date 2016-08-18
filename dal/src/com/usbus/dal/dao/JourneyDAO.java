@@ -230,12 +230,15 @@ public class JourneyDAO {
             HumanResource hr = query.get();
 
             Query<Journey> qDriver = ds.createQuery(Journey.class);
-            qDriver.and(qDriver.criteria("date").greaterThanOrEq(date), qDriver.criteria("tenantId").equal(tenantId), qDriver.criteria("driver").equal(hr));
-            asDriverList = qDriver.retrievedFields(true,"service","date","bus").offset(offset).limit(limit).asList();
+            qDriver.and(qDriver.criteria("date").greaterThanOrEq(date), qDriver.criteria("tenantId").equal(tenantId), qDriver.criteria("driver").equal(hr), qDriver.criteria("status").equal("ACTIVE"));
+            asDriverList = qDriver.retrievedFields(true,"service","date","bus","id","busNumber").offset(offset).limit(limit).asList();
 
             Query<Journey> qAssistant = ds.createQuery(Journey.class);
-            qAssistant.and(qAssistant.criteria("date").greaterThanOrEq(date), qAssistant.criteria("tenantId").equal(tenantId), qAssistant.criteria("assistant").equal(hr));
-            asAssistantList = qAssistant.retrievedFields(true,"service","date","bus")
+            qAssistant.and(qAssistant.criteria("date").greaterThanOrEq(date),
+                    qAssistant.criteria("tenantId").equal(tenantId),
+                    qAssistant.criteria("assistant").equal(hr),
+                    qAssistant.criteria("status").equal("ACTIVE"));
+            asAssistantList = qAssistant.retrievedFields(true,"service", "date", "bus", "id", "busNumber")
                     .offset(offset).limit(limit).asList();
 
             JSONObject list = new JSONObject();

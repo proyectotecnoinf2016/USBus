@@ -24,4 +24,5 @@ public interface TicketLocal {
     Ticket setPassenger(long tenantId, Long ticketId, String passenger);
     List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId);
     JSONObject getOccupiedSeatsForSubRoute(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId);
+    List<Ticket> updateTicketsStatus(long tenantId, Long journeyId, String routeStop);
 }

@@ -74,6 +74,11 @@ public class TicketBean implements TicketLocal, TicketRemote {
     }
 
     @Override
+    public List<Ticket> updateTicketsStatus(long tenantId, Long journeyId, String routeStop) {
+        return dao.updateTicketsStatus(tenantId, journeyId, routeStop);
+    }
+
+    @Override
     public Ticket confirmTicket(TicketConfirmation ticketConfirmation) throws TicketException {
         Ticket ticket = dao.getByLocalId(ticketConfirmation.getTenantId(), ticketConfirmation.getId());
         if (!(ticket == null)) {
@@ -82,8 +87,26 @@ public class TicketBean implements TicketLocal, TicketRemote {
                     throw new TicketException("El ticket se encuentra CANCELADO");
                 case USED:
                     throw new TicketException("El ticket ya fue UTILIZADO");
+                case INUSE:
+                    if (ticketConfirmation.getStatus() == TicketStatus.USED) {
+                        ticket.setStatus(ticketConfirmation.getStatus());
+                        if (dao.persist(ticket) != null) {
+                            return ticket;
+                        } else {
+                            throw new TicketException("Ocurrió un error al intentar actualizar el TICKET");
+                        }
+                    } else {
+                        throw new TicketException("El ticket está en USO");
+                    }
                 case CONFIRMED:
                     if (ticketConfirmation.getStatus()==TicketStatus.USED){
+                        ticket.setStatus(ticketConfirmation.getStatus());
+                        if (dao.persist(ticket) != null) {
+                            return ticket;
+                        } else {
+                            throw new TicketException("Ocurrió un error al intentar actualizar el TICKET");
+                        }
+                    } else if(ticketConfirmation.getStatus()==TicketStatus.INUSE) {
                         ticket.setStatus(ticketConfirmation.getStatus());
                         if (dao.persist(ticket) != null) {
                             return ticket;
