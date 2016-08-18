@@ -10,17 +10,65 @@
         </md-toolbar>
         <md-dialog-content layout="column" layout layout-margin>
             <span flex></span>
+
+            <div layout-gt-xs="row" layout-margin>
+                <mdp-date-picker required flex ng-model="date" mdp-placeholder="Fecha"></mdp-date-picker>
+            </div>
+            <div layout-gt-xs="row" layout-margin>
+                <md-autocomplete
+                        md-selected-item="from"
+                        md-no-cache=true
+                        md-search-text-change="queryBusStops(stopName)"
+                        md-min-length="3"
+                        md-items="from in queryBusStops(stopName)"
+                        md-item-text="from.name"
+                        md-search-text="stopName"
+                        md-floating-label="Origen"
+                        md-input-id="stopId"
+                        required layout-margin>
+
+                    <md-item-template>
+                        <span md-highlight-text="from.name" md-highlight-flags="^i"> {{ from.name }}</span>
+                    </md-item-template>
+                    <md-not-found>No se han encontrado elementos con este criterio.</md-not-found>
+                </md-autocomplete>
+
+                <md-autocomplete
+                        md-selected-item="to"
+                        md-no-cache=true
+                        md-search-text-change="queryBusStops(toName)"
+                        md-min-length="3"
+                        md-items="to in queryBusStops(toName)"
+                        md-item-text="to.name"
+                        md-search-text="toName"
+                        md-floating-label="Destino"
+                        md-input-id="toStopId"
+                        required layout-margin>
+
+                    <md-item-template>
+                        <span md-highlight-text="to.name" md-highlight-flags="^i"> {{ to.name }}</span>
+                    </md-item-template>
+                    <md-not-found>No se han encontrado elementos con este criterio.</md-not-found>
+                </md-autocomplete>
+            </div>
             <div layout="row" layout layout-margin>
-                <md-input-container class="customInput">
-                    <label>Matricula</label>
-                    <md-tooltip md-direction="top">Ingrese Matricula de la Unidad</md-tooltip>
-                    <input ng-model="bus.id">
-                </md-input-container>
-                <md-input-container class="customInput">
-                    <label>Marca</label>
-                    <md-tooltip md-direction="top">Ingrese Marca de la Unidad</md-tooltip>
-                    <input ng-model="bus.brand" required>
-                </md-input-container>
+                <md-autocomplete
+                        md-selected-item="to"
+                        md-no-cache=true
+                        md-search-text-change="getJourneys(from, to, date)"
+                        md-min-length="3"
+                        md-items="j in getJourneys(from, to, date)"
+                        md-item-text="j.service.name j.busNumber"
+                        md-search-text="toName"
+                        md-floating-label="Destino"
+                        md-input-id="toStopId"
+                        required layout-margin>
+
+                    <md-item-template>
+                        <span md-highlight-text="to.name" md-highlight-flags="^i"> {{ to.name }}</span>
+                    </md-item-template>
+                    <md-not-found>No se han encontrado elementos con este criterio.</md-not-found>
+                </md-autocomplete>
             </div>
             <div layout="row" layout layout-margin>
                 <md-input-container class="customInput">

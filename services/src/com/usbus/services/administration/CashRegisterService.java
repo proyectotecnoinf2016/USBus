@@ -8,12 +8,14 @@ import com.usbus.commons.enums.Rol;
 import com.usbus.commons.exceptions.CashRegisterException;
 import com.usbus.dal.model.CashRegister;
 import com.usbus.services.auth.Secured;
+import jxl.write.WriteException;
 import org.jose4j.json.internal.json_simple.JSONArray;
 import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.Date;
 import java.util.List;
@@ -79,7 +81,7 @@ public class CashRegisterService {
                                  @QueryParam("dateFrom") Date from,
                                  @QueryParam("dateTo") Date to,
                                  @QueryParam("offset") int offset,
-                                 @QueryParam("limit") int limit) {
+                                 @QueryParam("limit") int limit) throws IOException, WriteException {
         List<CashRegister> cashRegisterList = null;
         switch (query.toUpperCase()) {
             case "ALL":
@@ -149,8 +151,12 @@ public class CashRegisterService {
                 JSONArray ja = new JSONArray();
                 ja.add(jo);
                 return Response.ok(ja).build();
-
-
+            case "REPORT":
+                String base64 = ejb.createExcel(tenantId,user,branchId,windowsId,from,to);
+                if(base64.equals(null) || base64.isEmpty()){
+                    return Response.status(Response.Status.NO_CONTENT).build();
+                }
+                return Response.ok(base64).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
 

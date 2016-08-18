@@ -3,111 +3,156 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('BusController', BusController);
-    BusController.$inject = ['$scope', '$mdDialog', 'BusResource', 'localStorage', '$rootScope'];
+    angular.module('usbus').controller('ParcelController', ParcelController);
+    ParcelController.$inject = ['$scope', '$mdDialog', 'ParcelResource','JourneyResource','BusStopResource', 'localStorage', '$rootScope'];
     /* @ngInject */
-    function BusController($scope, $mdDialog, BusResource, localStorage, $rootScope) {
-        $scope.showBus = showBus;
-        $scope.createBus = createBus;
-        $scope.deleteBus = deleteBus;
+    function ParcelController($scope, $mdDialog, ParcelResource,JourneyResource,BusStopResource, localStorage, $rootScope) {
+        var vm = $scope;
 
-        $scope.message = '';
-        $scope.tenantId = 0;
-        $scope.buses = [];
+        vm.createParcel = createParcel;
+        vm.updateParcel = updateParcel;
+        vm.getParcels = getParcels;
+        vm.getJourneys = getJourneys;
+        vm.queryBusStops = queryBusStops;
 
-        $rootScope.$emit('options', 'admin');
+        vm.message = '';
+        vm.tenantId = 0;
+        vm.parcels = [];
 
-        $scope.tenantId = 0;
+        $rootScope.$emit('options', 'tickets');
+
+        vm.tenantId = 0;
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
-            $scope.tenantId = localStorage.getData('tenantId');
+            vm.tenantId = localStorage.getData('tenantId');
         }
 
         var token = null;//localStorage.getData('token');
         if (localStorage.getData('token') != null && localStorage.getData('token') != '') {
             token = localStorage.getData('token');
         }
+        var now = new Date();
+        var nowFormatted = moment(now).format('MM/DD/YYYY');
 
-        BusResource.buses(token).query({
-            query:"BUSSTATUS",
-            status:true,
-            offset: 0,
-            limit: 100,
-            busStatus: 'ACTIVE',
-            tenantId: $scope.tenantId
-        }).$promise.then(function(result) {
-            console.log(result);
-            $scope.buses = result;
+        // ParcelResource.parcels(token).query({
+        //     query:"ENTERED",
+        //     date: nowFormatted,
+        //     offset: 0,
+        //     limit: 10,
+        //     tenantId: vm.tenantId
+        // }).$promise.then(function(result) {
+        //     console.log(result);
+        //     vm.parcels = result;
+        //
+        // });
 
-        });
-
-        if ($scope.buses.length === 0) {
-            $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
+        if (vm.parcels.length === 0) {
+            vm.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
         }
 
-
-        function showBus(item, ev) {
+        function getJourneys(from, to, date) {
+            vm.formattedDate = moment(date).format('MM/DD/YYYY');
+            vm.originName = origin.name;
+            vm.destinationName = destination.name;
+            JourneyResource.journeys(token).query({
+                offset: 0,
+                limit: 100,
+                tenantId: vm.tenantId,
+                origin: vm.fromName,
+                destination: vm.toName,
+                date: vm.formattedDate,
+                status: 'ACTIVE',
+                query: 'DATE_ORIGIN_DESTINATION'
+            }).$promise.then(function(result) {
+                console.log(result);
+                //var journeys = $scope.journeys.concat(result);
+                vm.journeys = [];
+                var i = 0;
+                for (i = 0; i < result.length; i ++) {
+                    result[i].day = dayOfWeek.getDay(result[i].service.day);
+                    result[i].time = moment(result[i].service.time).format('HH:mm');
+                }
+                vm.journeys = result;
+                console.log(vm.journeys);
+            });
+        }
+        
+        function createParcel(ev) {
             $mdDialog.show({
-                controller : 'EditBusController',
-                templateUrl : 'templates/bus.edit.html',
-                locals:{busToEdit: item, theme: $scope.theme},
-                parent : angular.element(document.body),
-                targetEvent : ev,
-                clickOutsideToClose : false
-            }).then(
-                function(answer) {
-                    $scope.status = 'You said the information was "'
-                        + answer + '".';
-                }, function() {
-                    $scope.status = 'You cancelled the dialog.';
-                });
-        };
-
-        function createBus(ev) {
-            $mdDialog.show({
-                controller : 'CreateBusController',
+                controller : 'CreateParcelController',
                 templateUrl : 'templates/bus.create.html',
                 parent : angular.element(document.body),
                 targetEvent : ev,
                 clickOutsideToClose : false,
-                locals : {theme: $scope.theme}
+                locals : {theme: vm.theme}
             }).then(
                 function() {
-                    $scope.buses = BusResource.buses(token).query({
+                    vm.parcels = ParcelResource.parcels(token).query({
                         query:"ALL",
                         status:true,
                         offset: 0,
                         limit: 100,
                         busStatus: 'ACTIVE',
-                        tenantId: $scope.tenantId
+                        tenantId: vm.tenantId
                     });
                 }, function() {
-                    $scope.status = 'You cancelled the dialog.';
+                    vm.status = 'You cancelled the dialog.';
                 });
         };
 
-        function deleteBus(bus) {
+        function updateParcel(bus) {
             delete bus["_id"];
-            BusResource.buses(token).delete({
-                tenantId: $scope.tenantId,
+            ParcelResource.parcels(token).delete({
+                tenantId: vm.tenantId,
                 busId: bus.id}, bus).$promise.then(function(data){
                     console.log(data);
                 }, function(error){
             });
             var index = 0;
 
-            while (index < $scope.buses.length && bus.id != $scope.buses[index].id) {
+            while (index < vm.parcels.length && bus.id != vm.parcels[index].id) {
                 index++;
             }
 
-            if (index < $scope.buses.length) {
-                $scope.buses.splice(index, 1);
+            if (index < vm.parcels.length) {
+                vm.parcels.splice(index, 1);
             }
 
-            if ($scope.buses.length === 0) {
-                $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado.';
+            if (vm.parcels.length === 0) {
+                vm.message = 'No se han encontrado elementos que cumplan con el criterio solicitado.';
             }
 
         }
 
+        function getParcels(origin, destination, enteredDate, shippedDate) {
+            alert("GOLA");
+            if ($isEmpty(enteredDate)){
+                console.log("EnTRE EN EL ISEMPTY")
+
+            }
+        }
+        function showAlert(title,content) {
+            $mdDialog
+                .show($mdDialog
+                    .alert()
+                    .parent(
+                        angular.element(document
+                            .querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .content(content)
+                    .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
+
+        };
+        function queryBusStops(name) {
+            return BusStopResource.busStops(token).query({
+                query:"ALL",
+                status:true,
+                offset: 0,
+                limit: 5,
+                tenantId: $scope.tenantId,
+                name : name
+            }).$promise;
+
+        }
     }
 })();
