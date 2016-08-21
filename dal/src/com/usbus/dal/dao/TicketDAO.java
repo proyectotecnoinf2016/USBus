@@ -229,7 +229,13 @@ public class TicketDAO {
             query.and(query.criteria("tenantId").equal(tenantId), query.criteria("id").equal(journeyId));
             Journey journey = query.get();
 
-            List<Ticket> ticketList = getByJourney(tenantId, journey);
+            //List<Ticket> ticketList = getByJourney(tenantId, journey);
+
+            Query<Ticket> ticketsQuery = ds.createQuery(Ticket.class);
+            ticketsQuery.and(ticketsQuery.criteria("tenantId").equal(tenantId), ticketsQuery.criteria("journey").equal(journey),
+                    ticketsQuery.criteria("closed").equal(true));
+            List<Ticket> ticketList = ticketsQuery.asList();
+
             List<Ticket> auxTicketList = new ArrayList<>(ticketList);
 //GET TICKETS OF A JOURNEY
 
@@ -261,12 +267,14 @@ public class TicketDAO {
             if (!auxTicketList.isEmpty()) {
 //ADD SOLD SEATS
                 for (Ticket auxTicket : auxTicketList) {
-                    if (!processedSeats.contains(auxTicket.getSeat())
-                            && ((routeStopKmA >= auxTicket.getKmGetsOn() && routeStopKmA < auxTicket.getKmGetsOff())
-                            || (routeStopKmB > auxTicket.getKmGetsOn() && routeStopKmB <= auxTicket.getKmGetsOff())
-                            || (routeStopKmA <= auxTicket.getKmGetsOn() && routeStopKmB >= auxTicket.getKmGetsOff()))) {
-                        soldSeats.add(new Seat(auxTicket.getSeat(), null, false));
-                        processedSeats.add(auxTicket.getSeat());
+                    if(auxTicket.getStatus() != TicketStatus.USED && auxTicket.getStatus() != TicketStatus.CANCELED) {
+                        if (!processedSeats.contains(auxTicket.getSeat())
+                                && ((routeStopKmA >= auxTicket.getKmGetsOn() && routeStopKmA < auxTicket.getKmGetsOff())
+                                || (routeStopKmB > auxTicket.getKmGetsOn() && routeStopKmB <= auxTicket.getKmGetsOff())
+                                || (routeStopKmA <= auxTicket.getKmGetsOn() && routeStopKmB >= auxTicket.getKmGetsOff()))) {
+                            soldSeats.add(new Seat(auxTicket.getSeat(), null, false));
+                            processedSeats.add(auxTicket.getSeat());
+                        }
                     }
                 }
             }
@@ -288,6 +296,39 @@ public class TicketDAO {
             result.put("booked", new JSONArray(bookedSeats));
 
             return result;
+        } else {
+            return null;
+        }
+    }
+
+    public List<Ticket> updateTicketsStatus(long tenantId, Long journeyId, String routeStop){
+        if (tenantId > 0 && journeyId != null && routeStop != null) {
+//GET TICKETS FOR THE JOURNEY
+            Query<Journey> query = ds.createQuery(Journey.class);
+            query.and(query.criteria("tenantId").equal(tenantId), query.criteria("id").equal(journeyId));
+            Journey journey = query.get();
+
+            Query<Ticket> ticketsQuery = ds.createQuery(Ticket.class);
+            ticketsQuery.and(ticketsQuery.criteria("tenantId").equal(tenantId), ticketsQuery.criteria("journey").equal(journey),
+                    ticketsQuery.criteria("closed").equal(true));
+            List<Ticket> ticketList = ticketsQuery.asList();
+
+//UPDATE SEATS
+            List<Ticket> updatedTicketList = new ArrayList<>(ticketList);
+            if (!ticketList.isEmpty()) {
+                for (Ticket auxTicket : ticketList) {
+                    if(auxTicket.getGetsOff().getName().equalsIgnoreCase(routeStop)) {
+                        auxTicket.setStatus(TicketStatus.USED);
+                        String oid = persist(auxTicket);
+                        if (oid != null) {
+                            updatedTicketList.set(updatedTicketList.indexOf(auxTicket), auxTicket);
+                        }
+                    }
+                }
+            }
+//UPDATE SEATS
+
+            return updatedTicketList;
         } else {
             return null;
         }

@@ -10,9 +10,11 @@ import com.usbus.commons.exceptions.CashRegisterException;
 import com.usbus.dal.dao.CashRegisterDAO;
 import com.usbus.dal.model.CashRegister;
 import com.usbus.dal.model.Ticket;
+import jxl.write.WriteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -99,6 +101,11 @@ public class CashRegisterBean implements CashRegisterLocal, CashRegisterRemote {
     @Override
     public boolean isCashRegisterOpen(Long tenantId, Long branchId, Long windowsId) {
         return crDAO.isCashRegisterOpen(tenantId, branchId, windowsId);
+    }
+
+    @Override
+    public String createExcel(long tenantId, String username, Long branchId, Long windowsId, Date start, Date end) throws IOException, WriteException {
+        return crDAO.createExcel(tenantId, username, branchId, windowsId, start, end);
     }
 
 

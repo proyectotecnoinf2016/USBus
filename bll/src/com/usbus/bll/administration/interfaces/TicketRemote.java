@@ -25,4 +25,5 @@ public interface TicketRemote {
     List<Ticket> getByJourneyId(long tenantId, Long id, int offset, int limit, TicketStatus status);
     List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId);
     JSONObject getOccupiedSeatsForSubRoute(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId);
+    List<Ticket> updateTicketsStatus(long tenantId, Long journeyId, String routeStop);
 }

@@ -14,8 +14,8 @@
         //$scope.showBus = true;
         $scope.busColor = 'Red';
 
-		$scope.tenantName = 'USBus';
-		$scope.userName = 'Invitado';
+        $scope.tenantName = 'USBus';
+        $scope.userName = 'Invitado';
 
         if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
             $scope.tenantName = localStorage.getData('tenantName');
@@ -26,7 +26,7 @@
 
         $scope.logout = logout;
         $scope.showAlert = showAlert;
-        $rootScope.$on('login', function(event, data) {
+        $rootScope.$on('login', function (event, data) {
             if (localStorage.getData('tenantName') != null && localStorage.getData('tenantName') != '') {
                 $scope.tenantName = localStorage.getData('tenantName');
             }
@@ -36,7 +36,7 @@
         });
 
 
-		$scope.login = login;
+        $scope.login = login;
         $scope.redirectTo = redirectTo;
 
         $scope.urlArray = $location.path().split('/');
@@ -79,63 +79,68 @@
             if (data == 'admin') {
 
                 options = [{
-                    name : "Planificar Viajes",
-                    url  : "admin",
-                    icon : "event_seat"
-                } , {
+                    name: "Planificar Viajes",
+                    url: "admin",
+                    icon: "event_seat"
+                }, {
                     name: "Administrar Usuarios",
-                    url  : "admin/users",
-                    icon : "perm_identity"
-                } , {
+                    url: "admin/users",
+                    icon: "perm_identity"
+                }, {
                     name: "Administrar Sucursales",
-                    url : "admin/branch",
+                    url: "admin/branch",
                     icon: "location_city"
-                } , {
+                }, {
                     name: "Administrar Unidades",
-                    url : "admin/bus",
+                    url: "admin/bus",
                     icon: "directions_bus"
-                } , {
+                }, {
                     name: "Administrar Paradas",
-                    url : "admin/busStop",
+                    url: "admin/busStop",
                     icon: "store_mall_directory"
-                } , {
+                }, {
                     name: "Administrar Rutas",
-                    url : "admin/route",
+                    url: "admin/route",
                     icon: "terrain"
-                } , {
+                }, {
                     name: "Administrar Servicios",
-                    url : "admin/service",
+                    url: "admin/service",
                     icon: "subway"
-                } , {
+                }, {
                     name: "Personalizar Estilos",//<i class="material-icons">format_color_fill</i>
-                    url : "admin/styles",
+                    url: "admin/styles",
                     icon: "format_color_fill"
                 }, {
                     name: "Ver Agenda",//<i class="material-icons">format_color_fill</i>
-                    url : "admin/schedule",
+                    url: "admin/schedule",
                     icon: "assignment"
                 }];
             }
 
             if (data == 'tickets') {
                 options = [{
-                    name : "Venta/Reserva de Pasajes",
+                    name: "Venta/Reserva de Pasajes",
                     url: "tickets",
                     icon: "airline_seat_recline_normal" //<i class="material-icons">add_shopping_cart</i><i class="material-icons">airline_seat_recline_normal</i>
-                } , {
+                }, {
                     name: "Cancelar Venta/Reserva",
                     url: "tickets/cancel",
                     icon: "signal_cellular_no_sim"
-            }, {
+                }, {
+                    name: "Encomiendas",
+                    url: "parcels",
+                    icon: "unarchive"
+                }, {
                     name: "Caja",
-                    url : "tickets/window",
+                    url: "tickets/window",
                     icon: "account_balance_wallet"
-                }];
+                }
+
+                ];
 
             }
 
             $scope.menuOptions = [];
-
 
 
             if ($scope.tenantName !== 'USBus') {
@@ -155,18 +160,18 @@
 
         function login(ev) {
             $mdDialog.show({
-                controller : 'LoginController',
-                templateUrl : 'templates/login.html',
-                locals:{theme : $scope.theme},
-                parent : angular.element(document.body),
-                targetEvent : ev,
-                clickOutsideToClose : false
+                controller: 'LoginController',
+                templateUrl: 'templates/login.html',
+                locals: {theme: $scope.theme},
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: false
             }).then(
-                function(answer) {
+                function (answer) {
                     $scope.status = 'You said the information was "'
                         + answer + '".';
                     $rootScope.$broadcast('login', 'success');
-                }, function() {
+                }, function () {
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
@@ -191,7 +196,7 @@
 
         $geolocation.getCurrentPosition({
             timeout: 60000
-        }).then(function(position) {
+        }).then(function (position) {
             $scope.myPosition = position;
             console.log($scope.myPosition);
             localStorage.setData('location', $scope.myPosition);
@@ -216,7 +221,7 @@
                 template: '</p><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTGZqvke96TnMbyRvGxwCiccHvsv6cY4vLGoaSTJggL79zTCO8axg"/>',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose:true,
+                clickOutsideToClose: true,
                 fullscreen: useFullScreen
             })
 

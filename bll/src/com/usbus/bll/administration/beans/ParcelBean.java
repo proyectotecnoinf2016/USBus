@@ -6,6 +6,7 @@ import com.usbus.dal.dao.ParcelDAO;
 import com.usbus.dal.model.Parcel;
 
 import javax.ejb.Stateless;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,11 @@ public class ParcelBean implements ParcelLocal, ParcelRemote{
     }
 
     @Override
+    public Parcel getById(String id) {
+        return dao.getById(id);
+    }
+
+    @Override
     public List<Parcel> getOnDestination(long tenantId, Long destinationId, Boolean onDestination, int offset, int limit) {
         return dao.getOnDestination(tenantId, destinationId, onDestination, offset, limit);
     }
@@ -50,5 +56,21 @@ public class ParcelBean implements ParcelLocal, ParcelRemote{
     @Override
     public List<Parcel> getByJourney(long tenantId, Long journeyId, int offset, int limit) {
         return dao.getByJourney(tenantId, journeyId, offset, limit);
+    }
+    @Override
+    public List<Parcel> getByShippedDate(long tenantId, Date date, int offset, int limit) {
+        return dao.getByShippedDate(tenantId, date, offset, limit);
+    }
+    @Override
+    public List<Parcel> getByEnteredDate(long tenantId, Date date, int offset, int limit) {
+        return dao.getByEnteredDate(tenantId, date, offset, limit);
+    }
+    @Override
+    public List<Parcel> getBySender(long tenantId, String sender, int offset, int limit) {
+        return dao.getBySender(tenantId, sender, offset, limit);
+    }
+    @Override
+    public List<Parcel> getByReceiver(long tenantId, String receiver, int offset, int limit) {
+        return dao.getByReceiver(tenantId, receiver, offset, limit);
     }
 }
