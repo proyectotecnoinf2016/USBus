@@ -1,5 +1,6 @@
 package com.usbus.dal.test;
 
+import com.itextpdf.text.DocumentException;
 import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.commons.auxiliaryClasses.Seat;
 import com.usbus.commons.enums.*;
@@ -7,6 +8,7 @@ import com.usbus.dal.dao.*;
 import com.usbus.dal.model.*;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -140,5 +142,19 @@ public class TicketTest {
 //
 //
 //        System.out.println(dao.countAll());
+    }
+
+    @Test
+    public void pdfTest() throws IOException, DocumentException {
+        tenantDAO.clean();
+        String tenantName = "SSS";
+        Tenant t = new Tenant(1,tenantName);
+        tenantDAO.persist(t);
+//        Ticket ticket = new Ticket();
+        Date date = new Date();
+        Ticket ticket = ticketDAO.getByLocalId(1,1L);
+//        ticket.setEmissionDate(date);
+//        ticket.setId(666L);
+        ticketDAO.createPDF(tenantName, ticket);
     }
 }
