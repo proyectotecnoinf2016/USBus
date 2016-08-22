@@ -1,7 +1,55 @@
-<h1 class="grayHeader">Unidades</h1>
+<h1 class="grayHeader">Encomiendas</h1>
 <form name="inputForm" novalidate >
-    <h3 class="grayHeader" ng-show="buses == null || buses.length == 0">{{message}}</h3>
-    <md-content ng-show="buses != null && buses.length > 0">
+    <h3 class="grayHeader" ng-show="vm.parcels == null || vm.parcels.length == 0">{{vm.message}}</h3>
+    <div ng-cloak class="md-inline-form" >
+        <div layout-gt-xs="row" >
+            <mdp-date-picker ng-model="vm.enteredDate" mdp-placeholder="Fecha de ingreso"></mdp-date-picker>
+            <mdp-date-picker ng-model="vm.shippedDate" mdp-placeholder="Fecha de embarco"></mdp-date-picker>
+        </div>
+        <div layout-gt-xs="row">
+            <md-autocomplete
+                    md-selected-item="vm.origin"
+                    md-no-cache=true
+                    md-search-text-change="vm.queryBusStops(vm.originName)"
+                    md-min-length="3"
+                    md-items="vm.origin in vm.queryBusStops(vm.originName)"
+                    md-item-text="vm.origin.name"
+                    md-search-text="vm.originName"
+                    md-floating-label="Origen"
+                    md-input-id="originId"
+                    layout-margin>
+
+                <md-item-template>
+                    <span md-highlight-text="vm.origin.name" md-highlight-flags="^i"> {{ vm.origin.name }}</span>
+                </md-item-template>
+                <md-not-found>No se han encontrado elementos con este criterio.</md-not-found>
+            </md-autocomplete>
+
+            <md-autocomplete
+                    md-selected-item="vm.destination"
+                    md-no-cache=true
+                    md-search-text-change="vm.queryBusStops(vm.destinationName)"
+                    md-min-length="3"
+                    md-items="vm.destination in vm.queryBusStops(vm.destinationName)"
+                    md-item-text="vm.destination.name"
+                    md-search-text="vm.destinationName"
+                    md-floating-label="Destino"
+                    md-input-id="destinationId"
+                    layout-margin>
+
+                <md-item-template>
+                    <span md-highlight-text="vm.destination.name" md-highlight-flags="^i"> {{ vm.destination.name }}</span>
+                </md-item-template>
+                <md-not-found>No se han encontrado elementos con este criterio.</md-not-found>
+            </md-autocomplete>
+        </div>
+        <div layout-gt-xs="row">
+            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="vm.getParcels($event,vm.origin, vm.destination, vm.enteredDate, vm.shippedDate)">Buscar</md-button>
+            <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="vm.createParcel($event)">Crear encomienda</md-button>
+        </div>
+        <!--<md-button type="submit" ng-disabled="inputForm.$invalid" ng-show="selectedIndex == 0" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="vm.getJourneys(vm.origin, vm.destination, vm.date)">Buscar</md-button>-->
+    </div>
+    <md-content ng-show="vm.parcels != null && vm.parcels.length > 0">
         <span layout="row" >
             <h3 hide-md="" show-gt-md="" class="grayHeader tableRow" style="" >
                 Matricula
@@ -67,5 +115,5 @@
         </span>
     </md-content>
 
-    <md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBus($event)">Crear Nueva unidad</md-button>
+    <!--<md-button type="submit" layout="row" layout-align="center center" class="md-raised md-primary" ng-click="createBus($event)">Crear Nueva unidad</md-button>-->
 </form>

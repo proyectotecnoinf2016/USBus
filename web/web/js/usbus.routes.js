@@ -60,6 +60,11 @@
                 controller: 'CashRegisterController',
                 controllerAs: 'vm'
             })
+            .when('/tenant/:tenantName/parcels', {
+                templateUrl: 'templates/parcel.navigate.html',
+                controller: 'ParcelController',
+                controllerAs: 'vm'
+            })
 			.when('/tenant/:tenantName/boxes', {
                 templateUrl: 'templates/boxes.html',
                 controller: 'HomeController'
