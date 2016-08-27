@@ -71,35 +71,26 @@ public class ParcelDAO {
         if ((tenantId < 0) || (journeyId == null) || offset < 0 || limit < 0) {
             return null;
         }
-        Journey journey = new JourneyDAO().getByJourneyId(tenantId, journeyId);
         Query<Parcel> query = ds.createQuery(Parcel.class);
-        query.and(query.criteria("tenantId").equal(tenantId), query.criteria("journey").equal(journey));
-
+        query.criteria("tenantId").equal(tenantId);
         List<Parcel> resultList = query.asList();
-
-        if(resultList.isEmpty()){
+        List<Parcel> auxList = new ArrayList<>(resultList);
+        if(auxList.isEmpty()) {
             return null;
+        } else {
+            for (Parcel par : auxList) {
+                Journey journey = par.getJourney();
+                if(journey.getId() != journeyId){
+                    resultList.remove(par);
+                }
+            }
+            if(resultList.isEmpty()){
+                return null;
+            }
+            else {
+                return resultList.subList(offset, (offset + limit));
+            }
         }
-        else {
-            return resultList.subList(offset, (offset + limit) > resultList.size()? resultList.size() : (offset + limit));
-        }
-//        List<Parcel> auxList = new ArrayList<>(resultList);
-//        if(auxList.isEmpty()) {
-//            return null;
-//        } else {
-//            for (Parcel par : auxList) {
-//                Journey journey = par.getJourney();
-//                if(journey.getId() != journeyId){
-//                    resultList.remove(par);
-//                }
-//            }
-//            if(resultList.isEmpty()){
-//                return null;
-//            }
-//            else {
-//                return resultList.subList(offset, (offset + limit) > resultList.size()? resultList.size() : (offset + limit));
-//            }
-//        }
     }
 
     public List<Parcel> getByShippedDate(long tenantId, Date date, int offset, int limit){
