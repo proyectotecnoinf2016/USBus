@@ -63,7 +63,7 @@ public class ParcelService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR})
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT})
     public Response getParcels(@PathParam("tenantId")Long tenantId,
                                @QueryParam("query") String query,
                                @QueryParam("journey") Long journeyId,
