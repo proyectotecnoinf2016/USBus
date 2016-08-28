@@ -21,6 +21,11 @@
                 <md-tooltip md-direction="top">Ingrese tiempo de espera</md-tooltip>
                 <input type="number" ng-model="busStop.stopTime" name="stopTime" required>
             </md-input-container>
+            <md-input-container>
+                <label  layout-margin layout>Dirección</label>
+                <md-tooltip md-direction="top">Ingrese Dirección de la Parada</md-tooltip>
+                <input ng-model="busStop.address" required  layout-margin layout>
+            </md-input-container>
 
             <span flex></span>
         </md-dialog-content>

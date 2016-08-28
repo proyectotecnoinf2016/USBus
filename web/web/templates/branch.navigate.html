@@ -5,7 +5,7 @@
     </ng-map>
 </div>
 
-<span slide-toggle="#map" class="pointer" ng-click="toggleMap()">{{show}} Mapa</span>
+
 
 
 <form name="inputForm" novalidate >
@@ -38,7 +38,13 @@
                 </p>
             </span>
         </span>
-    </md-content>
 
-    <md-button type="submit" layout="row" class="md-raised md-primary" ng-click="createBranch($event)">Crear Nueva Sucursal</md-button>
+
+    </md-content>
+    <div layout="row">
+        <md-button type="submit" layout="row" class="md-raised md-primary" ng-click="createBranch($event)">Crear Nueva Sucursal</md-button>
+        <md-button layout="row" slide-toggle="#map" class="md-raised" ng-click="toggleMap()">{{show}} Mapa</md-button>
+    </div>
+
+
 </form>
