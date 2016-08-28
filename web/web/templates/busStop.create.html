@@ -1,6 +1,6 @@
-<md-dialog aria-label="Login" ng-cloak  md-theme="{{theme}}" md-theme-watch="true"
+<md-dialog aria-label="Login" ng-cloak  md-theme="{{theme}}" flex="25" md-theme-watch="true"
            >
-    <form name="inputForm" novalidate>
+    <form name="inputForm" novalidate >
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h1>Datos de la parada</h1>
@@ -10,22 +10,24 @@
         </md-toolbar>
         <md-dialog-content layout layout-margin>
             <span flex></span>
+            <div layout="column">
+                <md-input-container  layout-margin flex>
+                    <label>Nombre</label>
+                    <md-tooltip md-direction="top">Ingrese nombre de la parada</md-tooltip>
+                    <input ng-model="busStop.name" name="busName" required>
+                </md-input-container>
+                <md-input-container  layout-margin flex>
+                    <label>Tiempo de espera</label>
+                    <md-tooltip md-direction="top">Ingrese tiempo de espera</md-tooltip>
+                    <input type="number" ng-model="busStop.stopTime" name="stopTime" required>
+                </md-input-container>
+                <md-input-container layout-margin flex>
+                    <label  layout-margin layout>Dirección</label>
+                    <md-tooltip md-direction="top">Ingrese Dirección de la Parada</md-tooltip>
+                    <input ng-model="busStop.address" required  layout-margin layout>
+                </md-input-container>
+            </div>
 
-            <md-input-container  layout-margin>
-                <label>Nombre</label>
-                <md-tooltip md-direction="top">Ingrese nombre de la parada</md-tooltip>
-                <input ng-model="busStop.name" name="busName" required>
-            </md-input-container>
-            <md-input-container  layout-margin>
-                <label>Tiempo de espera</label>
-                <md-tooltip md-direction="top">Ingrese tiempo de espera</md-tooltip>
-                <input type="number" ng-model="busStop.stopTime" name="stopTime" required>
-            </md-input-container>
-            <md-input-container>
-                <label  layout-margin layout>Dirección</label>
-                <md-tooltip md-direction="top">Ingrese Dirección de la Parada</md-tooltip>
-                <input ng-model="busStop.address" required  layout-margin layout>
-            </md-input-container>
 
             <span flex></span>
         </md-dialog-content>

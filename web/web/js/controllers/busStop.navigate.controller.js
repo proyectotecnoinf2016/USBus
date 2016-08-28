@@ -54,7 +54,6 @@
                 clickOutsideToClose : false
             }).then(
                 function(answer) {
-                    alert(answer);
                     $scope.status = 'You said the information was "'
                         + answer + '".';
                 }, function() {
