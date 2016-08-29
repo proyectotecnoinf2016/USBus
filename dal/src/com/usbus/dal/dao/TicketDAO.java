@@ -483,9 +483,13 @@ public class TicketDAO {
             // step 5
             document.close();
 
-            byte[] buf = fileToByteArray("your-pdf-file.pdf");
-            String s = new sun.misc.BASE64Encoder().encode(buf);
-            return s;
+            // step 6
+            byte[] buf = fileToByteArray(stringAux);
+            String b64 = new sun.misc.BASE64Encoder().encode(buf);
+            return b64;
+
+            // congratulations!!!
+            // now you are a pokemon master!
         }
         return null;
     }
