@@ -93,8 +93,7 @@
             delete item["_id"];
             item.active = false;
             BusStopResource.busStops(token).delete({busStopId: item.id, tenantId: $scope.tenantId}, item).$promise.then(function(data){
-                showAlert('Exito!','Se ha editado la Parada de forma exitosa');
-                console.log(item);
+
             }, function(error){
                 showAlert('Error!','Ocurrió un error al procesar su petición');
             });
