@@ -17,10 +17,7 @@ import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -339,7 +336,28 @@ public class TicketDAO {
         }
     }
 
-    public void createPDF(String tenantName, Ticket ticket) throws DocumentException, IOException, FileNotFoundException {
+    public static byte[] fileToByteArray(String fileName) {
+        try {
+            File f = new File(fileName);
+            FileInputStream in = new FileInputStream(f);
+            byte[] bytes = new byte[(int)f.length()];
+            int c = -1;
+            int ix = 0;
+            while ((c = in.read()) > -1) {
+                System.out.println(c);
+                bytes[ix] = (byte)c;
+                ix++;
+            }
+            in.close();
+            return bytes;
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String createPDF(String tenantName, Ticket ticket) throws DocumentException, IOException, FileNotFoundException {
         // OBTENER TENANT
         Tenant tenantOriginal = null;
         if (tenantName != null && !tenantName.isEmpty()) {
@@ -465,7 +483,10 @@ public class TicketDAO {
             // step 5
             document.close();
 
-            
+            byte[] buf = fileToByteArray("your-pdf-file.pdf");
+            String s = new sun.misc.BASE64Encoder().encode(buf);
+            return s;
         }
+        return null;
     }
 }
