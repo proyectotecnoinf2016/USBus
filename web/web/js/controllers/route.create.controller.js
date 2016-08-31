@@ -102,7 +102,12 @@
 
             if (index < $scope.routeStops.length) {
                 $scope.routeStops.splice(index, 1);
-                $scope.wayPoints.splice(index, 1);
+                var i = 0;
+                for (i = 0; i < $scope.wayPoints.length; i++) {
+                    if ($scope.routeStops[index].busStop == $scope.wayPoints[i].location) {
+                        $scope.wayPoints.splice(index, 1);
+                    }
+                }
             }
 
 

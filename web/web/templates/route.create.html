@@ -111,7 +111,7 @@
                     <span>
                         <span layout="row" ng-repeat="item in routeStops" >
                             <md-input-container layout-padding flex="35" style="height: 30px!important" >
-                                <input ng-model="item.busStop" ng-mouseleave="addMarkers(item.busStop)">
+                                <input ng-model="item.busStop" ng-blur="addMarkers(item.busStop)">
                             </md-input-container>
                             <md-input-container layout-padding  flex="35" style="height: 30px!important">
                                 <input ng-model="item.km" >
