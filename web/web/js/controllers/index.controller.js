@@ -55,7 +55,7 @@
                 tenantName: $scope.tenantName
             }).$promise.then(function (result) {
                 $scope.style = result;
-
+                localStorage.setData('humanResourcesURL', $scope.style.humanResourcesURL);
                 $scope.theme = $scope.style.theme;
                 //$scope.showBus = $scope.style.showBus;
                 //console.log($scope.showBus);
@@ -107,7 +107,7 @@
                     url: "admin/service",
                     icon: "subway"
                 }, {
-                    name: "Personalizar Estilos",//<i class="material-icons">format_color_fill</i>
+                    name: "Personalizarción",//<i class="material-icons">format_color_fill</i>
                     url: "admin/styles",
                     icon: "format_color_fill"
                 }, {

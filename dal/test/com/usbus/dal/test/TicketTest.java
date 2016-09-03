@@ -50,10 +50,10 @@ public class TicketTest {
         //TENANT
 
         //BUSSTOP
-        BusStop busStop01 = new BusStop(1,1L,"B01",true,1D,0D,0D);
-        BusStop busStop02 = new BusStop(1,2L,"B02",true,1D,0D,15D);
-        BusStop busStop03 = new BusStop(1,3L,"B03",true,1D,15D,15D);
-        BusStop busStop04 = new BusStop(1,4L,"B04",true,1D,30D,15D);
+        BusStop busStop01 = new BusStop(1,1L,"B01",true,1D,0D,0D, "Gutierrez Ruiz 1149");
+        BusStop busStop02 = new BusStop(1,2L,"B02",true,1D,0D,15D, "Gutierrez Ruiz 1149");
+        BusStop busStop03 = new BusStop(1,3L,"B03",true,1D,15D,15D, "Gutierrez Ruiz 1149");
+        BusStop busStop04 = new BusStop(1,4L,"B04",true,1D,30D,15D, "Gutierrez Ruiz 1149");
         busStopDAO.persist(busStop01);
         busStopDAO.persist(busStop02);
         busStopDAO.persist(busStop03);

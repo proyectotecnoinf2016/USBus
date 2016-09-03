@@ -16,12 +16,16 @@
         $scope.compare = compare;
         $scope.addRouteStopsToArray = addRouteStopsToArray;
         $scope.queryBusStops = queryBusStops;
+        $scope.addMarkers = addMarkers;
 
         $scope.theme = theme;
         $scope.routeStops = [];
         $scope.selectedIndex = 0;
         $scope.origin =  [];
         $scope.destination = [];
+        $scope.directions = [];
+
+        $scope.wayPoints = [];
 
         if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
             $scope.tenantId = localStorage.getData('tenantId');
@@ -98,6 +102,12 @@
 
             if (index < $scope.routeStops.length) {
                 $scope.routeStops.splice(index, 1);
+                var i = 0;
+                for (i = 0; i < $scope.wayPoints.length; i++) {
+                    if ($scope.routeStops[index].busStop == $scope.wayPoints[i].location) {
+                        $scope.wayPoints.splice(index, 1);
+                    }
+                }
             }
 
 
@@ -111,10 +121,16 @@
             if ($scope.routeStops != null && $scope.routeStops.length == 0) {
                 if (route.origin.name != null && route.origin.name != '') {
                     $scope.routeStops.push({busStop: route.origin.name, combinationPoint: false});
+
                 }
                 if (route.destination.name != null && route.destination.name != '') {
                     $scope.routeStops.push({busStop: route.destination.name, combinationPoint: false});
                 }
+
+                $scope.directions = [
+                    {origin:route.origin.address, destination:route.destination.address, panelName:"p1"}
+                ];
+
             }
         }
 
@@ -123,6 +139,10 @@
             addRouteStopsToArray(route);
             var index = ($scope.selectedIndex == $scope.max) ? 0 : $scope.selectedIndex + 1;
             $scope.selectedIndex = index;
+        }
+
+        function addMarkers(address) {
+            $scope.wayPoints.push({location: address, stopover: true});
         }
 
         function compare(a,b) {

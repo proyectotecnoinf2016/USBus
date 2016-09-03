@@ -15,7 +15,6 @@
                 return $resource('/rest/api/:tenantId/ticket/:ticketId', {tenantId:'@tenantId', ticketId: '@ticketId'}, {
                     query: {
                         method: 'GET',
-                        isArray: true,
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }

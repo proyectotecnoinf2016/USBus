@@ -22,11 +22,13 @@ public class BusStop extends BaseEntity {
     private Double stopTime;
     private Double latitude;
     private Double longitude;
+    private String address;
 
     public BusStop(){
     }
 
-    public BusStop(long tenantId, Long id, String name, Boolean active, Double stopTime, Double latitude, Double longitude) {
+
+    public BusStop(long tenantId, Long id, String name, Boolean active, Double stopTime, Double latitude, Double longitude, String address) {
         super(tenantId);
         this.id = id;
         this.name = name;
@@ -34,6 +36,7 @@ public class BusStop extends BaseEntity {
         this.stopTime = stopTime;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.address = address;
     }
 
     public Long getId() {
@@ -83,4 +86,13 @@ public class BusStop extends BaseEntity {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 }
