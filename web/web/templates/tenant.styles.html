@@ -34,6 +34,13 @@
 			</md-container>
 			<md-container layout="row" layout layout-padding>
 				<md-container layout layout-margin >
+					<md-input-container layout-padding>
+						<input ng-model="style.humanResourcesURL" >
+					</md-input-container>
+				</md-container>
+			</md-container>
+			<md-container layout="row" layout layout-padding>
+				<md-container layout layout-margin >
 					<md-radio-group ng-model="primaryColor" class="md-primary" layout="column" layout layout-margin ng-change="themeChange()">
 						<md-radio-button ng-repeat="d in primaryData" 
 										 aria-label="d.label"

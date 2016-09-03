@@ -164,6 +164,7 @@
 						$scope.style.logoB64 = logoB64;
 						$scope.style.logoExtension = logoExtension;
 
+
 						if ($scope.header != null &&  $scope.header !== 'undefined' && $scope.header != '') {
 							//alert($scope.header);
 							for (i = 0; i < $scope.header.length; i++) {
@@ -210,6 +211,7 @@
             else {
 				$scope.style.logoB64 = null;
 				$scope.style.logoExtension = null;
+
 				TenantResource.tenant(token).update({
 					tenantId: $scope.tenantId
 				}, $scope.style,function (resp) {
