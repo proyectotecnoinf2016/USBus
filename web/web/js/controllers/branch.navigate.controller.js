@@ -10,14 +10,18 @@
         $scope.showBranches = showBranches;
         $scope.createBranch = createBranch;
         $scope.deleteBranch = deleteBranch;
+        $scope.toggleMap = toggleMap;
+
         $rootScope.$emit('options', 'admin');
 
+        $scope.show = "Ver";
         $scope.message = '';
         $scope.tenantId = 0;
         $scope.branches = [];
-        var latitude = -34.908894599999996;
+        /*var latitude = -34.908894599999996;
         var longitude = -56.197728299999994;
-        $scope.address = latitude + ',' + longitude;
+        $scope.address = latitude + ',' + longitude;*/
+        $scope.address = [];
 
 
 
@@ -49,7 +53,14 @@
         }).$promise.then(function(result) {
             console.log(result);
             $scope.branches = result;
-
+            var i =  0;
+            for (i = 0; i < $scope.branches.length; i++) {
+                if ($scope.branches[i].address != null) {
+                    console.log($scope.branches[i].address);
+                    $scope.address.push($scope.branches[i].address);
+                }
+            }
+            console.log($scope.address);
         });
 
 
@@ -123,6 +134,16 @@
                 $scope.message = 'No se han encontrado elementos que cumplan con el criterio solicitado.';
             }
 
+        }
+
+
+        function toggleMap() {
+            if ($scope.show == 'Ver') {
+                $scope.show = 'Ocultar';
+            }
+            else {
+                $scope.show = 'Ver';
+            }
         }
 
     }

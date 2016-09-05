@@ -156,7 +156,7 @@
 
 		<div layout="column" ng-controller="IndexController" md-theme="{{theme}}" md-theme-watch="true" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
         
-           <section layout="row" >
+            <section layout="row" >
                 <div  class="layout-padding " layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25" >
                     <md-button class="md-raised md-primary customButton" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">
                         <md-icon class="indexIcon" >{{item.icon}}</md-icon>
@@ -164,9 +164,9 @@
                     </md-button>
                 </div>
 
-               <div hide >
-                   <md-sidenav layout-fill class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
-                       <md-content class="" style="background-color: rgb(63,81,181);" >
+                <div hide >
+                    <md-sidenav layout-fill class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
+                        <md-content class="" style="background-color: rgb(63,81,181);" >
 
                             <span ng-repeat="item in menuOptions"  ng-click="redirectTo(item.url);" class="pointer">
                                 <p hide-md="" show-gt-md="" style="padding-left: 10%; color:white;" >
@@ -182,29 +182,29 @@
 
 
                 </div>
-               <div hide-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  >
-                   <md-fab-speed-dial md-direction="down" class=" md-scale">
-                       <md-fab-trigger>
-                           <md-button aria-label="menu" class="md-fab md-warn">
-                               <md-icon>menu</md-icon>
-                           </md-button>
-                       </md-fab-trigger>
-                       <md-fab-actions>
-                           <!-- MENU VIRTUAL STORAGES NAVIGATE -->
-                           <span ng-repeat="item in menuOptions" >
-                               <md-button  aria-label="RemoveStock" class="md-fab md-raised md-mini md-accent" ng-click="redirectTo(item.url);">
-                                   <md-tooltip md-direction="top">{{item.name}}</md-tooltip>
-                                   <md-icon>{{item.icon}}</md-icon>
-                               </md-button>
-                           </span>
-                       </md-fab-actions>
-                   </md-fab-speed-dial>
-               </div>
+                <div hide-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  >
+                    <md-fab-speed-dial md-direction="down" class=" md-scale">
+                        <md-fab-trigger>
+                            <md-button aria-label="menu" class="md-fab md-warn">
+                                <md-icon>menu</md-icon>
+                            </md-button>
+                        </md-fab-trigger>
+                        <md-fab-actions>
+                            <!-- MENU VIRTUAL STORAGES NAVIGATE -->
+                            <span ng-repeat="item in menuOptions" >
+                                <md-button  aria-label="RemoveStock" class="md-fab md-raised md-mini md-accent" ng-click="redirectTo(item.url);">
+                                    <md-tooltip md-direction="top">{{item.name}}</md-tooltip>
+                                    <md-icon>{{item.icon}}</md-icon>
+                                </md-button>
+                            </span>
+                        </md-fab-actions>
+                    </md-fab-speed-dial>
+                </div>
 
-			    <md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> </md-content>
+                <md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> Inicio >  </md-content>
                 
 
-            </section>
+           </section>
 
         </div>
 

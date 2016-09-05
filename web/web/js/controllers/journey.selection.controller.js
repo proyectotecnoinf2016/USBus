@@ -99,7 +99,12 @@
         }
 
         function getTickets(journey) {
-            console.log(journey.date);
+            /*console.log(journey.date);
+            $scope.ticket.getOnStopName = $scope.getOnStopName.busStop;
+            $scope.ticket.getOffStopName = $scope.getOffStopName.busStop;
+            */
+
+            console.log($scope.getOnStopName.busStop);
             TicketResource.tickets(token).query({
                 offset: 0,
                 limit: 100,
@@ -107,14 +112,23 @@
                 journeyId: journey.id,
                 status: 'CONFIRMED',
                 username: '',
-                query: 'JOURNEY'
+                routeStopKmA: $scope.getOnStopName.km,
+                routeStopKmB: $scope.getOffStopName.km,
+                query: 'OCCUPIEDSEATS'
             }).$promise.then(function(result) {
                 console.log(result);
-                $scope.tickets = result;
-
+                $scope.tickets = result.sold;
+                $scope.reservations = result.booked;
                 var i = 0;
                 for (i = 0; i < $scope.tickets.length; i++) {
-                    $scope.soldSeats.push($scope.tickets[i].seat );
+                    $scope.soldSeats.push($scope.tickets[i].number );
+                }
+
+                console.log($scope.reservations);
+
+                var j = 0;
+                for (j = 0; j < $scope.reservations; j++) {
+                    $scope.reservedSeats.push($scope.reservations[j].number);
                 }
 
             });
@@ -122,7 +136,7 @@
 
         function getReservations(journey){
 
-            console.log(journey.date);
+
             ReservationResource.reservations(token).query({
                 offset: 0,
                 limit: 100,
@@ -133,11 +147,7 @@
             }).$promise.then(function(result) {
                 console.log(result);
                 $scope.reservations = result;
-                //$scope.reservedSeats = result;
-                var i = 0;
-                for (i = 0; i < result.length; i++) {
-                    $scope.reservedSeats.push(result[i].seat);
-                }
+
             });
 
         }
@@ -189,20 +199,14 @@
 
         function selectStops(journey) {
             nextTab();
-
-
-            getReservations(journey);
-            getTickets(journey);
-
-            showTicket(journey);
+            $scope.journeyNotSelected = false;
+            $scope.journey = journey;
         }
 
 
         function showTicket(journey) {
-            $scope.journeyNotSelected = false;
-            console.log(journey);
+
             $scope.showJourneys = false;
-            $scope.journey = journey;
 
             $scope.dueDate = $scope.journey.date;
             $scope.dueDate = $scope.dueDate - 30 * 60000;
@@ -411,6 +415,9 @@
                     console.log('ticket');
                     console.log($scope.ticket);
 
+                    $scope.ticket.kmGetsOn = $scope.getOnStopName.km;
+                    $scope.ticket.kmGetsOff = $scope.getOffStopName.km;
+
                     TicketResource.tickets(token).save({
                         tenantId: $scope.tenantId
 
@@ -435,6 +442,9 @@
                     $scope.ticket.active = true;
                     $scope.ticket.tenantId = $scope.tenantId;
                     $scope.ticket.dueDate = $scope.dueDate;
+                    $scope.ticket.getsOn = $scope.ticket.getOnStopName.busStop;
+                    $scope.ticket.getsOff = $scope.ticket.getOffStopName.busStop;
+
                     delete $scope.ticket["getOnStopName"];
                     delete $scope.ticket["getOffStopName"];
 
@@ -492,12 +502,23 @@
         };
 
         function nextTab() {
+            if ($scope.selectedIndex == 1) {
+                getReservations($scope.journey);
+                getTickets($scope.journey);
+
+                showTicket($scope.journey);
+            }
+
             if ($scope.selectedIndex == 2) {
                 calculatePrice();
             }
 
+            console.log($scope.selectedIndex);
+
             var index = ($scope.selectedIndex == $scope.max) ? 0 : $scope.selectedIndex + 1;
             $scope.selectedIndex = index;
+
+            console.log(index);
         }
 
 

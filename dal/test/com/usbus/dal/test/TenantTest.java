@@ -52,10 +52,12 @@ public class TenantTest {
 
         String theme = "Nombre del theme";
 
-        dao.saveTenantStyle(tenantId, logo, logoExtension, header, headerExtension, busColor, showBus, theme);
-        dao.saveTenantStyle(2, null, null, header, headerExtension, busColor, showBus, theme);
-        dao.saveTenantStyle(3, logo, logoExtension, null, null, null, null, null);
-        dao.saveTenantStyle(3, logo, logoExtension, null, null, busColor, showBus, theme);
+        String humanResourcesURL = "google.com";
+
+        dao.saveTenantStyle(tenantId, logo, logoExtension, header, headerExtension, busColor, showBus, theme, humanResourcesURL);
+        dao.saveTenantStyle(2, null, null, header, headerExtension, busColor, showBus, theme, humanResourcesURL);
+        dao.saveTenantStyle(3, logo, logoExtension, null, null, null, null, null, null);
+        dao.saveTenantStyle(3, logo, logoExtension, null, null, busColor, showBus, theme, null);
     }
 
     @Test

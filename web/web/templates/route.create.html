@@ -1,4 +1,4 @@
-<md-dialog aria-label="Crear Ruta" ng-cloak style="width: 70%"  md-theme="{{theme}}" md-theme-watch="true">
+<md-dialog aria-label="Crear Ruta" ng-cloak flex="50"  md-theme="{{theme}}" md-theme-watch="true" class="modal">
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -9,6 +9,8 @@
         </md-toolbar>
 
         <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
+
+
             <md-tab label="Datos de Ruta" >
 
                 <md-dialog-content layout="column" layout-margin class="">
@@ -78,8 +80,19 @@
 
             </md-tab>
             <md-tab label="Información de las Paradas" ng-click="addRouteStopsToArray(route);">
+                <ng-map center="-34.908894599999996,-56.197728299999994" zoom="15" style="height: 200px">
+                    <directions ng-repeat="dir in directions"
+                            draggable="false"
+                            travel-mode="DRIVING"
+                            panel="directions-panel"
+                            waypoints="{{wayPoints}}"
+                            origin="{{dir.origin}}"
+                            destination="{{dir.destination}}">
+                    </directions>
+                </ng-map>
+
                 <md-content >
-                    <md-content >
+                    <md-content style="height: 300px;overflow-y: scroll;" >
                     <span layout="row" >
                         <h3 class="grayHeader tableRow" flex="35">
                             Nombre
@@ -97,18 +110,18 @@
                         <md-divider ></md-divider>
                     <span>
                         <span layout="row" ng-repeat="item in routeStops" >
-                            <md-input-container layout-padding flex="35">
-                                <input ng-model="item.busStop" >
+                            <md-input-container layout-padding flex="35" style="height: 30px!important" >
+                                <input ng-model="item.busStop" ng-blur="addMarkers(item.busStop)">
                             </md-input-container>
-                            <md-input-container layout-padding  flex="35">
+                            <md-input-container layout-padding  flex="35" style="height: 30px!important">
                                 <input ng-model="item.km" >
                             </md-input-container>
-                            <md-input-container  ng-show="route.hasCombination" layout layout-align="start center" layout-padding flex >
+                            <md-input-container  ng-show="route.hasCombination" layout layout-align="start center" layout-padding flex style="height: 30px!important">
                                 <md-checkbox ng-model="item.combinationPoint" aria-label="Checkbox 1" ></md-checkbox>
                             </md-input-container>
 
                             <p class="" flex="10" layout layout-align="start start" layout-padding>
-                                <img src="img/Delete_Icon.png" ng-click="deleteRouteStop(item)" style="width: 30px" class="pointer"/>
+                                <img src="img/Delete_Icon.png" ng-click="deleteRouteStop(item)" style="width: 20px" class="pointer"/>
                             </p>
                         </span>
                     </span>

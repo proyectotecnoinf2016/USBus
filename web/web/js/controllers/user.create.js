@@ -69,7 +69,7 @@
             
             item.roles = $scope.selectedRoles;
             HumanResource.resources(token).save({tenantId: $scope.tenantId },item, function(){
-                showAlert('Exito!', 'Se ha creado el servicio de forma exitosa');
+                showAlert('Exito!', 'Se ha creado el usuario de forma exitosa');
             }, function (error) {
                 console.log(error);
                 showAlert('Error!', 'Ocurrió un error');
