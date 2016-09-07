@@ -127,7 +127,7 @@
                 console.log($scope.reservations);
 
                 var j = 0;
-                for (j = 0; j < $scope.reservations; j++) {
+                for (j = 0; j < $scope.reservations.length; j++) {
                     $scope.reservedSeats.push($scope.reservations[j].number);
                 }
 
@@ -442,8 +442,9 @@
                     $scope.ticket.active = true;
                     $scope.ticket.tenantId = $scope.tenantId;
                     $scope.ticket.dueDate = $scope.dueDate;
-                    $scope.ticket.getsOn = $scope.ticket.getOnStopName.busStop;
-                    $scope.ticket.getsOff = $scope.ticket.getOffStopName.busStop;
+
+                    $scope.ticket.getsOn = $scope.ticket.getOnStopName;
+                    $scope.ticket.getsOff = $scope.ticket.getOffStopName;
 
                     delete $scope.ticket["getOnStopName"];
                     delete $scope.ticket["getOffStopName"];
