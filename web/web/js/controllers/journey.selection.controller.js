@@ -28,6 +28,7 @@
         $scope.compare = compare;
         $scope.cancelTicket = cancelTicket;
         $scope.getTickets = getTickets;
+        $scope.showCancelSell = showCancelSell;
         $scope.showConfirm = showConfirm;
         $scope.findSeat = findSeat;
 
@@ -104,6 +105,20 @@
             $scope.ticket.getOffStopName = $scope.getOffStopName.busStop;
             */
 
+            TicketResource.tickets(token).queryArray({
+                offset: 0,
+                limit: 100,
+                tenantId: $scope.tenantId,
+                journeyId: journey.id,
+                status: 'CONFIRMED',
+                username: '',
+                query: 'JOURNEY'
+            }).$promise.then(function(result) {
+                $scope.currentTickets = result;
+            })
+
+
+
             console.log($scope.getOnStopName.busStop);
             TicketResource.tickets(token).query({
                 offset: 0,
@@ -127,7 +142,7 @@
                 console.log($scope.reservations);
 
                 var j = 0;
-                for (j = 0; j < $scope.reservations; j++) {
+                for (j = 0; j < $scope.reservations.length; j++) {
                     $scope.reservedSeats.push($scope.reservations[j].number);
                 }
 
@@ -135,8 +150,6 @@
         }
 
         function getReservations(journey){
-
-
             ReservationResource.reservations(token).query({
                 offset: 0,
                 limit: 100,
@@ -146,7 +159,7 @@
                 query: 'JOURNEY'
             }).$promise.then(function(result) {
                 console.log(result);
-                $scope.reservations = result;
+                $scope.currentReservations = result;
 
             });
 
@@ -269,16 +282,56 @@
         }
 
 
+        function showCancelSell(title, textContent, item) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            var confirm = $mdDialog.confirm()
+                .title(title)
+                .textContent(textContent)
+                .theme($scope.theme)
+                .ariaLabel('Lucky day')
+                .ok('Aceptar')
+                .cancel('Cancelar');
+
+            $mdDialog.show(confirm).then(function() {
+                if (soldSeat(item, $scope.soldSeats)) {
+                    var i = 0;
+                    for (i = 0; i < $scope.tickets.length; i++) {
+                        if ($scope.tickets[i].number == item) {
+                            TicketResource.tickets(token).delete({
+                                tenantId: $scope.tenantId,
+                                journeyId: $scope.journey.id,
+                                ticketId: $scope.currentTickets[i].id
+
+                            },function (resp) {
+                                console.log(resp);
+                                cancel();
+                                showAlert('Exito!', 'Se ha cancelado el pasaje de forma exitosa');
+                            }, function (error) {
+                                console.log(error);
+                                showAlert('Error!', 'Ocurrio un error al cancelar el pasaje');
+                            } );
+                        }
+                    }
+
+
+                }
+            }, function() {
+                $scope.status = 'You decided to keep your debt.';
+            });
+
+        }
+
+
         function selectedSeat(item) {
             var i = 0;
 
             if (soldSeat(item, $scope.reservedSeats)) {
                 for (i = 0; i < $scope.reservations.length; i++) {
-                    if ($scope.reservations[i].seat == item) {
+                    if ($scope.reservations[i].number == item) {
                         $scope.reservationToRemove = item;
-                        showConfirm('Confirmación', 'Esta seguro que desea vender este asiento? ' +
-                            '\nIdentificación de usuario: ' + $scope.reservations[i].clientId, item);
-                        console.log($scope.reservations[i].clientId);
+                        showConfirm('Confirmación', '¿Está seguro que desea vender este asiento? ' +
+                            '\nIdentificación de usuario: ' + $scope.currentReservations[i].clientId, item);
+                        console.log($scope.currentReservations[i].clientId);
                     }
                 }
             }
@@ -442,8 +495,9 @@
                     $scope.ticket.active = true;
                     $scope.ticket.tenantId = $scope.tenantId;
                     $scope.ticket.dueDate = $scope.dueDate;
-                    $scope.ticket.getsOn = $scope.ticket.getOnStopName.busStop;
-                    $scope.ticket.getsOff = $scope.ticket.getOffStopName.busStop;
+
+                    $scope.ticket.getsOn = $scope.ticket.getOnStopName;
+                    $scope.ticket.getsOff = $scope.ticket.getOffStopName;
 
                     delete $scope.ticket["getOnStopName"];
                     delete $scope.ticket["getOffStopName"];
@@ -531,15 +585,14 @@
         }
 
         function cancelTicket(item) {
-            console.log($scope.journey.id);
             if (soldSeat(item, $scope.reservedSeats)) {
                 var i = 0;
                 for (i = 0; i < $scope.reservations.length; i++) {
-                    if ($scope.reservations[i].seat == item) {
+                    if ($scope.reservations[i].number == item) {
                         console.log($scope.reservations[i].id);
                         ReservationResource.reservations(token).delete({
                             tenantId: $scope.tenantId,
-                            reservationId: $scope.reservations[i].id,
+                            reservationId: $scope.currentReservations[i].id,
                             journeyId: $scope.journey.id
 
                         },function (resp) {
@@ -559,26 +612,7 @@
             }
 
             if (soldSeat(item, $scope.soldSeats)) {
-                var i = 0;
-                for (i = 0; i < $scope.tickets.length; i++) {
-                    if ($scope.tickets[i].seat == item) {
-                        TicketResource.tickets(token).delete({
-                            tenantId: $scope.tenantId,
-                            journeyId: $scope.journey.id,
-                            ticketId: $scope.tickets[i].id
-
-                        },function (resp) {
-                            console.log(resp);
-                            cancel();
-                            showAlert('Exito!', 'Se ha cancelado el pasaje de forma exitosa');
-                        }, function (error) {
-                            console.log(error);
-                            showAlert('Error!', 'Ocurrio un error al cancelar el pasaje');
-                        } );
-                    }
-                }
-
-
+                showCancelSell('Confirmación', '¿Está seguro que desea cancelar este pasaje?', item)
             }
         }
 
