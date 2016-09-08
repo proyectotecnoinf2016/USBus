@@ -106,13 +106,13 @@ public class AATest {
     public void busStopTest() {
         //busStopDAO.clean();
 
-        BusStop bs = new BusStop(2, 1L, "Montevideo", true, 10.0, -34.893664, -56.166309);
+        BusStop bs = new BusStop(2, 1L, "Montevideo", true, 10.0, -34.893664, -56.166309, "Bv. Artigas 1234");
         busStopDAO.persist(bs);
 
-        bs = new BusStop(2, 2L, "Plaza Cuba", true, 10.0, -34.872286, -56.202858);
+        bs = new BusStop(2, 2L, "Plaza Cuba", true, 10.0, -34.872286, -56.202858, "Bv. Artigas 4321");
         busStopDAO.persist(bs);
 
-        bs = new BusStop(2, 3L, "Colonia", true, 10.0, -34.472533, -57.842681);
+        bs = new BusStop(2, 3L, "Colonia", true, 10.0, -34.472533, -57.842681, "Sacramento 123");
         busStopDAO.persist(bs);
     }
 
@@ -171,19 +171,19 @@ public class AATest {
         Parcel p = new Parcel(2, 1L, dim, 200, 1L, 1L, 2L, "Jean Luc", "Andres Araujo", false, false, true);
         parcelDAO.persist(p);
 
-        p = new Parcel(2, 2L, dim, 220, 1L, 1L, 2L, "Montevideo", "Plaza Cuba", false, false, true);
+        p = new Parcel(2, 2L, dim, 220, 1L, 1L, 2L, "Pepe", "Kavesa", false, false, true);
         parcelDAO.persist(p);
 
-        p = new Parcel(2, 3L, dim, 230, 1L, 1L, 2L, "Montevideo", "Plaza Cuba", false, false, true);
+        p = new Parcel(2, 3L, dim, 230, 1L, 1L, 2L, "Pepa", "Asevak", false, false, true);
         parcelDAO.persist(p);
 
-        p = new Parcel(2, 4L, dim, 240, 1L, 1L, 2L, "Montevideo", "Plaza Cuba", false, false, true);
+        p = new Parcel(2, 4L, dim, 240, 1L, 1L, 2L, "Luli", "Ernest", false, false, true);
         parcelDAO.persist(p);
 
-        p = new Parcel(2, 5L, dim, 250, 1L, 1L, 2L, "Montevideo", "Plaza Cuba", false, false, true);
+        p = new Parcel(2, 5L, dim, 250, 1L, 1L, 2L, "Fede", "Rico", false, false, true);
         parcelDAO.persist(p);
 
-        p = new Parcel(2, 6L, dim, 260, 1L, 1L, 3L, "Montevideo", "Colonia", false, false, true);
+        p = new Parcel(2, 6L, dim, 260, 1L, 1L, 3L, "Darth", "Vader", false, false, true);
         parcelDAO.persist(p);
     }
 }
