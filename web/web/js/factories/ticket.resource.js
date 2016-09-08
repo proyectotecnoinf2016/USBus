@@ -19,6 +19,13 @@
                             'Authorization': 'Bearer ' + token
                         }
                     },
+                    queryArray: {
+                        method: 'GET',
+                            isArray: true,
+                            headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    },
                     save: {
                         method: 'POST',
                         headers: {

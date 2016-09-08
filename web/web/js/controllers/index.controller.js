@@ -14,6 +14,7 @@
         //$scope.showBus = true;
         $scope.busColor = 'Red';
 
+
         $scope.tenantName = 'USBus';
         $scope.userName = 'Invitado';
 
