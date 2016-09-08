@@ -5,10 +5,10 @@
 (function () {
     'use strict';
     angular.module('usbus').controller('HomeController', HomeController);
-    HomeController.$inject = ['$scope', '$rootScope', 'localStorage', '$location'];
+    HomeController.$inject = ['$scope', '$rootScope', 'localStorage', '$location', '$window'];
     /* @ngInject */
-    function HomeController($scope, $rootScope, localStorage, $location) {
-        //TODO: la variable show depende de si el loquito esta dentro de un menu con muchas opciones o no
+    function HomeController($scope, $rootScope, localStorage, $location, $window) {
+        $scope.redirectToHHRR = redirectToHHRR;
 
         $scope.token = null;
 
@@ -43,5 +43,9 @@
 		function redirectTo(path) {
 			$location.url($location.path() + '/' + path);
 		}
+
+		function redirectToHHRR() {
+            $window.open(localStorage.getData('humanResourcesURL'));
+        }
     }
 })();

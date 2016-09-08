@@ -11,10 +11,12 @@ public class TenantStyleAux {
     private String busColor;
     private Boolean showBus;
     private String theme;
+    private String humanResourcesURL;
 
     public TenantStyleAux(){}
 
-    public TenantStyleAux(String logoB64, String logoExtension, String headerB64, String headerExtension, String busColor, Boolean showBus, String theme) {
+    public TenantStyleAux(String logoB64, String logoExtension, String headerB64,
+                          String headerExtension, String busColor, Boolean showBus, String theme, String humanResourcesURL) {
         this.logoB64 = logoB64;
         this.logoExtension = logoExtension;
         this.headerB64 = headerB64;
@@ -22,6 +24,7 @@ public class TenantStyleAux {
         this.busColor = busColor;
         this.showBus = showBus;
         this.theme = theme;
+        this.humanResourcesURL = humanResourcesURL;
     }
 
     public String getLogoB64() {
@@ -79,4 +82,8 @@ public class TenantStyleAux {
     public void setTheme(String theme) {
         this.theme = theme;
     }
+
+    public String getHumanResourcesURL() { return humanResourcesURL; }
+
+    public void setHumanResourcesURL(String humanResourcesURL) { this.humanResourcesURL = humanResourcesURL; }
 }

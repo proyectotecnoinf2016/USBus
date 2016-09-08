@@ -39,7 +39,7 @@
                 showAlert('Exito!', 'Se ha creado su sucursal de forma exitosa');
             }, function (error) {
                 console.log(error);
-                showAlert('Error!', 'Ocurrió un error al registrar el TENANT');
+                showAlert('Error!', 'Ocurrió un error al crear la sucursal');
             });
         }
 

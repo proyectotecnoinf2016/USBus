@@ -69,7 +69,7 @@ public class BusStopDAO {
     }
 
     public BusStop getByLocalId(long tenantId, Long id) {
-        if (tenantId > 0 || id == null) {
+        if (tenantId < 0 || id == null) {
             return null;
         } else {
             Query<BusStop> query = ds.createQuery(BusStop.class);
