@@ -39,7 +39,7 @@
                         required  layout-margin>
 
                     <md-item-template>
-                        <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }}</span>
+                        <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }} - {{item.time | date:'HH:mm'}}</span>
                     </md-item-template>
                     <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
                 </md-autocomplete>

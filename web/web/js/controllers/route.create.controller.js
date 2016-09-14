@@ -142,6 +142,12 @@
         }
 
         function addMarkers(address) {
+
+            $scope.wayPoints = [];
+            var i = 0;
+            for (i = 1; i < $scope.routeStops.length - 1; i++) {
+                $scope.routeStops.sort(compare)[i]
+            }
             $scope.wayPoints.push({location: address, stopover: true});
         }
 
