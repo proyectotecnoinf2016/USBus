@@ -64,6 +64,23 @@ public class TicketDAO {
         return query.get();
     }
 
+    public Ticket getByLocalIdAndTenantName(String tenantName, Long id) {
+        if (tenantName.equals(null) || tenantName.isEmpty() || (id == null)) {
+            return null;
+        }
+
+        Query<Tenant> queryT = ds.createQuery(Tenant.class);
+        queryT.limit(1).criteria("name").equal(tenantName);
+        Tenant tenant = queryT.get();
+        long tenantId = tenant.getTenantId();
+        Query<Ticket> query = ds.createQuery(Ticket.class);
+
+        query.and(query.criteria("id").equal(id),
+                query.criteria("tenantId").equal(tenantId));
+
+        return query.get();
+    }
+
     public List<Ticket> TicketsByBuyerAndStatus(Long tenantId,String username, TicketStatus status, int offset, int limit) {
         if ((!(tenantId>0))|| (username == null) || (status == null)) {
             return null;

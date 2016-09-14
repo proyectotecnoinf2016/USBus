@@ -1,5 +1,6 @@
 package com.usbus.bll.administration.interfaces;
 
+import com.itextpdf.text.DocumentException;
 import com.usbus.commons.auxiliaryClasses.TicketConfirmation;
 import com.usbus.commons.enums.TicketStatus;
 import com.usbus.commons.exceptions.TicketException;
@@ -8,6 +9,7 @@ import org.bson.types.ObjectId;
 import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ejb.Local;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,4 +27,5 @@ public interface TicketLocal {
     List<Integer> getFreeSeatsForRouteStop(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId);
     JSONObject getOccupiedSeatsForSubRoute(long tenantId, Double routeStopKmA, Double routeStopKmB, Long journeyId);
     List<Ticket> updateTicketsStatus(long tenantId, Long journeyId, String routeStop);
+    String createPDF(String tenantName, Long ticketid) throws IOException, DocumentException;
 }

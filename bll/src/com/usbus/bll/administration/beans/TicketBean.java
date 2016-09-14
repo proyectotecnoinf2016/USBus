@@ -1,5 +1,6 @@
 package com.usbus.bll.administration.beans;
 
+import com.itextpdf.text.DocumentException;
 import com.sun.deploy.util.ArrayUtil;
 import com.usbus.bll.administration.interfaces.TicketLocal;
 import com.usbus.bll.administration.interfaces.TicketRemote;
@@ -19,6 +20,7 @@ import org.bson.types.ObjectId;
 import org.jose4j.json.internal.json_simple.JSONObject;
 
 import javax.ejb.Stateless;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,6 +78,13 @@ public class TicketBean implements TicketLocal, TicketRemote {
     @Override
     public List<Ticket> updateTicketsStatus(long tenantId, Long journeyId, String routeStop) {
         return dao.updateTicketsStatus(tenantId, journeyId, routeStop);
+    }
+
+    @Override
+    public String createPDF(String tenantName, Long ticketid) throws IOException, DocumentException {
+        //Ticket ticket = getByLocalId(tenantName, ticketid);
+        Ticket ticket = dao.getByLocalIdAndTenantName(tenantName, ticketid);
+        return dao.createPDF(tenantName, ticket);
     }
 
     @Override
