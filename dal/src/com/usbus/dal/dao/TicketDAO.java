@@ -1,5 +1,8 @@
 package com.usbus.dal.dao;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BarcodeQRCode;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.usbus.commons.auxiliaryClasses.RouteStop;
 import com.usbus.commons.auxiliaryClasses.Seat;
 import com.usbus.commons.enums.TicketStatus;
@@ -14,10 +17,9 @@ import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Lufasoch on 30/05/2016.
@@ -54,6 +56,23 @@ public class TicketDAO {
             return null;
         }
 
+        Query<Ticket> query = ds.createQuery(Ticket.class);
+
+        query.and(query.criteria("id").equal(id),
+                query.criteria("tenantId").equal(tenantId));
+
+        return query.get();
+    }
+
+    public Ticket getByLocalIdAndTenantName(String tenantName, Long id) {
+        if (tenantName.equals(null) || tenantName.isEmpty() || (id == null)) {
+            return null;
+        }
+
+        Query<Tenant> queryT = ds.createQuery(Tenant.class);
+        queryT.limit(1).criteria("name").equal(tenantName);
+        Tenant tenant = queryT.get();
+        long tenantId = tenant.getTenantId();
         Query<Ticket> query = ds.createQuery(Ticket.class);
 
         query.and(query.criteria("id").equal(id),
@@ -332,5 +351,163 @@ public class TicketDAO {
         } else {
             return null;
         }
+    }
+
+    public static byte[] fileToByteArray(String fileName) {
+        try {
+            File f = new File(fileName);
+            FileInputStream in = new FileInputStream(f);
+            byte[] bytes = new byte[(int)f.length()];
+            int c = -1;
+            int ix = 0;
+            while ((c = in.read()) > -1) {
+                System.out.println(c);
+                bytes[ix] = (byte)c;
+                ix++;
+            }
+            in.close();
+            return bytes;
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String createPDF(String tenantName, Ticket ticket) throws DocumentException, IOException, FileNotFoundException {
+        // OBTENER TENANT
+        Tenant tenantOriginal = null;
+        if (tenantName != null && !tenantName.isEmpty()) {
+
+            Query<Tenant> query = ds.createQuery(Tenant.class);
+            query.limit(1).criteria("name").equal(tenantName);
+            tenantOriginal = query.get();
+        }
+        // SO CHECK! FOLDER CHECK! PATH CHECK!...
+        if (tenantOriginal != null) {
+            String OS = System.getProperty("os.name");
+            String stringAux;
+            File path = null;
+
+            // MUST NOT USE DATE AGAIN
+            Date emissionDate = ticket.getEmissionDate();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(emissionDate);
+            Integer year = cal.get(Calendar.YEAR);
+            Integer month = cal.get(Calendar.MONTH)+1;
+            Integer day = cal.get(Calendar.DAY_OF_MONTH);
+            Integer hour = cal.get(Calendar.HOUR_OF_DAY);
+            Integer minute = cal.get(Calendar.MINUTE);
+            String Syear = year.toString();
+            String Smon;
+            String Sday;
+            String Shour;
+            String Smin;
+
+            if(month < 10){
+                Smon = "0"+month.toString();
+            }else {
+                Smon = month.toString();
+            }
+            if(day < 10) {
+                Sday = "0"+day.toString();
+            } else {
+                Sday = day.toString();
+            }
+            if(hour < 10) {
+                Shour = "0"+hour.toString();
+            } else {
+                Shour = hour.toString();
+            }
+            if(minute < 10) {
+                Smin = "0"+minute.toString();
+            } else {
+                Smin = minute.toString();
+            }
+
+//            if (OS.startsWith("Windows")) {
+//                stringAux = "C:" + File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+//                        tenantOriginal.getName() + File.separator + year.toString()+"-"+Smon + File.separator + Sday + File.separator +
+//                        ticket.getId() + ".pdf";
+//                path = new File("C:" + File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+//                        tenantOriginal.getName() + File.separator + year.toString()+"-"+Smon + File.separator + Sday + File.separator);
+//                if (!(path.exists() && path.isDirectory())) {
+//                    path.mkdirs();
+//                }
+//            } else {
+//                stringAux = File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+//                        tenantOriginal.getName() + File.separator + year.toString()+"-"+Smon + File.separator + Sday + File.separator
+//                        + ticket.getId() + ".pdf";
+//                path = new File(File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+//                        tenantOriginal.getName() + File.separator + year.toString()+"-"+Smon + File.separator + Sday + File.separator);
+//                if (!(path.exists() && path.isDirectory())) {
+//                    path.mkdirs();
+//                }
+//            }
+
+            if (OS.startsWith("Windows")) {
+                stringAux = "C:" + File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+                        tenantOriginal.getName() + File.separator + ticket.getBranchId() + ticket.getWindowId()
+                + ticket.getId() + ".pdf";
+                path = new File("C:" + File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+                        tenantOriginal.getName() + File.separator);
+                if (!(path.exists() && path.isDirectory())) {
+                    path.mkdirs();
+                }
+            } else {
+                stringAux = File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+                        tenantOriginal.getName() + File.separator + ticket.getBranchId() + ticket.getWindowId()
+                        + ticket.getId() + ".pdf";
+                path = new File(File.separator + "USBus" + File.separator + "Tickets" + File.separator +
+                        tenantOriginal.getName() + File.separator);
+                if (!(path.exists() && path.isDirectory())) {
+                    path.mkdirs();
+                }
+            }
+
+//            // OBTENER USUARIO
+//            Query<User> query = ds.createQuery(User.class);
+//            query.and(query.criteria("username").equal(passengerNickname),
+//                    query.criteria("tenantId").equal(tenantOriginal.getTenantId()));
+//            query.retrievedFields(false,"salt","passwordHash");
+//            User user = query.get();
+
+            // CREAR DOCUMENTO
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(stringAux));
+            document.open();
+
+            String qr ="{\"tenantId\":"+tenantOriginal.getTenantId()+", \"id\":"+ticket.getId()+"}";
+            BarcodeQRCode qrcode = new BarcodeQRCode(qr.trim(), 1, 1, null);
+            Image qrcodeImage = qrcode.getImage();
+            qrcodeImage.setPaddingTop(0);
+            qrcodeImage.scalePercent(400);
+
+            document.addAuthor(tenantName);
+            document.addCreationDate();
+
+            document.add(new Paragraph(""));
+            document.add(new Paragraph("    " + tenantOriginal.getName()));
+            document.add(new Paragraph("Suc/Puesto "+ ticket.getBranchId() + " / " + ticket.getWindowId()));
+            document.add(new Paragraph("Funcionario: " + ticket.getSellerName()));
+            document.add(new Paragraph("Fecha: " + Sday + "/" + Smon + "/" + Sday + " " + Shour + ":" + Smin));
+            document.add(new Paragraph("Ticket: " + ticket.getId()));
+            document.add(new Paragraph("Servicio: " + ticket.getJourney().getService().getName()));
+            document.add(new Paragraph("Sube en: " + ticket.getGetsOn().getName()));
+            document.add(new Paragraph("Baja en: " + ticket.getGetsOff().getName()));
+            document.add(qrcodeImage);
+
+            // step 5
+            document.close();
+
+            // step 6
+            byte[] buf = fileToByteArray(stringAux);
+            String b64 = new sun.misc.BASE64Encoder().encode(buf);
+            return b64;
+
+            // congratulations!!!
+            // now you are a pokemon master!
+        }
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.usbus.services.administration;
 
+import com.itextpdf.text.DocumentException;
 import com.usbus.bll.administration.beans.TicketBean;
 import com.usbus.commons.auxiliaryClasses.TicketConfirmation;
 import com.usbus.commons.enums.Rol;
@@ -15,6 +16,7 @@ import org.jose4j.json.internal.json_simple.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -68,7 +70,9 @@ public class TicketService {
                                @QueryParam("routeStopKmA") Double routeStopKmA,
                                @QueryParam("routeStopKmB") Double routeStopKmB,
                                @QueryParam("query") String query,
-                               @QueryParam("routeStop") String routeStop) {
+                               @QueryParam("routeStop") String routeStop,
+                               @QueryParam("tenantName") String tenantName,
+                               @QueryParam("ticketid")Long ticketid) throws IOException, DocumentException {
 
         List<Ticket> ticketList;
         switch (query.toUpperCase()) {
@@ -111,6 +115,14 @@ public class TicketService {
                         return Response.status(Response.Status.NOT_MODIFIED).build();
                     }
                     return Response.ok(updatedTickets).build();
+                }
+            case "RECEIPT":
+                if (journeyId > 0) {
+                    String ticketAux = ejb.createPDF(tenantName,ticketid);
+                    if (ticketAux.equals(null) || ticketAux.isEmpty()) {
+                        return Response.status(Response.Status.NO_CONTENT).build();
+                    }
+                    return Response.ok(ticketAux).build();
                 }
         }
         return Response.status(Response.Status.EXPECTATION_FAILED).build();
