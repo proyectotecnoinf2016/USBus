@@ -4,9 +4,9 @@
 (function() {
     'use strict';
     angular.module('usbus').controller('LoginController', LoginController);
-    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource','localStorage', '$location', '$rootScope', 'theme'];
+    LoginController.$inject = [ '$scope', '$mdDialog', 'LoginUserResource','localStorage', 'BranchResource', '$location', '$rootScope', 'theme'];
     /* @ngInject */
-    function LoginController($scope, $mdDialog, LoginUserResource, localStorage, $location, $rootScope, theme) {
+    function LoginController($scope, $mdDialog, LoginUserResource, localStorage, BranchResource, $location, $rootScope, theme) {
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
 		$scope.login = login;
@@ -45,7 +45,20 @@
 
                 LoginUserResource.Login(data,function(r){
                     console.log(r);
-                    if (r.roles.includes("CASHIER")) {
+                    $scope.branches = BranchResource.branches(r.token).query({
+                        status:true,
+                        offset: 0,
+                        limit: 100,
+                        busStatus: 'ACTIVE',
+                        tenantId: $scope.tenantId,
+                        query: 'ALL'
+                    }).$promise;
+
+                    if ($scope.branches != null
+                        && $scope.branches != 'undefined'
+                        && $scope.branches.length > 0
+                        && (r.roles.includes("CASHIER")
+                        || r.roles.includes("ADMINISTRATOR"))) {
                         selectBranch();
                     }
                     else {

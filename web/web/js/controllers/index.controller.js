@@ -60,8 +60,10 @@
                 $scope.theme = $scope.style.theme;
                 //$scope.showBus = $scope.style.showBus;
                 //console.log($scope.showBus);
-                $scope.logo = 'data:image/' + $scope.style.logoExtension + ';base64,' + $scope.style.logoB64;
-                $scope.header = 'data:image/' + $scope.style.headerExtension + ';base64,' + $scope.style.headerB64;
+                if ($scope.style.logoB64 != null && $scope.style.logoB64 != 'undefined' && $scope.style.logoB64 != '') {
+                    $scope.logo = 'data:image/' + $scope.style.logoExtension + ';base64,' + $scope.style.logoB64;
+                }
+
                 $scope.busColor = $scope.style.busColor;
             });
         }
@@ -111,10 +113,6 @@
                     name: "Personalizarción",//<i class="material-icons">format_color_fill</i>
                     url: "admin/styles",
                     icon: "format_color_fill"
-                }, {
-                    name: "Ver Agenda",//<i class="material-icons">format_color_fill</i>
-                    url: "admin/schedule",
-                    icon: "assignment"
                 }];
             }
 

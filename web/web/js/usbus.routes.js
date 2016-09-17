@@ -81,7 +81,7 @@
                 templateUrl: 'templates/humanResources.html',
                 controller: 'HomeController'
             })
-            .when('/tenant/:tenantName/admin/schedule', {
+            .when('/tenant/:tenantName/schedule', {
                 templateUrl: 'templates/schedule.html',
                 controller: 'ScheduleController',
                 controllerAs: 'vm'
