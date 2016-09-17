@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-ear" name="USBus:javaEEApplication exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/USBus_javaEEApplication_exploded</output-path>
+  <artifact type="exploded-ear" build-on-make="true" name="USBus:javaEEApplication exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/USBus_javaEEApplication_exploded.ear</output-path>
     <root id="root">
       <element id="javaee-facet-resources" facet="USBus/javaeeApplication/javaEEApplication" />
       <element id="directory" name="lib">

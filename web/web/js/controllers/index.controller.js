@@ -7,6 +7,8 @@
     IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope', 'TenantResource', '$geolocation'];
     /* @ngInject */
     function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource, $geolocation) {
+        moment.locale('es');
+        console.log(moment.locale());
         $scope.theme = 'redpink';
         $scope.style = '';
         $scope.show = false;
