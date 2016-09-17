@@ -6,20 +6,23 @@
 
     <module id="web-Web">
         <web>
-            <web-uri>web_Web.war</web-uri>
+            <web-uri>web.war</web-uri>
             <context-root>usbus</context-root>
         </web>
     </module>
     <module id="bll-EJB">
-        <ejb>bll_EJB.jar</ejb>
+        <ejb>bll.jar</ejb>
     </module>
     <module id="dal-EJB">
-        <ejb>dal_EJB.jar</ejb>
+        <ejb>dal.jar</ejb>
     </module>
     <module id="services-Web">
         <web>
-            <web-uri>services_war.war</web-uri>
+            <web-uri>services.war</web-uri>
             <context-root>rest</context-root>
         </web>
+    </module>
+    <module id="dal-EJB">
+        <ejb>dal.jar</ejb>
     </module>
 </application>

@@ -2,3 +2,7 @@
 tasks.xml
 out/*
 *.xml___jb_tmp___
+dal/src/mongo.properties
+.idea/artifacts/EAR_BUS.xml
+.idea/artifacts/USBus_javaEEApplication.xml
+.idea/artifacts/USBus_javaEEApplication_exploded.xml

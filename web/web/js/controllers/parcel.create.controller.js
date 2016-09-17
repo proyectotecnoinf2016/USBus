@@ -39,7 +39,7 @@
             } );
         }
 
-        function showAlert(title,content) {
+        function showAlert(title,content) {z
             $mdDialog
                 .show($mdDialog
                     .alert()
