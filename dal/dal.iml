@@ -40,5 +40,7 @@
     <orderEntry type="library" name="org.slf4j:slf4j-log4j12:1.7.21" level="project" />
     <orderEntry type="library" name="org.bitbucket.b_c:jose4j:0.5.1" level="project" />
     <orderEntry type="library" name="jxl" level="project" />
+    <orderEntry type="library" name="itextpdf-5.5.9" level="project" />
+    <orderEntry type="library" name="zxing" level="project" />
   </component>
 </module>
