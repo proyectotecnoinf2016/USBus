@@ -32,10 +32,14 @@
 
 				</md-input-container>
 			</md-container>
+
 			<md-container layout="row" layout layout-padding>
+
 				<md-container layout layout-margin >
-					<md-input-container layout-padding>
-						<input ng-model="style.humanResourcesURL" >
+					<md-input-container class="customInputRegister">
+						<label>URL del sistema externo de Recursos Humanos</label>
+						<md-tooltip md-direction="top">Ingrese URL del sistema externo de Recursos Humanos</md-tooltip>
+						<input ng-model="style.humanResourcesURL" required>
 					</md-input-container>
 				</md-container>
 			</md-container>
