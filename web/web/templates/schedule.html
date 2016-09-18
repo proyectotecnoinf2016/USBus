@@ -32,7 +32,7 @@
                             {{item.service.name}}
                         </p>
 						<p hide-md="" show-gt-md="" class="tableRow">
-                            {{item.service.day}}
+                            {{item.service.day | dayOfWeek}}
                         </p>
 						<p hide-md="" show-gt-md="" class="tableRow">
                             {{item.service.time | date:'HH:mm'}}
@@ -75,7 +75,7 @@
                             {{item.service.name}}
                         </p>
 						<p hide-md="" show-gt-md="" class="tableRow">
-                            {{item.service.day}}
+                            {{item.service.day | dayOfWeek}}
                         </p>
 						<p hide-md="" show-gt-md="" class="tableRow">
                             {{item.service.time | date:'HH:mm'}}

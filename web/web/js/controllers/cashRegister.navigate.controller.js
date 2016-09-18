@@ -44,8 +44,8 @@
             vm.message = '';
             vm.registrys = [];
             vm.tenantId = 0;
-            localStorage.setData("branchId", "1");
-            localStorage.setData("windowsId", "1");
+            // localStorage.setData("branchId", "1");
+            // localStorage.setData("windowsId", "1");
             if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
                 vm.tenantId = localStorage.getData('tenantId');
             }
@@ -83,7 +83,7 @@
         }
 
         function closeCashRegister(ev){
-            alert("closeCashRegister");
+            // alert("closeCashRegister");
             var cashRegister = {};
             cashRegister.tenantId = vm.tenantId;
             cashRegister.branchId = vm.branchId;
@@ -118,7 +118,7 @@
         };
 
         function openCashRegister(ev) {
-            alert("openCashRegister");
+            // alert("openCashRegister");
             var cashRegister = {};
             cashRegister.tenantId = vm.tenantId;
             cashRegister.branchId = vm.branchId;
@@ -198,7 +198,9 @@
             }).$promise.then(function (result) {
                 console.log(result);
                 var cashCount = result[0].cashCount;
-                showAlert('Arqueo de Caja', cashCount);
+                //currency: '$'
+                var content =  '$' + parseFloat(cashCount).toFixed(2)
+                showAlert('Arqueo de Caja', content);
             });
         }
 

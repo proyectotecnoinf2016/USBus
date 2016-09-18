@@ -38,9 +38,9 @@
             var i = 0;
             for (i = 0; i < result.length; i++) {
                 var service = result[i];
-                service.day = dayOfWeek.getDay(service.day);
-
-                service.time = moment(service.time).format('HH:mm');
+                // service.day = dayOfWeek.getDay(service.day);
+                //
+                // service.time = moment(service.time).format('HH:mm');
 
                 $scope.services.push(service);
             }

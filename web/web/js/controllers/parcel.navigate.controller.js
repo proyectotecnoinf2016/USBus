@@ -45,7 +45,9 @@
         //
         // });
 
-        if (vm.parcels.length === 0) {
+        if (vm.parcels.length === 0) {tory
+Lucia • Recién
+
             vm.message = 'No se han encontrado elementos que cumplan con el criterio solicitado';
         }
 
