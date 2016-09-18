@@ -31,6 +31,8 @@
         }
 
         function queryService(name) {
+            moment.locale('en');
+            console.log(moment.locale());
             $scope.dayOfWeek = moment($scope.date).format('dddd').toUpperCase();
             console.log($scope.dayOfWeek);
             var lista = ServiceResource.services(token).query({

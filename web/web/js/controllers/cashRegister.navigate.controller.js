@@ -198,7 +198,9 @@
             }).$promise.then(function (result) {
                 console.log(result);
                 var cashCount = result[0].cashCount;
-                showAlert('Arqueo de Caja', cashCount);
+                //currency: '$'
+                var content =  '$' + parseFloat(cashCount).toFixed(2)
+                showAlert('Arqueo de Caja', content);
             });
         }
 

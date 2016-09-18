@@ -61,7 +61,7 @@
                             && $scope.branches != 'undefined'
                             && $scope.branches.length > 0
                              && (r.roles.includes("CASHIER")
-                             || r.roles.includes("ADMINISTRATOR"))) {
+                             || r.roles.includes("ADMINISTRATOR"))) {CASH_REGISTER
                             selectBranch();
                         }
                         else {

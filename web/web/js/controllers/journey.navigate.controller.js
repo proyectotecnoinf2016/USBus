@@ -68,11 +68,11 @@
 
 
 
-                var i = 0;
-                for (i = 0; i < result.length; i ++) {
-                    result[i].day = dayOfWeek.getDay(result[i].service.day);
-                    result[i].time = moment(result[i].service.time).format('HH:mm');
-                }
+                // var i = 0;
+                // for (i = 0; i < result.length; i ++) {
+                //     // result[i].day = dayOfWeek.getDay(result[i].service.day);
+                //     // result[i].time = moment(result[i].service.time).format('HH:mm');
+                // }
                 $scope.journeys = result;
                 console.log($scope.journeys);
             });
