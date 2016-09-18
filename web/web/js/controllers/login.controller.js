@@ -57,6 +57,13 @@
                         $scope.branches = result;
                         console.log($scope.branches.length)
                         console.log($scope.branches)
+
+                        localStorage.setData('token', r.token);
+                        localStorage.setData('tenantId', r.tenantId);
+                        localStorage.setData('userName', data.username);
+                        localStorage.setData('tenantName', $scope.tenantName);
+                        localStorage.setData('userRoles', r.roles);
+
                         if ($scope.branches != null
                             && $scope.branches != 'undefined'
                             && $scope.branches.length > 0
@@ -67,15 +74,12 @@
                         else {
                             showAlert('Exito!', 'Ha ingresado al sistema de forma exitosa');
                         }
+                        $rootScope.$emit('menuOption', '');
+                        $rootScope.$emit('login', '');
+                        $rootScope.authorization = true;
                     })
-                    localStorage.setData('token', r.token);
-                    localStorage.setData('tenantId', r.tenantId);
-                    localStorage.setData('userName', data.username);
-                    localStorage.setData('tenantName', $scope.tenantName);
-                    localStorage.setData('userRoles', r.roles);
-                    $rootScope.$emit('menuOption', '');
-                    $rootScope.$emit('login', '');
-                    $rootScope.authorization = true;
+
+
                 }, function (r) {
                     console.log(r);
                     showAlert('Error!', 'Ocurrió un error al procesar su petición');
