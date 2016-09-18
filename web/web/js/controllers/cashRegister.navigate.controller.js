@@ -83,7 +83,7 @@
         }
 
         function closeCashRegister(ev){
-            alert("closeCashRegister");
+            // alert("closeCashRegister");
             var cashRegister = {};
             cashRegister.tenantId = vm.tenantId;
             cashRegister.branchId = vm.branchId;
@@ -118,7 +118,7 @@
         };
 
         function openCashRegister(ev) {
-            alert("openCashRegister");
+            // alert("openCashRegister");
             var cashRegister = {};
             cashRegister.tenantId = vm.tenantId;
             cashRegister.branchId = vm.branchId;
