@@ -19,8 +19,8 @@
 		if (typeof localStorage.getData('tenantName') !== 'undefined' && localStorage.getData('tenantName') != null) {
 			$scope.tenantName = localStorage.getData('tenantName');
 		}
-        $scope.primaryColor = "purple";
-        $scope.secondaryColor = "cyan";
+        $scope.primaryColor = "indigo";
+        $scope.secondaryColor = "pink";
 
 		TenantResource.tenant('').get({
 			tenantId: 0,
