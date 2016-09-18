@@ -7,6 +7,8 @@
     IndexController.$inject = ['$scope', '$mdDialog', 'localStorage', '$location', '$rootScope', 'TenantResource', '$geolocation'];
     /* @ngInject */
     function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource, $geolocation) {
+        moment.locale('es');
+        console.log(moment.locale());
         $scope.theme = 'redpink';
         $scope.style = '';
         $scope.show = false;
@@ -60,8 +62,10 @@
                 $scope.theme = $scope.style.theme;
                 //$scope.showBus = $scope.style.showBus;
                 //console.log($scope.showBus);
-                $scope.logo = 'data:image/' + $scope.style.logoExtension + ';base64,' + $scope.style.logoB64;
-                $scope.header = 'data:image/' + $scope.style.headerExtension + ';base64,' + $scope.style.headerB64;
+                if ($scope.style.logoB64 != null && $scope.style.logoB64 != 'undefined' && $scope.style.logoB64 != '') {
+                    $scope.logo = 'data:image/' + $scope.style.logoExtension + ';base64,' + $scope.style.logoB64;
+                }
+
                 $scope.busColor = $scope.style.busColor;
             });
         }
@@ -111,10 +115,6 @@
                     name: "Personalizarción",//<i class="material-icons">format_color_fill</i>
                     url: "admin/styles",
                     icon: "format_color_fill"
-                }, {
-                    name: "Ver Agenda",//<i class="material-icons">format_color_fill</i>
-                    url: "admin/schedule",
-                    icon: "assignment"
                 }];
             }
 
@@ -211,21 +211,36 @@
 
             $rootScope.$emit('logout', '');
 
-            showAlert('Hasta Luego!', 'Esperamos regreses pronto!!')
+            showAlert('', '¡Hasta Luego!')
             redirectTo('');
         }
 
 
-        function showAlert(title, body, ev) {
-            var useFullScreen = false;
-            $mdDialog.show({
-                template: '</p><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTGZqvke96TnMbyRvGxwCiccHvsv6cY4vLGoaSTJggL79zTCO8axg"/>',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: useFullScreen
-            })
-
+        // function showAlert(title, body, ev) {
+        //     var useFullScreen = false;
+        //     $mdDialog.show({
+        //         template: '</p><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTGZqvke96TnMbyRvGxwCiccHvsv6cY4vLGoaSTJggL79zTCO8axg"/>',
+        //         parent: angular.element(document.body),
+        //         targetEvent: ev,
+        //         clickOutsideToClose: true,
+        //         fullscreen: useFullScreen
+        //     })
+        //
+        // };
+        function showAlert(title,content) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            // Modal dialogs should fully cover application
+            // to prevent interaction outside of dialog
+            $mdDialog
+                .show($mdDialog
+                    .alert()
+                    .parent(
+                        angular.element(document
+                            .querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .content(content)
+                    .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
         };
 
     }

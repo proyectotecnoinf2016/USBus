@@ -34,6 +34,9 @@
                         Monto
                     </h3>
                     <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
+                        Forma de Pago
+                    </h3>
+                    <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
                         Origen
                     </h3>
                     <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
@@ -50,10 +53,13 @@
                             {{item.amount | currency: '$'}}
                         </p>
                         <p hide-md="" show-gt-md="" class="tableRow">
-                            {{item.origin}}
+                            {{item.payment | cashPayment}}
                         </p>
                         <p hide-md="" show-gt-md="" class="tableRow">
-                            {{item.type}}
+                            {{item.origin | cashOrigin}}
+                        </p>
+                        <p hide-md="" show-gt-md="" class="tableRow">
+                            {{item.type | cashType}}
                         </p>
                     </span>
                 </span>

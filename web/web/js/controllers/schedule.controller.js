@@ -8,7 +8,6 @@
     /* @ngInject */
     function ScheduleController($scope, $mdDialog, JourneyResource, localStorage, $rootScope, $timeout) {
 
-        $rootScope.$emit('options', 'admin');
         var vm = this;
         var token = null;
         init();
