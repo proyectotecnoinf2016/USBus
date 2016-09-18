@@ -1,9 +1,13 @@
-<md-content layout-align="center center" layout-padding>
-    <h1 class="grayHeader">Agenda {{vm.username}}</h1>
-    <div layout="column">
+<md-content layout layout-padding layout-margin flex-sm="95" flex-gt-sm="95" flex-gt-md="95" layout="">
+    <div layout="column" flex-sm="95" flex-gt-sm="95" flex-gt-md="95" layout="">
+        <h1 layout-align="center center" ng-show="(vm.journeys.asAssistant.length > 0 || vm.journeys.asDriver.length > 0)">Agenda {{vm.username}}</h1>
 
-        <div ng-show="vm.journeys.asAssistant.length > 0">
-            <h1 >Ejerciendo labores de guarda</h1>
+        <div layout-align="center center" ng-show="!(vm.journeys.asAssistant.length > 0 || vm.journeys.asDriver.length > 0)">
+            <h2>Atención!</h2>
+            <p>Usted no tiene viajes programados para los próximos días</p>
+        </div>
+        <div layout-align="center center" ng-show="vm.journeys.asAssistant.length > 0">
+            <h2 >Ejerciendo labores de guarda</h2>
             <md-content>
                 <span layout="row">
                     <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
@@ -45,8 +49,8 @@
             </md-content>
         </div>
 
-        <div ng-show="vm.journeys.asDriver.length > 0">
-            <h1 >Ejerciendo labores de chofer</h1>
+        <div layout-align="center center" ng-show="vm.journeys.asDriver.length > 0">
+            <h2 >Ejerciendo labores de chofer</h2>
             <md-content>
                 <span layout="row">
                     <h3 hide-md="" show-gt-md="" class="grayHeader tableRow">
