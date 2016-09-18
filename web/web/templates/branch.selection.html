@@ -18,7 +18,7 @@
                     md-item-text="item.name"
                     md-search-text="branchName"
                     md-floating-label="Sucursal"
-                    md-input-id="branchId"
+                    md-input-id="branchId" md-selected-item-change ="branchSelection(branch)"
                     required flex layout-margin>
 
                 <md-item-template>
@@ -26,6 +26,15 @@
                 </md-item-template>
                 <md-not-found>No se han encontrado servicios con este criterio.</md-not-found>
             </md-autocomplete>
+
+            <md-input-container class="customInputLogin" ng-show="branchSelected" flex-gt-sm>
+                <label>Caja</label>
+                <md-select ng-model="window">
+                    <md-option ng-repeat="item in branchWindows" value="{{item.id}}">
+                        {{item.id}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
 
         </md-dialog-content>
 

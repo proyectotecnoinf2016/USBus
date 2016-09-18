@@ -44,8 +44,8 @@
             vm.message = '';
             vm.registrys = [];
             vm.tenantId = 0;
-            localStorage.setData("branchId", "1");
-            localStorage.setData("windowsId", "1");
+            // localStorage.setData("branchId", "1");
+            // localStorage.setData("windowsId", "1");
             if (typeof localStorage.getData('tenantId') !== 'undefined' && localStorage.getData('tenantId') != null) {
                 vm.tenantId = localStorage.getData('tenantId');
             }
