@@ -10,6 +10,7 @@
     function HomeController($scope, $rootScope, localStorage, $location, $window, $mdDialog ) {
         showMenuOption();
         $scope.redirectToHHRR = redirectToHHRR;
+        $scope.redirectToAccounting = redirectToAccounting;
         $scope.redirectTo = redirectTo;
         $scope.showAlert = showAlert;
 
@@ -61,7 +62,7 @@
                 $scope.showAdmin = roles.includes('ADMINISTRATOR');
                 $scope.showTickets = roles.includes('ADMINISTRATOR') || roles.includes('CASHIER');
                 $scope.showSchedule = roles.includes('ASSISTANT') || roles.includes('DRIVER');
-                $scope.showWorkshop = roles.includes('ADMINISTRATOR') || roles.includes('MECHANIC');
+                $scope.showWorkshop = false;//roles.includes('ADMINISTRATOR') || roles.includes('MECHANIC');
                 $scope.showAccounting = roles.includes('ADMINISTRATOR') || roles.includes('CASHIER');
                 $scope.showhhrr = roles.includes('ADMINISTRATOR');
                 console.log($scope.showTickets);
@@ -79,6 +80,15 @@
             }
             else {
                 showAlert('Error!', 'No se ha configurado el área de Recursos Humanos. Por favor contacte un administrador.');
+            }
+        }
+        function redirectToAccounting() {
+            if (typeof localStorage.getData('accountingURL') !== 'undefined' && localStorage.getData('accountingURL') != 'null') {
+                console.log(localStorage.getData('accountingURL'));
+                $window.open(localStorage.getData('accountingURL'));
+            }
+            else {
+                showAlert('Error!', 'No se ha configurado el área de Contabilidad. Por favor contacte un administrador.');
             }
         }
 

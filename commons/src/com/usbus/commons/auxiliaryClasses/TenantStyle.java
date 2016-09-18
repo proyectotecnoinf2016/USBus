@@ -10,16 +10,18 @@ public class TenantStyle {
     private Boolean showBus;
     private String theme;
     private String humanResourcesURL;
+    private String accountingURL;
 
     public TenantStyle(){}
 
-    public TenantStyle(Image logo, Image headerImage, String busColor, Boolean showBus, String theme, String humanResourcesURL) {
+    public TenantStyle(Image logo, Image headerImage, String busColor, Boolean showBus, String theme, String humanResourcesURL, String accountingURL ) {
         this.logo = logo;
         this.headerImage = headerImage;
         this.busColor = busColor;
         this.showBus = showBus;
         this.theme = theme;
         this.humanResourcesURL = humanResourcesURL;
+        this.accountingURL = accountingURL;
     }
 
     public Image getLogo() {
@@ -65,4 +67,12 @@ public class TenantStyle {
     public String getHumanResourcesURL() { return humanResourcesURL; }
 
     public void setHumanResourcesURL(String humanResourcesURL) { this.humanResourcesURL = humanResourcesURL; }
+
+    public String getAccountingURL() {
+        return accountingURL;
+    }
+
+    public void setAccountingURL(String accountingURL) {
+        this.accountingURL = accountingURL;
+    }
 }
