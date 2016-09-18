@@ -1,35 +1,35 @@
 
-<div layout="row" layout-padding="" layout-align="center center" layout-wrap="" style="padding-bottom: 32px;" ng-cloak="" class="wrapper whiteframedemoDirectiveAttributeUsage" ng-show="token != null">
+<div layout="row" layout-padding="" layout-align="center center" layout-wrap="" style="padding-bottom: 32px;" ng-cloak="" class="wrapper whiteframedemoDirectiveAttributeUsage" ng-show="token != null" >
 
 
-    <div class="ripplelink padded" md-whiteframe="1" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('admin')">
+    <div class="ripplelink padded" md-whiteframe="1" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('admin')" ng-hide ng-show="{{showAdmin}} ">
         <img class="bigHomeImages" src="img/Admin.png"/>
         <span hide show-gt-xs class="bigHomeSpan">Administración</span>
     </div>
 
-    <div class="ripplelink padded" md-whiteframe="2" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('tickets')">
+    <div class="ripplelink padded" md-whiteframe="2" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('tickets')" ng-hide ng-show="{{showTickets}}">
         <img class="smallHomeImages" src="img/Tickets.png"/>
         <span hide show-gt-xs class="smallHomeSpan">Caja y Boletería</span>
     </div>
 
-    <div class="ripplelink padded" md-whiteframe="3" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('schedule')">
+    <div class="ripplelink padded" md-whiteframe="3" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('schedule')" ng-hide ng-show="{{showSchedule}}">
         <i class="material-icons">format_color_fill</i>
         <span hide show-gt-xs class="bigHomeSpan">Ver Agenda</span>
 
     </div>
 
-    <div class="ripplelink padded" md-whiteframe="4" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('workshop')">
+    <div class="ripplelink padded" md-whiteframe="4" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('workshop')" ng-hide ng-show="{{showWorkshop}}">
         <img class="bigHomeImages" src="img/Workshop.png"/>
         <span hide show-gt-xs class="bigHomeSpan">Taller</span>
 
     </div>
 
-    <div class="ripplelink padded" md-whiteframe="5" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('accounting')">
+    <div class="ripplelink padded" md-whiteframe="5" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectTo('accounting')" ng-hide ng-show="{{showAccounting}}">
         <img class="bigHomeImages" src="img/Accountant.png"/>
         <span hide show-gt-xs class="bigHomeSpan">Contabilidad</span>
     </div>
 
-    <div class="ripplelink padded" md-whiteframe="6" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectToHHRR()">
+    <div class="ripplelink padded" md-whiteframe="6" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="" layout-align="center center" ng-click="redirectToHHRR()" ng-hide ng-show="{{showhhrr}}">
         <img class="bigHomeImages" src="img/HumanResources.png"/>
         <span hide show-gt-xs show-gt-ms >Gestión de personal</span>
     </div>
