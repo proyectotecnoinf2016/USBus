@@ -211,21 +211,36 @@
 
             $rootScope.$emit('logout', '');
 
-            showAlert('Hasta Luego!', 'Esperamos regreses pronto!!')
+            showAlert('', '¡Hasta Luego!')
             redirectTo('');
         }
 
 
-        function showAlert(title, body, ev) {
-            var useFullScreen = false;
-            $mdDialog.show({
-                template: '</p><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTGZqvke96TnMbyRvGxwCiccHvsv6cY4vLGoaSTJggL79zTCO8axg"/>',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: useFullScreen
-            })
-
+        // function showAlert(title, body, ev) {
+        //     var useFullScreen = false;
+        //     $mdDialog.show({
+        //         template: '</p><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTGZqvke96TnMbyRvGxwCiccHvsv6cY4vLGoaSTJggL79zTCO8axg"/>',
+        //         parent: angular.element(document.body),
+        //         targetEvent: ev,
+        //         clickOutsideToClose: true,
+        //         fullscreen: useFullScreen
+        //     })
+        //
+        // };
+        function showAlert(title,content) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            // Modal dialogs should fully cover application
+            // to prevent interaction outside of dialog
+            $mdDialog
+                .show($mdDialog
+                    .alert()
+                    .parent(
+                        angular.element(document
+                            .querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .content(content)
+                    .ariaLabel('Alert Dialog Demo').ok('Cerrar'));
         };
 
     }

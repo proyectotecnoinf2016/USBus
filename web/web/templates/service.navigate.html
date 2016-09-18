@@ -29,10 +29,10 @@
                     {{item.name}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.day}}
+                    {{item.day | dayOfWeek}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
-                    {{item.time}}
+                    {{item.time | date:'HH:mm'}}
                 </p>
                 <p hide-md="" show-gt-md="" class="tableRow" >
                     {{item.route.name}}
