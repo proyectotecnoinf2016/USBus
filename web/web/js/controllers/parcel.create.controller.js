@@ -3,10 +3,10 @@
  */
 (function () {
     'use strict';
-    angular.module('usbus').controller('CreateBusController', CreateBusController);
-    CreateBusController.$inject = ['$scope', 'localStorage', 'BusResource', '$mdDialog', '$rootScope', 'theme'];
+    angular.module('usbus').controller('ParcelController', ParcelController);
+    ParcelController.$inject = ['$scope', 'localStorage', 'BusResource', '$mdDialog', '$rootScope', 'theme'];
     /* @ngInject */
-    function CreateBusController($scope, localStorage, BusResource, $mdDialog, $rootScope, theme) {
+    function ParcelController($scope, localStorage, BusResource, $mdDialog, $rootScope, theme) {
         $scope.createBus = createBus;
         $scope.cancel = cancel;
         $scope.showAlert = showAlert;
@@ -39,7 +39,7 @@
             } );
         }
 
-        function showAlert(title,content) {z
+        function showAlert(title,content) {
             $mdDialog
                 .show($mdDialog
                     .alert()
