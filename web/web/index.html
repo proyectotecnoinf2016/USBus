@@ -121,7 +121,7 @@
     <body layout="column" layout-align="top center" layout-fill ng-cloak>
 
 
-        <md-toolbar layout="row" ng-controller="IndexController" back-Img="img/Abstract_Blue.jpg">
+        <md-toolbar layout="row" ng-controller="IndexController" md-theme="{{theme}}" md-theme-watch="true">
 
             <h1 flex class="USBusTitle" layout-align="top center" style="max-height: 150px;">
                 <div flex="50" ng-controller="IndexController"  layout-align="start center" class="pointer" ng-click="redirectTo('');">
@@ -166,7 +166,7 @@
         
             <section layout="row" >
                 <div  class="layout-padding " layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25" >
-                    <md-button class="md-raised md-primary customButton" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">
+                    <md-button class="md-raised md-primary customButton md-accent" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">
                         <md-icon class="indexIcon" >{{item.icon}}</md-icon>
                         <span class="indexMenuOptions" >{{item.name}}</span>
                     </md-button>
