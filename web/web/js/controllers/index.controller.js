@@ -9,7 +9,7 @@
     function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource, $geolocation) {
         moment.locale('es');
         console.log(moment.locale());
-        $scope.theme = 'redpink';
+        $scope.theme = 'indigopink';
         $scope.style = '';
         $scope.show = false;
         $scope.logo = 'img/USBus2.png';
