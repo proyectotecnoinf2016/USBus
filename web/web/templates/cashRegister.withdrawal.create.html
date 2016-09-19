@@ -1,5 +1,4 @@
-<md-dialog aria-label="Withdrawal" ng-cloak md-theme="{{vm.theme}}" md-theme-watch="true"
-           style="width: 50%;">
+<md-dialog aria-label="Withdrawal" ng-cloak md-theme="{{vm.theme}}" md-theme-watch="true" flex="30">
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -9,14 +8,14 @@
                                                                          aria-label="Close dialog">clear</i></md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content>
+        <md-dialog-content layout="column">
             <span flex></span>
 
-            <md-input-container class="customInput">
+            <md-input-container flex layout-margin>
                 <label>Monto</label>
                 <input type="number" ng-model="vm.cashRegister.amount" name="amount" required>
             </md-input-container>
-            <md-input-container class="customInput">
+            <md-input-container flex layout-margin>
                 <label>Notas</label>
                 <textarea ng-model="vm.cashRegister.notes" md-maxlength="100" rows="3" md-select-on-focus></textarea>
             </md-input-container>
