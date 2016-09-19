@@ -1,5 +1,5 @@
 
-<md-dialog aria-label="Crear Viaje" ng-cloak md-theme="{{theme}}"  md-theme-watch="true">
+<md-dialog aria-label="Crear Viaje" ng-cloak md-theme="{{theme}}"  md-theme-watch="true" flex>
     <form name="inputForm" novalidate>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -12,13 +12,13 @@
             <span flex></span>
 
             <div layout="row" >
-                <md-input-container class="customInput" layout-margin>
+                <md-input-container class="customInput" layout-margin flex="45">
                     <label>Número de ómnibus</label>
                     <md-tooltip md-direction="top">Ingrese Número de Ómnibus</md-tooltip>
                     <input type="number" ng-model="journey.busNumber" required>
                 </md-input-container>
 
-                <md-input-container style="padding-left: 30px; padding-bottom: 30px" layout="row">
+                <md-input-container style="padding-left: 30px; padding-bottom: 30px" layout="row" flex="45">
                     <md-checkbox ng-model="journey.thirdPartyBus" aria-label="Checkbox 1">
                         Es una unidad externa?
                     </md-checkbox>
@@ -36,7 +36,7 @@
                         md-search-text="serviceName"
                         md-floating-label="Servicio"
                         md-input-id="serviceId"
-                        required  layout-margin>
+                        required  layout-margin flex="45">
 
                     <md-item-template>
                         <span md-highlight-text="item.name" md-highlight-flags="^i"> {{ item.name }} - {{item.time | date:'HH:mm'}}</span>
@@ -55,7 +55,7 @@
                         md-search-text="busName"
                         md-floating-label="Omnibus"
                         md-input-id="busId"
-                        required  layout-margin>
+                        required  layout-margin flex="45">
 
                     <md-item-template>
                         <span md-highlight-text="busItem.id" md-highlight-flags="^i"> {{ busItem.id }}</span>
@@ -75,7 +75,7 @@
                         md-search-text="assistantEmail"
                         md-floating-label="Guarda"
                         md-input-id="hrId"
-                        required  layout-margin>
+                        required  layout-margin flex="45">
 
                     <md-item-template>
                         <span md-highlight-text="hrItem.email" md-highlight-flags="^i"> {{ hrItem.email }}</span>
@@ -94,7 +94,7 @@
                         md-search-text="driverEmail"
                         md-floating-label="Chofer"
                         md-input-id="hrDriverId"
-                        required  layout-margin>
+                        required  layout-margin flex="45">
 
                     <md-item-template>
                         <span md-highlight-text="hrDriverItem.email" md-highlight-flags="^i"> {{ hrDriverItem.email }}</span>
