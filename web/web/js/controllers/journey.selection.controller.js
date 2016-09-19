@@ -273,7 +273,7 @@
 
             $mdDialog.show(confirm).then(function() {
                 findSeat(item);
-                $scope.removeReservation = true;
+
                 nextTab();
             }, function() {
                 $scope.status = 'You decided to keep your debt.';
@@ -478,6 +478,7 @@
                         console.log(resp);
                         if ($scope.removeReservation) {
                             if ($scope.reservationToRemove != null && $scope.reservationToRemove != 'undefined') {
+                                $scope.removeReservation = true;
                                 cancelTicket($scope.reservationToRemove);
                             }
                         }
