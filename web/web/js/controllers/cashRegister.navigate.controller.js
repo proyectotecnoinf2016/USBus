@@ -104,7 +104,6 @@
                 cashRegister.amount = result;
                 CashRegisterResource.cashRegister(token).save({
                     tenantId: vm.tenantId
-
                 }, cashRegister, function (resp) {
                     console.log(resp);
                     showAlert('Exito!', 'La caja se cerró correctamente.');
@@ -163,7 +162,7 @@
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: false,
-                locals: {theme: vm.theme}
+                locals: {theme: $scope.theme}
             }).then(
                 function (answer) {
                     getCurrentCashRegistrys();
@@ -180,7 +179,7 @@
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: false,
-                locals: {theme: vm.theme}
+                locals: {theme: $scope.theme}
             }).then(
                 function (answer) {
                     getCurrentCashRegistrys();
