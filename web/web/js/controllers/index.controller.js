@@ -9,7 +9,7 @@
     function IndexController($scope, $mdDialog, localStorage, $location, $rootScope, TenantResource, $geolocation) {
         moment.locale('es');
         console.log(moment.locale());
-        $scope.theme = 'redpink';
+        $scope.theme = 'indigopink';
         $scope.style = '';
         $scope.show = false;
         $scope.logo = 'img/USBus2.png';
@@ -59,6 +59,7 @@
             }).$promise.then(function (result) {
                 $scope.style = result;
                 localStorage.setData('humanResourcesURL', $scope.style.humanResourcesURL);
+                localStorage.setData('accountingURL', $scope.style.accountingURL);
                 $scope.theme = $scope.style.theme;
                 //$scope.showBus = $scope.style.showBus;
                 //console.log($scope.showBus);
@@ -127,11 +128,12 @@
                     name: "Cancelar Venta/Reserva",
                     url: "tickets/cancel",
                     icon: "signal_cellular_no_sim"
-                }, {
-                    name: "Encomiendas",
-                    url: "parcels",
-                    icon: "unarchive"
-                }, {
+                }, //{
+                    // name: "Encomiendas",
+                    // url: "parcels",
+                    // icon: "unarchive"
+                // },
+                    {
                     name: "Caja",
                     url: "tickets/window",
                     icon: "account_balance_wallet"

@@ -44,6 +44,17 @@
 				</md-container>
 			</md-container>
 			<md-container layout="row" layout layout-padding>
+
+				<md-container layout layout-margin >
+					<md-input-container class="customInputRegister">
+						<label>URL del sistema externo de Contabilidad</label>
+						<md-tooltip md-direction="top">Ingrese URL del sistema externo de Contabilidad</md-tooltip>
+						<input ng-model="style.accountingURL" required>
+					</md-input-container>
+				</md-container>
+			</md-container>
+
+			<md-container layout="row" layout layout-padding>
 				<md-container layout layout-margin >
 					<md-radio-group ng-model="primaryColor" class="md-primary" layout="column" layout layout-margin ng-change="themeChange()">
 						<md-radio-button ng-repeat="d in primaryData" 

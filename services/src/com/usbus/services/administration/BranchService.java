@@ -48,7 +48,7 @@ public class BranchService {
     @Path("{branchId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.CASHIER, Rol.ASSISTANT,Rol.DRIVER,Rol.MECHANIC,Rol.OTHER})
     public Response getBranch(@PathParam("tenantId")long tenantId, @PathParam("branchId") Long branchId){
 
         Branch branchAux = ejb.getByLocalId(tenantId,branchId);
@@ -62,7 +62,7 @@ public class BranchService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.CASHIER, Rol.ASSISTANT,Rol.DRIVER,Rol.MECHANIC,Rol.OTHER})
     public Response queryBranch(@PathParam("tenantId")long tenantId,
                                 @QueryParam("query") String query,
                                 @QueryParam("status") boolean status,
