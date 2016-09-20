@@ -37,7 +37,7 @@
                 branchId: item.id
             }, item,function (resp) {
                 console.log(resp);
-                showAlert('Exito!', 'Se ha editado la Parada de forma exitosa');
+                showAlert('Exito!', 'Se ha editado la sucursal de forma exitosa');
             }, function (error) {
                 console.log(error);
                 showAlert('Error!', 'Ocurrió un error al editar la Parada');
