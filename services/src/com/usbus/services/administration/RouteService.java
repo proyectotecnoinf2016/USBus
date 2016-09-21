@@ -44,12 +44,12 @@ public class RouteService {
         }
         return Response.ok(ejb.getById(oid)).build();
     }
-
+//-
     @GET
     @Path("{routeId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
     public Response getRoute(@PathParam("tenantId")long tenantId, @PathParam("routeId") Long routeId){
 
         Route routeAux = ejb.getByLocalId(tenantId,routeId);
@@ -62,7 +62,7 @@ public class RouteService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
     public Response queryRoutes(@PathParam("tenantId")long tenantId,
                                 @QueryParam("query") String query,
                                 @QueryParam("origin")String origin,

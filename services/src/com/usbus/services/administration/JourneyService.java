@@ -27,7 +27,7 @@ public class JourneyService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR,Rol.CASHIER})
     public Response createJourney(Journey journey01){
         String oid = ejb.persist(journey01);
         if (oid==null){
@@ -40,7 +40,7 @@ public class JourneyService {
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT})
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT,Rol.CASHIER})
     public Response updateJourney(@PathParam("tenantId")Long tenantId,
                                   @PathParam("journeyId")Long journeyId,
                                   Journey journey){
@@ -57,7 +57,7 @@ public class JourneyService {
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT,Rol.CASHIER})
     public Response getJourney(@PathParam("tenantId")Long tenantId,
                                @PathParam("journeyId") Long journeyId){
 
@@ -71,7 +71,7 @@ public class JourneyService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT, Rol.DRIVER})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT, Rol.DRIVER,Rol.CASHIER}) 
     public Response getJourneyList(@PathParam("tenantId")Long tenantId,
                                    @QueryParam("query") String query,
                                    @QueryParam("status") JourneyStatus journeyStatus,
@@ -181,7 +181,7 @@ public class JourneyService {
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR,Rol.CASHIER})
     public Response removeJourney(@PathParam("tenantId")Long tenantId,
                                   @PathParam("journeyId")Long journeyId){
         try {
@@ -196,7 +196,7 @@ public class JourneyService {
     @Path("{journeyId}/price")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT,Rol.CASHIER})
     public Response getJourneyPrice(@PathParam("tenantId")Long tenantId,
                                     @PathParam("journeyId")Long journeyId,
                                     @QueryParam("origin") String origin,
@@ -215,7 +215,7 @@ public class JourneyService {
     @Path("{journeyId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT,Rol.CASHIER})
     public Response updateJourney(@PathParam("tenantId")Long tenantId,
                                   @PathParam("journeyId")Long journeyId,
                                   JourneyPatch patch) {

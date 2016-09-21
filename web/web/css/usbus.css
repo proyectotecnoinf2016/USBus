@@ -21,25 +21,31 @@
 }
 
 .logo {
-    width: 80px;
+    max-height: 130px;
+    max-width: 120px;
     margin-right: 20px;
+
 }
 .USBusTitle {
-    font-size:32px;
+    font-family: 'Lobster', cursive;
+    font-size:45px;
     padding: 20px;
     float:left;
 }
 
 .customBus {
+    /*margin-top: 1px;*/
     padding-right:10px;
 }
 
 .smallCustomBus {
+    min-height: 60px;
     max-height: 80px;
 }
 
 .bigCustomBus {
-    max-height: 200px;
+    min-height: 130px;
+    max-height: 150px;
 }
 
 .customHeader {
@@ -200,6 +206,8 @@ md-divider {
 .indexIcon {
     height: 35px;
     padding-right: 15px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     color:white;
     float: left;
 }
@@ -209,6 +217,8 @@ md-divider {
 }
 
 .indexMenuOptions {
+    margin-top: 3px;
+    margin-bottom: 3px;
     padding-left: 15px;
     float:left;
     font-weight: 100!important;
@@ -226,4 +236,15 @@ md-autocomplete-wrap > md-input-container{
 
 button > span {
     font-weight: 100!important;
+}
+.usbusHeader{
+    -moz-box-shadow: -2px 6px 16px #303030;
+    -webkit-box-shadow: -2px 6px 16px #303030;
+    box-shadow: -2px 6px 16px #303030;
+    max-height: 145px;
+    margin-bottom: 20px;
+}
+.usbusUsername{
+    font-family: 'Lobster', cursive;
+    font-weight: lighter;
 }

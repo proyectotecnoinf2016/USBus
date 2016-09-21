@@ -29,7 +29,7 @@ public class TicketService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT,Rol.CASHIER})
     public Response createTicket(Ticket ticketAux) {
         try {
             Ticket ticket = new Ticket(ticketAux);
@@ -51,7 +51,7 @@ public class TicketService {
     @Path("{ticketId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT,Rol.CASHIER})
     public Response getTicket(@PathParam("tenantId") Long tenantId, @PathParam("ticketId") Long ticketId) {
         Ticket ticketAux = ejb.getByLocalId(tenantId, ticketId);
         if (ticketAux == null) {
@@ -63,7 +63,7 @@ public class TicketService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT,Rol.CASHIER})
     public Response getTickets(@PathParam("tenantId") Long tenantId, @QueryParam("username") String username,
                                @QueryParam("status") TicketStatus ticketStatus, @QueryParam("offset") int offset,
                                @QueryParam("limit") int limit, @QueryParam("journeyId") long journeyId,
@@ -132,7 +132,7 @@ public class TicketService {
     @Path("{ticketId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.ASSISTANT,Rol.CASHIER})
     public Response setPassenger(@PathParam("tenantId") Long tenantId, @PathParam("ticketId") long ticketId, TicketConfirmation ticketConfirmation) {
         try {
             Ticket ticket = ejb.confirmTicket(ticketConfirmation);
@@ -150,7 +150,7 @@ public class TicketService {
     @Path("{ticketId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT})
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT,Rol.CASHIER})
     public Response removeTicket(@PathParam("tenantId")Long tenantId, @PathParam("ticketId") Long ticketId){
         try {
             ejb.setInactive(tenantId, ticketId);
@@ -164,7 +164,7 @@ public class TicketService {
     @Path("{ticketId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT, Rol.CLIENT,Rol.CASHIER})
     public Response updateJourney(@PathParam("tenantId") Long tenantId,
                                   @PathParam("ticketId") Long ticketId,
                                   TicketPatch patch) throws TicketException {

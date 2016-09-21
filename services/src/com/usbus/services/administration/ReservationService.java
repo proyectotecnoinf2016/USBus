@@ -23,7 +23,7 @@ public class ReservationService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
             public Response createReservation(Reservation reservation) {
         String oid = ejb.persist(reservation);
         if (oid==null){
@@ -36,7 +36,7 @@ public class ReservationService {
     @Path("{reservationId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT})
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT,Rol.CASHIER})
     public Response updateReservation( @PathParam("tenantId")Long tenantId,
                                        @PathParam("reservationId")Long reservationId,
                                        Reservation reservation){
@@ -48,12 +48,12 @@ public class ReservationService {
             }
             return Response.ok(ejb.getById(oid)).build();
     }
-
+    //-
     @GET
     @Path("{reservationId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT,Rol.CASHIER})
     public Response getReservation(@PathParam("tenantId")Long tenantId,
                                @PathParam("reservationId") Long reservationId){
 
@@ -67,7 +67,7 @@ public class ReservationService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT, Rol.DRIVER})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT, Rol.DRIVER,Rol.CASHIER})
     public Response getReservationList(@PathParam("tenantId")Long tenantId,
                                    @QueryParam("query") String query,
                                    @QueryParam("journeyId") Long journeyId,
@@ -98,7 +98,7 @@ public class ReservationService {
     @Path("{reservationId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
     public Response removeReservation(@PathParam("tenantId")Long tenantId,
                                   @PathParam("reservationId")Long reservationId){
         try {

@@ -1,224 +1,253 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="usbus" >
-    <head>
-        <meta charset="UTF-8">
-        <title>USBus</title>
+<html lang="en" ng-app="usbus">
+<head>
+    <meta charset="UTF-8">
+    <title>USBus</title>
 
-        <!-- STYLES -->
-        <!-- Angular Material CSS -->
-        <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css"/>
-        <!-- Angular Material Icons -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <!-- Custom css files -->
-        <link rel="stylesheet" type="text/css" href="css/usbus.css"/>
-        <link rel="stylesheet" type="text/css" href="css/usbus-loading.css"/>
-        <link rel="stylesheet" type="text/css" href="css/lf-ng-md-file-input.css"/>
-        <link rel="stylesheet" type="text/css" href="css/angular-material-calendar.css"/>
-        <link rel="stylesheet" type="text/css" href="css/mdPickers.css"/>
-        <!-- STYLES -->
-        <link rel="SHORTCUT ICON" href="img/USBus.png" type="image/x-icon"/>
-
-
-
-
-        <!-- SCRIPTS -->
-        <script src="node_modules/moment/moment.js"></script>
-        <script src="node_modules/moment/locale/es.js"></script>
-
-        <script src="node_modules/angular/angular.js"></script>
-        <script src="node_modules/angular-route/angular-route.js"></script>
-        <script src="node_modules/angular-resource/angular-resource.js"></script>
-        <script src="node_modules/angular-material/angular-material.js"></script>
-        <script src="node_modules/angular-animate/angular-animate.js"></script>
-        <script src="node_modules/angular-aria/angular-aria.js"></script>
-        <script src="node_modules/angular-messages/angular-messages.js"></script>
-        <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>
+    <!-- STYLES -->
+    <!-- Angular Material CSS -->
+    <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css"/>
+    <!-- Angular Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Custom css files -->
+    <link rel="stylesheet" type="text/css" href="css/usbus.css"/>
+    <link rel="stylesheet" type="text/css" href="css/usbus-loading.css"/>
+    <link rel="stylesheet" type="text/css" href="css/lf-ng-md-file-input.css"/>
+    <link rel="stylesheet" type="text/css" href="css/angular-material-calendar.css"/>
+    <link rel="stylesheet" type="text/css" href="css/mdPickers.css"/>
+    <!-- STYLES -->
+    <link rel="SHORTCUT ICON" href="img/USBus.png" type="image/x-icon"/>
+    <!--FONTS-->
+    <link href="https://fonts.googleapis.com/css?family=Yatra+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 
 
+    <!-- SCRIPTS -->
+    <script src="node_modules/moment/moment.js"></script>
+    <script src="node_modules/moment/locale/es.js"></script>
+
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-route/angular-route.js"></script>
+    <script src="node_modules/angular-resource/angular-resource.js"></script>
+    <script src="node_modules/angular-material/angular-material.js"></script>
+    <script src="node_modules/angular-animate/angular-animate.js"></script>
+    <script src="node_modules/angular-aria/angular-aria.js"></script>
+    <script src="node_modules/angular-messages/angular-messages.js"></script>
+    <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>
 
 
+    <script src="js/usbus.js"></script>
+    <script src="js/usbus.routes.js"></script>
+    <script src="js/usbus.style.js"></script>
+    <script src="js/controllers/login.controller.js"></script>
+    <script src="js/controllers/register.controller.js"></script>
+    <script src="js/controllers/index.controller.js"></script>
+    <script src="js/controllers/home.controller.js"></script>
+    <script src="js/controllers/journey.navigate.controller.js"></script>
+    <script src="js/controllers/journey.create.controller.js"></script>
+    <script src="js/controllers/tickets.create.controller.js"></script>
+    <script src="js/controllers/bus.navigate.controller.js"></script>
+    <script src="js/controllers/bus.create.controller.js"></script>
+    <script src="js/controllers/bus.edit.controller.js"></script>
+    <script src="js/controllers/busStop.navigate.controller.js"></script>
+    <script src="js/controllers/busStop.create.controller.js"></script>
+    <script src="js/controllers/busStop.edit.controller.js"></script>
+    <script src="js/controllers/route.navigate.controller.js"></script>
+    <script src="js/controllers/route.create.controller.js"></script>
+    <script src="js/controllers/route.edit.controller.js"></script>
+    <script src="js/controllers/service.navigate.controller.js"></script>
+    <script src="js/controllers/service.create.controller.js"></script>
+    <script src="js/controllers/service.edit.controller.js"></script>
+    <script src="js/controllers/branch.navigate.controller.js"></script>
+    <script src="js/controllers/branch.create.controller.js"></script>
+    <script src="js/controllers/branch.edit.controller.js"></script>
+    <script src="js/controllers/parcel.navigate.controller.js"></script>
+    <script src="js/controllers/parcel.create.controller.js"></script>
+    <script src="js/controllers/window.navigate.controller.js"></script>
+    <script src="js/controllers/journey.selection.controller.js"></script>
+    <script src="js/controllers/tenant.styles.controller.js"></script>
+    <script src="js/controllers/user.create.js"></script>
+    <script src="js/controllers/user.navigate.js"></script>
+    <script src="js/controllers/cashRegister.navigate.controller.js"></script>
+    <script src="js/controllers/cashRegister.entry.create.controller.js"></script>
+    <script src="js/controllers/cashRegister.withdrawal.create.controller.js"></script>
+    <script src="js/controllers/schedule.controller.js"></script>
+    <script src="js/controllers/branch.selection.controller.js"></script>
 
-        <script src="js/usbus.js"></script>
-        <script src="js/usbus.routes.js"></script>
-        <script src="js/usbus.style.js"></script>
-        <script src="js/controllers/login.controller.js"></script>
-        <script src="js/controllers/register.controller.js"></script>
-        <script src="js/controllers/index.controller.js"></script>
-        <script src="js/controllers/home.controller.js"></script>
-        <script src="js/controllers/journey.navigate.controller.js"></script>
-        <script src="js/controllers/journey.create.controller.js"></script>
-        <script src="js/controllers/tickets.create.controller.js"></script>
-        <script src="js/controllers/bus.navigate.controller.js"></script>
-        <script src="js/controllers/bus.create.controller.js"></script>
-        <script src="js/controllers/bus.edit.controller.js"></script>
-        <script src="js/controllers/busStop.navigate.controller.js"></script>
-        <script src="js/controllers/busStop.create.controller.js"></script>
-        <script src="js/controllers/busStop.edit.controller.js"></script>
-        <script src="js/controllers/route.navigate.controller.js"></script>
-        <script src="js/controllers/route.create.controller.js"></script>
-        <script src="js/controllers/route.edit.controller.js"></script>
-        <script src="js/controllers/service.navigate.controller.js"></script>
-        <script src="js/controllers/service.create.controller.js"></script>
-        <script src="js/controllers/service.edit.controller.js"></script>
-        <script src="js/controllers/branch.navigate.controller.js"></script>
-        <script src="js/controllers/branch.create.controller.js"></script>
-        <script src="js/controllers/branch.edit.controller.js"></script>
-        <script src="js/controllers/parcel.navigate.controller.js"></script>
-        <script src="js/controllers/parcel.create.controller.js"></script>
-        <script src="js/controllers/window.navigate.controller.js"></script>
-        <script src="js/controllers/journey.selection.controller.js"></script>
-        <script src="js/controllers/tenant.styles.controller.js"></script>
-        <script src="js/controllers/user.create.js"></script>
-        <script src="js/controllers/user.navigate.js"></script>
-        <script src="js/controllers/cashRegister.navigate.controller.js"></script>
-        <script src="js/controllers/cashRegister.entry.create.controller.js"></script>
-        <script src="js/controllers/cashRegister.withdrawal.create.controller.js"></script>
-        <script src="js/controllers/schedule.controller.js"></script>
-        <script src="js/controllers/branch.selection.controller.js"></script>
-
-        <script src="js/factories/register.user.resource.js"></script>
-        <script src="js/factories/register.tenant.resource.js"></script>
-		<script src="js/factories/login.user.resource.js"></script>
-		<script src="js/factories/localStorage.factory.js"></script>
-        <script src="js/factories/bus.resource.js"></script>
-        <script src="js/factories/journey.resource.js"></script>
-        <script src="js/factories/busStop.resource.js"></script>
-        <script src="js/factories/route.resource.js"></script>
-        <script src="js/factories/service.resource.js"></script>
-        <script src="js/factories/branch.resource.js"></script>
-        <script src="js/factories/ticket.resource.js"></script>
-        <script src="js/factories/tenant.resource.js"></script>
-        <script src="js/factories/dayOfWeek.factory.js"></script>
-        <script src="js/factories/humanResource.resource.js"></script>
-        <script src="js/factories/gender.factory.js"></script>
-        <script src="js/factories/role.factory.js"></script>
-        <script src="js/factories/cashRegister.resource.js"></script>
-        <script src="js/factories/reservation.resource.js"></script>
-        <script src="js/factories/parcel.resource.js"></script>
-
-
-        <script src="js/filters/dayOfWeek.filter.js"></script>
-        <script src="js/filters/cashRegisterOrigin.filter.js"></script>
-        <script src="js/filters/cashRegisterType.filter.js"></script>
-        <script src="js/filters/cashRegisterPayment.filter.js"></script>
+    <script src="js/factories/register.user.resource.js"></script>
+    <script src="js/factories/register.tenant.resource.js"></script>
+    <script src="js/factories/login.user.resource.js"></script>
+    <script src="js/factories/localStorage.factory.js"></script>
+    <script src="js/factories/bus.resource.js"></script>
+    <script src="js/factories/journey.resource.js"></script>
+    <script src="js/factories/busStop.resource.js"></script>
+    <script src="js/factories/route.resource.js"></script>
+    <script src="js/factories/service.resource.js"></script>
+    <script src="js/factories/branch.resource.js"></script>
+    <script src="js/factories/ticket.resource.js"></script>
+    <script src="js/factories/tenant.resource.js"></script>
+    <script src="js/factories/dayOfWeek.factory.js"></script>
+    <script src="js/factories/humanResource.resource.js"></script>
+    <script src="js/factories/gender.factory.js"></script>
+    <script src="js/factories/role.factory.js"></script>
+    <script src="js/factories/cashRegister.resource.js"></script>
+    <script src="js/factories/reservation.resource.js"></script>
+    <script src="js/factories/parcel.resource.js"></script>
 
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8APSLNTZxaw7wV-bcnhbQXh6_Ks8M1Jg"
-                type="text/javascript"></script>
-
-        <!-- DIRECTIVES -->
-        <script src="js/directives/background.select.js"></script>
-        <script src="js/directives/lf-ng-md-file-input.js"></script>
-        <script src="js/directives/angular-material-calendar.js"></script>
-        <script src="js/directives/mdPickers.js"></script>
-        <script src="js/directives/ngGeolocation.js"></script>
-        <script src="js/directives/ng-map.min.js"></script>
-        <script src="js/directives/angularSlideables.js"></script>
+    <script src="js/filters/dayOfWeek.filter.js"></script>
+    <script src="js/filters/cashRegisterOrigin.filter.js"></script>
+    <script src="js/filters/cashRegisterType.filter.js"></script>
+    <script src="js/filters/cashRegisterPayment.filter.js"></script>
 
 
-        <!-- SCRIPTS -->
-    </head>
-    <body layout="column" layout-align="top center" layout-fill ng-cloak>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8APSLNTZxaw7wV-bcnhbQXh6_Ks8M1Jg"
+            type="text/javascript"></script>
+
+    <!-- DIRECTIVES -->
+    <script src="js/directives/background.select.js"></script>
+    <script src="js/directives/lf-ng-md-file-input.js"></script>
+    <script src="js/directives/angular-material-calendar.js"></script>
+    <script src="js/directives/mdPickers.js"></script>
+    <script src="js/directives/ngGeolocation.js"></script>
+    <script src="js/directives/ng-map.min.js"></script>
+    <script src="js/directives/angularSlideables.js"></script>
 
 
-        <md-toolbar layout="row" ng-controller="IndexController" md-theme="{{theme}}" md-theme-watch="true">
-
-            <h1 flex class="USBusTitle" layout-align="top center" style="max-height: 150px;">
-                <div flex="50" ng-controller="IndexController"  layout-align="start center" class="pointer" ng-click="redirectTo('');">
-
-                    <img ng-cloak hide show-gt-xs src="{{logo}}" class="logo"/>
-                    <span>{{tenantName}}</span>
-                </div>
-
-            </h1>
-            <div layout="row" layout-align="end center" ng-show="style.showBus" ng-cloak>
-                <img hide show-gt-xs  src="img/{{style.busColor}}_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>
-                <img hide-gt-xs src="img/{{style.busColor}}_Bus.png" class="customBus smallCustomBus"/>
-
-            </div>
-            <div layout="row" layout-align="end center" flex layout-margin layout-padding >
-                <div layout-padding=""  layout-align="center center" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage " >
-                    <div class="ripplelink " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName != 'Invitado'">
-
-
-                        <ng-md-icon icon="login" size="32" layout layout-align="center center" >
-                            <span class="whiteColor" hide show-gt-xs>Bienvenido {{userName}}!</span>
-                            <i class="material-icons whiteColor" ng-click="logout($event);" layout-padding>exit_to_app</i>
-                        </ng-md-icon>
-                    </div>
-                    <div class="ripplelink pointer " md-whiteframe="1" layout="" layout-align="center center" ng-show="userName == 'Invitado'  && tenantName != 'USBus'" ng-click="login($event);" >
-                        <span class="whiteColor" hide show-gt-xs>Ingresar</span>
-                        <md-button class="md-icon-button" aria-label="Settings" >
-                            <ng-md-icon icon="login" size="32"  >
-                                <i class="material-icons whiteColor">input</i>
-                                <md-tooltip md-direction="right">Ingresar</md-tooltip>
-                            </ng-md-icon>
-                        </md-button>
-                    </div>
-                </div>
-            </div>
-
-        </md-toolbar>
-
-
-
-		<div layout="column" ng-controller="IndexController" md-theme="{{theme}}" md-theme-watch="true" style="width: 100%" ng-cloak="" flex class="sidenavdemoBasicUsage" >
-        
-            <section layout="row" >
-                <div  class="layout-padding " layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  flex="25" >
-                    <md-button class="md-raised md-primary customButton md-accent" ng-repeat="item in menuOptions" ng-click="redirectTo(item.url)">
-                        <md-icon class="indexIcon" >{{item.icon}}</md-icon>
-                        <span class="indexMenuOptions" >{{item.name}}</span>
+    <!-- SCRIPTS -->
+</head>
+<body layout="column" layout-align="top center" layout-fill ng-cloak>
+<!--*******************************************************************************-->
+<!--*********************************** TOOLBAR ***********************************-->
+<!--*******************************************************************************-->
+<md-toolbar layout="row" ng-controller="IndexController" class="md-tall md-hue-2 md-whiteframe-4dp" md-theme="{{theme}}"
+            md-theme-watch="true">
+    <div layout layout-padding layout-align="center center" flex>
+        <div id="logo_container" class="pointer" layout="row" flex="noshrink" layout-align="start center">
+            <img src="{{logo}}" class="logo" alt="Logo" ng-click="redirectTo('');">
+            <h1 class="USBusTitle" ng-click="redirectTo('');">{{tenantName}}</h1>
+        </div>
+        <div flex="grow" layout="row" layout-align="center center" ng-show="style.showBus" ng-cloak>
+            <img hide show-gt-sm src="img/{{style.busColor}}_Bus.png" class="customBus bigCustomBus"/>
+            <img hide show-sm src="img/{{style.busColor}}_Bus.png" class="customBus smallCustomBus"/>
+        </div>
+        <div flex="noshrink" layout layout-align="end center">
+            <!--LOGIN-->
+            <div layout="column" layout-align="center center" ng-show="userName != 'Invitado'">
+                <i class="material-icons" style="font-size: 50px">account_circle</i>
+                <div layout="row" layout-align="center center" ng-show="userName != 'Invitado'">
+                    <span class="usbusUsername" hide show-gt-xs>{{userName}}</span>
+                    <md-button class="md-icon-button pointer" aria-label="Settings" ng-click="logout($event);">
+                        <i class="material-icons">close</i>
+                        <md-tooltip md-direction="bottom">Salir</md-tooltip>
                     </md-button>
                 </div>
-
-                <div hide >
-                    <md-sidenav layout-fill class="md-sidenav-left" md-component-id="left"  md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop="" md-whiteframe="4">
-                        <md-content class="" style="background-color: rgb(63,81,181);" >
-
-                            <span ng-repeat="item in menuOptions"  ng-click="redirectTo(item.url);" class="pointer">
-                                <p hide-md="" show-gt-md="" style="padding-left: 10%; color:white;" >
-                                    <md-icon class="indexIcon" >{{item.icon}}</md-icon> <span style="padding-left: 15px;" >{{item.name}}</span>
-                                </p>
-                                <md-divider ></md-divider>
-                            </span>
-
-
-                        </md-content>
-
-                    </md-sidenav>
-
-
+            </div>
+            <!--LOGOUT-->
+            <div layout="column" layout-align="center center"
+                 ng-show="userName == 'Invitado'  && tenantName != 'USBus'">
+                <i class="material-icons" style="font-size: 50px">account_circle</i>
+                <span flex></span>
+                <div layout="row" layout-align="center center"
+                     ng-show="userName == 'Invitado'  && tenantName != 'USBus'">
+                    <span class="usbusUsername pointer" hide show-gt-xs ng-click="login($event);">Ingresar</span>
+                    <md-button class="md-icon-button pointer" aria-label="Settings" ng-click="login($event);">
+                        <i class="material-icons">chevron_right</i>
+                        <md-tooltip md-direction="bottom">Ingresar</md-tooltip>
+                    </md-button>
                 </div>
-                <div hide-gt-md ng-show="menuOptions != null && menuOptions.length > 0"  >
-                    <md-fab-speed-dial md-direction="down" class=" md-scale">
-                        <md-fab-trigger>
-                            <md-button aria-label="menu" class="md-fab md-warn">
-                                <md-icon>menu</md-icon>
-                            </md-button>
-                        </md-fab-trigger>
-                        <md-fab-actions>
-                            <!-- MENU VIRTUAL STORAGES NAVIGATE -->
-                            <span ng-repeat="item in menuOptions" >
-                                <md-button  aria-label="RemoveStock" class="md-fab md-raised md-mini md-accent" ng-click="redirectTo(item.url);">
+            </div>
+
+        </div>
+    </div>
+</md-toolbar>
+
+<!--<h1 flex class="USBusTitle" layout-align="top center" style="max-height: 150px;">-->
+<!--<div flex="50" ng-controller="IndexController" layout-align="start center" class="pointer logo"-->
+<!--ng-click="redirectTo('');">-->
+
+<!--<img ng-cloak hide show-gt-xs src="{{logo}}"/>-->
+<!--<span>{{tenantName}}</span>-->
+<!--</div>-->
+
+<!--</h1>-->
+<!--<div layout="row" layout-align="end center" ng-show="style.showBus" ng-cloak>-->
+<!--<img hide show-gt-xs src="img/{{style.busColor}}_Bus.png" class="customBus bigCustomBus" style="width: 350px;"/>-->
+<!--<img hide-gt-xs src="img/{{style.busColor}}_Bus.png" class="customBus smallCustomBus"/>-->
+
+<!--</div>-->
+<!--<div layout="row" layout-align="end center" flex layout-margin layout-padding>-->
+<!--<div layout-padding="" layout-align="center center" ng-cloak="" class="whiteframedemoDirectiveAttributeUsage ">-->
+<!--<div class="ripplelink " md-whiteframe="1" layout="" layout-align="center center"-->
+<!--ng-show="userName != 'Invitado'">-->
+
+
+<!--<ng-md-icon icon="login" size="32" layout layout-align="center center">-->
+<!--<span class="whiteColor" hide show-gt-xs>Bienvenido {{userName}}!</span>-->
+<!--<i class="material-icons whiteColor" ng-click="logout($event);" layout-padding>exit_to_app</i>-->
+<!--</ng-md-icon>-->
+<!--</div>-->
+<!--<div class="ripplelink pointer " md-whiteframe="1" layout="" layout-align="center center"-->
+<!--ng-show="userName == 'Invitado'  && tenantName != 'USBus'" ng-click="login($event);">-->
+<!--<span class="whiteColor" hide show-gt-xs>Ingresar</span>-->
+<!--<md-button class="md-icon-button" aria-label="Settings">-->
+<!--<ng-md-icon icon="login" size="32">-->
+<!--<i class="material-icons whiteColor">input</i>-->
+<!--<md-tooltip md-direction="right">Ingresar</md-tooltip>-->
+<!--</ng-md-icon>-->
+<!--</md-button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<div layout="column" ng-controller="IndexController" md-theme="{{theme}}" md-theme-watch="true" style="width: 100%"
+     ng-cloak="" flex class="sidenavdemoBasicUsage">
+
+    <section layout="row">
+        <!--*******************************************************************************-->
+        <!--************************************  MENU  ***********************************-->
+        <!--*******************************************************************************-->
+        <div layout-margin layout="column" hide show-gt-md ng-show="menuOptions != null && menuOptions.length > 0"
+             flex="noshrink">
+            <md-button class="md-raised md-primary customButton md-accent" ng-repeat="item in menuOptions"
+                       ng-click="redirectTo(item.url)">
+                <md-icon class="indexIcon">{{item.icon}}</md-icon>
+                <span class="indexMenuOptions">{{item.name}}</span>
+            </md-button>
+        </div>
+        <div hide-gt-md ng-show="menuOptions != null && menuOptions.length > 0">
+            <md-fab-speed-dial md-direction="down" class=" md-scale">
+                <md-fab-trigger>
+                    <md-button aria-label="menu" class="md-fab md-primary">
+                        <md-icon>menu</md-icon>
+                    </md-button>
+                </md-fab-trigger>
+                <md-fab-actions>
+                    <!-- MENU VIRTUAL STORAGES NAVIGATE -->
+                    <span ng-repeat="item in menuOptions">
+                                <md-button aria-label="RemoveStock" class="md-fab md-raised md-mini md-accent"
+                                           ng-click="redirectTo(item.url);">
                                     <md-tooltip md-direction="top">{{item.name}}</md-tooltip>
                                     <md-icon>{{item.icon}}</md-icon>
                                 </md-button>
                             </span>
-                        </md-fab-actions>
-                    </md-fab-speed-dial>
-                </div>
-
-                <md-content flex="grow" layout-margin  layout-padding layout-wrap ng-view class="customContent"> Inicio >  </md-content>
-                
-
-           </section>
-
+                </md-fab-actions>
+            </md-fab-speed-dial>
         </div>
+        <!--**********************************************************************************-->
+        <!--*********************************** APLICACIÓN ***********************************-->
+        <!--**********************************************************************************-->
+        <md-content flex="grow" layout-margin layout-padding ng-view class="customContent">
+        </md-content>
 
 
-        
+    </section>
 
-    </body>
+</div>
+
+
+</body>
 </html>
 

@@ -113,7 +113,7 @@
                     url: "admin/service",
                     icon: "subway"
                 }, {
-                    name: "Personalizarción",//<i class="material-icons">format_color_fill</i>
+                    name: "Personalización",//<i class="material-icons">format_color_fill</i>
                     url: "admin/styles",
                     icon: "format_color_fill"
                 }];

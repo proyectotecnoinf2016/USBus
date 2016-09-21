@@ -35,7 +35,7 @@ public class UserService {
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR,Rol.CASHIER})
     public Response updateRoute(@PathParam("tenantId") Long tenantId, @PathParam("username") String username, User user) {
         try {
             User userAux = ejb.getByUsername(tenantId, username);
@@ -52,7 +52,7 @@ public class UserService {
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
     public Response getRoute(@PathParam("tenantId") long tenantId, @PathParam("username") String username) {
 
         User userAux = ejb.getByUsername(tenantId, username);
@@ -65,7 +65,7 @@ public class UserService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
     public Response queryRoutes(@PathParam("tenantId") long tenantId,
                                 @QueryParam("query") String query,
                                 @QueryParam("offset") int offset,
