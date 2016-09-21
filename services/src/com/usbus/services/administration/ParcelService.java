@@ -35,7 +35,7 @@ public class ParcelService {
     @Path("{parcelId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.CASHIER})
+    @Secured({Rol.ADMINISTRATOR, Rol.CASHIER, Rol.ASSISTANT})
     public Response updateParcel(@PathParam("tenantId") Long tenantId, @PathParam("parcelId") Long parcelId, Parcel parcel) {
         Parcel parcelAux = ejb.getByLocalId(tenantId, parcelId);
         parcel.set_id(parcelAux.get_id());
@@ -50,7 +50,7 @@ public class ParcelService {
     @Path("{parcelId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.CASHIER, Rol.ASSISTANT})
     public Response getParcel(@PathParam("tenantId") long tenantId, @PathParam("parcelId") Long parcelId) {
 
         Parcel parcelAux = ejb.getByLocalId(tenantId, parcelId);
