@@ -56,7 +56,7 @@ public class ServiceService {
     @Path("{serviceId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
     public Response getService(@PathParam("tenantId")long tenantId, @PathParam("serviceId") Long serviceId){
 
         Service serviceAux = ejb.getByLocalId(tenantId,serviceId);
@@ -66,11 +66,11 @@ public class ServiceService {
         return Response.ok(serviceAux).build();
     }
 
-
+    //-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
     public Response queryService(@PathParam("tenantId")long tenantId,
                                  @QueryParam("query") String query,
                                  @QueryParam("dayOfWeek") DayOfWeek day,
