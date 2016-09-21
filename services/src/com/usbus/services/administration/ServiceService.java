@@ -41,7 +41,7 @@ public class ServiceService {
     @Path("{serviceId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR,Rol.CASHIER})
     public Response updateService(@PathParam("tenantId")Long tenantId, @PathParam("serviceId")Long serviceId, Service service){
         Service serviceAux = ejb.getByLocalId(tenantId, serviceId);
         service.set_id(serviceAux.get_id());
