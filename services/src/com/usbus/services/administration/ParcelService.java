@@ -50,7 +50,7 @@ public class ParcelService {
     @Path("{parcelId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT,Rol.CASHIER})
     public Response getParcel(@PathParam("tenantId") long tenantId, @PathParam("parcelId") Long parcelId) {
 
         Parcel parcelAux = ejb.getByLocalId(tenantId, parcelId);
@@ -63,7 +63,7 @@ public class ParcelService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT})
+    @Secured({Rol.ADMINISTRATOR, Rol.ASSISTANT,Rol.CASHIER})
     public Response getParcels(@PathParam("tenantId")Long tenantId,
                                @QueryParam("query") String query,
                                @QueryParam("journey") Long journeyId,

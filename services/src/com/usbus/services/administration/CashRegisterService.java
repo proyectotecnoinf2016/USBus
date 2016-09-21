@@ -31,7 +31,7 @@ public class CashRegisterService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.CASHIER})
     public Response createService(CashRegister cashRegister) {
         try {
             switch (cashRegister.getType()) {
@@ -55,7 +55,7 @@ public class CashRegisterService {
     @Path("{cashRegisterId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.CASHIER})
     public Response getService(@PathParam("tenantId") long tenantId, @PathParam("cashRegisterId") Long cashRegisterId) {
 
         CashRegister cashRegister = ejb.getByLocalId(tenantId, cashRegisterId);
@@ -69,7 +69,7 @@ public class CashRegisterService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.CASHIER})
     public Response queryService(@PathParam("tenantId") long tenantId,
                                  @QueryParam("query") String query,
                                  @QueryParam("user") String user,
@@ -95,7 +95,7 @@ public class CashRegisterService {
                 try {
                     Double cashCount = ejb.cashCount(tenantId, branchId, windowsId);
                     JSONObject jo = new JSONObject();
-                    jo.put("cashCount",cashCount);
+                    jo.put("cashCount", cashCount);
                     JSONArray ja = new JSONArray();
                     ja.add(jo);
                     return Response.ok(ja).build();
@@ -103,57 +103,57 @@ public class CashRegisterService {
                     return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
                 }
             case "PAYMENT":
-                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId,branchId,windowsId,null,null,null,null,payment,null,limit,offset);
+                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId, branchId, windowsId, null, null, null, null, payment, null, limit, offset);
                 if (cashRegisterList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
             case "TYPE":
-                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId,branchId,windowsId,null,null,type,null,null,null,limit,offset);
+                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId, branchId, windowsId, null, null, type, null, null, null, limit, offset);
                 if (cashRegisterList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
             case "ORIGIN":
-                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId,branchId,windowsId,null,null,null,origin,null,null,limit,offset);
+                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId, branchId, windowsId, null, null, null, origin, null, null, limit, offset);
                 if (cashRegisterList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
             case "DATE":
-                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId,branchId,windowsId,from,to,null,null,null,null,limit,offset);
+                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId, branchId, windowsId, from, to, null, null, null, null, limit, offset);
                 if (cashRegisterList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
             case "SELLER":
-                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId,branchId,windowsId,null,null,null,null,null,user,limit,offset);
+                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId, branchId, windowsId, null, null, null, null, null, user, limit, offset);
                 if (cashRegisterList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
             case "DATE_X":
-                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId,branchId,windowsId,from,to,type,origin,payment,user,limit,offset);
+                cashRegisterList = ejb.getByTypeOriginPaymentDate(tenantId, branchId, windowsId, from, to, type, origin, payment, user, limit, offset);
                 if (cashRegisterList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
             case "CURRENT":
-                cashRegisterList = ejb.currentCashRegister(tenantId,branchId,windowsId,limit,offset);
+                cashRegisterList = ejb.currentCashRegister(tenantId, branchId, windowsId, limit, offset);
                 if (cashRegisterList == null) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(cashRegisterList).build();
             case "ISOPEN":
-                boolean isOpen = ejb.isCashRegisterOpen(tenantId,branchId,windowsId);
+                boolean isOpen = ejb.isCashRegisterOpen(tenantId, branchId, windowsId);
                 JSONObject jo = new JSONObject();
-                jo.put("isOpen",isOpen);
+                jo.put("isOpen", isOpen);
                 JSONArray ja = new JSONArray();
                 ja.add(jo);
                 return Response.ok(ja).build();
             case "REPORT":
-                String base64 = ejb.createExcel(tenantId,user,branchId,windowsId,from,to);
-                if(base64.equals(null) || base64.isEmpty()){
+                String base64 = ejb.createExcel(tenantId, user, branchId, windowsId, from, to);
+                if (base64.equals(null) || base64.isEmpty()) {
                     return Response.status(Response.Status.NO_CONTENT).build();
                 }
                 return Response.ok(base64).build();
