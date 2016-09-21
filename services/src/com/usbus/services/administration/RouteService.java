@@ -44,7 +44,7 @@ public class RouteService {
         }
         return Response.ok(ejb.getById(oid)).build();
     }
-
+//-
     @GET
     @Path("{routeId}")
     @Produces(MediaType.APPLICATION_JSON)

@@ -48,7 +48,7 @@ public class ReservationService {
             }
             return Response.ok(ejb.getById(oid)).build();
     }
-
+    //-
     @GET
     @Path("{reservationId}")
     @Produces(MediaType.APPLICATION_JSON)

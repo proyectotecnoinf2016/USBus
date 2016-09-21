@@ -71,7 +71,7 @@ public class JourneyService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT, Rol.DRIVER,Rol.CASHIER})
+    @Secured({Rol.ADMINISTRATOR,Rol.ASSISTANT, Rol.CLIENT, Rol.DRIVER,Rol.CASHIER}) 
     public Response getJourneyList(@PathParam("tenantId")Long tenantId,
                                    @QueryParam("query") String query,
                                    @QueryParam("status") JourneyStatus journeyStatus,
