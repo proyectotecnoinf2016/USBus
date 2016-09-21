@@ -28,7 +28,7 @@ public class BusStopService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT})
+    @Secured({Rol.ADMINISTRATOR, Rol.CLIENT, Rol.CASHIER})
     public Response getBusStopList(@PathParam("tenantId") Long tenantId,
                                    @QueryParam("query") String query,
                                    @QueryParam("status") boolean status,
@@ -78,7 +78,7 @@ public class BusStopService {
     @Path("{busStopId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Secured(Rol.ADMINISTRATOR)
+    @Secured({Rol.ADMINISTRATOR, Rol.CASHIER})
     public Response getBusStop(@PathParam("tenantId") Long tenantId, @PathParam("busStopId") Long busStopId) {
 
         BusStop busStop = ejb.getByLocalId(tenantId, busStopId);

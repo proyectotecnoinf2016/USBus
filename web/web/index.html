@@ -136,7 +136,7 @@
             <!--LOGIN-->
             <div layout="column" layout-align="center center" ng-show="userName != 'Invitado'">
                 <i class="material-icons" style="font-size: 50px">account_circle</i>
-                <div layout="row" layout-align="center center" ng-show="userName != 'Invitado">
+                <div layout="row" layout-align="center center" ng-show="userName != 'Invitado'">
                     <span class="usbusUsername" hide show-gt-xs>{{userName}}</span>
                     <md-button class="md-icon-button pointer" aria-label="Settings" ng-click="logout($event);">
                         <i class="material-icons">close</i>
@@ -151,7 +151,7 @@
                 <span flex></span>
                 <div layout="row" layout-align="center center"
                      ng-show="userName == 'Invitado'  && tenantName != 'USBus'">
-                    <span class="usbusUsername" hide show-gt-xs>Ingresar</span>
+                    <span class="usbusUsername pointer" hide show-gt-xs ng-click="login($event);">Ingresar</span>
                     <md-button class="md-icon-button pointer" aria-label="Settings" ng-click="login($event);">
                         <i class="material-icons">chevron_right</i>
                         <md-tooltip md-direction="bottom">Ingresar</md-tooltip>
