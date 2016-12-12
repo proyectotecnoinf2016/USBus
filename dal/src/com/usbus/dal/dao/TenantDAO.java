@@ -78,7 +78,7 @@ public class TenantDAO {
 
     public String saveTenantStyle(long tenantId, String logo, String logoExtension,
                                     String header, String headerExtension, String busColor,
-                                    Boolean showBus, String theme, String humanResourcesURL) throws IOException {
+                                    Boolean showBus, String theme, String humanResourcesURL, String accountingURL) throws IOException {
         if (!((tenantId <= 0))) {
             Tenant tenantOriginal = getByLocalId(tenantId);
             if (tenantOriginal != null) {
@@ -198,6 +198,9 @@ public class TenantDAO {
                 if (!(humanResourcesURL == null || (humanResourcesURL != null && humanResourcesURL.isEmpty()))) {
                     styleFromTenant.setHumanResourcesURL(humanResourcesURL);
                 }
+                if (!(accountingURL == null || (accountingURL != null && accountingURL.isEmpty()))) {
+                    styleFromTenant.setAccountingURL(accountingURL);
+                }
 
                 tenantOriginal.setStyle(styleFromTenant);
 
@@ -255,6 +258,7 @@ public class TenantDAO {
             tenantStyleAux.setShowBus(tenantStyle.getShowBus());
 
             tenantStyleAux.setHumanResourcesURL(tenantStyle.getHumanResourcesURL());
+            tenantStyleAux.setAccountingURL(tenantStyle.getAccountingURL());
 
             return tenantStyleAux;
         }

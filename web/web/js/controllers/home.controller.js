@@ -8,10 +8,12 @@
     HomeController.$inject = ['$scope', '$rootScope', 'localStorage', '$location', '$window', '$mdDialog'];
     /* @ngInject */
     function HomeController($scope, $rootScope, localStorage, $location, $window, $mdDialog ) {
+        showMenuOption();
         $scope.redirectToHHRR = redirectToHHRR;
+        $scope.redirectToAccounting = redirectToAccounting;
         $scope.redirectTo = redirectTo;
         $scope.showAlert = showAlert;
-        $scope.showMenuOption = showMenuOption;
+
 
         $scope.token = null;
 
@@ -24,6 +26,8 @@
             if (typeof localStorage.getData('token') !== 'undefined' && localStorage.getData('token') != null) {
                 $scope.token = localStorage.getData('token');
             }
+
+            showMenuOption();
         })
 
 
@@ -46,34 +50,23 @@
         });
 
 
-		function showMenuOption(path) {
-            $scope.userRoles = localStorage.getData('userRoles');
+		function showMenuOption() {
+                var roles = localStorage.getData('userRoles');
+                if (roles==null || roles == "undefined"){
+                    roles = '';
+                }
+                console.log(roles);
+                console.log(roles.includes('ADMINISTRATOR'));
+                console.log(roles.includes('CASHIER'));
 
-            if (path == 'admin') {
-                $scope.showAdmin = $scope.userRoles.includes('ADMINISTRATOR');
-            }
+                $scope.showAdmin = roles.includes('ADMINISTRATOR');
+                $scope.showTickets = roles.includes('ADMINISTRATOR') || roles.includes('CASHIER');
+                $scope.showSchedule = roles.includes('ASSISTANT') || roles.includes('DRIVER');
+                $scope.showWorkshop = false;//roles.includes('ADMINISTRATOR') || roles.includes('MECHANIC');
+                $scope.showAccounting = roles.includes('ADMINISTRATOR') || roles.includes('CASHIER');
+                $scope.showhhrr = roles.includes('ADMINISTRATOR');
+                console.log($scope.showTickets);
 
-            if (path == 'tickets') {
-                $scope.showTickets = $scope.userRoles.includes('ADMINISTRATOR') || $scope.userRoles.includes('CASHIER');
-            }
-
-            if (path == 'schedule') {
-                $scope.showSchedule = $scope.userRoles.includes('ASSISTANT') || $scope.userRoles.includes('DRIVER');
-            }
-
-            if (path == 'workshop') {
-                $scope.showWorkshop = $scope.userRoles.includes('ADMINISTRATOR') || $scope.userRoles.includes('MECHANIC');
-            }
-
-            if (path == 'accounting') {
-                $scope.showAccounting = $scope.userRoles.includes('ADMINISTRATOR') || $scope.userRoles.includes('CASHIER');
-            }
-
-            if (path == 'hhrr') {
-                $scope.showhhrr = $scope.userRoles.includes('ADMINISTRATOR');
-            }
-
-            return false;
         }
 
 		function redirectTo(path) {
@@ -87,6 +80,15 @@
             }
             else {
                 showAlert('Error!', 'No se ha configurado el área de Recursos Humanos. Por favor contacte un administrador.');
+            }
+        }
+        function redirectToAccounting() {
+            if (typeof localStorage.getData('accountingURL') !== 'undefined' && localStorage.getData('accountingURL') != 'null') {
+                console.log(localStorage.getData('accountingURL'));
+                $window.open(localStorage.getData('accountingURL'));
+            }
+            else {
+                showAlert('Error!', 'No se ha configurado el área de Contabilidad. Por favor contacte un administrador.');
             }
         }
 

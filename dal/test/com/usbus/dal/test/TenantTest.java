@@ -53,11 +53,12 @@ public class TenantTest {
         String theme = "Nombre del theme";
 
         String humanResourcesURL = "google.com";
+        String accountingURL = "google.com";
 
-        dao.saveTenantStyle(tenantId, logo, logoExtension, header, headerExtension, busColor, showBus, theme, humanResourcesURL);
-        dao.saveTenantStyle(2, null, null, header, headerExtension, busColor, showBus, theme, humanResourcesURL);
-        dao.saveTenantStyle(3, logo, logoExtension, null, null, null, null, null, null);
-        dao.saveTenantStyle(3, logo, logoExtension, null, null, busColor, showBus, theme, null);
+        dao.saveTenantStyle(tenantId, logo, logoExtension, header, headerExtension, busColor, showBus, theme, humanResourcesURL,accountingURL );
+        dao.saveTenantStyle(2, null, null, header, headerExtension, busColor, showBus, theme, humanResourcesURL,accountingURL);
+        dao.saveTenantStyle(3, logo, logoExtension, null, null, null, null, null, null,null);
+        dao.saveTenantStyle(3, logo, logoExtension, null, null, busColor, showBus, theme, null,null);
     }
 
     @Test
